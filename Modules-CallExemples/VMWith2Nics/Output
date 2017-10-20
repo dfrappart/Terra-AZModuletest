@@ -1,0 +1,74 @@
+#Output for RG
+
+output "RGName" {
+
+  value = "${module.ResourceGroup.Name}"
+}
+
+output "RGLocation" {
+
+  value = "${module.ResourceGroup.Location}"
+}
+
+output "RGId" {
+
+  value = "${module.ResourceGroup.Id}"
+}
+
+#Output for the vNET module
+
+output "vNetName" {
+
+  value = "${module.vNet.Name}"
+}
+
+output "vNetId" {
+
+  value = "${module.vNet.Id}"
+}
+
+output "vNetAddressspace" {
+
+  value = "${module.vNet.Addressspace}"
+}
+
+output "vNetLocation" {
+
+  value = "${module.vNet.Location}"
+}
+
+#Output for Subnet1
+
+output "SubnetName1" {
+
+  value = "${module.SubnetTest1.Name}"
+}
+
+output "SubnetId1" {
+
+  value = "${module.SubnetTest1.Id}"
+}
+
+
+output "Subnet1AddressPrefix" {
+
+  value = "${module.SubnetTest.AddressPrefix}"
+}
+
+#Output for Subnet2
+
+output "SubnetName2" {
+
+  value = "${module.SubnetTest2.Name}"
+}
+
+output "SubnetId2" {
+
+  value = "${module.SubnetTest2.Id}"
+}
+
+
+output "Subnet2AddressPrefix" {
+
+  value = "${module.SubnetTest2.AddressPrefix}"
+}
