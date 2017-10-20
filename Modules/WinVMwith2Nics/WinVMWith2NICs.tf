@@ -171,13 +171,13 @@ resource "azurerm_network_interface" "TerraNICnopip" {
 resource "azurerm_virtual_machine" "TerraVMwith2NICs" {
 
 
-    name                      = "${var.VMName}"
-    location                  = "${var.VMLocation}"
-    resource_group_name       = "${var.VMRG}"
-    network_interface_ids     = ["${azurerm_network_interface.TerraNICwpip.id}","${azurerm_network_interface.TerraNICnopip.id}"]
-    primary_network_interface = "${azurerm_network_interface.TerraNICwpip.id}"
-    vm_size                   = "${var.VMSize}"
-    availability_set_id       = "${var.VM-ASID}"
+    name                          = "${var.VMName}"
+    location                      = "${var.VMLocation}"
+    resource_group_name           = "${var.VMRG}"
+    network_interface_ids         = ["${azurerm_network_interface.TerraNICwpip.id}","${azurerm_network_interface.TerraNICnopip.id}"]
+    primary_network_interface_id  = "${azurerm_network_interface.TerraNICwpip.id}"
+    vm_size                       = "${var.VMSize}"
+    availability_set_id           = "${var.VM-ASID}"
     
 
     storage_image_reference {
