@@ -74,3 +74,15 @@ resource "azurerm_storage_account" "Terra-STOA" {
 
 
 }
+
+#Output for the module
+
+output "Name" {
+
+  value = "${azurerm_storage_account.Terra-STOA.name}"
+}
+
+output "Id" {
+
+  value = "${azurerm_resource_group.Terra-STOA.id}"
+}
