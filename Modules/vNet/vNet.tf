@@ -21,7 +21,7 @@ variable "vNetLocation" {
   default = "Westeurope"
 }
 
-variable "vNetAddrespace" {
+variable "vNetAddressSpace" {
   type    = "list"
   default = ["10.0.0.0/20"]
 }
