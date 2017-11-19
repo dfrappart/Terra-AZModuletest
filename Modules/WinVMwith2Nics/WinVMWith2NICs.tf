@@ -221,6 +221,7 @@ resource "azurerm_virtual_machine" "TerraVMwith2NICs" {
 
     os_profile_windows_config {
 
+        provision_vm_agent = "true"
         enable_automatic_upgrades = "false"
     }
 
