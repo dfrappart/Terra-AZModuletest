@@ -28,7 +28,7 @@ module "vNetTest" {
 
     #Module location
     #source = "./Modules/vNet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//vNet/"
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//02 VNet/"
 
     #Module variable
     vNetName                = "TestModule-vNet"
@@ -63,7 +63,7 @@ module "SubnetTest" {
 
     #Module location
     #source = "./Modules/Subnet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//Subnet/"
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//06-1 Subnet/"
 
     #Module variable
     SubnetName                  = "SubnetTest"

@@ -25,11 +25,11 @@ data "azurerm_resource_group" "ImportedRG" {
 
 # Creating vNET
 
-module "vNet" {
+module "VNet" {
 
     #Module location
     #source = "./Modules/vNet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//vNet/"
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//02 VNet/"
 
     #Module variable
     vNetName                = "TestModule-vNet"
@@ -43,26 +43,3 @@ module "vNet" {
 }
 
 
-#Output for the vNet
-
-#Output for the vNET module
-
-output "vNetName" {
-
-  value = "${module.vNet.Name}"
-}
-
-output "vNetId" {
-
-  value = "${module.vNet.Id}"
-}
-
-output "vNetAddressspace" {
-
-  value = "${module.vNet.Addressspace}"
-}
-
-output "vNetLocation" {
-
-  value = "${module.vNet.Location}"
-}
