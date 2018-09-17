@@ -11,7 +11,7 @@ All Network Compute and storage are available in the form of module
 
 provider "azurerm" {
 
-    subscription_id = "${var.AzureSubscriptionID}"
+    subscription_id = "${var.AzureSubscriptionID3}"
     client_id       = "${var.AzureClientID}"
     client_secret   = "${var.AzureClientSecret}"
     tenant_id       = "${var.AzureTenantID}"
@@ -28,8 +28,8 @@ provider "azurerm" {
 module "ResourceGroup" {
 
     #Module Location
-    #source = "./Modules/ResourceGroup"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//ResourceGroup/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
     #Module variable
     RGName                  = "${var.RSGName}"
     RGLocation              = "${var.AzureRegion}"
@@ -38,12 +38,12 @@ module "ResourceGroup" {
 }
 
 # Creating vNET
-
-module "vNet" {
+/*
+module "VNet" {
 
     #Module location
-    #source = "./Modules/vNet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//vNet/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//02 VNet/"
 
     #Module variable
     vNetName                = "TestModule-vNet"
@@ -59,8 +59,8 @@ module "vNet" {
 module "NSGWin" {
 
     #Module location
-    #source = "./Modules/NSG"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//NSG/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//07 NSG/"
 
     #Module variable
     NSGName                 = "NSGWin"
@@ -75,13 +75,13 @@ module "NSGWin" {
 module "SubnetWin" {
 
     #Module location
-    #source = "./Modules/Subnet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//Subnet/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//06-1 Subnet/"
 
     #Module variable
     SubnetName                  = "SubnetWin"
     RGName                      = "${module.ResourceGroup.Name}"
-    vNetName                    = "${module.vNet.Name}"
+    vNetName                    = "${module.VNet.Name}"
     Subnetaddressprefix         = "${lookup(var.SubnetAddressRange, 0)}"
     NSGid                       = "${module.NSGWin.Id}"
     EnvironmentTag              = "${var.EnvironmentTag}"
@@ -92,8 +92,8 @@ module "SubnetWin" {
 module "NSGRule-NSGWin-AllowRDP" {
 
     #Module location
-    #source = "./Modules/NSGRule"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//NSGRule/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//08-2 NSGRule with services tags/"
 
     #Module variable
     RGName                              = "${module.ResourceGroup.Name}"
@@ -111,8 +111,8 @@ module "NSGRule-NSGWin-AllowRDP" {
 module "NSGLinux" {
 
     #Module location
-    #source = "./Modules/NSG"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//NSG/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//07 NSG/"
 
     #Module variable
     NSGName                 = "NSGLinux"
@@ -127,13 +127,13 @@ module "NSGLinux" {
 module "SubnetLinux" {
 
     #Module location
-    #source = "./Modules/Subnet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//Subnet/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//06-1 Subnet/"
 
     #Module variable
     SubnetName                  = "SubnetLinux"
     RGName                      = "${module.ResourceGroup.Name}"
-    vNetName                    = "${module.vNet.Name}"
+    vNetName                    = "${module.VNet.Name}"
     Subnetaddressprefix         = "${lookup(var.SubnetAddressRange, 1)}"
     NSGid                       = "${module.NSGLinux.Id}"
     EnvironmentTag              = "${var.EnvironmentTag}"
@@ -144,8 +144,8 @@ module "SubnetLinux" {
 module "NSGRule-NSGLinux-AllowSSH" {
 
     #Module location
-    #source = "./Modules/NSGRule"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//NSGRule/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//08-2 NSGRule with services tags/"
 
     #Module variable
     RGName                              = "${module.ResourceGroup.Name}"
@@ -165,8 +165,8 @@ module "NSGRule-NSGLinux-AllowSSH" {
 module "LinuxVMAS" {
 
     #module location
-    #source = "./Modules/AvailabilitySet"
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//AvailabilitySet/"
+
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//13 AvailabilitySet/"
 
     #Module variable
     ASName                      = "LinuxVMAS"
@@ -177,7 +177,7 @@ module "LinuxVMAS" {
 }
 
 
-
+/*
 module "LinuxVMs" {
 
     #Module location
@@ -199,7 +199,7 @@ module "LinuxVMs" {
     #PublicIPID              = "${module.PublicIP.Id}"
 }
 
-
+*/
 
 
 
