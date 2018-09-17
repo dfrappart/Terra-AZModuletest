@@ -2,7 +2,7 @@ AzureDFProviderSecret.tf
 AzureDVTProviderSecret.tf
 AzureDVTProviderSecret.*
 AzureDFProviderSecret.*
-variables.tf
+Mainvariables.tf
 terraform.tfstate
 terraform.tfstate.backup
 *.tfstate*
