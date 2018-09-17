@@ -29,7 +29,8 @@ module "ResourceGroup" {
 
     #Module Location
 
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
+    source = "./Modules/01 ResourceGroup/"
+    #source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
     #Module variable
     RGName                  = "${var.RSGName}"
     RGLocation              = "${var.AzureRegion}"
