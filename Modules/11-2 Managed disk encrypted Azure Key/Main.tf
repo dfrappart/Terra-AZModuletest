@@ -18,7 +18,7 @@ resource "azurerm_managed_disk" "TerraManagedDiskwithcount" {
     enabled = true
     key_encryption_key {
       key_url = "${var.KeyURI}"
-      source_vault_url = "${var.KeyVaultId}"
+      source_vault_id = "${var.KeyVaultId}"
 
     }
 
