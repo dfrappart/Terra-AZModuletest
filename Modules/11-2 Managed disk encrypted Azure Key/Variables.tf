@@ -56,6 +56,12 @@ variable "KeyVaultId" {
   default = "/subscriptions/f1f020d0-0fa6-4d01-b816-5ec60497e851/resourceGroups/RG-KeyVaultTest/providers/Microsoft.KeyVault/vaults/dfkeyvaulttest01"
 }
 
+variable "DiskSecreturi" {
+  type = "string"
+  default = "https://dfkeyvaulttest01.vault.azure.net/secrets/DiskSecret/e4ed7648ab8e469da7471556d6e1f41b"
+}
+
+
 variable "DiskSizeInGB" {
   type = "string"
 }
