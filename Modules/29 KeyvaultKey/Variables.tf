@@ -22,6 +22,11 @@ variable "KeySize" {
   default = "4096"
 }
 
+variable "KeyOpts" {
+  type = "list"
+  default = ["decrypt","encrypt","sign","unwrap","verify","wrapkey"]
+}
+
 variable "EnvironmentTag" {
   type    = "string"
   default = "Poc"
