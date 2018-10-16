@@ -24,7 +24,7 @@ variable "KeySize" {
 
 variable "KeyOpts" {
   type = "list"
-  default = ["decrypt","encrypt","sign","unwrap","verify","wrapkey"]
+  default = ["decrypt","encrypt","sign","unwrapkey","verify","wrapkey"]
 }
 
 variable "EnvironmentTag" {
