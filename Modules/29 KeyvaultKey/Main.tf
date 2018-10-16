@@ -11,7 +11,7 @@ resource "azurerm_key_vault_key" "TerraKey" {
   vault_uri = "${var.VaultURI}"
   key_type = "${var.KeyType}"
   key_size = "${var.KeySize}"
-  KeyOpts  = "${var.KeyOpts}"
+  key_opts  = "${var.KeyOpts}"
 
   tags {
     environment = "${var.EnvironmentTag}"
