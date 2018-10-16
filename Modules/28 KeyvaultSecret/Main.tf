@@ -6,7 +6,7 @@
 
 #Resource Creation
 
-resource "azurerm_key_vault_secret" "TerraWinVMPwd" {
+resource "azurerm_key_vault_secret" "TerraSecret" {
   name      = "${var.PasswordName}"
   value     = "${var.PasswordValue}"
   vault_uri = "${var.VaultURI}"
