@@ -47,6 +47,12 @@ variable "ImageId" {
   type = "string"
 }
 
+variable "OSType" {
+  type = "string"
+  default = "Windows"
+}
+
+
 variable "KeyURI" {
   type = "string"
 }

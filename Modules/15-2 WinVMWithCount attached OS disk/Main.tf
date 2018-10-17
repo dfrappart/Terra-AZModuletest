@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     create_option     = "Attach"
     managed_disk_id   = "${element(var.OSDiskId,count.index)}"
     disk_size_gb      = "${element(var.OSDiskSize,count.index)}"
-    os_type           = "Windows"
+    #os_type           = "Windows"
 
   }
 

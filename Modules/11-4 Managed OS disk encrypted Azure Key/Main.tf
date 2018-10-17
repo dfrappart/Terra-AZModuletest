@@ -15,6 +15,7 @@ resource "azurerm_managed_disk" "TerraManagedDiskwithcount" {
   create_option        = "FromImage"
   image_reference_id   = "${var.ImageId}"
   disk_size_gb         = "${var.DiskSizeInGB}"
+  os_type              = "${var.OSType}"
   encryption_settings {
     enabled = true
 
