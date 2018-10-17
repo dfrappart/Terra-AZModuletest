@@ -35,9 +35,6 @@ variable "StorageAccountType" {
 #Empty - Create an empty managed disk.
 #Copy - Copy an existing managed disk or snapshot (specified with source_resource_id). 
 
-variable "CreateOption" {
-  type = "string"
-}
 
 # Specifies the size of the managed disk to create in gigabytes. 
 #If create_option is Copy, then the value must be equal 
@@ -46,25 +43,28 @@ variable "CreateOption" {
 #129 GB equal 512 Provisioned so prefer 
 #corresponding value to storage tiers desired
 
+variable "ImageId" {
+  type = "string"
+}
+
 variable "KeyURI" {
   type = "string"
-  
 }
 
 variable "KeyVaultId" {
   type = "string"
-    
 }
 
 variable "DiskSecreturi" {
   type = "string"
-  
 }
 
 
 variable "DiskSizeInGB" {
   type = "string"
 }
+
+
 variable "EnvironmentTag" {
   type    = "string"
   default = "Poc"
