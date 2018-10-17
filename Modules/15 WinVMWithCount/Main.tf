@@ -33,6 +33,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     create_option     = "FromImage"
     managed_disk_type = "${var.VMStorageTier}"
     disk_size_gb      = "${var.OSDisksize}"
+    os_type           = "Windows"
   }
 
   storage_data_disk {
