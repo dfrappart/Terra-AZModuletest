@@ -64,11 +64,24 @@ variable "VMAdminPassword" {
 
 #The OS Disk Size
 
-variable "OSDisksize" {
-  type    = "string"
-  default = "128"
+variable "OSDiskSize" {
+  type    = "list"
+
 }
 
+#The OS Disk ID
+
+variable "OSDiskId" {
+  type    = "list"
+
+}
+
+#The OS Disk Name
+
+variable "OSDiskName" {
+  type    = "list"
+
+}
 # Managed Data Disk reference
 
 variable "DataDiskId" {

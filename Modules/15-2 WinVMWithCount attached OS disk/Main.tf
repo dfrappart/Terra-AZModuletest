@@ -28,18 +28,18 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
   }
 
   storage_os_disk {
-    name              = "${var.VMName}${count.index+1}-OSDisk"
+    name              = "${element(var.OSDiskName,count.index)}"
     caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "${var.VMStorageTier}"
-    disk_size_gb      = "${var.OSDisksize}"
+    create_option     = "Attach"
+    managed_disk_id   = "${element(var.OSDiskId,count.index)}"
+    disk_size_gb      = "${element(var.OSDiskSize,count.index)}"
   }
 
   storage_data_disk {
     name            = "${element(var.DataDiskName,count.index)}"
     managed_disk_id = "${element(var.DataDiskId,count.index)}"
     create_option   = "Attach"
-    lun             = 0
+    lun             = 10
     disk_size_gb    = "${element(var.DataDiskSize,count.index)}"
   }
 
