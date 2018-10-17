@@ -17,22 +17,13 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     storage_uri = "${var.DiagnosticDiskURI}"
   }
 
-  storage_image_reference {
-    #get appropriate image info with the following command
-    #Get-AzureRmVMImageSku -Location westeurope -Offer windowsserver -PublisherName microsoftwindowsserver
-    publisher = "${var.VMPublisherName}"
-
-    offer   = "${var.VMOffer}"
-    sku     = "${var.VMsku}"
-    version = "latest"
-  }
 
   storage_os_disk {
     name              = "${element(var.OSDiskName,count.index)}"
     caching           = "ReadWrite"
     create_option     = "Attach"
     managed_disk_id   = "${element(var.OSDiskId,count.index)}"
-    disk_size_gb      = "${element(var.OSDiskSize,count.index)}"
+
   }
 
   storage_data_disk {
