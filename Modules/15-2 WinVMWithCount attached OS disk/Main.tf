@@ -23,6 +23,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     caching           = "ReadWrite"
     create_option     = "Attach"
     managed_disk_id   = "${element(var.OSDiskId,count.index)}"
+    disk_size_gb      = "${element(var.OSDiskSize,count.index)}"
 
   }
 
