@@ -6,7 +6,7 @@
 
 #Module Output
 
-output "ID" {
+output "Id" {
   value = "${azurerm_key_vault_secret.TerraSecret.id}"
 }
 
