@@ -35,7 +35,7 @@ resource "azurerm_key_vault" "TerraKeyVault" {
     object_id = "${var.KeyVaultObjectIDPolicy2}"
     tenant_id = "${var.KeyVaultTenantID}"
 
-    application_id          = "${var.KeyVaultApplicationID}"
+    #application_id          = "${var.KeyVaultApplicationID}"
     certificate_permissions = ["${var.KeyVaultCertpermlistPolicy2}"]
     key_permissions         = ["${var.KeyVaultKeyPermlistPolicy2}"]
     secret_permissions      = ["${var.KeyVaultSecretPermlistPolicy2}"]
