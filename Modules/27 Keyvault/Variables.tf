@@ -33,10 +33,11 @@ variable "KeyVaultObjectIDPolicy2" {
 variable "KeyVaultTenantID" {
   type = "string"
 }
-
+/*
 variable "KeyVaultApplicationID" {
   type = "string"
 }
+*/
 
 variable "KeyVaultEnabledforDeployment" {
   type    = "string"
