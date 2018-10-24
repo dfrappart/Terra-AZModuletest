@@ -14,7 +14,7 @@ resource "azurerm_automation_dsc_nodeconfiguration" "TerraAutomationDSCConfigNod
   resource_group_name           = "${var.RGName}"
   automation_account_name       = "${var.AutomationAccountName}"
   location                      = "${var.Location}"
-  content_embedded              = "${data.template_file.DSCConfigTemplate.rendered}"
+  content_embedded              = "${data.template_file.DSCConfignodeTemplate.rendered}"
 
 }
 

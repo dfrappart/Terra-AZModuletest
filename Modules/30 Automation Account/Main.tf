@@ -3,7 +3,7 @@
 ##############################################################
 
 
-# Route table creation
+# Automation Account creation
 
 resource "azurerm_automation_account" "TerraAutomationAccount" {
   name                          = "${var.AutomationAccountName}"

@@ -14,9 +14,9 @@ output "Id" {
 }
 
 output "RGName" {
-  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.TerraAutomationDSCConfig.resource_group_name}"
+  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.resource_group_name}"
 }
 
 output "AutomationAccountName" {
-  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.TerraAutomationDSCConfig.automation_account_name}"
+  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.automation_account_name}"
 }
