@@ -1,0 +1,1 @@
+#This module deploys automation account credentials
