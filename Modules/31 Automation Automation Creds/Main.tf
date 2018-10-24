@@ -6,7 +6,7 @@
 
 # Automation Credentials Creation
 
-resource "azurerm_automation_credential" "TerraAutomationAccount" {
+resource "azurerm_automation_credential" "TerraAutomationCreds" {
   name                          = "${var.AutomationCredsName}"
   resource_group_name           = "${var.RGName}"
   account_name                  = "${var.AutomationAccountName}"
