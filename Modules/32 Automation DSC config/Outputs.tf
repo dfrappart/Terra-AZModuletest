@@ -6,11 +6,11 @@
 #Output
 
 output "Name" {
-  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.TerraAutomationDSCConfig.name}"
+  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.name}"
 }
 
 output "Id" {
-  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.TerraAutomationDSCConfig.id}"
+  value = "${azurerm_automation_dsc_configuration.TerraAutomationDSCConfig.id}"
 }
 
 output "RGName" {
