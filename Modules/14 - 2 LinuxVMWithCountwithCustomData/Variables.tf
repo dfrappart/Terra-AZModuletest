@@ -125,3 +125,25 @@ variable "EnvironmentUsageTag" {
   type    = "string"
   default = "Poc usage only"
 }
+
+variable "VMTypeTag" {
+  type = "string"
+}
+
+variable "VMOSTag" {
+  type = "string"
+  default = "Linux"
+}
+
+variable "VMTypeTag" {
+  type = "string"
+}
+
+variable "OwnerTag" {
+  type = "string"
+  default = "david@teknews.cloud"
+}
+
+variable "ProvisioningDateTag" {
+  type = "string"
+}

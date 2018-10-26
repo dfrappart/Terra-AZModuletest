@@ -57,8 +57,12 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
   }
 
   tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
+    environment       = "${var.EnvironmentTag}"
+    usage             = "${var.EnvironmentUsageTag}"
+    VMType            = "${var.VMTypeTag}"
+    VMOS              = "${var.VMOSTag}"
+    Owner             = "${var.OwnerTag}"
+    ProvisioningDate  = "${var.ProvisioningDateTag}"
   }
 }
 

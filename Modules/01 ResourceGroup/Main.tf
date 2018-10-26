@@ -14,6 +14,8 @@ resource "azurerm_resource_group" "Terra-RG" {
     tags {
     environment = "${var.EnvironmentTag}"
     usage       = "${var.EnvironmentUsageTag}"
+    Owner             = "${var.OwnerTag}"
+    ProvisioningDate  = "${var.ProvisioningDateTag}"
     }
 
 }
