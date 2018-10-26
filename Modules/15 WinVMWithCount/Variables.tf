@@ -129,6 +129,7 @@ variable "CloudinitscriptPath" {
 
 variable "VMTypeTag" {
   type = "string"
+  default = "Base"
 }
 
 variable "VMOSTag" {
@@ -136,9 +137,6 @@ variable "VMOSTag" {
   default = "Win2016"
 }
 
-variable "VMTypeTag" {
-  type = "string"
-}
 
 variable "OwnerTag" {
   type = "string"
@@ -147,4 +145,5 @@ variable "OwnerTag" {
 
 variable "ProvisioningDateTag" {
   type = "string"
+  default = "Today :)"
 }

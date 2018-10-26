@@ -128,6 +128,7 @@ variable "EnvironmentUsageTag" {
 
 variable "VMTypeTag" {
   type = "string"
+  default = "Base"
 }
 
 variable "VMOSTag" {
@@ -135,9 +136,6 @@ variable "VMOSTag" {
   default = "Linux"
 }
 
-variable "VMTypeTag" {
-  type = "string"
-}
 
 variable "OwnerTag" {
   type = "string"
@@ -146,4 +144,5 @@ variable "OwnerTag" {
 
 variable "ProvisioningDateTag" {
   type = "string"
+  default = "Today :)"
 }

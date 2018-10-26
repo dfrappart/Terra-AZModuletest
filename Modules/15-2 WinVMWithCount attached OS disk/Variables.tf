@@ -140,3 +140,22 @@ variable "CloudinitscriptPath" {
   type = "string"
 }
 
+variable "VMTypeTag" {
+  type = "string"
+  default = "Base"
+}
+
+variable "VMOSTag" {
+  type = "string"
+  default = "Linux"
+}
+
+variable "OwnerTag" {
+  type = "string"
+  default = "david@teknews.cloud"
+}
+
+variable "ProvisioningDateTag" {
+  type = "string"
+  default = "Today :)"
+}
