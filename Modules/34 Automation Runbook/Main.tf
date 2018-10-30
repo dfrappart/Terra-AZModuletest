@@ -17,6 +17,7 @@ resource "azurerm_automation_runbook" "TerraAutomationRunbook" {
   log_verbose                   = "${var.LogVerboseActivated}"
   log_progress                  = "${var.LogProgressActivated}"
   description                   = "${var.RunbookDesc}"
+  runbook_type                  = "${var.RunbookType}"
   publish_content_link {
     uri       = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1"
     

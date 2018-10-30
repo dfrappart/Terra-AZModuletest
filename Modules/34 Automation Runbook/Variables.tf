@@ -36,7 +36,11 @@ variable "LogProgressActivated" {
   default = "true"
 }
 
-
+#Runbook Type
+variable "RunbookTypr" {
+  type    = "string"
+  default = "PowerShell"
+}
 #Runbook description
 variable "RunbookDesc" {
   type    = "string"
