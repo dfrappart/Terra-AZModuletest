@@ -68,6 +68,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     VMOS              = "${var.VMOSTag}"
     Owner             = "${var.OwnerTag}"
     ProvisioningDate  = "${var.ProvisioningDateTag}"
+    SLAUptime         = "${var.SLAUptimeTag}"
 
   }
 }

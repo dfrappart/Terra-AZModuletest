@@ -146,3 +146,9 @@ variable "ProvisioningDateTag" {
   type = "string"
   default = "Today :)"
 }
+
+variable "SLAUptimeTag" {
+  type = "string"
+  #Can be 5712, 5724, 7724
+  default = "5712"
+}
