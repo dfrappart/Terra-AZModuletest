@@ -4,7 +4,7 @@
 
 #File for the Runbook
 data "local_file" "DSCRunBook" {
-  template = "${file("${path.root}${var.SettingsFilePath}")}"
+  filename = "${file("${path.root}${var.SettingsFilePath}")}"
 }
 
 # Runbook creation
