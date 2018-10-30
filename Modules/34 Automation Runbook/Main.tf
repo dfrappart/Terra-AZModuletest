@@ -19,10 +19,9 @@ resource "azurerm_automation_runbook" "TerraAutomationRunbook" {
   description                   = "${var.RunbookDesc}"
   publish_content_link {
     uri       = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1"
-    content   = "${data.local_file.DSCRunBook.content}"
-
-
+    
   }
+  content   = "${data.local_file.DSCRunBook.content}"
   
 }
 
