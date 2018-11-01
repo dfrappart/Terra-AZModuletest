@@ -3,7 +3,7 @@
 ##############################################################
 
 #File for the Runbook
-data "local_file" "DSCRunBook" {
+data "local_file" "AutomationRunBook" {
   filename = "${file("${path.root}${var.SettingsFilePath}")}"
 }
 
@@ -22,7 +22,7 @@ resource "azurerm_automation_runbook" "TerraAutomationRunbook" {
     uri       = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1"
     
   }
-  content   = "${data.local_file.DSCRunBook.content}"
+  content   = "${data.local_file.AutomationRunBook.content}"
   
 }
 
