@@ -18,5 +18,5 @@ output "RGName" {
 }
 
 output "AutomationAccountName" {
-  value = "${azurerm_automation_runbook.TerraAutomationRunbook.automation_account_name}"
+  value = "${azurerm_automation_runbook.TerraAutomationRunbook.account_name}"
 }
