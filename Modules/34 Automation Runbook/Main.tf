@@ -4,7 +4,7 @@
 
 #File for the Runbook
 data "local_file" "AutomationRunBook" {
-  filename = "${file("${path.root}${var.SettingsFilePath}")}"
+  filename = "${path.root}${var.SettingsFilePath}"
 }
 
 # Runbook creation
