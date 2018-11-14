@@ -60,7 +60,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
   }
 
   os_profile {
-    computer_name  = "${var.VMName}"
+    computer_name  = "${var.VMName}${count.index+1}"
     admin_username = "${var.VMAdminName}"
     admin_password = "${var.VMAdminPassword}"
     custom_data    = "${data.template_cloudinit_config.config.rendered}"
