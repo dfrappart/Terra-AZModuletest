@@ -26,10 +26,12 @@ variable "LBProbId" {
 
 variable "FERuleFEPort" {
   type = "string"
+  default = "80"
 }
 
 variable "FERuleBEPort" {
   type = "string"
+  default = "8001"
 }
 
 variable "FERuleProtocol" {

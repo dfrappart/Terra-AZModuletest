@@ -4,9 +4,9 @@
 
 
 output "Name" {
-    value = "${azurerm_lb_rule.TerraLBProbe.name}"
+    value = "${azurerm_lb_rule.TerraLBFrondEndrule.name}"
 }
 
 output "Id" {
-    value = "${azurerm_lb_rule.TerraLBProbe.id}"
+    value = "${azurerm_lb_rule.TerraLBFrondEndrule.id}"
 }
