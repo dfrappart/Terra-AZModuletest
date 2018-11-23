@@ -3,10 +3,10 @@
 ######################################################################
 
 
-output "TerraLBBackEndPoolName" {
+output "Name" {
     value = "${azurerm_lb_backend_address_pool.TerraLBBackEndPool.name}"
 }
 
-output "TerraLBBackEndPoolId" {
+output "Id" {
     value = "${azurerm_lb_backend_address_pool.TerraLBBackEndPool.id}"
 }

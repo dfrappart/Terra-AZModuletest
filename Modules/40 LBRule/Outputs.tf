@@ -3,10 +3,10 @@
 ######################################################################
 
 
-output "TerraLBRuleName" {
+output "Name" {
     value = "${azurerm_lb_rule.TerraLBProbe.name}"
 }
 
-output "TerraLBRuleId" {
+output "Id" {
     value = "${azurerm_lb_rule.TerraLBProbe.id}"
 }

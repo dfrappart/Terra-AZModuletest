@@ -3,10 +3,10 @@
 ######################################################################
 
 
-output "TerraExtLBName" {
+output "Name" {
     value = "${azurerm_lb.TerraExtLB.name}"
 }
 
-output "TerraExtLBId" {
+output "Id" {
     value = "${azurerm_lb.TerraExtLB.id}"
 }
