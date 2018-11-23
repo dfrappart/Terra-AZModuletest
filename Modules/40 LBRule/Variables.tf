@@ -22,7 +22,9 @@ variable "LBProbId" {
   type = "string"
 }
 
-
+variable "BEPoolId" {
+  type = "string"
+}
 
 variable "FERuleFEPort" {
   type = "string"
