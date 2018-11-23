@@ -34,8 +34,10 @@ variable "EnvironmentTag" {
 
 variable "OwnerTag" {
   type = "string"
+  default = "Taht would be me"
 }
 
 variable "ProvisioningDateTag" {
   type = "string"
+  default = "Today :)"
 }

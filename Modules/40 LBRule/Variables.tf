@@ -25,10 +25,14 @@ variable "LBProbId" {
 
 
 variable "FERuleFEPort" {
-  type = "list"
+  type = "string"
 }
 
-variable "FERuleFEPort" {
-  type = "list"
+variable "FERuleBEPort" {
+  type = "string"
 }
 
+variable "FERuleProtocol" {
+  type = "string"
+  default = "tcp"
+}

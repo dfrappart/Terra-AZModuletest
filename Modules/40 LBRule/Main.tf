@@ -8,9 +8,9 @@
 resource "azurerm_lb_rule" "TerraLBFrondEndrule" {
   name                           = "${var.FERuleName}"
   resource_group_name            = "${var.RGName}"
-  loadbalancer_id                = "${var.LBIdList}"
+  loadbalancer_id                = "${var.LBId}"
   protocol                       = "${var.FERuleProtocol}"
-  probe_id                       = "${var.LBProbIdList}"
+  probe_id                       = "${var.LBProbId}"
   frontend_port                  = "${var.FERuleFEPort}"
   frontend_ip_configuration_name = "${var.FEConfigName}"
   backend_port                   = "${var.FERuleBEPort}"
