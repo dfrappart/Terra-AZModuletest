@@ -28,7 +28,7 @@ variable "EnvironmentTag" {
   type = "string"
 }
 
-variable "EnvironmentTag" {
+variable "EnvironmentUsageTag" {
   type = "string"
 }
 

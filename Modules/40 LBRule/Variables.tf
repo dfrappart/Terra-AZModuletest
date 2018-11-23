@@ -38,3 +38,8 @@ variable "FERuleProtocol" {
   type = "string"
   default = "tcp"
 }
+
+variable "FEConfigName" {
+  type = "string"
+
+}
