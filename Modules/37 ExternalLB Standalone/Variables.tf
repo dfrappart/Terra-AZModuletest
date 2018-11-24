@@ -21,7 +21,7 @@ variable "FEConfigName" {
 }
 
 variable "PublicIPId" {
-  type = "list"
+  type = "string"
 }
 
 variable "EnvironmentTag" {
