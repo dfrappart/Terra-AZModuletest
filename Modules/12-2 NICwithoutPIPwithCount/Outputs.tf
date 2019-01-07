@@ -27,6 +27,10 @@ output "PrivateIPs" {
   value = ["${azurerm_network_interface.TerraNICnopipwithcountNotLoadBalanced.*.private_ip_address}"]
 }
 
+output "IPConfigurations" {
+  value = ["${azurerm_network_interface.TerraNICnopipwithcountNotLoadBalanced.*.ip_configuration}"]
+}
+
 output "RGName" {
   value = "${var.RGName}"
 }

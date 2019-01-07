@@ -14,8 +14,10 @@ resource "azurerm_public_ip" "TerraPublicIP" {
   domain_name_label            = "${lower(var.EnvironmentTag)}${lower(var.PublicIPName)}${count.index+1}"
 
   tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
+    Environment       = "${var.EnvironmentTag}"
+    Usage             = "${var.EnvironmentUsageTag}"
+    Owner             = "${var.OwnerTag}"
+    ProvisioningDate  = "${var.ProvisioningDateTag}"
   }
 }
 
