@@ -31,13 +31,5 @@ variable "SVCEP" {
   default = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.ServiceBus", "Microsoft.EventHub"]
 }
 
-variable "EnvironmentTag" {
-  type    = "string"
-  default = "Poc"
-}
 
-variable "EnvironmentUsageTag" {
-  type    = "string"
-  default = "Poc usage only"
-}
 

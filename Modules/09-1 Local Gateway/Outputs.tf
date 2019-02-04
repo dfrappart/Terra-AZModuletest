@@ -12,3 +12,11 @@ output "Id" {
   value = "${azurerm_local_network_gateway.TerraLocalGW.id}"
   
 }
+
+output "Address" {
+  value = "${azurerm_local_network_gateway.TerraLocalGW.gateway_address}"
+}
+
+output "AddressSpace" {
+  value = "${azurerm_local_network_gateway.TerraLocalGW.address_space}"
+}

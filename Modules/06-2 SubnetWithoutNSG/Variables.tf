@@ -27,13 +27,3 @@ variable "Subnetaddressprefix" {
 
 
 
-variable "EnvironmentTag" {
-  type    = "string"
-  default = "Poc"
-}
-
-variable "EnvironmentUsageTag" {
-  type    = "string"
-  default = "Poc usage only"
-}
-

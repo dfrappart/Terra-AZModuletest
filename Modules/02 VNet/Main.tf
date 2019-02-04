@@ -12,8 +12,10 @@ resource "azurerm_virtual_network" "Terra-vNet" {
   location            = "${var.vNetLocation}"
 
   tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
+    Environment       = "${var.EnvironmentTag}"
+    Usage             = "${var.EnvironmentUsageTag}"
+    Owner             = "${var.OwnerTag}"
+    ProvisioningDate  = "${var.ProvisioningDateTag}"
   }
 }
 

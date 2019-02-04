@@ -11,8 +11,10 @@ resource "azurerm_network_security_group" "Terra-NSG" {
   resource_group_name = "${var.RGName}"
 
   tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
+    Environment       = "${var.EnvironmentTag}"
+    Usage             = "${var.EnvironmentUsageTag}"
+    Owner             = "${var.OwnerTag}"
+    ProvisioningDate  = "${var.ProvisioningDateTag}"
   }
 }
 
