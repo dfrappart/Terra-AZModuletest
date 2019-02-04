@@ -97,3 +97,13 @@ variable "EnvironmentUsageTag" {
   type    = "string"
   default = "Poc usage only"
 }
+
+variable "OwnerTag" {
+  type = "string"
+  default = "david@teknews.cloud"
+}
+
+variable "ProvisioningDateTag" {
+  type = "string"
+  default = "Today :)"
+}
