@@ -11,6 +11,14 @@ output "Id" {
   value = ["${azurerm_virtual_machine.TerraVMwithCount.*.id}"]
 }
 
+output "VMWithoutDataDiskNames" {
+  value = ["${azurerm_virtual_machine.TerraVMwithCount.*.name}"]
+}
+
+output "VMWithoutDataDiskIds" {
+  value = ["${azurerm_virtual_machine.TerraVMwithCount.*.id}"]
+}
+
 output "RGName" {
   value = "${var.VMRG}"
 }

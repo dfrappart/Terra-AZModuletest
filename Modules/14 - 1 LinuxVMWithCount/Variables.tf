@@ -163,3 +163,10 @@ variable "SLAUptimeTag" {
   #Can be 5712, 5724, 7724
   default = "5712"
 }
+
+#Variable for condition on Data disk
+
+variable "WithDataDisk" {
+  type = "string"
+  default = "1"
+}
