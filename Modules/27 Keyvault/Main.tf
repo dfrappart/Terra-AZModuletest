@@ -51,10 +51,12 @@ resource "azurerm_key_vault" "TerraKeyVault" {
   ########################
   #Tags
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 
 

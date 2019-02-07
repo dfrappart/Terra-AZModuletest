@@ -26,3 +26,13 @@ variable "EnvironmentUsageTag" {
   default = "Poc usage only"
 }
 
+variable "OwnerTag" {
+  type    = "string"
+  default = "That would be me"
+}
+
+variable "ProvisioningDateTag" {
+  type    = "string"
+  default = "Today :)"
+}
+

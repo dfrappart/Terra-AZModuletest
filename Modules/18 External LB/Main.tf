@@ -17,10 +17,12 @@ resource "azurerm_lb" "TerraExtLB" {
     public_ip_address_id = "${element(var.PublicIPId,count.index)}"
   }
 
-  tags {
-    environment = "${var.TagEnvironment}"
-    usage       = "${var.TagUsage}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 
 # Creating Back-End Address Pool

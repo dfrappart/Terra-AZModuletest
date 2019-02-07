@@ -21,10 +21,12 @@ resource "azurerm_network_interface" "TerraNICnopipwithcountLoadBalanced" {
 
   }
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 
 resource "azurerm_network_interface" "TerraNICnopipwithcountNotLoadBalanced" {
@@ -40,9 +42,11 @@ resource "azurerm_network_interface" "TerraNICnopipwithcountNotLoadBalanced" {
     application_security_group_ids = ["${var.ASGIds}"]
   }
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

@@ -16,8 +16,8 @@ resource "azurerm_lb" "TerraExtLB" {
   }
 
   tags {
-    environment       = "${var.EnvironmentTag}"
-    usage             = "${var.EnvironmentTag}"
+    Environment       = "${var.EnvironmentTag}"
+    Usage             = "${var.EnvironmentTag}"
     Owner             = "${var.OwnerTag}"
     ProvisioningDate  = "${var.ProvisioningDateTag}"
   }

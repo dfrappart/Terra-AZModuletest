@@ -16,9 +16,11 @@ resource "azurerm_firewall" "TerraFirewall" {
     internal_public_ip_address_id = "${var.FWPIPId}"
   }
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

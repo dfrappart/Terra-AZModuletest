@@ -22,9 +22,11 @@ resource "azurerm_network_interface" "TerraNICwpip" {
     application_security_group_ids = ["${var.ASGIds}"]
   }
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

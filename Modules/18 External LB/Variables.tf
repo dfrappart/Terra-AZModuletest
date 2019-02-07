@@ -57,10 +57,22 @@ variable "FERuleBEPort" {
   type = "string"
 }
 
-variable "TagEnvironment" {
-  type = "string"
+variable "EnvironmentTag" {
+  type    = "string"
+  default = "Poc"
 }
 
-variable "TagUsage" {
-  type = "string"
+variable "EnvironmentUsageTag" {
+  type    = "string"
+  default = "Poc usage only"
+}
+
+variable "OwnerTag" {
+  type    = "string"
+  default = "That would be me"
+}
+
+variable "ProvisioningDateTag" {
+  type    = "string"
+  default = "Today :)"
 }

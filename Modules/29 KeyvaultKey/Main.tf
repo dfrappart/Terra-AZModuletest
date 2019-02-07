@@ -13,9 +13,11 @@ resource "azurerm_key_vault_key" "TerraKey" {
   key_size = "${var.KeySize}"
   key_opts  = "${var.KeyOpts}"
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

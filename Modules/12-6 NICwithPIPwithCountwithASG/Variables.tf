@@ -56,5 +56,14 @@ variable "EnvironmentUsageTag" {
   default = "Poc usage only"
 }
 
-# NIC Creation 
+
+variable "OwnerTag" {
+  type    = "string"
+  default = "That would be me"
+}
+
+variable "ProvisioningDateTag" {
+  type    = "string"
+  default = "Today :)"
+}
 

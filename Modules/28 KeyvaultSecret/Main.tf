@@ -11,9 +11,11 @@ resource "azurerm_key_vault_secret" "TerraSecret" {
   value     = "${var.PasswordValue}"
   vault_uri = "${var.VaultURI}"
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

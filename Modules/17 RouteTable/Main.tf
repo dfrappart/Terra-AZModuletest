@@ -11,9 +11,11 @@ resource "azurerm_route_table" "TerraRouteTable" {
   resource_group_name           = "${var.RGName}"
   disable_bgp_route_propagation = "${var.BGPDisabled}"
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 

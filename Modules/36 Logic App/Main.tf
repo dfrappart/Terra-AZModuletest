@@ -10,10 +10,12 @@ resource "azurerm_logic_app_workflow" "TerraLogicAppWorkflow" {
   resource_group_name           = "${var.RGName}"
   location                      = "${var.Location}"
 
-  tags {
-    environment = "${var.EnvironmentTag}"
-    usage       = "${var.EnvironmentUsageTag}"
-  }  
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
 }
 
 
