@@ -6,7 +6,7 @@
 #Output
 
 output "GWName" {
-  value = ["${azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name}"]
+  value = ["${azurerm_virtual_network_gateway.TerraVirtualNetworkGW.*.name}"]
   #value = "${FTOption == "false" ? azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name : azurerm_virtual_network_gateway.TerraVirtualNetworkGW.nameAA}"
 }
 
@@ -26,7 +26,7 @@ output "GWSku" {
 }
 
 output "GWAAName" {
-  value = ["${azurerm_virtual_network_gateway.TerraVirtualNetworkGWAA.name}"]
+  value = ["${azurerm_virtual_network_gateway.TerraVirtualNetworkGWAA.*.name}"]
   #value = "${FTOption == "false" ? azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name : azurerm_virtual_network_gateway.TerraVirtualNetworkGW.nameAA}"
 }
 
