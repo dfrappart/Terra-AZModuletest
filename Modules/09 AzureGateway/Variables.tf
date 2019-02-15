@@ -39,6 +39,10 @@ variable "FTOption" {
   default = "false"
 }
 
+#Variable for virtual network gateway sku
+#Available skus are basic, VpnGw1, VpnGw2, VpnGw3, VpnGw1Az, VpnGw2Az, VpnGw3Az
+#The AZ skus are for zone redundant virtual network gateway
+
 variable "AGWsku" {
   type    = "string"
   default = "VpnGw1"
@@ -46,6 +50,10 @@ variable "AGWsku" {
   #default = "VpnGw2"
   #default = "VpnGw3"
   #default = "Basic"
+  #default = "VpnGw2Az"
+  #default = "VpnGw3Az"
+  #default = "VpnGw1Az"
+
 }
 
 variable "AGWIPConfName" {
@@ -66,10 +74,14 @@ variable "AGWPIPId" {
   type = "string"
 }
 
+/*
+#No need for count in this module
 variable "count" {
   type    = "string"
   default = "1"
 }
+
+*/
 
 # Variables to define the Tag
 

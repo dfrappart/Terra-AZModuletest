@@ -7,7 +7,7 @@
 
 output "Name" {
   #value = ["${azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name}"]
-  value = "${azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name}"
+  value = "${FTOption == "false" ? azurerm_virtual_network_gateway.TerraVirtualNetworkGW.name : azurerm_virtual_network_gateway.TerraVirtualNetworkGW.nameAA}"
 }
 
 output "Id" {
