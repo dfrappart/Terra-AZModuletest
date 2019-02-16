@@ -3,7 +3,7 @@
 ######################################################################
 
 
-#Module output
+#Module output without zones
 
 output "Names" {
   value = ["${azurerm_public_ip.TerraPublicIP.*.name}"]
@@ -21,6 +21,26 @@ output "IPAddresses" {
 */
 output "fqdns" {
   value = ["${azurerm_public_ip.TerraPublicIP.*.fqdn}"]
+}
+
+#Module outputs with zones
+
+output "ZRIPNames" {
+  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.name}"]
+}
+
+output "ZRIPIds" {
+  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.id}"]
+}
+
+/*
+output "IPAddresses" {
+
+  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.ip_address}"]
+}
+*/
+output "ZRIPfqdns" {
+  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.fqdn}"]
 }
 
 output "RGName" {

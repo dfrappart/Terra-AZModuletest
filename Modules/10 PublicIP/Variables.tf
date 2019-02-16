@@ -43,6 +43,15 @@ variable "PIPAddressSku" {
   default = "basic"
 }
 
+#Is the IP regional or zone redundant ?
+#Warning: if the IP is zone redundant, no basic sku available
+
+variable "IsZoneRedundant" {
+  type    = "string"
+  default = "false"
+}
+
+
 variable "EnvironmentTag" {
   type    = "string"
   default = "Poc"
