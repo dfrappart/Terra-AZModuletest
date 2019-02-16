@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "TerraPublicIPZoneRedundant" {
   name                         = "${var.PublicIPName}${count.index+1}"
   location                     = "${var.PublicIPLocation}"
   resource_group_name          = "${var.RGName}"
-  public_ip_address_allocation = "${var.PIPAddressAllocation}"
+  public_ip_address_allocation = "static"
   sku                          = "standard"
   domain_name_label            = "${lower(var.EnvironmentTag)}${lower(var.PublicIPName)}${count.index+1}"
   #zones                        = ["1","2"]
