@@ -7,7 +7,7 @@
 #Creation of the VPN Gateway, no AZ
 
 resource "azurerm_virtual_network_gateway" "TerraVirtualNetworkGW" {
-  count               = "${var.FTOption ? 1 : 0}"
+  count               = "${var.FTOption == "false" ? 1 : 0}"
   name                = "${var.AGWName}"
   resource_group_name = "${var.AGWRGName}"
   location            = "${var.AGWLocation}"
@@ -37,7 +37,7 @@ resource "azurerm_virtual_network_gateway" "TerraVirtualNetworkGW" {
 #Creation of the VPN Gateway Active Active, no AZ
 
 resource "azurerm_virtual_network_gateway" "TerraVirtualNetworkGWAA" {
-  count               = "${var.FTOption ? 0 : 1}"
+  count               = "${var.FTOption == "true"? 1 : 0}"
   name                = "${var.AGWName}"
   resource_group_name = "${var.AGWRGName}"
   location            = "${var.AGWLocation}"
