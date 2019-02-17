@@ -29,7 +29,7 @@ resource "azurerm_public_ip" "TerraPublicIPZoneRedundant" {
   public_ip_address_allocation = "static"
   sku                          = "standard"
   domain_name_label            = "${lower(var.EnvironmentTag)}${lower(var.PublicIPName)}${count.index+1}"
-  #zones                        = ["1","2"]
+
 
   tags {
     Environment       = "${var.EnvironmentTag}"
