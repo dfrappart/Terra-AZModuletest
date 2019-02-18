@@ -4,19 +4,19 @@
 
 
 output "Name" {
-  value = ["${azurerm_virtual_machine.TerraVMwithCount.*.name}"]
+  value = ["${azurerm_virtual_machine.TerraVMwithCountWithAZ.*.name}"]
 }
 
 output "Id" {
-  value = ["${azurerm_virtual_machine.TerraVMwithCount.*.id}"]
+  value = ["${azurerm_virtual_machine.TerraVMwithCountWithAZ.*.id}"]
 }
 
 output "VMWithoutDataDiskNames" {
-  value = ["${azurerm_virtual_machine.TerraVMwithCountWithoutDataDisk.*.name}"]
+  value = ["${azurerm_virtual_machine.TerraVMwithCountithAZWithoutDataDisk.*.name}"]
 }
 
 output "VMWithoutDataDiskIds" {
-  value = ["${azurerm_virtual_machine.TerraVMwithCountWithoutDataDisk.*.id}"]
+  value = ["${azurerm_virtual_machine.TerraVMwithCountithAZWithoutDataDisk.*.id}"]
 }
 
 output "RGName" {
