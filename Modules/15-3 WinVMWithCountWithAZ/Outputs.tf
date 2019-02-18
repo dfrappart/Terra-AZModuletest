@@ -10,3 +10,11 @@ output "Name" {
 output "Id" {
   value = ["${azurerm_virtual_machine.TerraVMwithCount.*.id}"]
 }
+
+output "VMwithCountWithoutDataDiskNames" {
+  value = ["${azurerm_virtual_machine.TerraVMwithCountWithoutDataDisk.*.name}"]
+}
+
+output "VMwithCountWithoutDataDiskIds" {
+  value = ["${azurerm_virtual_machine.TerraVMwithCountWithoutDataDisk.*.id}"]
+}

@@ -4,13 +4,13 @@
 
 
 resource "azurerm_virtual_machine" "TerraVMwithCount" {
-  count                 = "${var.WithDataDisk ? var.VMCount : 0}"
+  count                 = "${var.WithDataDisk == "true" ? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
   network_interface_ids = ["${element(var.VMNICid,count.index)}"]
   vm_size               = "${var.VMSize}"
-  zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
+  zones                 = ["${var.VMCount > 1 ? element(var.AZ,count.index) : var.VMAZ}"]
 
   boot_diagnostics {
     enabled     = "true"
@@ -70,7 +70,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
 #Adding BGInfo to VM
 
 resource "azurerm_virtual_machine_extension" "Terra-BGInfoAgent" {
-  count                = "${var.WithDataDisk ? var.VMCount : 0}"
+  count                = "${var.WithDataDisk == "true "? var.VMCount : 0}"
   name                 = "${var.VMName}${count.index+1}BGInfo"
   location             = "${var.VMLocation}"
   resource_group_name  = "${var.VMRG}"
@@ -97,13 +97,13 @@ resource "azurerm_virtual_machine_extension" "Terra-BGInfoAgent" {
 
 
 resource "azurerm_virtual_machine" "TerraVMwithCountWithoutDataDisk" {
-  count                 = "${var.WithDataDisk ? 0 : var.VMCount}"
+  count                 = "${var.WithDataDisk == "false"? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
   network_interface_ids = ["${element(var.VMNICid,count.index)}"]
   vm_size               = "${var.VMSize}"
-  zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
+  zones                 = ["${var.VMCount > 1 ? element(var.AZ,count.index) : var.VMAZ}"]
 
   boot_diagnostics {
     enabled     = "true"
@@ -165,11 +165,11 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithoutDataDisk" {
 #Adding BGInfo to VM
 
 resource "azurerm_virtual_machine_extension" "Terra-BGInfoAgentVMWithoutDataDisk" {
-  count                = "${var.WithDataDisk ? 0 : var.VMCount}"
+  count                = "${var.WithDataDisk == "false" ? var.VMCount : 0}"
   name                 = "${var.VMName}${count.index+1}BGInfo"
   location             = "${var.VMLocation}"
   resource_group_name  = "${var.VMRG}"
-  virtual_machine_name = "${element(azurerm_virtual_machine.TerraVMwithCount.*.name,count.index)}"
+  virtual_machine_name = "${element(azurerm_virtual_machine.TerraVMwithCountWithoutDataDisk.*.name,count.index)}"
   publisher            = "microsoft.compute"
   type                 = "BGInfo"
   type_handler_version = "2.1"

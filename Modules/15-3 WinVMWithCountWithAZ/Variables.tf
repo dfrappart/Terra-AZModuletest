@@ -39,7 +39,7 @@ variable "VMSize" {
 #The Target AZ for the VM
 variable "VMAZ" {
   type = "string"
-  default = "0"
+  default = "1"
 }
 
 variable "AZ" {
@@ -103,14 +103,17 @@ variable "DataDiskSize" {
 
 variable "VMPublisherName" {
   type = "string"
+  default = "microsoftwindowsserver"
 }
 
 variable "VMOffer" {
   type = "string"
+  default = "WindowsServer"
 }
 
 variable "VMsku" {
   type = "string"
+  default = "2016-Datacenter"
 }
 
 #The boot diagnostic storage uri
