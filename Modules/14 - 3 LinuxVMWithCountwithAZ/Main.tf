@@ -6,14 +6,14 @@
 #VM Creation
 
 resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
-  count                 = "${var.WithDataDisk ? var.VMCount : 0}"
+  count                 = "${var.WithDataDisk == "true"? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
   network_interface_ids = ["${element(var.VMNICid, count.index)}"]
   vm_size               = "${var.VMSize}"
   #availability_set_id   = "" no coexistence between AS and AZ
-  zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
+  zones                 = ["${var.VMCount > 1 ? element(var.AZ,count.index) : var.VMAZ}"]
 
   boot_diagnostics {
     enabled     = "true"
@@ -75,14 +75,14 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
 }
 
 resource "azurerm_virtual_machine" "TerraVMwithCountithAZWithoutDataDisk" {
-  count                 = "${var.WithDataDisk ? 0 : var.VMCount}"
+  count                 = "${var.WithDataDisk == "false" ? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
   network_interface_ids = ["${element(var.VMNICid, count.index)}"]
   vm_size               = "${var.VMSize}"
   #availability_set_id   = "" no coexistence between AS and AZ
-  zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
+  zones                 = ["${var.VMCount > 1 ? element(var.AZ,count.index) : var.VMAZ}"]
 
   boot_diagnostics {
     enabled     = "true"

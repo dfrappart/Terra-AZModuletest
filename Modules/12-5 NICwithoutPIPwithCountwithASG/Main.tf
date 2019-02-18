@@ -17,7 +17,7 @@ resource "azurerm_network_interface" "TerraNICnopipwithcountLoadBalanced" {
     subnet_id                               = "${var.SubnetId}"
     private_ip_address_allocation           = "dynamic"
     load_balancer_backend_address_pools_ids = ["${element(var.LBBackEndPoolid,count.index)}"]
-    application_security_group_ids = "${var.ASGIds}"
+    application_security_group_ids          = "${var.ASGIds}"
 
   }
 

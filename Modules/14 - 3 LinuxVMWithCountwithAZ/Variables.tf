@@ -48,9 +48,10 @@ variable "ASID" {
 #The Target AZ for the VM
 variable "VMAZ" {
   type = "string"
-  default = "0"
+  default = "1"
 }
 
+#If count greater than 1, round robin on AZ
 variable "AZ" {
   type = "list"
   default = ["1","2","3","1","2","3","1","2","3","1","2","3"]
@@ -185,5 +186,5 @@ variable "SLAUptimeTag" {
 
 variable "WithDataDisk" {
   type = "string"
-  default = "1"
+  default = "true"
 }
