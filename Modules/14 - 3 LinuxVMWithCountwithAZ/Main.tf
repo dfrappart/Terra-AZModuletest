@@ -6,7 +6,7 @@
 #VM Creation
 
 resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
-  count                 = "${var.WithDataDisk == "true"? var.VMCount : 0}"
+  count                 = "${var.WithDataDisk == "true" ? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
