@@ -14,7 +14,7 @@ resource "azurerm_managed_disk" "TerraManagedDiskwithcount" {
   storage_account_type = "${var.StorageAccountType}"
   create_option        = "${var.CreateOption}"
   disk_size_gb         = "${var.DiskSizeInGB}"
-  zones                = "${var.ManagedDiskZone}"
+  zones                = ["${var.ManagedDiskZone ? var.ManagedDiskZone : element(var.AZ,var.Manageddiskcount)}"]
 
     tags {
     Environment         = "${var.EnvironmentTag}"

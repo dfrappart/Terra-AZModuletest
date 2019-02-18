@@ -1,18 +1,15 @@
 ###################################################################################
-#This module allows the creation of n Linux VM with 1 NIC
+#This module allows the creation of 1 Windows VM with 1 NIC
 ###################################################################################
 
 
-#VM Creation
-
-resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
+resource "azurerm_virtual_machine" "TerraVMwithCount" {
   count                 = "${var.WithDataDisk ? var.VMCount : 0}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
-  network_interface_ids = ["${element(var.VMNICid, count.index)}"]
+  network_interface_ids = ["${element(var.VMNICid,count.index)}"]
   vm_size               = "${var.VMSize}"
-  #availability_set_id   = "" no coexistence between AS and AZ
   zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
 
   boot_diagnostics {
@@ -35,6 +32,8 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "${var.VMStorageTier}"
+    disk_size_gb      = "${var.OSDisksize}"
+ 
   }
 
   storage_data_disk {
@@ -46,20 +45,15 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
   }
 
   os_profile {
-    computer_name  = "${var.VMName}"
+    computer_name  = "${var.VMName}${count.index+1}"
     admin_username = "${var.VMAdminName}"
     admin_password = "${var.VMAdminPassword}"
-
-    #custom_data     = "${file("${var.BootConfigScriptFileName}")}"
+    custom_data    = "${file("${path.root}${var.CloudinitscriptPath}")}"
   }
 
-  os_profile_linux_config {
-    disable_password_authentication = "${var.PasswordDisabled}"
-
-    ssh_keys {
-      path     = "/home/${var.VMAdminName}/.ssh/authorized_keys"
-      key_data = "${var.PublicSSHKey}"
-    }
+  os_profile_windows_config {
+    provision_vm_agent        = "true"
+    enable_automatic_upgrades = "false"
   }
 
   tags {
@@ -70,18 +64,45 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
     Owner             = "${var.OwnerTag}"
     ProvisioningDate  = "${var.ProvisioningDateTag}"
     SLAUptime         = "${var.SLAUptimeTag}"
-
   }
 }
 
-resource "azurerm_virtual_machine" "TerraVMwithCountithAZWithoutDataDisk" {
+#Adding BGInfo to VM
+
+resource "azurerm_virtual_machine_extension" "Terra-BGInfoAgent" {
+  count                = "${var.WithDataDisk ? var.VMCount : 0}"
+  name                 = "${var.VMName}${count.index+1}BGInfo"
+  location             = "${var.VMLocation}"
+  resource_group_name  = "${var.VMRG}"
+  virtual_machine_name = "${element(azurerm_virtual_machine.TerraVMwithCount.*.name,count.index)}"
+  publisher            = "microsoft.compute"
+  type                 = "BGInfo"
+  type_handler_version = "2.1"
+
+  /*
+    settings = <<SETTINGS
+          {   
+          
+          "commandToExecute": ""
+          }
+  SETTINGS
+  */
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
+}
+
+
+resource "azurerm_virtual_machine" "TerraVMwithCountWithoutDataDisk" {
   count                 = "${var.WithDataDisk ? 0 : var.VMCount}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
   resource_group_name   = "${var.VMRG}"
-  network_interface_ids = ["${element(var.VMNICid, count.index)}"]
+  network_interface_ids = ["${element(var.VMNICid,count.index)}"]
   vm_size               = "${var.VMSize}"
-  #availability_set_id   = "" no coexistence between AS and AZ
   zones                 = ["${var.VMAZ ? var.VMAZ : element(var.AZ,count.index)}"]
 
   boot_diagnostics {
@@ -104,7 +125,10 @@ resource "azurerm_virtual_machine" "TerraVMwithCountithAZWithoutDataDisk" {
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "${var.VMStorageTier}"
+    disk_size_gb      = "${var.OSDisksize}"
+ 
   }
+
 /*
   storage_data_disk {
     name            = "${element(var.DataDiskName,count.index)}"
@@ -114,32 +138,54 @@ resource "azurerm_virtual_machine" "TerraVMwithCountithAZWithoutDataDisk" {
     disk_size_gb    = "${element(var.DataDiskSize,count.index)}"
   }
 */
+
   os_profile {
-    computer_name  = "${var.VMName}"
+    computer_name  = "${var.VMName}${count.index+1}"
     admin_username = "${var.VMAdminName}"
     admin_password = "${var.VMAdminPassword}"
-
-    #custom_data     = "${file("${var.BootConfigScriptFileName}")}"
+    custom_data    = "${file("${path.root}${var.CloudinitscriptPath}")}"
   }
 
-  os_profile_linux_config {
-    disable_password_authentication = "${var.PasswordDisabled}"
-
-    ssh_keys {
-      path     = "/home/${var.VMAdminName}/.ssh/authorized_keys"
-      key_data = "${var.PublicSSHKey}"
-    }
+  os_profile_windows_config {
+    provision_vm_agent        = "true"
+    enable_automatic_upgrades = "false"
   }
 
   tags {
-    environment       = "${var.EnvironmentTag}"
-    usage             = "${var.EnvironmentUsageTag}"
+    Environment       = "${var.EnvironmentTag}"
+    Usage             = "${var.EnvironmentUsageTag}"
     VMType            = "${var.VMTypeTag}"
     VMOS              = "${var.VMOSTag}"
     Owner             = "${var.OwnerTag}"
     ProvisioningDate  = "${var.ProvisioningDateTag}"
     SLAUptime         = "${var.SLAUptimeTag}"
-
   }
 }
 
+#Adding BGInfo to VM
+
+resource "azurerm_virtual_machine_extension" "Terra-BGInfoAgentVMWithoutDataDisk" {
+  count                = "${var.WithDataDisk ? 0 : var.VMCount}"
+  name                 = "${var.VMName}${count.index+1}BGInfo"
+  location             = "${var.VMLocation}"
+  resource_group_name  = "${var.VMRG}"
+  virtual_machine_name = "${element(azurerm_virtual_machine.TerraVMwithCount.*.name,count.index)}"
+  publisher            = "microsoft.compute"
+  type                 = "BGInfo"
+  type_handler_version = "2.1"
+
+  /*
+    settings = <<SETTINGS
+          {   
+          
+          "commandToExecute": ""
+          }
+  SETTINGS
+  */
+    tags {
+    Environment         = "${var.EnvironmentTag}"
+    Usage               = "${var.EnvironmentUsageTag}"
+    Owner               = "${var.OwnerTag}"
+    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    }
+}

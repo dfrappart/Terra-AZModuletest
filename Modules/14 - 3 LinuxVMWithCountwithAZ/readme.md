@@ -1,3 +1,3 @@
 #This module deploys (a) Linux VM(s) with AZ
 #Choose a fixed AZ target with the VMAZ variable or let the module distribute the VMs in the AZ automatically
-# beware, for now if count is grater than 3, the AZ value will try to go beyond its limit 'usually 3)
+# beware, for now, i did not find a function to round robin from 1 to 3, so if the AZ is not specified, the module will use a list to distribute the AZ with a mawx value to 12 count

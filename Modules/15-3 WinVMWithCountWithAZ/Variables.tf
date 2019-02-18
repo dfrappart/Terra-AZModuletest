@@ -1,5 +1,5 @@
 ###################################################################################
-#This module allows the creation of n Linux VM with 1 NIC
+#This module allows the creation of 1 Windows VM with 1 NIC
 ###################################################################################
 
 #Variable declaration for Module
@@ -36,15 +36,6 @@ variable "VMSize" {
   default = "Standard_F1"
 }
 
-/* NO coexistence between AS and AZ
-#The Availability set reference
-
-variable "ASID" {
-  type = "string"
-}
-
-*/
-
 #The Target AZ for the VM
 variable "VMAZ" {
   type = "string"
@@ -76,11 +67,18 @@ variable "VMAdminPassword" {
   type = "string"
 }
 
+#The OS Disk Size
+
+variable "OSDisksize" {
+  type    = "string"
+  default = "128"
+}
+
 # Managed Data Disk reference
 
 variable "DataDiskId" {
   type = "list"
-  default = ["NoDatadisk"]
+  default = ["256"]
 }
 
 # Managed Data Disk Name
@@ -121,27 +119,6 @@ variable "DiagnosticDiskURI" {
   type = "string"
 }
 
-/*
-#The boot config file name
-
-variable "BootConfigScriptFileName" {
-
-  type    = "string"
-
-}
-*/
-
-variable "PublicSSHKey" {
-  type = "string"
-}
-
-#Variable defining the PAssword activation
-
-variable "PasswordDisabled" {
-  type    = "string"
-  default = "true"
-}
-
 #Tag info
 
 variable "EnvironmentTag" {
@@ -154,14 +131,18 @@ variable "EnvironmentUsageTag" {
   default = "Poc usage only"
 }
 
+variable "CloudinitscriptPath" {
+  type = "string"
+}
+
 variable "VMTypeTag" {
   type = "string"
-  defualt = "Base"
+  default = "Base"
 }
 
 variable "VMOSTag" {
   type = "string"
-  default = "Linux"
+  default = "Win2016"
 }
 
 
@@ -180,8 +161,6 @@ variable "SLAUptimeTag" {
   #Can be 5712, 5724, 7724
   default = "5712"
 }
-
-#Variable for condition on Data disk
 
 variable "WithDataDisk" {
   type = "string"

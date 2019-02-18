@@ -28,7 +28,14 @@ variable "ManagedDiskLocation" {
 #The Zone in which the MD resides
 variable "ManagedDiskZone" {
   type = "string"
-  default = "1"
+  default = "0"
+}
+
+#List variable for AZ
+
+variable "AZ" {
+  type = "list"
+  default = ["1","2","3","1","2","3","1","2","3","1","2","3"]
 }
 #The underlying Storage account type. Value accepted are Standard_LRS and Premium_LRS
 variable "StorageAccountType" {
