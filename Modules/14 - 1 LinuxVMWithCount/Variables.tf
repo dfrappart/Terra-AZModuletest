@@ -139,7 +139,7 @@ variable "EnvironmentUsageTag" {
 
 variable "VMTypeTag" {
   type = "string"
-  defualt = "Base"
+  default = "Base"
 }
 
 variable "VMOSTag" {
