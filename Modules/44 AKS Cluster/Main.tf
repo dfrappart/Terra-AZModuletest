@@ -11,7 +11,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
   resource_group_name = "${var.AKSRGName}"
   
   agent_pool_profile {
-    name              = "${var.AKSAgentPoolName}"
+    name              = "${lower(var.AKSAgentPoolName)}"
     count             = "${var.AKSNodeCount}" 
     vm_size           = "${var.AKSNodeInstanceType}" 
     os_type           = "${var.AKSNodeOSType}"
@@ -37,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
     
     oms_agent {
       enabled                 = "true"
-      log_analytics_workspace = "${var.AKSLAWId}"
+      log_analytics_workspace = "${lower(var.AKSLAWId)}"
     }
   }
   
