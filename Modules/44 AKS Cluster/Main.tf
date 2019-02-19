@@ -31,11 +31,14 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
   }
 
   addon_profile {
+    http_application_routing {
+      enabled = "${var.IshttproutingEnabled}"
+    }
+    
     oms_agent {
       enabled                 = "true"
       log_analytics_workspace = "${var.AKSLAWId}"
     }
-
   }
   
   kubernetes_version = "${var.KubeVersion}"
@@ -54,6 +57,18 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
     dns_service_ip        = "${var.AKSDNSSVCIP}"
     docker_bridge_cidr    = "${var.AKSDockerBridgeCIDR}"
     service_cidr          = "${var.AKSSVCCIDR}"
+
+  }
+
+  role_based_access_control {
+    enabled           = "true"
+
+    azure_active_directory {
+      client_app_id       = "${var.AADCliId}"
+      server_app_id       = "${var.AADAppId}"
+      server_app_secret   = "${var.AADAppSecret}"
+      tenant_id           = "${var.AADTenantId}"
+    }
 
   }
 

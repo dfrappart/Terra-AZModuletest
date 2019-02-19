@@ -6,6 +6,7 @@
 
 variable "AKSClusName" {
   type = "string"
+  default = "TerraAkSClus"
 }
 
 variable "AKSLocation" {
@@ -18,23 +19,28 @@ variable "AKSRGName" {
 
 variable "AKSAgentPoolName" {
   type = "string"
+  default = "TerraAKSAP"
 }
 
 variable "AKSNodeCount" {
   type = "string"
+  default = "3"
 }
 
 
 variable "AKSNodeInstanceType" {
   type = "string"
+  default = "Standard_DS2_v2"
 }
 
 variable "AKSNodeOSType" {
   type = "string"
+  default = "Linux"
 }
 
 variable "AKSNodeOSDiskSize" {
   type = "string"
+  default = "30"
 }
 
 variable "AKSSubnetId" {
@@ -43,10 +49,12 @@ variable "AKSSubnetId" {
 
 variable "AKSMaxPods" {
   type = "string"
+  default = "100"
 }
 
 variable "AKSprefix" {
   type = "string"
+  default = "terraaksdfr"
 }
 
 variable "K8SSPId" {
@@ -63,10 +71,12 @@ variable "AKSLAWId" {
 
 variable "KubeVersion" {
   type = "string"
+  default = "1.12"
 }
 
 variable "AKSAdminName" {
   type = "string"
+  default = "AKSAdmin"
 }
 
 variable "PublicSSHKey" {
@@ -75,14 +85,17 @@ variable "PublicSSHKey" {
 
 variable "AKSDNSSVCIP" {
   type = "string"
+  default = "172.19.0.10"
 }
 
 variable "AKSDockerBridgeCIDR" {
   type = "string"
+  default = ""
 }
 
 variable "AKSSVCCIDR" {
   type = "string"
+  default = "172.19.0.0/16"
 }
 
 variable "IshttproutingEnabled" {
