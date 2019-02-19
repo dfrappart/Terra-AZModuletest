@@ -5,22 +5,59 @@
 
 #Output for the vNET module
 
-output "Name" {
-  value = "${azurerm_virtual_network.Terra-vNet.name}"
+output "KubeName" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.name}"
 }
 
-output "Id" {
-  value = "${azurerm_virtual_network.Terra-vNet.id}"
+output "KubeLocation" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.location}"
 }
 
-output "AddressSpace" {
-  value = "${azurerm_virtual_network.Terra-vNet.address_space}"
+output "KubeRG" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.resource_group_name}"
 }
 
-output "RGName" {
-  value = "${azurerm_virtual_network.Terra-vNet.resource_group_name}"
+output "KubeVersion" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kubernetes_version}"
 }
 
-output "RGLocation" {
-  value = "${azurerm_virtual_network.Terra-vNet.location}"
+
+output "KubeId" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.id}"
 }
+
+
+output "KubeFQDN" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.fqdn}"
+}
+
+
+output "KubeAdminCFG" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_admin_config}"
+}
+
+
+output "KubeAdminCFGRaw" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_admin_config_raw}"
+}
+
+
+output "KubeCfg" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config}"
+}
+
+
+output "KubeCfgRaw" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config_raw}"
+}
+
+
+output "HTTPAppRouting" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing}"
+}
+
+
+output "NodeRG" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.node_resource_group}"
+}
+
