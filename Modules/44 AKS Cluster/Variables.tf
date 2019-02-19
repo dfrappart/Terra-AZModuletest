@@ -90,7 +90,7 @@ variable "AKSDNSSVCIP" {
 
 variable "AKSDockerBridgeCIDR" {
   type = "string"
-  default = ""
+  default = "172.17.0.1/16"
 }
 
 variable "AKSSVCCIDR" {
@@ -100,11 +100,10 @@ variable "AKSSVCCIDR" {
 
 variable "IshttproutingEnabled" {
   type = "string"
+  default = "true"
 }
 
-variable "IshttproutingEnabled" {
-  type = "string"
-}
+
 
 variable "AKSLAWId" {
   type = "string"
