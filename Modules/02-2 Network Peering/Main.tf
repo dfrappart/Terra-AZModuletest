@@ -13,6 +13,7 @@ resource "azurerm_virtual_network_peering" "TerraVNetPeering" {
   allow_virtual_network_access  = "${var.IsVirtualNetworkAcccessAllowed}"
   allow_forwarded_traffic       = "${var.IsForwardedTrafficAllowed}"
   allow_gateway_transit         = "${var.IsGWTransitAllowed}"
+  use_remote_gateways           = "${var.UseRemoteGW}"
 
 }
 

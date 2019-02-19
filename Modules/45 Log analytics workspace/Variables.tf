@@ -4,46 +4,43 @@
 
 #Variable declaration for Module
 
-variable "VNetPeeringName" {
+variable "LAWName" {
+  type    = "string"
+  default = "TerraLAW"
+}
+
+variable "LAWLocation" {
   type    = "string"
 
 }
 
-variable "RGName" {
+variable "LAWRGName" {
   type    = "string"
 
 }
 
-variable "LocalVNetName" {
+variable "LAWSku" {
   type    = "string"
+  default = "PerGB2018"
 
 }
 
-variable "RemoteVNetId" {
+variable "EnvironmentTag" {
   type    = "string"
-
+  default = "Poc"
 }
 
-variable "IsVirtualNetworkAcccessAllowed" {
+variable "EnvironmentUsageTag" {
   type    = "string"
-  default = "false"
-
+  default = "Poc usage only"
 }
 
-variable "IsForwardedTrafficAllowed" {
+variable "OwnerTag" {
   type    = "string"
-  default = "false"
-
+  default = "That would be me"
 }
 
-variable "IsGWTransitAllowed" {
+variable "ProvisioningDateTag" {
   type    = "string"
-  default = "false"
-
-}
-
-variable "UseRemoteGW" {
-  type    = "string"
-  default = "false"
-
+  default = "Today :)"
 }

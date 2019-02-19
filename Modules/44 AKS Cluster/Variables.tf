@@ -4,25 +4,99 @@
 
 #Variable declaration for Module
 
-variable "vNetName" {
-  type    = "string"
-  default = "DefaultvNet"
+variable "AKSClusName" {
+  type = "string"
 }
 
-variable "RGName" {
-  type    = "string"
-  default = "DefaultRSG"
+variable "AKSLocation" {
+  type = "string"
 }
 
-variable "vNetLocation" {
-  type    = "string"
-  default = "Westeurope"
+variable "AKSRGName" {
+  type = "string"
 }
 
-variable "vNetAddressSpace" {
-  type    = "list"
-  default = ["10.0.0.0/20"]
+variable "AKSAgentPoolName" {
+  type = "string"
 }
+
+variable "AKSNodeCount" {
+  type = "string"
+}
+
+
+variable "AKSNodeInstanceType" {
+  type = "string"
+}
+
+variable "AKSNodeOSType" {
+  type = "string"
+}
+
+variable "AKSNodeOSDiskSize" {
+  type = "string"
+}
+
+variable "AKSSubnetId" {
+  type = "string"
+}
+
+variable "AKSMaxPods" {
+  type = "string"
+}
+
+variable "AKSprefix" {
+  type = "string"
+}
+
+variable "K8SSPId" {
+  type = "string"
+}
+
+variable "K8SSPSecret" {
+  type = "string"
+}
+
+variable "AKSLAWId" {
+  type = "string"
+}
+
+variable "KubeVersion" {
+  type = "string"
+}
+
+variable "AKSAdminName" {
+  type = "string"
+}
+
+variable "PublicSSHKey" {
+  type = "string"
+}
+
+variable "AKSDNSSVCIP" {
+  type = "string"
+}
+
+variable "AKSDockerBridgeCIDR" {
+  type = "string"
+}
+
+variable "AKSSVCCIDR" {
+  type = "string"
+}
+
+variable "IshttproutingEnabled" {
+  type = "string"
+}
+
+variable "IshttproutingEnabled" {
+  type = "string"
+}
+
+variable "AKSLAWId" {
+  type = "string"
+}
+
 
 variable "EnvironmentTag" {
   type    = "string"

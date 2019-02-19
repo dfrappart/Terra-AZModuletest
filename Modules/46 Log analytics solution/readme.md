@@ -1,0 +1,1 @@
+#This module deploys a log analytic solution
