@@ -37,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
     
     oms_agent {
       enabled                 = "true"
-      log_analytics_workspace = "${lower(var.AKSLAWId)}"
+      log_analytics_workspace_id = "${lower(var.AKSLAWId)}"
     }
   }
   
