@@ -71,7 +71,7 @@ variable "AKSLAWId" {
 
 variable "KubeVersion" {
   type = "string"
-  default = "1.12"
+  default = "1.12.5"
 }
 
 variable "AKSAdminName" {
