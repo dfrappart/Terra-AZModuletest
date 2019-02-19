@@ -103,12 +103,25 @@ variable "IshttproutingEnabled" {
   default = "true"
 }
 
-
-
-variable "AKSLAWId" {
+variable "AADTenantId" {
   type = "string"
+  default = "true"
 }
 
+variable "AADAppSecret" {
+  type = "string"
+
+}
+
+variable "AADAppId" {
+  type = "string"
+
+}
+
+variable "AADCliId" {
+  type = "string"
+
+}
 
 variable "EnvironmentTag" {
   type    = "string"
