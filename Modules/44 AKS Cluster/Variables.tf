@@ -105,7 +105,7 @@ variable "IshttproutingEnabled" {
 
 variable "AADTenantId" {
   type = "string"
-  default = "true"
+
 }
 
 variable "AADAppSecret" {
