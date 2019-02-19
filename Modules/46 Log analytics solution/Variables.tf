@@ -28,3 +28,13 @@ variable "LAWName" {
   type    = "string"
 
 }
+
+variable "LASolPublisher" {
+  type    = "string"
+
+}
+
+variable "LASolProductName" {
+  type    = "string"
+
+}
