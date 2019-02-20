@@ -118,7 +118,7 @@ variable "AADServerAppId" {
 
 }
 
-variable "AADCliId" {
+variable "AADCliAppId" {
   type = "string"
 
 }
