@@ -108,12 +108,12 @@ variable "AADTenantId" {
 
 }
 
-variable "AADAppSecret" {
+variable "AADServerAppSecret" {
   type = "string"
 
 }
 
-variable "AADAppId" {
+variable "AADServerAppId" {
   type = "string"
 
 }
@@ -121,6 +121,11 @@ variable "AADAppId" {
 variable "AADCliId" {
   type = "string"
 
+}
+
+variable "IsRBACEnable" {
+  type = "string"
+  default = "true"
 }
 
 variable "EnvironmentTag" {
