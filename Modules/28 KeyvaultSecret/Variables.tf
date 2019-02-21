@@ -12,7 +12,7 @@ variable "PasswordValue" {
   type = "string"
 }
 
-variable "VaultURI" {
+variable "KeyVaultId" {
   type = "string"
 }
 

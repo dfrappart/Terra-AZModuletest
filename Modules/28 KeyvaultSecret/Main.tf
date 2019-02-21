@@ -7,9 +7,9 @@
 #Resource Creation
 
 resource "azurerm_key_vault_secret" "TerraSecret" {
-  name      = "${var.PasswordName}"
-  value     = "${var.PasswordValue}"
-  vault_uri = "${var.VaultURI}"
+  name          = "${var.PasswordName}"
+  value         = "${var.PasswordValue}"
+  key_vault_id  = "${var.KeyVaultId}"
 
     tags {
     Environment         = "${var.EnvironmentTag}"
