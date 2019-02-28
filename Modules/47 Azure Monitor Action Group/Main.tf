@@ -9,7 +9,7 @@ resource "azurerm_monitor_action_group" "TerraLogTerraActionGroup" {
   name                    = "${var.AGName}"
   resource_group_name     = "${var.AGRGName}"
   short_name              = "${var.AGSName}"
-  enabled                 = "${var.Isenabled}"
+  enabled                 = "${var.IsEnabled}"
 
   email_receiver {
     name            = "${var.EmailReceiver1}"
