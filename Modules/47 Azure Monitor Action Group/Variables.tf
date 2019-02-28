@@ -14,19 +14,23 @@ variable "AGName" {
 #The Action Group Resource Group
 variable "AGRGName" {
   type    = "string"
-  default = "true"
 
 }
 
+#The Action Group Short Name
 variable "AGSName" {
   type    = "string"
-  default = "true"
+
 
 }
 
+#Is the action group enabled ?
 variable "IsEnabled" {
   type = "string"
+  default = "true"
 }
+
+
 #The name of the Email Receiver 1
 variable "EmailReceiver1" {
   type    = "string"
