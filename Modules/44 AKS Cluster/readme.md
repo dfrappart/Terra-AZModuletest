@@ -1,5 +1,5 @@
 ######################################################################
-#AKS Cluster module
+# AKS Cluster module
 ######################################################################
 
 This module allows the deployment of an AKS cluster
