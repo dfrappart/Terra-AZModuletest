@@ -1,12 +1,12 @@
-#This module deploys an AKS Cluster
-#It includes a condition to deploy either an RBAC enabled Cluster, or not
-#Use is as follow:
+*This module deploys an AKS Cluster
+*It includes a condition to deploy either an RBAC enabled Cluster, or not
+*Use is as follow:
 
 ######################################################################
 # RG for AKS managed cluster
 ######################################################################
 
-# Creating the ResourceGroups
+# Creating the ResourceGroup
 ```hcl
 module "ResourceGroupAKS" {
   #Module Location
