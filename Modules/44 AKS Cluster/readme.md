@@ -7,7 +7,7 @@
 ######################################################################
 
 # Creating the ResourceGroups
-
+```hcl
 module "ResourceGroupAKS" {
   #Module Location
   source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
@@ -21,13 +21,13 @@ module "ResourceGroupAKS" {
   ProvisioningDateTag = "${var.ProvisioningDateTag}"
 
 }
-
+```
 ######################################################################
-# This file deploy an AKS cluster in advanced networking mode
+# This section deploys an AKS cluster in advanced networking mode
 ######################################################################
 
 
-
+```hcl
 module "AKSClus" {
   #Module Location
   source = "github.com/dfrappart/Terra-AZModuletest//Modules//44 AKS Cluster/"
@@ -51,3 +51,5 @@ module "AKSClus" {
   IsRBACEnable        = "true"
 
 }
+
+```
