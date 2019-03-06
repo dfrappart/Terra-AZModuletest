@@ -1,5 +1,5 @@
 ######################################################################
-# AKS Cluster module
+# Log Analytic module
 ######################################################################
 
 This module allows the deployment of Log Analytic workplace.
