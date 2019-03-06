@@ -36,7 +36,29 @@ output "KubeAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config}"
 }
 
+output "KubeAdminCFG_HostName" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host}"
+}
 
+output "KubeAdminCFG_UserName" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username}"
+}
+
+output "KubeAdminCFG_Password" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password}"
+}
+
+output "KubeAdminCFG_ClientCertificate" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate}"
+}
+
+output "KubeAdminCFG_ClientKey" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key}"
+}
+
+output "KubeAdminCFG_ClientCert" {
+  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate}"
+}
 output "KubeAdminCFGRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw}"
 }
@@ -92,7 +114,7 @@ output "KubeNoRBACFQDN" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.fqdn}"
 }
 
-
+/*
 output "KubeNoRBACAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_admin_config}"
 }
@@ -102,6 +124,7 @@ output "KubeNoRBACAdminCFGRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_admin_config_raw}"
 }
 
+*/
 
 output "KubeNoRBACCfg" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config}"
