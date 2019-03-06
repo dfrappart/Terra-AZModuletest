@@ -56,7 +56,7 @@ output "KubeAdminCFG_ClientKey" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key}"
 }
 
-output "KubeAdminCFG_ClientCert" {
+output "KubeAdminCFG_ClusCACert" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate}"
 }
 output "KubeAdminCFGRaw" {
