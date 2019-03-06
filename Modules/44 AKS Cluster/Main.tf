@@ -23,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
 
   }
   
-  dns_prefix = "${var.AKSprefix}"
+  dns_prefix = "${lower(var.AKSprefix)}"
 
   service_principal {
     client_id         = "${var.K8SSPId}"
