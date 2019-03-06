@@ -60,19 +60,19 @@ output "KubeAdminCFG_ClusCACert" {
   value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate : "0"}"
 }
 output "KubeAdminCFGRaw" {
-  sensitive = "true"
+  sensitive = true
   value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw : "0"}"
 }
 
 
 output "KubeCfg" {
-  sensitive = "true"
+  sensitive = true
   value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_config : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config}"
 }
 
 
 output "KubeCfgRaw" {
-  sensitive = "true"
+  sensitive = true
   value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_config_raw : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config_raw}"
 }
 
