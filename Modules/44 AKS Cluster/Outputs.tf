@@ -6,7 +6,7 @@
 #Output for the AKS module with RBAC enabled
 
 output "KubeName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.name}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.name : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.name}"
 }
 
 output "KubeLocation" {
@@ -87,11 +87,11 @@ output "NodeRG" {
 
 
 #Output for the AKS module without RBAC enabled
-
+/*
 output "KubeNoRBACName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.name}"
 }
-
+*/
 output "KubeNoRBACLocation" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.location}"
 }
