@@ -10,67 +10,70 @@ output "KubeName" {
 }
 
 output "KubeLocation" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.location}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.location : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.location}"
 }
 
 output "KubeRG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.resource_group_name}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.resource_group_name : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.resource_group_name}"
 }
 
 output "KubeVersion" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kubernetes_version}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kubernetes_version : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kubernetes_version}"
 }
 
 
 output "KubeId" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.id}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.id : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.id}"
 }
 
 
 output "KubeFQDN" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.fqdn}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.fqdn : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.fqdn}"
 }
 
 
 output "KubeAdminCFG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config : "0"}"
 }
 
 output "KubeAdminCFG_HostName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host : "0"}"
 }
 
 output "KubeAdminCFG_UserName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username : "0"}"
 }
 
 output "KubeAdminCFG_Password" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password : "0"}"
 }
 
 output "KubeAdminCFG_ClientCertificate" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate : "0"}"
 }
 
 output "KubeAdminCFG_ClientKey" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key : "0"}"
 }
 
 output "KubeAdminCFG_ClusCACert" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate}"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate : "0"}"
 }
 output "KubeAdminCFGRaw" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw}"
+  sensitive = "true"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw : "0"}"
 }
 
 
 output "KubeCfg" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_config}"
+  sensitive = "true"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_config : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config}"
 }
 
 
 output "KubeCfgRaw" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_config_raw}"
+  sensitive = "true"
+  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_config_raw : azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config_raw}"
 }
 
 /*
@@ -91,7 +94,7 @@ output "NodeRG" {
 output "KubeNoRBACName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.name}"
 }
-*/
+
 output "KubeNoRBACLocation" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.location}"
 }
@@ -114,17 +117,7 @@ output "KubeNoRBACFQDN" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.0.fqdn}"
 }
 
-/*
-output "KubeNoRBACAdminCFG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_admin_config}"
-}
 
-
-output "KubeNoRBACAdminCFGRaw" {
-  value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_admin_config_raw}"
-}
-
-*/
 
 output "KubeNoRBACCfg" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config}"
@@ -135,12 +128,14 @@ output "KubeNoRBACCfgRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config_raw}"
 }
 
-/*
+
 output "HTTPAppRouting" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing}"
 }
 
-*/
+
 output "NoRBACNodeRG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.node_resource_group}"
 }
+
+*/
