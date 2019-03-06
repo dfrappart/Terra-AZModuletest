@@ -7,8 +7,6 @@ This module allows the deployment of Log Analytic workplace.
 Use is as follow:
 
 
-# RG for AKS managed cluster
-
 
 # Creating the ResourceGroup
 ```hcl
