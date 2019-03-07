@@ -67,7 +67,7 @@ output "KubeAdminCFGRaw" {
 
 output "KubeCfg" {
   sensitive = true
-  value = ["${vazurerm_kubernetes_cluster.TerraAKS.0.kube_config}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.kube_config}"]
 }
 
 
