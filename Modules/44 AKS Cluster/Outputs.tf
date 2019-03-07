@@ -33,7 +33,7 @@ output "KubeFQDN" {
 
 
 output "KubeAdminCFG" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config : "0"}"
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.kube_admin_config}"]
 }
 
 output "KubeAdminCFG_HostName" {
