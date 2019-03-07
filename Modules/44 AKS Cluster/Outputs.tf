@@ -6,29 +6,29 @@
 #Output for the AKS module with RBAC enabled
 
 output "KubeName" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.name}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.name}"]
 }
 
 output "KubeLocation" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.location}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.location}"]
 }
 
 output "KubeRG" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.resource_group_name}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.resource_group_name}"]
 }
 
 output "KubeVersion" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.kubernetes_version}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.kubernetes_version}"]
 }
 
 
 output "KubeId" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.id}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.id}"]
 }
 
 
 output "KubeFQDN" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.fqdn}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.fqdn}"]
 }
 
 
@@ -67,13 +67,13 @@ output "KubeAdminCFGRaw" {
 
 output "KubeCfg" {
   sensitive = true
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.kube_config}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.kube_config}"]
 }
 
 
 output "KubeCfgRaw" {
   sensitive = true
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.kube_config_raw}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.kube_config_raw}"]
 }
 
 /*
@@ -84,7 +84,7 @@ output "HTTPAppRouting" {
 */
 
 output "NodeRG" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.node_resource_group}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.node_resource_group}"]
 }
 
 
@@ -92,40 +92,40 @@ output "NodeRG" {
 #Output for the AKS module without RBAC enabled
 
 output "KubeNoRBACName" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.name}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.name}"]
 }
 
 output "KubeNoRBACLocation" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.location}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.location}"]
 }
 
 output "KubeNoRBACRG" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.resource_group_name}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.resource_group_name}"]
 }
 
 output "KubeNoRBACVersion" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kubernetes_version}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.kubernetes_version}"]
 }
 
 
 output "KubeNoRBACId" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.id}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.id}"]
 }
 
 
 output "KubeNoRBACFQDN" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKS.0.fqdn}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKS.*.fqdn}"]
 }
 
 
 
 output "KubeNoRBACCfg" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.kube_config}"]
 }
 
 
 output "KubeNoRBACCfgRaw" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.kube_config_raw}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.kube_config_raw}"]
 }
 
 /*
@@ -135,6 +135,6 @@ output "HTTPAppRouting" {
 */
 
 output "NoRBACNodeRG" {
-  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.0.node_resource_group}"]
+  value = ["${azurerm_kubernetes_cluster.TerraAKSNoRBAC.*.node_resource_group}"]
 }
 
