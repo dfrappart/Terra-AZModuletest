@@ -75,7 +75,7 @@ variable "VMAdminPassword" {
 }
 
 
-  type = "list"
+
 /*
 # Managed Data Disk reference
 
