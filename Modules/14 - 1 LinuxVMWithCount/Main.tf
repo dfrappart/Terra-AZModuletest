@@ -35,7 +35,8 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     create_option     = "FromImage"
     managed_disk_type = "${var.VMStorageTier}"
   }
-
+/*
+#Block code removed in favor of managed disk attachment
   storage_data_disk {
     name            = "${element(var.DataDiskName,count.index)}"
     managed_disk_id = "${element(var.DataDiskId,count.index)}"
@@ -43,7 +44,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     lun             = 0
     disk_size_gb    = "${element(var.DataDiskSize,count.index)}"
   }
-
+*/
   os_profile {
     computer_name  = "${var.VMName}"
     admin_username = "${var.VMAdminName}"

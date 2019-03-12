@@ -3,9 +3,24 @@
 ###################################################################################
 
 
+data "template_file" "cloudconfig" {
+  #template = "${file("./script.sh")}"
+  template = "${file("${path.root}${var.CloudinitscriptPath}")}"
+}
+
+#https://www.terraform.io/docs/providers/template/d/cloudinit_config.html
+data "template_cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content = "${data.template_file.cloudconfig.rendered}"
+  }
+}
+
 #VM Creation
 
-resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
+resource "azurerm_virtual_machine" "TerraVMwithCount" {
   count                 = "${var.VMCount}"
   name                  = "${var.VMName}${count.index+1}"
   location              = "${var.VMLocation}"
@@ -37,6 +52,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
     managed_disk_type = "${var.VMStorageTier}"
   }
 
+
 /*
 #block code removed in favor of managed disk association
   storage_data_disk {
@@ -48,15 +64,14 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
   }
 */
   os_profile {
-    computer_name  = "${var.VMName}"
+    computer_name  = "${var.VMName}${count.index+1}"
     admin_username = "${var.VMAdminName}"
     admin_password = "${var.VMAdminPassword}"
-
-    #custom_data     = "${file("${var.BootConfigScriptFileName}")}"
+    custom_data    = "${data.template_cloudinit_config.config.rendered}"
   }
 
   os_profile_linux_config {
-    disable_password_authentication = "${var.PasswordDisabled}"
+    disable_password_authentication = true
 
     ssh_keys {
       path     = "/home/${var.VMAdminName}/.ssh/authorized_keys"
@@ -72,6 +87,5 @@ resource "azurerm_virtual_machine" "TerraVMwithCountWithAZ" {
     Owner             = "${var.OwnerTag}"
     ProvisioningDate  = "${var.ProvisioningDateTag}"
     SLAUptime         = "${var.SLAUptimeTag}"
-
   }
 }

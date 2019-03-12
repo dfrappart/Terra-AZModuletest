@@ -51,6 +51,9 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     managed_disk_type = "${var.VMStorageTier}"
   }
 
+
+/*
+#block code removed in favor of managed disk association
   storage_data_disk {
     name            = "${element(var.DataDiskName,count.index)}"
     managed_disk_id = "${element(var.DataDiskId,count.index)}"
@@ -58,7 +61,7 @@ resource "azurerm_virtual_machine" "TerraVMwithCount" {
     lun             = 0
     disk_size_gb    = "${element(var.DataDiskSize,count.index)}"
   }
-
+*/
   os_profile {
     computer_name  = "${var.VMName}${count.index+1}"
     admin_username = "${var.VMAdminName}"

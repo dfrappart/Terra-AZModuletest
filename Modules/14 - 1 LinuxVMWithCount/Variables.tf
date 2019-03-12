@@ -62,8 +62,8 @@ variable "VMAdminPassword" {
   type = "string"
 }
 
-# Managed Data Disk reference
-
+# Managed Data Disk reference / Removed in favor of manage ddisk attachment
+/*
 variable "DataDiskId" {
   type = "list"
 }
@@ -79,7 +79,7 @@ variable "DataDiskName" {
 variable "DataDiskSize" {
   type = "list"
 }
-
+*/
 # VM images info
 #get appropriate image info with the following command
 #Get-AzureRMVMImagePublisher -location WestEurope
