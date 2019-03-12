@@ -183,9 +183,3 @@ variable "SLAUptimeTag" {
   default = "5712"
 }
 
-#Variable for condition on Data disk
-
-variable "WithDataDisk" {
-  type = "string"
-  default = "true"
-}

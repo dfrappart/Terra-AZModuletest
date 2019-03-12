@@ -36,12 +36,24 @@ variable "VMSize" {
   default = "Standard_F1"
 }
 
-#The Availability set reference
-
+#The Availability set reference #not available when unsing AZ
+/*
 variable "ASID" {
   type = "string"
 }
+*/
 
+#The Target AZ for the VM
+variable "VMAZ" {
+  type = "string"
+  default = "1"
+}
+
+#If count greater than 1, round robin on AZ
+variable "AZ" {
+  type = "list"
+  default = ["1","2","3","1","2","3","1","2","3","1","2","3"]
+}
 #The Managed Disk Storage tier
 
 variable "VMStorageTier" {
