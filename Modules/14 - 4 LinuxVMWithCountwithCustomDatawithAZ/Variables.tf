@@ -123,6 +123,7 @@ variable "DiagnosticDiskURI" {
 
 variable "CloudinitscriptPath" {
   type = "string"
+  default = "./Scripts/installansible.sh"
 }
 
 variable "PublicSSHKey" {
