@@ -11,6 +11,7 @@ resource "azurerm_lb" "TerraExtLB" {
   name                = "${var.ExtLBName}${count.index+1}"
   location            = "${var.AzureRegion}"
   resource_group_name = "${var.RGName}"
+  sku                 = "${var.LBSku}"
 
   frontend_ip_configuration {
     name                 = "${var.FEConfigName}"

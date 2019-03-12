@@ -76,3 +76,9 @@ variable "ProvisioningDateTag" {
   type    = "string"
   default = "Today :)"
 }
+
+
+variable "LBSku" {
+  type    = "string"
+  default = "basic"
+}
