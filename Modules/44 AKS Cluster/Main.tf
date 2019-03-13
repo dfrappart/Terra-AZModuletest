@@ -6,7 +6,7 @@
 #Creating the AKS Cluster with RBAC Enabled and AAD integration
 
 resource "azurerm_kubernetes_cluster" "TerraAKS" {
-  count               = "${var.IsRBACEnable == "true" ? 1 : 0}"
+  count               = "${var.IsRBACEnable ? 1 : 0}"
   name                = "${var.AKSClusName}"
   location            = "${var.AKSLocation}"
   resource_group_name = "${var.AKSRGName}"
@@ -84,7 +84,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
 #Creating the AKS Cluster without RBAC Enabled and AAD integration
 
 resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
-  count               = "${var.IsRBACEnable == "false" ? 1 : 0}"
+  count               = "${var.IsRBACEnable ? 0 : 1}"
   name                = "${var.AKSClusName}"
   location            = "${var.AKSLocation}"
   resource_group_name = "${var.AKSRGName}"

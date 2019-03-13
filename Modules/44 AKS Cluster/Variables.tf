@@ -125,7 +125,7 @@ variable "AADCliAppId" {
 
 variable "IsRBACEnable" {
   type = "string"
-  default = "true"
+  default = true
 }
 
 variable "EnvironmentTag" {

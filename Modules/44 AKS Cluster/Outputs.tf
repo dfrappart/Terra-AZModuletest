@@ -37,31 +37,31 @@ output "KubeAdminCFG" {
 }
 
 output "KubeAdminCFG_HostName" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host : "0"}"
 }
 
 output "KubeAdminCFG_UserName" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username : "0"}"
 }
 
 output "KubeAdminCFG_Password" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password : "0"}"
 }
 
 output "KubeAdminCFG_ClientCertificate" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate : "0"}"
 }
 
 output "KubeAdminCFG_ClientKey" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key : "0"}"
 }
 
 output "KubeAdminCFG_ClusCACert" {
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate : "0"}"
 }
 output "KubeAdminCFGRaw" {
   sensitive = true
-  value = "${var.IsRBACEnable == "true" ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw : "0"}"
+  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw : "0"}"
 }
 
 
