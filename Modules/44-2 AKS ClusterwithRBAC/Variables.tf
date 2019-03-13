@@ -100,7 +100,27 @@ variable "AKSSVCCIDR" {
 
 variable "IshttproutingEnabled" {
   type = "string"
-  default = true
+  default = "true"
+}
+
+variable "AADTenantId" {
+  type = "string"
+
+}
+
+variable "AADServerAppSecret" {
+  type = "string"
+
+}
+
+variable "AADServerAppId" {
+  type = "string"
+
+}
+
+variable "AADCliAppId" {
+  type = "string"
+
 }
 
 

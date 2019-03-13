@@ -2,10 +2,11 @@
 #This module allows the creation of an AKS Cluster
 ################################################################
 
-#Creating the AKS Cluster without RBAC Enabled and AAD integration
 
-resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
+#Creating the AKS Cluster with RBAC Enabled and AAD integration
 
+resource "azurerm_kubernetes_cluster" "TerraAKS" {
+  count               = "${var.IsRBACEnable ? 1 : 0}"
   name                = "${var.AKSClusName}"
   location            = "${var.AKSLocation}"
   resource_group_name = "${var.AKSRGName}"
@@ -22,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
 
   }
   
-  dns_prefix = "${var.AKSprefix}"
+  dns_prefix = "${lower(var.AKSprefix)}"
 
   service_principal {
     client_id         = "${var.K8SSPId}"
@@ -36,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
     }
     
     oms_agent {
-      enabled                 = "true"
+      enabled                 = true
       log_analytics_workspace_id = "${lower(var.AKSLAWId)}"
     }
   }
@@ -60,6 +61,17 @@ resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
 
   }
 
+  role_based_access_control {
+    enabled           = true
+
+    azure_active_directory {
+      client_app_id       = "${var.AADCliAppId}"
+      server_app_id       = "${var.AADServerAppId}"
+      server_app_secret   = "${var.AADServerAppSecret}"
+      tenant_id           = "${var.AADTenantId}"
+    }
+
+  }
 
   tags {
     Environment       = "${var.EnvironmentTag}"
@@ -68,3 +80,4 @@ resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
     ProvisioningDate  = "${var.ProvisioningDateTag}"
   }
 }
+
