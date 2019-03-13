@@ -5,7 +5,7 @@
 
 #Creating a vNet
 
-resource "azurerm_monitor_action_group" "TerraLogTerraActionGroup" {
+resource "azurerm_monitor_action_group" "TerraActionGroup" {
   name                    = "${var.AGName}"
   resource_group_name     = "${var.AGRGName}"
   short_name              = "${var.AGSName}"

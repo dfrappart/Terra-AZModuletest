@@ -16,13 +16,6 @@ variable "RGName" {
   type = "string"
 }
 
-variable "FEConfigName" {
-  type = "string"
-}
-
-variable "PublicIPId" {
-  type = "string"
-}
 
 variable "EnvironmentTag" {
   type = "string"

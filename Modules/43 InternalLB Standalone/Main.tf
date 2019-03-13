@@ -5,16 +5,12 @@
 
 # Creating Azure Load Balancer for front end http / https
 
-resource "azurerm_lb" "TerraExtLB" {
+resource "azurerm_lb" "TerraIntLB" {
   name                = "${var.ExtLBName}"
   location            = "${var.AzureRegion}"
   resource_group_name = "${var.RGName}"
   sku                 = "${var.LBSku}"
 
-  frontend_ip_configuration {
-    name                 = "${var.FEConfigName}"
-    public_ip_address_id = "${var.PublicIPId}"
-  }
 
   tags {
     Environment       = "${var.EnvironmentTag}"

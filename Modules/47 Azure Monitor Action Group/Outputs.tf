@@ -6,25 +6,25 @@
 #Output for the module
 
 output "AGName" {
-  value = "${azurerm_monitor_action_group.TerraLogTerraActionGroup.name}"
+  value = "${azurerm_monitor_action_group.TerraActionGroup.name}"
 }
 
 
 output "AGRGName" {
-  value = "${azurerm_monitor_action_group.TerraLogTerraActionGroup.resource_group_name}"
+  value = "${azurerm_monitor_action_group.TerraActionGroup.resource_group_name}"
 }
 
 output "AGSName" {
-  value = "${azurerm_monitor_action_group.TerraLogTerraActionGroup.short_name}"
+  value = "${azurerm_monitor_action_group.TerraActionGroup.short_name}"
 }
 
 
 output "AGIsEnabled" {
-  value = "${azurerm_monitor_action_group.TerraLogTerraActionGroup.enabled}"
+  value = "${azurerm_monitor_action_group.TerraActionGroup.enabled}"
 }
 
 output "AGId" {
-  value = "${azurerm_monitor_action_group.TerraLogTerraActionGroup.id}"
+  value = "${azurerm_monitor_action_group.TerraActionGroup.id}"
 }
 
 
