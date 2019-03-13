@@ -61,7 +61,7 @@ output "KubeAdminCFG_ClusCACert" {
 }
 output "KubeAdminCFGRaw" {
   sensitive = true
-  value = "${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config_raw : "0"}"
+  value = ["${var.IsRBACEnable ? azurerm_kubernetes_cluster.TerraAKS.*.kube_admin_config_raw : "0"}"]
 }
 
 
