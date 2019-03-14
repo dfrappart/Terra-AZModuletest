@@ -4,7 +4,7 @@
 
 #Creating the AKS Cluster without RBAC Enabled and AAD integration
 
-resource "azurerm_kubernetes_cluster" "TerraAKSNoRBAC" {
+resource "azurerm_kubernetes_cluster" "TerraAKSRBAC" {
 
   name                = "${var.AKSClusName}"
   location            = "${var.AKSLocation}"
