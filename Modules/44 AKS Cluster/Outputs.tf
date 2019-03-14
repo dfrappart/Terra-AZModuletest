@@ -78,7 +78,7 @@ output "KubeCfgRaw" {
 
 
 output "HTTPAppRouting" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing}"
+  value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing.0.http_application_routing_zone_name}"
 }
 
 
