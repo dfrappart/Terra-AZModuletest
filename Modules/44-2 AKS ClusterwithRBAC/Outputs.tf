@@ -6,85 +6,85 @@
 #Output for the AKS module with RBAC enabled
 
 output "KubeName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.name}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.name}"
 }
 
 output "KubeLocation" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.location}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.location}"
 }
 
 output "KubeRG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.resource_group_name}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.resource_group_name}"
 }
 
 output "KubeVersion" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kubernetes_version}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubernetes_version}"
 }
 
 
 output "KubeId" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.id}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.id}"
 }
 
 
 output "KubeFQDN" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.fqdn}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn}"
 }
 
 
 output "KubeAdminCFG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_admin_config}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config}"
 }
 
 output "KubeAdminCFG_HostName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.host}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.host}"
 }
 
 output "KubeAdminCFG_UserName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.username}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.username}"
 }
 
 output "KubeAdminCFG_Password" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.password}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.password}"
 }
 
 output "KubeAdminCFG_ClientCertificate" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_certificate}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.client_certificate}"
 }
 
 output "KubeAdminCFG_ClientKey" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.client_key}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.client_key}"
 }
 
 output "KubeAdminCFG_ClusCACert" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.0.kube_admin_config.0.cluster_ca_certificate}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.cluster_ca_certificate}"
 }
 output "KubeAdminCFGRaw" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_admin_config_raw}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw}"
 }
 
 
 output "KubeCfg" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config}"
 }
 
 
 output "KubeCfgRaw" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config_raw}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config_raw}"
 }
 
 /*
 output "HTTPAppRouting" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.http_application_routing}"
 }
 
 */
 
 output "NodeRG" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.node_resource_group}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group}"
 }
 
 
