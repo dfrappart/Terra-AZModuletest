@@ -76,11 +76,11 @@ output "KubeCfgRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config_raw}"
 }
 
-
+/*
 output "HTTPAppRouting" {
   value = "${azurerm_kubernetes_cluster.TerraAKS.http_application_routing.0.http_application_routing_zone_name}"
 }
-
+*/
 
 
 output "NodeRG" {
