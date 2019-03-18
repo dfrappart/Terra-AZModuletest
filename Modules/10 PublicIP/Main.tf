@@ -9,7 +9,8 @@ resource "azurerm_public_ip" "TerraPublicIP" {
   name                         = "${var.PublicIPName}${count.index+1}"
   location                     = "${var.PublicIPLocation}"
   resource_group_name          = "${var.RGName}"
-  public_ip_address_allocation = "${var.PIPAddressAllocation}"
+  #public_ip_address_allocation = "${var.PIPAddressAllocation}" changed for allocation_method
+  allocation_method            = "${var.PIPAddressAllocation}"
   sku                          = "${var.PIPAddressSku}"
   domain_name_label            = "${lower(var.EnvironmentTag)}${lower(var.PublicIPName)}${count.index+1}"
 
@@ -26,7 +27,8 @@ resource "azurerm_public_ip" "TerraPublicIPZoneRedundant" {
   name                         = "${var.PublicIPName}${count.index+1}"
   location                     = "${var.PublicIPLocation}"
   resource_group_name          = "${var.RGName}"
-  public_ip_address_allocation = "static"
+  #public_ip_address_allocation = "static" changed for allocation_method
+  allocation_method            = "static"
   sku                          = "standard"
   domain_name_label            = "${lower(var.EnvironmentTag)}${lower(var.PublicIPName)}${count.index+1}"
 

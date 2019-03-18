@@ -83,9 +83,9 @@ variable "PublicSSHKey" {
   type = "string"
 }
 
-variable "AKSDNSSVCIP" {
+variable "AKSDNSSVCIPModfier" {
   type = "string"
-  default = "172.19.0.10"
+  default = "10"
 }
 
 variable "AKSDockerBridgeCIDR" {
