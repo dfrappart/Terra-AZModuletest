@@ -55,7 +55,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
 
   network_profile {
     network_plugin        = "azure"
-    dns_service_ip        = "${var.AKSDNSSVCIP}"
+    dns_service_ip        = "${cidrhost(var.AKSSVCCIDR, 10)}"
     docker_bridge_cidr    = "${var.AKSDockerBridgeCIDR}"
     service_cidr          = "${var.AKSSVCCIDR}"
 
