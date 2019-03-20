@@ -22,11 +22,11 @@ variable "Subnetaddressprefix" {
   type = "string"
 }
 
-/*
+
 variable "NSGid" {
   type = "string"
 }
-*/
+
 
 
 variable "SVCEP" {
