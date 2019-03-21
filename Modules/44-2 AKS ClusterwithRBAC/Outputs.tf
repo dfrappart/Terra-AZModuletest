@@ -86,10 +86,10 @@ output "HTTPAppRouting" {
 }
 
 */
-
+/*
 output "NodeRG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group}"
 }
 
-
+*/
 
