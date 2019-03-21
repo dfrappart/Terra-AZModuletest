@@ -68,13 +68,13 @@ output "KubeAdminCFGRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw}"
 }
 
-
+/*
 output "KubeCfg" {
   sensitive = true
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config}"
 }
 
-
+/*
 output "KubeCfgRaw" {
   sensitive = true
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config_raw}"
