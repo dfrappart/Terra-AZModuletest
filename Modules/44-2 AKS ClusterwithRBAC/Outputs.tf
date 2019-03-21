@@ -49,14 +49,13 @@ output "KubeAdminCFG_HostName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host}"
 }
 
-/*
-
-
 
 output "KubeAdminCFG_Password" {
   sensitive = true
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password}"
 }
+
+/*
 
 output "KubeAdminCFG_ClientCertificate" {
   sensitive = true
