@@ -55,16 +55,16 @@ output "KubeAdminCFG_Password" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password}"
 }
 
-/*
-
-output "KubeAdminCFG_ClientCertificate" {
-  sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate}"
-}
 
 output "KubeAdminCFG_ClientKey" {
   sensitive = true
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_key}"
+}
+
+
+output "KubeAdminCFG_ClientCertificate" {
+  sensitive = true
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate}"
 }
 
 output "KubeAdminCFG_ClusCACert" {
@@ -74,17 +74,6 @@ output "KubeAdminCFG_ClusCACert" {
 
 
 
-/*
-output "KubeCfg" {
-  sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config}"
-}
-
-/*
-output "KubeCfgRaw" {
-  sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_config_raw}"
-}
 
 /*
 output "HTTPAppRouting" {
@@ -92,10 +81,10 @@ output "HTTPAppRouting" {
 }
 
 */
-/*
+
 output "NodeRG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group}"
 }
 
-*/
+
 
