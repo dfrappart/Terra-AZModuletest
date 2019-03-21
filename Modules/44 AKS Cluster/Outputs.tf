@@ -82,7 +82,7 @@ output "KubeCfgRaw" {
 
 
 output "KubeCFG_HostName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKS.kubeconfig.0.host}"
+  value = "${azurerm_kubernetes_cluster.TerraAKS.kube_config.0.host}"
 }
 
 output "KubeCFG_UserName" {
