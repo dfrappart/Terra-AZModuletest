@@ -9,6 +9,11 @@ output "Id" {
   value = "${azurerm_key_vault.TerraKeyVault.id}"
 }
 
+output "Name" {
+  value = "${azurerm_key_vault.TerraKeyVault.name}"
+}
+
+
 output "URI" {
   value = "${azurerm_key_vault.TerraKeyVault.vault_uri}"
 }
