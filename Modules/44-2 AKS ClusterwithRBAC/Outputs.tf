@@ -4,7 +4,7 @@
 
 
 #Output for the AKS module with RBAC enabled
-
+/*
 output "KubeName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.name}"
 }
