@@ -31,6 +31,11 @@ output "KubeFQDN" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn}"
 }
 
+output "KubeAdminCFGRaw" {
+  sensitive = true
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw}"
+}
+
 /*
 output "KubeAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config}"
@@ -63,10 +68,8 @@ output "KubeAdminCFG_ClusCACert" {
   sensitive = true
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate}"
 }
-output "KubeAdminCFGRaw" {
-  sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw}"
-}
+
+
 
 /*
 output "KubeCfg" {
