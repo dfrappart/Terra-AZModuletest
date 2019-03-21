@@ -36,11 +36,13 @@ output "KubeAdminCFGRaw" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw}"
 }
 
-/*
+
 output "KubeAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config}"
 }
 
+
+/*
 output "KubeAdminCFG_HostName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host}"
 }
