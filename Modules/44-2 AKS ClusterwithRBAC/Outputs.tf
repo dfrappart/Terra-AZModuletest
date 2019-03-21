@@ -37,31 +37,31 @@ output "KubeAdminCFG" {
 }
 
 output "KubeAdminCFG_HostName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.host}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host}"
 }
 
 output "KubeAdminCFG_UserName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.username}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username}"
 }
 
 output "KubeAdminCFG_Password" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.password}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password}"
 }
 
 output "KubeAdminCFG_ClientCertificate" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.client_certificate}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate}"
 }
 
 output "KubeAdminCFG_ClientKey" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.client_key}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_key}"
 }
 
 output "KubeAdminCFG_ClusCACert" {
   sensitive = true
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.0.kube_admin_config.0.cluster_ca_certificate}"
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate}"
 }
 output "KubeAdminCFGRaw" {
   sensitive = true
