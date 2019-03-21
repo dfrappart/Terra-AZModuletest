@@ -41,15 +41,17 @@ output "KubeAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config}"
 }
 
+output "KubeAdminCFG_UserName" {
+  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username}"
+}
 
-/*
 output "KubeAdminCFG_HostName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host}"
 }
 
-output "KubeAdminCFG_UserName" {
-  value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username}"
-}
+/*
+
+
 
 output "KubeAdminCFG_Password" {
   sensitive = true
