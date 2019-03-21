@@ -4,7 +4,7 @@
 
 
 #Output for the AKS module with RBAC enabled
-/*
+
 output "KubeName" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.name}"
 }
@@ -31,7 +31,7 @@ output "KubeFQDN" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn}"
 }
 
-
+/*
 output "KubeAdminCFG" {
   value = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config}"
 }
