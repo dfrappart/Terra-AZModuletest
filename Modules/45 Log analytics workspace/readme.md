@@ -8,24 +8,21 @@ Use is as follow:
 
 
 
-# Creating the ResourceGroup
+# Creating a random string
 ```hcl
-module "ResourceGroupAKS" {
-  #Module Location
-  source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
+module "AKSWSRandomSuffix" {
+    #Module source
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//00 RandomString/"
 
-  #Module variable
-  RGName              = "${var.RGName}"
-  RGLocation          = "${var.AzureRegion}"
-  EnvironmentTag      = "${var.EnvironmentTag}"
-  EnvironmentUsageTag = "${var.EnvironmentUsageTag}"
-  OwnerTag            = "${var.OwnerTag}"
-  ProvisioningDateTag = "${var.ProvisioningDateTag}"
-
+    #Module variables
+    stringlenght        = "5"
+    stringspecial       = "false"
+    stringupper         = "false"
+    
 }
 ```
 
-# This section deploys an AKS cluster in advanced networking mode
+# This section deploys log analytics workspace
 
 
 
@@ -35,9 +32,9 @@ module "AKSWorkspace" {
     source = "github.com/dfrappart/Terra-AZModuletest//Modules//45 Log analytics workspace/"
 
     #Module variables
-    LAWName             = "${var.AKSWorkspaceName}"
+    LAWName             = "${var.AKSWorkspaceName}${module.AKSWSRandomSuffix.Result}"
     LAWLocation         = "${var.AzureRegion}"
-    LAWRGName           = "${module.ResourceGroupAKS.Name}"
+    LAWRGName           = "${module.ResourceGroupHubSpoke.Name}"
     LAWLocation         = "${var.AzureRegion}"
     EnvironmentTag      = "${var.EnvironmentTag}"
     EnvironmentUsageTag = "${var.EnvironmentUsageTag}"

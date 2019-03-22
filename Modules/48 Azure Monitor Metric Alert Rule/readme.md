@@ -1,1 +1,1 @@
-#This module deploys an Azure Monitor Action Group
+#This module deploys an Azure Monitor Metric alert rule
