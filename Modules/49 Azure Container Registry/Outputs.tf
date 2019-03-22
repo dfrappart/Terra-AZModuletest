@@ -27,11 +27,12 @@ output "AdminEnabled" {
   description = "The status of the admin account state, enabled or not"
 }
 
+/*
 output "Storage" {
   value = "${azurerm_container_registry.TerraACR.storage_account_id}"
   description = "The storage account underlying the ACR"
 }
-
+*/
 
 output "SKu" {
   value = "${azurerm_container_registry.TerraACR.sku}"

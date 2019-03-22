@@ -33,14 +33,14 @@ variable "IsAdminEnabled" {
   description   = "This variable determines if the admin account is enabled on the ACR or not, ture of false"
 
 }
-
+/*
 #This variable refers to the storage account underlying the ACR
 variable "ACRSTOAID" {
   type          = "string"
   description   = "This variable refers to the storage account underlying the AC"
 
 }
-
+*/
 #This variable determines the Sku of the ACR. Allowed values are basic, standard & premium
 variable "ACRSku" {
   type          = "string"

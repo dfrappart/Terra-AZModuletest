@@ -11,7 +11,7 @@ resource "azurerm_container_registry" "TerraACR" {
   resource_group_name           = "${var.ACRRG}"
   location                      = "${var.ACRLocation}"
   admin_enabled                 = "${var.IsAdminEnabled}"
-  storage_account_id            = "${var.ACRSTOAID}"
+  #storage_account_id            = "${var.ACRSTOAID}" only for classic sku
   sku                           = "${var.ACRSku}"
   georeplication_locations      = "${var.ACRReplList}"
 

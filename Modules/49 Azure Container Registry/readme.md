@@ -2,7 +2,7 @@
 # ACR module
 ######################################################################
 
-This module allows the deployment of a storage account.
+This module allows the deployment of a storage account. Only Basic, Standard and Premium Sku with this module, so no Storage Account required.
 
 
 Use is as follow:
@@ -28,29 +28,6 @@ module "ResourceGroupACR" {
 }
 ```
 
-# This section deploys a storage account
-
-
-
-```hcl
-module "StorageAccount" {
-
-    #Module location
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//03 StorageAccountGP"
-
-    #Module variable
-    StorageAccountName          = "stoa${var.EnvironmentTag}acr"
-    RGName                      = "${module.ResourceGroupACR.Name}"
-    StorageAccountLocation      = "${var.AzureRegion}"
-    StorageAccountTier          = "${lookup(var.storageaccounttier, 0)}"
-    StorageReplicationType      = "${lookup(var.storagereplicationtype, 0)}"
-    EnvironmentTag              = "${var.EnvironmentTag}"
-    EnvironmentUsageTag         = "${var.EnvironmentUsageTag}"
-    OwnerTag                    = "${var.OwnerTag}"
-    ProvisioningDateTag         = "${var.ProvisioningDateTag}"
-}
-
-```
 
 ```hcl
 
@@ -74,7 +51,6 @@ module "ACR" {
     ACRRG                       = "${module.ResourceGroupACR.Name}"
     ACRLocation                 = "${var.AzureRegion}"    
     IsAdminEnabled              = "${var.ACRAdminAccountEnabled}"
-    ACRSTOAID                   = "${var.ACRStorage}"
     ACRSku                      = "${var.ACRSku}"
     ACRReplList                 = "${var.ACRReplicationList}"
     EnvironmentTag              = "${var.EnvironmentTag}"
