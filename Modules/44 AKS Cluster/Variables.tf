@@ -103,6 +103,20 @@ variable "IshttproutingEnabled" {
   default = true
 }
 
+variable "AADServerAppSecret" {
+  type = "string"
+
+}
+
+variable "AADServerAppId" {
+  type = "string"
+
+}
+
+variable "AADCliAppId" {
+  type = "string"
+
+}
 
 variable "EnvironmentTag" {
   type    = "string"

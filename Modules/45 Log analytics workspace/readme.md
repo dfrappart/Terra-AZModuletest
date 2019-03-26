@@ -2,7 +2,7 @@
 # Log Analytic module
 ######################################################################
 
-This module allows the deployment of Log Analytic workplace.
+This module allows the deployment of Log Analytic workspace.
 
 Use is as follow:
 

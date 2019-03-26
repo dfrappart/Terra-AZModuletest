@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKS" {
     }
   }
   
-#  kubernetes_version = "${var.KubeVersion}"
+  kubernetes_version = "${var.KubeVersion}"
 
 
   linux_profile {

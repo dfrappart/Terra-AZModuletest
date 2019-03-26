@@ -2,8 +2,7 @@
 # AKS Cluster module
 ######################################################################
 
-This module allows the deployment of an AKS cluster.
-It includes a condition to deploy either an RBAC enabled Cluster, or not.
+This module allows the deployment of an AKS cluster without RBAC enabled.
 
 
 Use is as follow:
@@ -44,9 +43,6 @@ module "AKSClus" {
   AKSSubnetId         = "${module.AKS_Subnet.Id}"
   K8SSPId             = "${var.AKSSP_AppId}"
   K8SSPSecret         = "${var.AKSSP_Secret}"
-  AADTenantId         = "${var.AzureTenantID}"
-  AADServerAppSecret  = "${var.AKSAADAppServer_AppSecret}"
-  AADServerAppId      = "${var.AKSAADAppServer_AppId}"
   AADCliAppId         = "${var.AKSAADAppClient_AppId}"
   AKSLAWId            = "${module.AKSWorkspace.Id}"
   PublicSSHKey        = "${var.AzurePublicSSHKey}"
