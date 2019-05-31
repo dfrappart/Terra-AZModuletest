@@ -9,13 +9,13 @@
 
 variable "RGName" {
   type    = "string"
-  default = "DefaultRG"
+  default = "GTMRG2"
 }
 
 
 variable "RGLocation" {
   type    = "string"
-  default = "Westeurope"
+  default = "South Central US"
 }
 
 
