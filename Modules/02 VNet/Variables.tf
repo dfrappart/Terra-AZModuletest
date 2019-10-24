@@ -1,45 +1,45 @@
 ##############################################################
-#This module allows the creation of a vNEt
+#This module allows the creation of a VNet
 ##############################################################
 
 #Variable declaration for Module
 
-variable "vNetName" {
-  type    = "string"
-  default = "DefaultvNet"
+variable "VNetName" {
+  type    = string
+  default = "DefaultVNet"
 }
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRSG"
 }
 
-variable "vNetLocation" {
-  type    = "string"
+variable "VNetLocation" {
+  type    = string
   default = "Westeurope"
 }
 
-variable "vNetAddressSpace" {
-  type    = "list"
+variable "VNetAddressSpace" {
+  type    = list
   default = ["10.0.0.0/20"]
 }
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }

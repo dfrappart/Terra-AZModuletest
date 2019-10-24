@@ -1,26 +1,26 @@
 ##############################################################
-#This module allows the creation of a vNEt
+#This module allows the creation of a VNet
 ##############################################################
 
 
-#Output for the vNET module
+#Output for the VNet module
 
 output "Name" {
-  value = "${azurerm_virtual_network.Terra-vNet.name}"
+  value = azurerm_virtual_network.Terra_VNet.name
 }
 
 output "Id" {
-  value = "${azurerm_virtual_network.Terra-vNet.id}"
+  value = azurerm_virtual_network.Terra_VNet.id
 }
 
 output "AddressSpace" {
-  value = "${azurerm_virtual_network.Terra-vNet.address_space}"
+  value = azurerm_virtual_network.Terra_VNet.address_space
 }
 
 output "RGName" {
-  value = "${azurerm_virtual_network.Terra-vNet.resource_group_name}"
+  value = azurerm_virtual_network.Terra_VNet.resource_group_name
 }
 
 output "RGLocation" {
-  value = "${azurerm_virtual_network.Terra-vNet.location}"
+  value = azurerm_virtual_network.Terra_VNet.location
 }
