@@ -5,17 +5,17 @@
 
 
 output "Id" {
-  value = "${azurerm_storage_container.Terra-STC.id}"
+  value = azurerm_storage_container.Terra_STC.id
 }
 
 output "Properties" {
-  value = "${azurerm_storage_container.Terra-STC.properties}"
+  value = azurerm_storage_container.Terra_STC.properties
 }
 
 output "RGName" {
-  value = "${azurerm_storage_container.Terra-STC.resource_group_name}"
+  value = azurerm_storage_container.Terra_STC.resource_group_name
 }
 
 output "Name" {
-  value = "${azurerm_storage_container.Terra-STC.name}"
+  value = azurerm_storage_container.Terra_STC.name
 }

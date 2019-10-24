@@ -7,37 +7,38 @@
 #The ST container
 
 variable "StorageContainerName" {
-  type = "string"
+  type = string
 }
 
 #The RG Name
 
 variable "RGName" {
-  type = "string"
+  type = string
 }
 
 #The Storage Account Name
 
 variable "StorageAccountName" {
-  type = "string"
+  type = string
 }
 
 #The Storage Account container access type
 
 variable "AccessType" {
-  type    = "string"
+  type    = string
   default = "private"
 }
 
 #Varaibles defining Tags
 
 variable "EnvironmentTag" {
-  type    = "string"
+  
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
