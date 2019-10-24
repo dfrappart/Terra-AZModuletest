@@ -7,53 +7,53 @@
 #The ST Name
 
 variable "StorageAccountName" {
-  type = "string"
+  type = string
 }
 
 #The RG Name
 
 variable "RGName" {
-  type = "string"
+  type = string
 }
 
 #The Storage Account Location
 
 variable "StorageAccountLocation" {
-  type = "string"
+  type = string
 }
 
 #The Storage Account Tier
 
 variable "StorageAccountTier" {
-  type    = "string"
+  type    = string
   default = "Standard"
 }
 
 #The Storage Account Replication Type, accept LRS, GRS, RAGRS and ZRS.
 
 variable "StorageReplicationType" {
-  type    = "string"
+  type    = string
   default = "LRS"
 }
 
 #Varaibles defining Tags
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
