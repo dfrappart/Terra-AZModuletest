@@ -1,49 +1,49 @@
 ##############################################################
-#This module allows the creation of a vNEt
+#This module allows the creation of a VNet
 ##############################################################
 
 #Variable declaration for Module
 
 variable "VNetPeeringName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "RGName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LocalVNetName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "RemoteVNetId" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "IsVirtualNetworkAcccessAllowed" {
-  type    = "string"
+  type    = string
   default = "false"
 
 }
 
 variable "IsForwardedTrafficAllowed" {
-  type    = "string"
+  type    = string
   default = "false"
 
 }
 
 variable "IsGWTransitAllowed" {
-  type    = "string"
+  type    = string
   default = "false"
 
 }
 
 variable "UseRemoteGW" {
-  type    = "string"
+  type    = string
   default = "false"
 
 }
