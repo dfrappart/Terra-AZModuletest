@@ -10,9 +10,9 @@ resource "random_string" "TerraRandomstring" {
 
 
 
-    length      = "${var.stringlenght}"
-    special     = "${var.stringspecial}"
-    upper       = "${var.stringupper}"
-    number      = "${var.stringnumber}"
+    length      = var.stringlenght
+    special     = var.stringspecial
+    upper       = var.stringupper
+    number      = var.stringnumber
 
 }

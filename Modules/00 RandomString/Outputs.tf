@@ -7,5 +7,5 @@
 
 output "Result" {
 
-    value = "${random_string.TerraRandomstring.result}"
+    value = random_string.TerraRandomstring.result
 }
