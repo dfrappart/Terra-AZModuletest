@@ -7,15 +7,15 @@
 
 output "Name" {
 
-  value = "${azurerm_resource_group.Terra-RG.name}"
+  value = azurerm_resource_group.Terra-RG.name
 }
 
 output "Location" {
 
-  value = "${azurerm_resource_group.Terra-RG.location}"
+  value = azurerm_resource_group.Terra-RG.location
 }
 
 output "Id" {
 
-  value = "${azurerm_resource_group.Terra-RG.id}"
+  value = azurerm_resource_group.Terra-RG.id
 }

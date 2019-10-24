@@ -8,33 +8,33 @@
 
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRG"
 }
 
 
 variable "RGLocation" {
-  type    = "string"
+  type    = string
   default = "Westeurope"
 }
 
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }

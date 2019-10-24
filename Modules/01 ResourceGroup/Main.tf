@@ -8,14 +8,14 @@
 resource "azurerm_resource_group" "Terra-RG" {
 
     
-    name        = "${var.RGName}"
-    location    = "${var.RGLocation}"
+    name        = var.RGName
+    location    = var.RGLocation
 
-    tags {
-    Environment         = "${var.EnvironmentTag}"
-    Usage               = "${var.EnvironmentUsageTag}"
-    Owner               = "${var.OwnerTag}"
-    ProvisioningDate    = "${var.ProvisioningDateTag}"
+    tags = {
+    Environment         = var.EnvironmentTag
+    Usage               = var.EnvironmentUsageTag
+    Owner               = var.OwnerTag
+    ProvisioningDate    = var.ProvisioningDateTag
     }
 
 }
