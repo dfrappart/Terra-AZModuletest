@@ -7,7 +7,7 @@
 
 #The Container Registry Name
 variable "ACRName" {
-  type          = "string"
+  type          = string
   description   = "The Container Registry Name"
 
 
@@ -15,35 +15,35 @@ variable "ACRName" {
 
 #The RG containing the ACR
 variable "ACRRG" {
-  type          = "string"
+  type          = string
   description   = "The RG containing the ACR"
 
 }
 
 #The ACR Location
 variable "ACRLocation" {
-  type    = "string"
+  type    = string
   description = "The ACR Location"
 
 }
 
 #This variable determines if the admin account is enabled on the ACR or not, ture of false
 variable "IsAdminEnabled" {
-  type          = "string"
+  type          = string
   description   = "This variable determines if the admin account is enabled on the ACR or not, ture of false"
 
 }
 /*
 #This variable refers to the storage account underlying the ACR
 variable "ACRSTOAID" {
-  type          = "string"
+  type          = string
   description   = "This variable refers to the storage account underlying the AC"
 
 }
 */
 #This variable determines the Sku of the ACR. Allowed values are basic, standard & premium
 variable "ACRSku" {
-  type          = "string"
+  type          = string
   default       = "Standard"
   description   = "This variable determines the Sku of the ACR. Allowed values are basic, standard & premium"
     
@@ -54,27 +54,27 @@ variable "ACRSku" {
 #The list of Region for replication of the ACR
 variable "ACRReplList" {
   type          = "list"
-  default       = []
+  default       = null
   description   = "The list of Region for replication of the ACR"
 
 }
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
