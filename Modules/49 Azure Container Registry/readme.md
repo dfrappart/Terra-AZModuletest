@@ -148,3 +148,6 @@ ACRReplicationList = ["northeurope","francecentral"]
 
 
 ```
+
+Warning: downgrading ACR from premium to standard with this module is not working.
+Upgrading to premium is however working fine
