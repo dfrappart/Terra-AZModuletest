@@ -32,6 +32,72 @@ module "ResourceGroupACR" {
 
 The ACR is accessed via an fqdn, thus it needs to have a unique name on all Azure namespace. To attain this objective, it is possible to use a random string.
 
+define the variable file as follow: 
+
+```hcl
+
+
+variable "RGName" {
+    type = string
+}
+
+variable "AzureRegion" {
+    type = string
+}
+
+variable "EnvironmentTag" {
+    type = string
+}
+
+variable "EnvironmentUsageTag" {
+    type = string
+}
+
+variable "OwnerTag" {
+    type = string
+}
+
+variable "ProvisioningDateTag" {
+    type = string
+}
+
+variable "ACRAdminAccountEnabled" {
+    type = string
+    default = false
+}
+
+variable "ACRSku" {
+    type = string
+
+}
+
+variable "ACRReplicationList" {
+    type = list
+    default = ["westeurope","francecentral"]
+
+}
+
+```
+
+And the terraform.tfvars as follow: 
+
+```hcl
+
+
+
+RGName = "ACRTest"
+AzureRegion = "westeurope"
+EnvironmentTag = "DEV"
+EnvironmentUsageTag = "ACRTest"
+OwnerTag ="DFR"
+ProvisioningDateTag = "20191104"
+ACRSku = "standard"
+
+
+```
+
+Then define the main.tf file as follow: 
+
 ```hcl
 
 module "ACRRandomPrefix" {
@@ -55,7 +121,7 @@ module "ACR" {
     ACRLocation                 = var.AzureRegion    
     IsAdminEnabled              = var.ACRAdminAccountEnabled
     ACRSku                      = var.ACRSku
-    ACRReplList                 = var.ACRReplicationList
+    #ACRReplList                 = var.ACRReplicationList
     EnvironmentTag              = var.EnvironmentTag
     EnvironmentUsageTag         = var.EnvironmentUsageTag
     OwnerTag                    = var.OwnerTag
@@ -63,5 +129,22 @@ module "ACR" {
 
 
 }
+
+```
+
+Uncomment the ACRRepllist only if sku chosen is premium, which is the only supporting replication.
+In this case, change the terraform.tfvars as follow : 
+
+```hcl
+
+RGName = "ACRTest"
+AzureRegion = "westeurope"
+EnvironmentTag = "DEV"
+EnvironmentUsageTag = "ACRTest"
+OwnerTag ="DFR"
+ProvisioningDateTag = "20191104"
+ACRSku = "premium"
+ACRReplicationList = ["northeurope","francecentral"]
+
 
 ```
