@@ -29,16 +29,3 @@ variable "AccessType" {
   default = "private"
 }
 
-#Varaibles defining Tags
-
-variable "EnvironmentTag" {
-  
-  type    = string
-  default = "Poc"
-}
-
-variable "EnvironmentUsageTag" {
-  type    = string
-  default = "Poc usage only"
-}
-
