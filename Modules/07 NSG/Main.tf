@@ -6,15 +6,15 @@
 
 #Creation fo the NSG
 resource "azurerm_network_security_group" "Terra-NSG" {
-  name                = "${var.NSGName}"
-  location            = "${var.NSGLocation}"
-  resource_group_name = "${var.RGName}"
+  name                = var.NSGName
+  location            = var.NSGLocation
+  resource_group_name = var.RGName
 
-  tags {
-    Environment       = "${var.EnvironmentTag}"
-    Usage             = "${var.EnvironmentUsageTag}"
-    Owner             = "${var.OwnerTag}"
-    ProvisioningDate  = "${var.ProvisioningDateTag}"
+  tags = {
+    Environment       = var.EnvironmentTag
+    Usage             = var.EnvironmentUsageTag
+    Owner             = var.OwnerTag
+    ProvisioningDate  = var.ProvisioningDateTag
   }
 }
 

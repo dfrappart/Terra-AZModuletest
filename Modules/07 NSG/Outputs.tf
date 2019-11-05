@@ -6,13 +6,13 @@
 #Output for the NSG module
 
 output "Name" {
-  value = "${azurerm_network_security_group.Terra-NSG.name}"
+  value = azurerm_network_security_group.Terra-NSG.name
 }
 
 output "Id" {
-  value = "${azurerm_network_security_group.Terra-NSG.id}"
+  value = azurerm_network_security_group.Terra-NSG.id
 }
 
 output "RGName" {
-  value = "${azurerm_network_security_group.Terra-NSG.resource_group_name}"
+  value = azurerm_network_security_group.Terra-NSG.resource_group_name
 }
