@@ -15,3 +15,7 @@ resource "azurerm_subnet" "TerraSubnet" {
   service_endpoints         = var.SVCEP
 }
 
+resource "azurerm_subnet_network_security_group_association" "Terra_Subnet_NSG_Association" {
+    subnet_id                           = azurerm_subnet.TerraSubnet.id
+    azurerm_network_security_group_id   = var.NSGId
+}
