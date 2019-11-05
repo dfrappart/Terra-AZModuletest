@@ -4,13 +4,13 @@
 
 
 output "Id" {
-  value = "${azurerm_storage_share.Terra-AzureFile.id}"
+  value = azurerm_storage_share.Terra-AzureFile.id
 }
 
 output "URL" {
-  value = "${azurerm_storage_share.Terra-AzureFile.url}"
+  value = azurerm_storage_share.Terra-AzureFile.url
 }
 
 output "RGName" {
-  value = "${azurerm_storage_share.Terra-AzureFile.resource_group_name}"
+  value = azurerm_storage_share.Terra-AzureFile.resource_group_name
 }
