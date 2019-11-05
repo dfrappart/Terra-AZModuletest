@@ -26,8 +26,8 @@ module "VNet" {
 
     #Module variable
     VNetName                = "TestModule_VNet"
-    RGName                  = "${data.azurerm_resource_group.ImportedRG.name}"
-    VNetLocation            = "${data.azurerm_resource_group.ImportedRG.location}"
+    RGName                  = data.azurerm_resource_group.ImportedRG.name
+    VNetLocation            = data.azurerm_resource_group.ImportedRG.location
     VNetAddressSpace        = ["10.0.0.0/20"]
     EnvironmentTag          = "Lab-Moduletest"
     EnvironmentUsageTag     = "Lab only"
