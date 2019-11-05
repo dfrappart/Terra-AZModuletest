@@ -5,32 +5,32 @@
 #Variable declaration for Module
 
 variable "SubnetName" {
-  type    = "string"
+  type    = string
   default = "DefaultSubnet"
 }
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRSG"
 }
 
 variable "vNetName" {
-  type = "string"
+  type = string
 }
 
 variable "Subnetaddressprefix" {
-  type = "string"
+  type = string
 }
 
 
 variable "NSGid" {
-  type = "string"
+  type = string
 }
 
 
 
 variable "SVCEP" {
-  type    = "list"
+  type    = list
   default = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.ServiceBus", "Microsoft.EventHub"]
 }
 
