@@ -5,7 +5,7 @@
 
 #Creating a VNet
 
-resource "azurerm_virtual_network" "Terra_VNNet" {
+resource "azurerm_virtual_network" "Terra_VNet" {
   name                = var.VNetName
   resource_group_name = var.RGName
   address_space       = var.VNetAddressSpace
