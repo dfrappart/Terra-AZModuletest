@@ -6,36 +6,36 @@
 #Variable declaration for Module
 
 variable "ASGName" {
-  type    = "string"
+  type    = string
   default = "DefaultNSG"
 }
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRSG"
 }
 
 variable "ASGLocation" {
-  type    = "string"
+  type    = string
   default = "Westeurope"
 }
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
