@@ -5,23 +5,23 @@
 #Variable declaration for Module
 
 variable "SubnetName" {
-  type    = "string"
+  type    = string
   default = "GatewaySubnet"
 }
 
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRSG"
 }
 
 variable "vNetName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "Subnetaddressprefix" {
-  type    = "string"
+  type    = string
 
 }
 

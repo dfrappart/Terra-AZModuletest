@@ -10,15 +10,15 @@
 
 output "Name" {
 
-  value = "${azurerm_subnet.TerraSubnet.name}"
+  value = azurerm_subnet.TerraSubnet.name
 }
 
 output "Id" {
 
-  value = "${azurerm_subnet.TerraSubnet.id}"
+  value = azurerm_subnet.TerraSubnet.id
 }
 
 output "AddressPrefix" {
 
-  value = "${azurerm_subnet.TerraSubnet.address_prefix}"
+  value = azurerm_subnet.TerraSubnet.address_prefix
 }

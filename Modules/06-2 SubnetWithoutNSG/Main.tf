@@ -9,10 +9,10 @@ resource "azurerm_subnet" "TerraSubnet" {
 
 
 
-    name                        = "${var.SubnetName}"
-    resource_group_name         = "${var.RGName}"
-    virtual_network_name        = "${var.vNetName}"
-    address_prefix              = "${var.Subnetaddressprefix}"
+    name                        = var.SubnetName
+    resource_group_name         = var.RGName
+    virtual_network_name        = var.vNetName
+    address_prefix              = var.Subnetaddressprefix
 
 
 
