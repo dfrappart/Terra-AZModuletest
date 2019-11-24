@@ -13,7 +13,7 @@ resource "azurerm_log_analytics_workspace" "TerraLogAnalyticsWS" {
   
 
 
-  tags {
+  tags = {
     Environment       = "${var.EnvironmentTag}"
     Usage             = "${var.EnvironmentUsageTag}"
     Owner             = "${var.OwnerTag}"
