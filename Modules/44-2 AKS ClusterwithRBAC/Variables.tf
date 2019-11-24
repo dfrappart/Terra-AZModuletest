@@ -5,141 +5,204 @@
 #Variable declaration for Module
 
 variable "AKSClusName" {
-  type = "string"
+  type = string
   default = "TerraAkSClus"
 }
 
 variable "AKSLocation" {
-  type = "string"
+  type = string
 }
 
 variable "AKSRGName" {
-  type = "string"
+  type = string
 }
 
 variable "AKSAgentPoolName" {
-  type = "string"
+  type = string
   default = "TerraAKSAP"
 }
 
 variable "AKSNodeCount" {
-  type = "string"
+  type = string
   default = "3"
 }
 
 
 variable "AKSNodeInstanceType" {
-  type = "string"
+  type = string
   default = "Standard_DS2_v2"
 }
 
 variable "AKSNodeOSType" {
-  type = "string"
+  type = string
   default = "Linux"
 }
 
 variable "AKSNodeOSDiskSize" {
-  type = "string"
+  type = string
   default = "30"
 }
 
 variable "AKSSubnetId" {
-  type = "string"
+  type = string
 }
 
 variable "AKSMaxPods" {
-  type = "string"
+  type = string
   default = "100"
 }
 
 variable "AKSprefix" {
-  type = "string"
+  type = string
   default = "terraaksdfr"
 }
 
 variable "K8SSPId" {
-  type = "string"
+  type = string
 }
 
 variable "K8SSPSecret" {
-  type = "string"
+  type = string
 }
 
 variable "AKSLAWId" {
-  type = "string"
+  type = string
+  description = "The Id of the associated logs analityc workspace, must be provided if var.IsOMSAgentEnabled is set to true"
+  default = null
+}
+
+variable "IsOMSAgentEnabled" {
+  type = string
+  default = null
+}
+
+variable "NetworkPolicyPlugin" {
+  type = string
+  default = "calico"
+  description = "The network policy plugin, can be either azure or calico"
 }
 
 variable "KubeVersion" {
-  type = "string"
-  default = "1.12.5"
+  type = string
+  default = null
 }
 
 variable "AKSAdminName" {
-  type = "string"
+  type = string
   default = "AKSAdmin"
 }
 
 variable "PublicSSHKey" {
-  type = "string"
+  type = string
 }
 
 variable "AKSDNSSVCIPModfier" {
-  type = "string"
+  type = string
   default = "10"
 }
 
 variable "AKSDockerBridgeCIDR" {
-  type = "string"
+  type = string
   default = "172.17.0.1/16"
 }
 
 variable "AKSSVCCIDR" {
-  type = "string"
+  type = string
   default = "172.19.0.0/16"
 }
 
 variable "IshttproutingEnabled" {
-  type = "string"
-  default = "true"
+  type = string
+  default = null
 }
 
 variable "AADTenantId" {
-  type = "string"
+  type = string
 
 }
 
 variable "AADServerAppSecret" {
-  type = "string"
+  type = string
 
 }
 
 variable "AADServerAppId" {
-  type = "string"
+  type = string
 
 }
 
 variable "AADCliAppId" {
-  type = "string"
+  type = string
 
 }
 
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
+
+
+#Last stuff available on AKS
+
+
+variable "AKSNodePoolType" {
+  type    = string
+  default = null
+}
+
+variable "AKSAZ" {
+  type    = list(string)
+  default = null
+}
+
+variable "EnableAKSAutoScale" {
+  type    = string
+  default = null
+}
+
+variable "MinAutoScaleCount" {
+  type    = string
+  default = null
+}
+
+variable "MaxAutoScaleCount" {
+  type    = string
+  default = null
+}
+
+variable "APIAccessList" {
+  type    = list(string)
+  default = null
+}
+
+variable "EnablePodPolicy" {
+  type    = string
+  default = null
+}
+
+variable "AKSNodesRG" {
+  type    = string
+  default = null
+}
+
+variable "AKSLBSku" {
+  type    = string
+  default = null
+}
+

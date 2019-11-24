@@ -7,78 +7,93 @@
 
 resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
 
-  name                = "${var.AKSClusName}"
-  location            = "${var.AKSLocation}"
-  resource_group_name = "${var.AKSRGName}"
+  name                = var.AKSClusName
+  location            = var.AKSLocation
+  resource_group_name = var.AKSRGName
+  node_resource_group = var.AKSNodesRG
   
   agent_pool_profile {
-    name              = "${lower(var.AKSAgentPoolName)}"
-    count             = "${var.AKSNodeCount}" 
-    vm_size           = "${var.AKSNodeInstanceType}" 
-    os_type           = "${var.AKSNodeOSType}"
-    os_disk_size_gb   = "${var.AKSNodeOSDiskSize}"
-    vnet_subnet_id    = "${var.AKSSubnetId}"
-    max_pods          = "${var.AKSMaxPods}"
-
-
+    name                  = lower(var.AKSAgentPoolName)
+    count                 = var.AKSNodeCount
+    vm_size               = var.AKSNodeInstanceType
+    os_type               = var.AKSNodeOSType
+    os_disk_size_gb       = var.AKSNodeOSDiskSize
+    vnet_subnet_id        = var.AKSSubnetId
+    max_pods              = var.AKSMaxPods
+    type                  = var.AKSNodePoolType
+    availability_zones    = var.AKSAZ
+    enable_auto_scaling   = var.EnableAKSAutoScale
+    min_count             = var.MinAutoScaleCount
+    max_count             = var.MaxAutoScaleCount
+    
+   
   }
   
-  dns_prefix = "${lower(var.AKSprefix)}"
+  dns_prefix = lower(var.AKSprefix)
 
   service_principal {
-    client_id         = "${var.K8SSPId}"
-    client_secret     = "${var.K8SSPSecret}"
+    client_id         = var.K8SSPId
+    client_secret     = var.K8SSPSecret
 
   }
 
   addon_profile {
-    http_application_routing {
-      enabled = "${var.IshttproutingEnabled}"
-    }
     
+    /*
+    http_application_routing {
+      enabled = var.IshttproutingEnabled
+    }
+    */
+
     oms_agent {
-      enabled                 = true
-      log_analytics_workspace_id = "${lower(var.AKSLAWId)}"
+      enabled                     = var.IsOMSAgentEnabled
+      log_analytics_workspace_id  = lower(var.AKSLAWId)
+    }
+
+    kube_dashboard {
+      enabled = true
     }
   }
   
-#  kubernetes_version = "${var.KubeVersion}"
-
+  kubernetes_version                = var.KubeVersion
+  api_server_authorized_ip_ranges   = var.APIAccessList
+  enable_pod_security_policy        = var.EnablePodPolicy
 
   linux_profile {
-    admin_username = "${var.AKSAdminName}"
+    admin_username  = var.AKSAdminName
 
     ssh_key {
-      key_data = "${var.PublicSSHKey}"
+      key_data      = var.PublicSSHKey
     }
   }
 
   network_profile {
     network_plugin        = "azure"
-    network_policy        = "calico"
-    dns_service_ip        = "${cidrhost(var.AKSSVCCIDR, var.AKSDNSSVCIPModfier)}"
-    docker_bridge_cidr    = "${var.AKSDockerBridgeCIDR}"
-    service_cidr          = "${var.AKSSVCCIDR}"
+    network_policy        = var.NetworkPolicyPlugin
+    dns_service_ip        = cidrhost(var.AKSSVCCIDR, var.AKSDNSSVCIPModfier)
+    docker_bridge_cidr    = var.AKSDockerBridgeCIDR
+    service_cidr          = var.AKSSVCCIDR
+    load_balancer_sku     = var.AKSLBSku
 
   }
 
   role_based_access_control {
-    enabled           = true
+    enabled               = true
 
     azure_active_directory {
-      client_app_id       = "${var.AADCliAppId}"
-      server_app_id       = "${var.AADServerAppId}"
-      server_app_secret   = "${var.AADServerAppSecret}"
-      tenant_id           = "${var.AADTenantId}"
+      client_app_id       = var.AADCliAppId
+      server_app_id       = var.AADServerAppId
+      server_app_secret   = var.AADServerAppSecret
+      tenant_id           = var.AADTenantId
     }
 
   }
 
-  tags {
-    Environment       = "${var.EnvironmentTag}"
-    Usage             = "${var.EnvironmentUsageTag}"
-    Owner             = "${var.OwnerTag}"
-    ProvisioningDate  = "${var.ProvisioningDateTag}"
+  tags = {
+    Environment           = var.EnvironmentTag
+    Usage                 = var.EnvironmentUsageTag
+    Owner                 = var.OwnerTag
+    ProvisioningDate      = var.ProvisioningDateTag
   }
 }
 

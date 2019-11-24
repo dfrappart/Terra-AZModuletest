@@ -1,6 +1,6 @@
-######################################################################
+
 # AKS Cluster module
-######################################################################
+
 
 This module allows the deployment of an AKS cluster.
 It includes a condition to deploy either an RBAC enabled Cluster, or not.
