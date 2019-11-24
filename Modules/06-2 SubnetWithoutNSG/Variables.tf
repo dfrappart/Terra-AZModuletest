@@ -15,7 +15,7 @@ variable "RGName" {
   default = "DefaultRSG"
 }
 
-variable "vNetName" {
+variable "VNetName" {
   type    = string
 
 }
