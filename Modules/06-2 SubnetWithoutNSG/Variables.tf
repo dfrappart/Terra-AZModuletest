@@ -25,5 +25,9 @@ variable "Subnetaddressprefix" {
 
 }
 
+variable "SVCEP" {
+  type    = list
+  default = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.ServiceBus", "Microsoft.EventHub"]
+}
 
 
