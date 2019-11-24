@@ -40,6 +40,10 @@ data "azurerm_network_security_group" "NSGTest" {
 # Creating Subnet
 
 module "Subnet" {
+  #Module Location
+  source = "github.com/dfrappart/Terra-AZModuletest//Modules//06-1 Subnet/"
+
+  #Module variable
     SubnetName              = "Subnet1"
     RGName                  = data.azurerm_resource_group.ImportedRG.name
     VNetName                = data.azurerm_virtual_network.VNetTest.name
