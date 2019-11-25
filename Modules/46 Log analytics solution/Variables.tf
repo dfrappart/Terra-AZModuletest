@@ -5,36 +5,36 @@
 #Variable declaration for Module
 
 variable "LASolName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LASolLocation" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LASolRGName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LAWId" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LAWName" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LASolPublisher" {
-  type    = "string"
+  type    = string
 
 }
 
 variable "LASolProductName" {
-  type    = "string"
+  type    = string
 
 }
