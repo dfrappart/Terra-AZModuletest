@@ -6,22 +6,22 @@
 
 #The Name of the route
 variable "RouteTableName" {
-  type = "string"
+  type = string
 }
 
 #The RG in which the route table is attached to
 variable "RGName" {
-  type = "string"
+  type = string
 }
 
 #The location of the route table
 variable "RTLocation" {
-  type = "string"
+  type = string
 }
 
 #Define if bgp route propagation is disable or not
 variable "BGPDisabled" {
-  type = "string"
+  type = string
 }
 
 #Tag value to help identify the resource. 
@@ -30,21 +30,21 @@ variable "BGPDisabled" {
 #environment Tag usage specifying the use case of the environment
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
