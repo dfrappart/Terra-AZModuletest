@@ -7,6 +7,14 @@
 
 resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
 
+  lifecycle {
+    ignore_changes = [
+      #Ignore change for node count since it is autoscaling
+      agent_pool_profile["count"]
+
+    ]
+  }
+  
   name                = var.AKSClusName
   location            = var.AKSLocation
   resource_group_name = var.AKSRGName
