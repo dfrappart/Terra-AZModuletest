@@ -5,45 +5,45 @@
 #Variable declaration for Module
 
 variable "KeyName" {
-  type = "string"
+  type = string
 }
 
 variable "VaultURI" {
-  type = "string"
+  type = string
 }
 
 variable "KeyType" {
-  type = "string"
+  type = string
   default = "RSA"
 }
 
 variable "KeySize" {
-  type = "string"
+  type = string
   default = "4096"
 }
 
 variable "KeyOpts" {
-  type = "list"
+  type = list
   default = ["decrypt","encrypt","sign","unwrapKey","verify","wrapKey"]
 }
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
 variable "OwnerTag" {
-  type    = "string"
+  type    = string
   default = "That would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type    = "string"
+  type    = string
   default = "Today :)"
 }
 

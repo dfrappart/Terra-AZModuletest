@@ -7,17 +7,17 @@
 #Module Output
 
 output "Id" {
-  value = "${azurerm_key_vault_key.TerraKey.id}"
+  value = azurerm_key_vault_key.TerraKey.id
 }
 
 output "Version" {
-  value = "${azurerm_key_vault_key.TerraKey.version}"
+  value = azurerm_key_vault_key.TerraKey.version
 }
 
 output "Key-n" {
-  value = "${azurerm_key_vault_key.TerraKey.n}"
+  value = azurerm_key_vault_key.TerraKey.n
 }
 
 output "Key-e" {
-  value = "${azurerm_key_vault_key.TerraKey.e}"
+  value = azurerm_key_vault_key.TerraKey.e
 }

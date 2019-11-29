@@ -5,105 +5,104 @@
 #Variable declaration for Module
 
 variable "KeyVaultName" {
-  type = "string"
+  type = string
+  description = "The name of the subscription"
 }
 
 variable "KeyVaultLocation" {
-  type    = "string"
+  type    = string
   default = "westeurope"
 }
 
-variable "KeyVaultRG" {
-  type = "string"
+variable "KeyVaultRGName" {
+  type        = string
+  description = "The name of the Resource group in which the Vault lives"
 }
 
 variable "KeyVaultSKUName" {
-  type    = "string"
+  type    = string
   default = "standard"
 }
 
-variable "KeyVaultObjectIDPolicy1" {
-  type = "string"
-}
-
-variable "KeyVaultObjectIDPolicy2" {
-  type = "string"
-}
-
 variable "KeyVaultTenantID" {
-  type = "string"
+  type = string
+  description = "The tenant Id of the vault"
 }
-/*
-variable "KeyVaultApplicationID" {
-  type = "string"
-}
-*/
+
 
 variable "KeyVaultEnabledforDeployment" {
-  type    = "string"
+  type    = string
   default = "true"
 }
 
 variable "KeyVaultEnabledforDiskEncrypt" {
-  type    = "string"
+  type    = string
   default = "true"
 }
 
 variable "KeyVaultEnabledforTempDeploy" {
-  type    = "string"
+  type    = string
   default = "true"
 }
 
-#######################
-#Variable for Policy 1
-variable "KeyVaultCertpermlistPolicy1" {
-  type    = "list"
-  default = ["create", "delete", "deleteissuers", "get", "getissuers", "import", "list", "listissuers", "managecontacts", "manageissuers", "purge", "recover", "setissuers", "update"]
+
+
+# Variable to define the Tag
+
+variable "applicationTag" {
+  type    = string
+  description = "Tag describing the application associated to the resource"
+  default = "INFR"
+
 }
 
-variable "KeyVaultKeyPermlistPolicy1" {
-  type    = "list"
-  default = ["backup", "create", "decrypt", "delete", "encrypt", "get", "import", "list", "purge", "recover", "restore", "sign", "unwrapKey", "update", "verify", "wrapKey"]
+
+variable "costcenterTag" {
+  type    = string
+  default = "N/A"
+  description = "Tag indacating the Section "
 }
 
-variable "KeyVaultSecretPermlistPolicy1" {
-  type    = "list"
-  default = ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"]
+variable "businessunitTag" {
+  type    = string
+  default = "N/A"
+  description = "Tag indacating the Domain"
 }
 
-#######################
-#Variable for Policy 2
-variable "KeyVaultCertpermlistPolicy2" {
-  type    = "list"
-  default = ["create", "delete", "deleteissuers", "get", "getissuers", "import", "list", "listissuers", "managecontacts", "manageissuers", "purge", "recover", "setissuers", "update"]
+variable "managedbyTag" {
+  type    = string
+  default = "INFR"
+  description = "Tag indacating who manage the resource"
 }
 
-variable "KeyVaultKeyPermlistPolicy2" {
-  type    = "list"
-  default = ["backup", "create", "decrypt", "delete", "encrypt", "get", "import", "list", "purge", "recover", "restore", "sign", "unwrapKey", "update", "verify", "wrapKey"]
+variable "environmentTag" {
+  type    = string
+  default = "DEV"
+  description = "Tag indacating type of environment, DEV, PRD, PPR, ..."
 }
 
-variable "KeyVaultSecretPermlistPolicy2" {
-  type    = "list"
-  default = ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"]
+variable "hostnameTag" {
+  type    = string
+  default = "N/A"
+  description = "Tag indacating type Hostname, if applicable."
 }
 
-variable "EnvironmentTag" {
-  type    = "string"
-  default = "Poc"
+variable "ownerTag" {
+  type    = string
+  default = "That would be me"
+  description = "Tag specifying the owner of the resources"
 }
 
-variable "EnvironmentUsageTag" {
-  type    = "string"
-  default = "Poc usage only"
+variable "roleTag" {
+  type    = string
+  default = "hubzone"
+  description = "Tag specifying the owner of the resources"
 }
 
-variable "OwnerTag" {
-  type = "string"
-  default = "david@teknews.cloud"
+variable "createdbyTag" {
+  type    = string
+  default = "Terraform"
+  description = "Tag describing the way of provisioning, default to terraform for terraform config"
 }
 
-variable "ProvisioningDateTag" {
-  type = "string"
-  default = "Today :)"
-}
+
