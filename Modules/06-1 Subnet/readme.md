@@ -3,7 +3,7 @@
 ## This module deploys a Subnet
 
 
-As for all Azure resources, a resource group is required to host the storage account which contains the Azure File
+As for all Azure resources, a resource group is required.
 If it does not exist, it is possible to use another module to create the resource group, or it is possible to reference the Resource Group as a data source.
 
 Note: The nsgid parameter in the Subnet resource is deprecated in favor of the deicated resource **azurerm_subnet_network_security_group_association**.
@@ -48,7 +48,7 @@ module "Subnet" {
     RGName                  = data.azurerm_resource_group.ImportedRG.name
     VNetName                = data.azurerm_virtual_network.VNetTest.name
     Subnetaddressprefix     = "192.168.201.0/25"
-    NSGid                   = data.azurerm_network_security_group.id
+    NSGid                   = data.azurerm_network_security_group.NSGTest.id
     SVCEP                   = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 
 
@@ -73,7 +73,7 @@ module "ResourceGroup" {
   source = "github.com/dfrappart/Terra-AZModuletest//Modules//01 ResourceGroup/"
 
   #Module variable
-  RGName              = "RGTest
+  RGName              = "RGTest"
   RGLocation          = "westeurope"
   EnvironmentTag      = var.EnvironmentTag
   EnvironmentUsageTag = var.EnvironmentUsageTag
@@ -121,6 +121,9 @@ module "NSG" {
 
 
 module "Subnet" {
+    #Module location
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//06-1 Subnet/"
+
     SubnetName              = "Subnet1"
     RGName                  = module.ResourceGroup.Name
     VNetName                = module.VNet.Name
