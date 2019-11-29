@@ -7,13 +7,13 @@
 #Output
 
 output "Name" {
-  value = "${azurerm_route.TerraRoute.name}"
+  value = azurerm_route.TerraRoute.name
 }
 
 output "Id" {
-  value = "${azurerm_route.TerraRoute.id}"
+  value = azurerm_route.TerraRoute.id
 }
 
 output "RGName" {
-  value = "${azurerm_route.TerraRoute.resource_group_name}"
+  value = azurerm_route.TerraRoute.resource_group_name
 }
