@@ -5,44 +5,45 @@
 #Variable declaration for Module
 
 variable "SubnetName" {
-  type    = "string"
+  type    = string
   default = "DefaultSubnet"
 }
 
 variable "RGName" {
-  type    = "string"
+  type    = string
   default = "DefaultRSG"
 }
 
-variable "vNetName" {
-  type = "string"
+variable "VNetName" {
+  type = string
 }
 
 variable "Subnetaddressprefix" {
-  type = "string"
+  type = string
 }
 
 variable "NSGid" {
-  type = "string"
+  type = string
+  default = "null"
 }
 
 variable "SVCEP" {
-  type    = "list"
-  default = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.ServiceBus", "Microsoft.EventHub"]
+  type    = list
+  default = null
 }
 
 variable "RouteTableId" {
-  type    = "string"
+  type    = string
   default = "null"
 }
 
 variable "EnvironmentTag" {
-  type    = "string"
+  type    = string
   default = "Poc"
 }
 
 variable "EnvironmentUsageTag" {
-  type    = "string"
+  type    = string
   default = "Poc usage only"
 }
 
