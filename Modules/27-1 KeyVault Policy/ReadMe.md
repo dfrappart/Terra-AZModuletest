@@ -1,0 +1,1 @@
+# This config deploys secrets for Azure VMs in a previously deployed keyvault
