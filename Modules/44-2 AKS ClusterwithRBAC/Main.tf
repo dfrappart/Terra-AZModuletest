@@ -42,7 +42,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
     vm_size                    = var.AKSNodeInstanceType
     availability_zones         = var.AKSAZ
     enable_auto_scaling        = var.EnableAKSAutoScale      
-    enable_node_public_ip      = true #var.EnableNodePublicIP        
+    enable_node_public_ip      = var.EnableNodePublicIP        
     max_pods                   = var.AKSMaxPods
     os_disk_size_gb            = var.AKSNodeOSDiskSize   
     type                       = var.AKSNodePoolType
