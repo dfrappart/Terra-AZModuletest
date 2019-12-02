@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
   lifecycle {
     ignore_changes = [
       #Ignore change for node count since it is autoscaling
-      default_node_pool["node_count"]
+      default_node_pool[0].node_count
 
     ]
   }
