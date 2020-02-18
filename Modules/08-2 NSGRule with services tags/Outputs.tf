@@ -6,9 +6,9 @@
 # Module output
 
 output "Name" {
-  value = "${azurerm_network_security_rule.Terra-NSGRulewSTags.name}"
+  value = azurerm_network_security_rule.Terra-NSGRulewSTags.name
 }
 
 output "Id" {
-  value = "${azurerm_network_security_rule.Terra-NSGRulewSTags.id}"
+  value = azurerm_network_security_rule.Terra-NSGRulewSTags.id
 }
