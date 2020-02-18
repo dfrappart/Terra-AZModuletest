@@ -63,7 +63,7 @@ module "ResourceGroup" {
 
 }
 
-# Calling the Route table module
+# Calling the NSG module
 
 module "NSGTest" {
 
@@ -81,21 +81,6 @@ module "NSGTest" {
 
 }
 
-module "RouteTable" {
 
-    #Module location
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//07 NSG/"
-
-    RouteTableName              = "NSGTest"
-    RGName                      = module.ResourceGroup.Name
-    RTLocation                  = module.ResourceGroup.Location
-    BGPDisabled                 = var.BGPDisabled
-    EnvironmentTag              = var.EnvironmentTag
-    EnvironmentUsageTag         = var.EnvironmentUsageTag
-    OwnerTag                    = var.OwnerTag
-    ProvisioningDateTag         = var.ProvisioningDateTag
-
-
-}
 
 ```
