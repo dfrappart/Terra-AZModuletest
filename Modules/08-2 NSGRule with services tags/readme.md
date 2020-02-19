@@ -78,7 +78,7 @@ module "NSGTest" {
 module "NSGRule" {
 
     #Module location
-    source = "github.com/dfrappart/Terra-AZModuletest//Modules//08-1 NSGRule/"
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//08-2 NSGRule with services tags/"
 
     NSGRuleName                                 = var.NSGRuleName
     NSGRulePriority                             = var.NSGRulePriority
