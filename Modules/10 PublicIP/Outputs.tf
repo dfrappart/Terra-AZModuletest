@@ -2,6 +2,7 @@
 # This module allows the creation of a Public IP Address
 ######################################################################
 
+/*
 
 #Module output without zones
 
@@ -13,24 +14,25 @@ output "Ids" {
   value = ["${azurerm_public_ip.TerraPublicIP.*.id}"]
 }
 
-/*
+
 output "IPAddresses" {
 
   value = ["${azurerm_public_ip.TerraPublicIP.*.ip_address}"]
 }
-*/
+
 output "fqdns" {
   value = ["${azurerm_public_ip.TerraPublicIP.*.fqdn}"]
 }
+*/
 
 #Module outputs with zones
 
-output "ZRIPNames" {
-  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.name}"]
+output "ZRIPName" {
+  value = azurerm_public_ip.TerraPublicIPZoneRedundant.name
 }
 
-output "ZRIPIds" {
-  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.id}"]
+output "ZRIPId" {
+  value = azurerm_public_ip.TerraPublicIPZoneRedundant.id
 }
 
 /*
@@ -40,9 +42,9 @@ output "IPAddresses" {
 }
 */
 output "ZRIPfqdns" {
-  value = ["${azurerm_public_ip.TerraPublicIPZoneRedundant.*.fqdn}"]
+  value = azurerm_public_ip.TerraPublicIPZoneRedundant.fqdn
 }
 
 output "RGName" {
-  value = "${var.RGName}"
+  value = azurerm_public_ip.TerraPublicIPZoneRedundant.resource_group_name
 }
