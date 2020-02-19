@@ -35,7 +35,7 @@ resource "azurerm_public_ip" "TerraPublicIPZoneRedundant" {
   zones                        = var.PIPZones
 
 
-  tags {
+  tags = {
     Environment       = var.EnvironmentTag
     Usage             = var.EnvironmentUsageTag
     Owner             = var.OwnerTag
