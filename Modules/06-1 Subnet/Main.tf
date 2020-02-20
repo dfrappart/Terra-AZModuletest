@@ -17,5 +17,5 @@ resource "azurerm_subnet" "TerraSubnet" {
 
 resource "azurerm_subnet_network_security_group_association" "Terra_Subnet_NSG_Association" {
     subnet_id                           = azurerm_subnet.TerraSubnet.id
-    network_security_group_id   = var.NSGId
+    network_security_group_id   = var.NSGid
 }
