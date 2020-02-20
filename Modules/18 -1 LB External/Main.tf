@@ -17,7 +17,7 @@ resource "azurerm_lb" "TerraExtLB" {
     public_ip_address_id = var.PublicIPId
   }
 
-    tags {
+    tags = {
     Environment         = var.EnvironmentTag
     Usage               = var.EnvironmentUsageTag
     Owner               = var.OwnerTag
