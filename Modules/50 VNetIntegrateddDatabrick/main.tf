@@ -5,23 +5,13 @@
 
 
 
-locals {
-
-  STAPrefix                           = "${lower(var.Company)}${lower(var.CountryTag)}${lower(var.Environment)}${lower(var.Project)}st"
-  ResourcePrefix                      = "${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-"
-  DTBWSName                           = "${lower(var.Company)}${lower(var.CountryTag)}${lower(var.Environment)}${lower(var.Project)}dbw${lower(var.DTBWSName)}"
-  
-}
-
-
-
 #Creating a Resource Group
 
 
 resource "azurerm_resource_group" "Terra_RG" {
 
     
-    name                        = "${local.ResourcePrefix}rsg-${var.RGName}"
+    name                        = "rg${var.RGName}"
     location                    = var.RGLocation
 
     tags = {
@@ -37,10 +27,10 @@ resource "azurerm_resource_group" "Terra_RG" {
 # Creating VNet
 
 resource "azurerm_virtual_network" "Terra_VNet" {
-  name                          = "${local.ResourcePrefix}vnt-${var.VNetName}"
+  name                          = "vnt${var.VNetName}"
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   address_space                 = var.VNetAddressSpace
-  location                      =  azurerm_resource_group.Terra_RG.location
+  location                      = azurerm_resource_group.Terra_RG.location
 
     tags = {
     Environment       = var.EnvironmentTag
@@ -55,7 +45,7 @@ resource "azurerm_virtual_network" "Terra_VNet" {
 
 resource "azurerm_subnet" "Terra_Subnet" {
   count                         = 2
-  name                          = "${local.ResourcePrefix}sub-${element(var.SubnetName,count.index)}"
+  name                          = "sub${element(var.SubnetName,count.index)}"
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   virtual_network_name          = azurerm_virtual_network.Terra_VNet.name
   address_prefix                = element(var.Subnetaddressprefix,count.index)
@@ -80,7 +70,7 @@ resource "azurerm_subnet_network_security_group_association" "Terra_Subnet_NSG_A
 
 resource "azurerm_network_security_group" "Terra_NSG" {
   count                         = 2
-  name                          = "${local.ResourcePrefix}nsg-${element(var.NSGName,count.index)}"
+  name                          = "nsg${element(var.NSGName,count.index)}"
   location                      = azurerm_resource_group.Terra_RG.location
   resource_group_name           = azurerm_resource_group.Terra_RG.name
 
@@ -96,7 +86,7 @@ resource "azurerm_network_security_group" "Terra_NSG" {
 # Creating DTB Workspace
 
 resource "azurerm_databricks_workspace" "Terra_DTBWS" {
-  name                          = substr(local.DTBWSName,0,32)
+  name                          = substr(lower(var.DTBWSName),0,32)
   location                      = azurerm_resource_group.Terra_RG.location
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   sku                           = var.DTBWSSku
