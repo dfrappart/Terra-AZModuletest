@@ -15,10 +15,10 @@ resource "azurerm_resource_group" "Terra_RG" {
     location                    = var.RGLocation
 
     tags = {
-    Environment       = var.EnvironmentTag
-    Usage             = var.EnvironmentUsageTag
-    Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    Environment                 = var.EnvironmentTag
+    Usage                       = var.EnvironmentUsageTag
+    Owner                       = var.OwnerTag
+    ProvisioningDate            = var.ProvisioningDateTag
 
     }
 
@@ -33,10 +33,10 @@ resource "azurerm_virtual_network" "Terra_VNet" {
   location                      = azurerm_resource_group.Terra_RG.location
 
     tags = {
-    Environment       = var.EnvironmentTag
-    Usage             = var.EnvironmentUsageTag
-    Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    Environment                 = var.EnvironmentTag
+    Usage                       = var.EnvironmentUsageTag
+    Owner                       = var.OwnerTag
+    ProvisioningDate            = var.ProvisioningDateTag
 
     }
 }
@@ -75,10 +75,10 @@ resource "azurerm_network_security_group" "Terra_NSG" {
   resource_group_name           = azurerm_resource_group.Terra_RG.name
 
   tags = {
-    Environment       = var.EnvironmentTag
-    Usage             = var.EnvironmentUsageTag
-    Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    Environment                 = var.EnvironmentTag
+    Usage                       = var.EnvironmentUsageTag
+    Owner                       = var.OwnerTag
+    ProvisioningDate            = var.ProvisioningDateTag
 
   }
 }
@@ -86,7 +86,7 @@ resource "azurerm_network_security_group" "Terra_NSG" {
 # Creating DTB Workspace
 
 resource "azurerm_databricks_workspace" "Terra_DTBWS" {
-  name                          = substr(lower(var.DTBWSName),0,32)
+  name                          = "dtbw${substr(lower(var.DTBWSName),0,30)}"
   location                      = azurerm_resource_group.Terra_RG.location
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   sku                           = var.DTBWSSku
@@ -99,9 +99,9 @@ resource "azurerm_databricks_workspace" "Terra_DTBWS" {
   }
     
   tags = {
-    Environment       = var.EnvironmentTag
-    Usage             = var.EnvironmentUsageTag
-    Owner             = var.OwnerTag
-    ProvisioningDate  = var.ProvisioningDateTag
+    Environment                 = var.EnvironmentTag
+    Usage                       = var.EnvironmentUsageTag
+    Owner                       = var.OwnerTag
+    ProvisioningDate            = var.ProvisioningDateTag
   }
 }
