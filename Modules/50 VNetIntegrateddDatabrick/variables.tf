@@ -103,7 +103,11 @@ variable "DTBWSSku" {
 
 }
 
-
+variable "DTBWSPIP" {
+  type                  = string
+  description           = "Define the dtbws param no_public_ip, default to false to have public ip"
+  default               = false
+}
 ######################################################
 #Tag related variables and naming convention section
 

@@ -91,7 +91,7 @@ resource "azurerm_databricks_workspace" "Terra_DTBWS" {
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   sku                           = var.DTBWSSku
   custom_parameters {
-    no_public_ip                = true
+    no_public_ip                = var.DTBWSPIP
     virtual_network_id          = azurerm_virtual_network.Terra_VNet.id
     public_subnet_name          = element(azurerm_subnet.Terra_Subnet.*.name,0)
     private_subnet_name         = element(azurerm_subnet.Terra_Subnet.*.name,1)
