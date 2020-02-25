@@ -4,9 +4,9 @@
 
 
 output "Name" {
-    value = "${azurerm_lb.TerraIntLB.name}"
+    value = azurerm_lb.TerraIntLB.name
 }
 
 output "Id" {
-    value = "${azurerm_lb.TerraIntLB.id}"
+    value = azurerm_lb.TerraIntLB.id
 }

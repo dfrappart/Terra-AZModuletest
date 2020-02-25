@@ -29,7 +29,7 @@ variable "RGName" {
 
 variable "PIPZones" {
   type    = list
-  default = ["1","2","3"]
+  default = null
 }
 
 
