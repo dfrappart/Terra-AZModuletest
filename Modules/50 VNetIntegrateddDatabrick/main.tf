@@ -105,3 +105,4 @@ resource "azurerm_databricks_workspace" "Terra_DTBWS" {
     ProvisioningDate            = var.ProvisioningDateTag
   }
 }
+

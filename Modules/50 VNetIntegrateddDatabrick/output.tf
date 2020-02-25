@@ -87,3 +87,4 @@ output "DTBSWId" {
 output "DTBSWManagedRGId" {
     value = azurerm_databricks_workspace.Terra_DTBWS.managed_resource_group_id
 }
+
