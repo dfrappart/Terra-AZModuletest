@@ -49,7 +49,7 @@ resource "azurerm_subnet" "Terra_Subnet" {
   resource_group_name           = azurerm_resource_group.Terra_RG.name
   virtual_network_name          = azurerm_virtual_network.Terra_VNet.name
   address_prefix                = element(var.Subnetaddressprefix,count.index)
-  network_security_group_id     = element(azurerm_network_security_group.Terra_NSG.*.id,count.index)
+  #network_security_group_id     = element(azurerm_network_security_group.Terra_NSG.*.id,count.index)
   service_endpoints             = var.SVCEP
   delegation {
     name                        = "${element(var.SubnetName,count.index)}delegation"

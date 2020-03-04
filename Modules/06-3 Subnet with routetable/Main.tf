@@ -10,9 +10,9 @@ resource "azurerm_subnet" "TerraSubnet" {
   resource_group_name       = var.RGName
   virtual_network_name      = var.VNetName
   address_prefix            = var.Subnetaddressprefix
-  network_security_group_id = var.NSGid
+  #network_security_group_id = var.NSGid
   service_endpoints         = var.SVCEP
-  route_table_id            = var.RouteTableId
+  #route_table_id            = var.RouteTableId
 }
 
 resource "azurerm_subnet_network_security_group_association" "Terra_Subnet_NSG_Association" {

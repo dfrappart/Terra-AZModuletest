@@ -4,38 +4,38 @@
 
 #Module variables
 
-variable "ExtLBName" {
-  type = "string"
+variable "IntLBName" {
+  type = string
 }
 
 variable "AzureRegion" {
-  type = "string"
+  type = string
 }
 
 variable "RGName" {
-  type = "string"
+  type = string
 }
 
 
 variable "EnvironmentTag" {
-  type = "string"
+  type = string
 }
 
 variable "EnvironmentUsageTag" {
-  type = "string"
+  type = string
 }
 
 variable "OwnerTag" {
-  type = "string"
+  type = string
   default = "Taht would be me"
 }
 
 variable "ProvisioningDateTag" {
-  type = "string"
+  type = string
   default = "Today :)"
 }
 
 variable "LBSku" {
-  type = "string"
-  default = "basic"
+  type = string
+  default = "standard"
 }

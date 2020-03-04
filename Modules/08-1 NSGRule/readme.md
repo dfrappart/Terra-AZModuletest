@@ -31,6 +31,26 @@ data "azurerm_network_security_group" "ImportedNSG" {
 
 }
 
+module "NSGRule" {
+
+    #Module location
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules//08-1 NSGRule/"
+
+    NSGRuleName                                 = var.NSGRuleName
+    NSGRulePriority                             = var.NSGRulePriority
+    NSGRuleDirection                            = var.NSGRuleDirection
+    NSGRuleAccess                               = var.NSGRuleAccess
+    NSGRuleProtocol                             = var.NSGRuleProtocol
+    NSGRuleSourcePortRange                      = var.NSGRuleSourcePortRange
+    NSGRuleDestinationAddressPrefixes           = var.NSGRuleDestinationAddressPrefixes
+    NSGRuleSourceAddressPrefixes                = var.NSGRuleSourceAddressPrefixes
+    NSGRuleDestinationASG                       = var.NSGRuleDestinationASG
+    RGName                                      = module.ResourceGroup.Name
+    NSGReference                                = data.azurerm_network_security_group.ImportedNSG.name
+
+
+}
+
 ```
 
 

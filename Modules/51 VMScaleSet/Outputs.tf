@@ -3,10 +3,11 @@
 ######################################################################
 
 
-output "Name" {
-    value = azurerm_lb.TerraIntLB.name
+
+output "LBBackendPoolIds" {
+  value = ["${azurerm_lb_backend_address_pool.TerraLBBackEndPool.*.id}"]
 }
 
-output "Id" {
-    value = azurerm_lb.TerraIntLB.id
+output "RGName" {
+  value = "${var.RGName}"
 }
