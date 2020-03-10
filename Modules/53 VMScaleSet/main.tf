@@ -75,6 +75,25 @@ resource "azurerm_network_security_group" "Terra_NSG" {
   }
 }
 
+
+# creation of the rule to allow http
+
+resource "azurerm_network_security_rule" "Terra_NSGRulewSTags" {
+  name                        = "AllowHttpInFromInternet"
+  priority                    = 1001
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "tcp"
+  source_port_range           = "*"
+  destination_port_range      = 80
+  source_address_prefix       = "Internet"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.Terra_RG.name
+  network_security_group_name = element(azurerm_network_security_group.Terra_NSG.*.name,0)
+}
+
+# Public Ip for LB
+
 resource "azurerm_public_ip" "Terra_PIP" {
   name                           = "pip${var.PublicIPName}"
   location                       = azurerm_resource_group.Terra_RG.location
@@ -149,31 +168,16 @@ resource "azurerm_lb_rule" "Terra_LBFrondEndrule" {
   #disable_outbound_snat           = true
 }
 
-# Creating Load Balancer outbound rules
 
-/*
-resource "azurerm_lb_outbound_rule" "Terra_LBFrondEndrule" {
-  resource_group_name     = azurerm_resource_group.Terra_RG.name
-  loadbalancer_id         = azurerm_lb.Terra_ExtLB.id
-  name                    = "OutboundRule"
-  protocol                = "Tcp"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.Terra_LBBackEndPool.id
 
-  frontend_ip_configuration {
-    name = var.FEConfigName
-  }
-}
-*/
-
-/*
 data "template_file" "cloudconfig" {
-  #template = "${file("./script.sh")}"
+
   template = "${file("${path.root}${var.CloudinitscriptPath}")}"
 }
 
 #https://www.terraform.io/docs/providers/template/d/cloudinit_config.html
 data "template_cloudinit_config" "config" {
-  gzip          = true
+  #gzip          = true
   base64_encode = true
 
   part {
@@ -182,7 +186,7 @@ data "template_cloudinit_config" "config" {
 }
 
 
-*/
+
 
 
 resource "azurerm_linux_virtual_machine_scale_set" "Terra_LinuxVMSS" {
@@ -229,7 +233,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "Terra_LinuxVMSS" {
     }
   }
 
-  #custom_data = data.template_cloudinit_config.config.rendered
+  custom_data = data.template_cloudinit_config.config.rendered
 
 
 
@@ -242,18 +246,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "Terra_LinuxVMSS" {
 
 }
 
-resource "azurerm_virtual_machine_scale_set_extension" "VMSSExtension" {
-  name                         = "vmss${var.VMSSName}extension"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.Terra_LinuxVMSS.id
-  publisher                    = "Microsoft.Azure.Extensions"
-  type                         = "CustomScript"
-  type_handler_version         = "2.0"
-  settings =<<SETTINGS
-      {
-        "commandToExecute": "apt-get update && apt-get install nginx -y && systemctl start nginx && echo 'Script done' >> /tmp/scriptresult.txt && exit 0"
-        }
-SETTINGS
-}
+
 
 resource "azurerm_public_ip" "Terra_BastionPIP" {
   name                           = "pipbastion${var.PublicIPName}"

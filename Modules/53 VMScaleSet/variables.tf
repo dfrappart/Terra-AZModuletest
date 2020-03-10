@@ -1,14 +1,21 @@
 ######################################################
+# Module VMSS Variables
+######################################################
+
+
+######################################################
 #Resource Group variables
 
 variable "RGName" {
     type                = string
     description         = "The Resource Group containing all the resources for this module"
+    default             = "vmsstest"
 }
 
 variable "RGLocation" {
     type                = string
     description         = "The Azure location of the RG"
+    default             = "westeurope"
 }
 
 ######################################################
@@ -17,6 +24,7 @@ variable "RGLocation" {
 variable "VNetName" {
     type                = string
     description         = "VNet name"
+    default             = "vmsstest"
 
 
 }
@@ -83,7 +91,7 @@ variable "NSGName" {
 
 variable "PublicIPName" {
   type                  = string
-  default               = "meetup2020"
+  default               = "vmsstest"
   description           = "Public IP Name"
 }
 
@@ -96,14 +104,14 @@ variable "PublicIPName" {
 variable "ExtLBName" {
   type                  = string
   description           = "Load balancer name"
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 
 variable "FEConfigName" {
   type                  = string
   description           = "Load balancer name"
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 variable "LBSku" {
@@ -175,7 +183,7 @@ variable "CloudinitscriptPath" {
 variable "VMSSName" {
   type                  = string
   description           = "VMSS Name"
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 variable "VMSSSku" {
@@ -241,13 +249,13 @@ variable "OSDiskCaching" {
 variable "VMSSNICName" {
   type                  = string
   description           = "Managed DIsk Caching option"
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 variable "VMSSNICNameConfig" {
   type                  = string
   description           = "VMSS IP Config Name"
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 
@@ -257,12 +265,12 @@ variable "VMSSNICNameConfig" {
 
 variable "EnvironmentTag" {
   type                  = string
-  default               = "meetup2020"
+  default               = "vmsstest"
 }
 
 variable "EnvironmentUsageTag" {
   type                  = string
-  default               = "Meetup usage only"
+  default               = "test"
 }
 
 variable "OwnerTag" {
