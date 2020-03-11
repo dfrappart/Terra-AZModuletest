@@ -189,14 +189,9 @@ variable "VMSSName" {
 variable "VMSSSku" {
   type                  = string
   description           = "VMSS SKU"
-  default               = "Standard_B4ms"
+  default               = "Standard_B2ms"
 }
 
-variable "VMSSInstanceNumber" {
-  type                  = string
-  description           = "VMSS Insance number"
-  default               = 3
-}
 
 variable "VMAdminName" {
   type                  = string
@@ -258,7 +253,175 @@ variable "VMSSNICNameConfig" {
   default               = "vmsstest"
 }
 
+variable "VMSSUpgradeMode" {
+  type                  = string
+  description           = "The upgrade mode of the VMSS, possible value are Manual, Rolling and Automatic"
+  default               = "Rolling"
+}
 
+variable "VMSSZonesList" {
+  type                  = list
+  description           = "The list of AZ in wich the VMSS is deployed"
+  default               = [1,2,3]
+}
+
+variable "IsZoneBalanced" {
+  type                  = string
+  description           = "If the VMSS is balanced across the AZ"
+  default               = true
+}
+
+######################################################
+# Autoscale variable
+
+variable "VMSSPRofileName" {
+  type                  = string
+  description           = "VMSS Autoscale profile name"
+  default               = "vmssautoscaleprofile"
+}
+
+
+variable "VMSSInstanceNumber" {
+  type                  = string
+  description           = "VMSS Instance number"
+  default               = 6
+}
+
+variable "VMSSInstanceMin" {
+  type                  = string
+  description           = "VMSS Minimal Instance number"
+  default               = 3
+}
+
+variable "VMSSInstanceMax" {
+  type                  = string
+  description           = "VMSS Maximal Instance number"
+  default               = 9
+}
+
+# Autoscale variable - scale out rule
+
+variable "ScaleUpRuleMetricName" {
+  type                  = string
+  description           = "the metric name for the scale out rule"
+  default               = "Percentage CPU"
+}
+
+variable "ScaleUpRuleTimeGrain" {
+  type                  = string
+  description           = "the metric name for the scale out rule"
+  default               = "PT1M"
+}
+
+variable "ScaleUpRuleStatistic" {
+  type                  = string
+  description           = "the statistic name for the rule scale out rule"
+  default               = "Average"
+}
+
+variable "ScaleUpRuleTimeWindow" {
+  type                  = string
+  description           = "the time window for the rule scale out rule"
+  default               = "PT5M"
+}
+
+variable "ScaleUpRuleTimeAggreg" {
+  type                  = string
+  description           = "the time aggregation for the rule scale out rule"
+  default               = "Average"
+}
+
+variable "ScaleUpRuleOperator" {
+  type                  = string
+  description           = "the operator for the rule scale out rule"
+  default               = "GreaterThan"
+}
+
+variable "ScaleUpRuleThreshold" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = 90
+}
+
+variable "ScaleUpActionType" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = "ChangeCount"
+}
+
+variable "ScaleUpActionValue" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = 3
+}
+
+variable "ScaleUpActionCooldown" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = "PT1M"
+}
+
+# Autoscale variable - scale out rule
+
+variable "ScaleDownRuleMetricName" {
+  type                  = string
+  description           = "the metric name for the scale out rule"
+  default               = "Percentage CPU"
+}
+
+variable "ScaleDownRuleTimeGrain" {
+  type                  = string
+  description           = "the metric name for the scale out rule"
+  default               = "PT1M"
+}
+
+variable "ScaleDownRuleStatistic" {
+  type                  = string
+  description           = "the statistic name for the rule scale out rule"
+  default               = "Average"
+}
+
+variable "ScaleDownRuleTimeWindow" {
+  type                  = string
+  description           = "the time window for the rule scale out rule"
+  default               = "PT5M"
+}
+
+variable "ScaleDownRuleTimeAggreg" {
+  type                  = string
+  description           = "the time aggregation for the rule scale out rule"
+  default               = "Average"
+}
+
+variable "ScaleDownRuleOperator" {
+  type                  = string
+  description           = "the operator for the rule scale out rule"
+  default               = "LessThan"
+}
+
+variable "ScaleDownRuleThreshold" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = 25
+}
+
+variable "ScaleDownActionType" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = "ChangeCount"
+}
+
+variable "ScaleDownActionValue" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = 3
+}
+
+variable "ScaleDownActionCooldown" {
+  type                  = string
+  description           = "the theshold for the rule scale out rule"
+  default               = "PT1M"
+}
 
 ######################################################
 #Tag related variables and naming convention section

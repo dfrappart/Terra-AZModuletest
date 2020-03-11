@@ -6,5 +6,3 @@ systemctl start nginx
 
 
 echo "bootscript done" > /tmp/results.txt
-
-exit 0
