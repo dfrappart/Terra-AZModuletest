@@ -110,7 +110,7 @@ variable "ExtLBName" {
 
 variable "FEConfigName" {
   type                  = string
-  description           = "Load balancer name"
+  description           = "The Load balancer Front End configurationname"
   default               = "vmsstest"
 }
 
@@ -131,7 +131,7 @@ variable "LBProbePort" {
 variable "LBProbeName" {
   type                  = string
   description           = "Load balancer Probe Name"
-  default               = "MeetupLBProbe"
+  default               = "vmssLBProbe"
 }
 
 #LB BE Pool
@@ -139,7 +139,7 @@ variable "LBProbeName" {
 variable "LBBackEndPoolName" {
   type                  = string
   description           = "Load balancer BE Pool Name"
-  default               = "MeetupLBBEPool"
+  default               = "vmssLBBEPool"
 }
 
 #LB FE Rule Name
@@ -147,7 +147,7 @@ variable "LBBackEndPoolName" {
 variable "FERuleName" {
   type                  = string
   description           = "Load balancer FE Rule"
-  default               = "MeetupLBFERule"
+  default               = "vmssLBFERule"
 }
 
 
@@ -188,7 +188,7 @@ variable "VMSSName" {
 
 variable "VMSSSku" {
   type                  = string
-  description           = "VMSS SKU"
+  description           = "The VMSS instance SKU"
   default               = "Standard_B2ms"
 }
 
@@ -213,13 +213,13 @@ variable "VMAdminPassword" {
 
 variable "VMImagePublisherName" {
   type                  = string
-  description           = "M Image Publisher namee"
+  description           = "VM Image Publisher namee"
   default               = "Canonical"
 }
 
 variable "VMImageOfferName" {
   type                  = string
-  description           = "VM Image Offere"
+  description           = "VM Image Offer"
   default               = "UbuntuServer"
 }
 
@@ -237,13 +237,13 @@ variable "OSDiskTier" {
 
 variable "OSDiskCaching" {
   type                  = string
-  description           = "Nic Name"
+  description           = "The default caching mode for the OS Disk"
   default               = "None"
 }
 
 variable "VMSSNICName" {
   type                  = string
-  description           = "Managed DIsk Caching option"
+  description           = "The VMSS Nic Name"
   default               = "vmsstest"
 }
 
@@ -351,13 +351,13 @@ variable "ScaleUpActionType" {
 
 variable "ScaleUpActionValue" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "the number of added instance in the scaleset"
   default               = 3
 }
 
 variable "ScaleUpActionCooldown" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "The scale up cool down time value"
   default               = "PT1M"
 }
 
@@ -365,61 +365,61 @@ variable "ScaleUpActionCooldown" {
 
 variable "ScaleDownRuleMetricName" {
   type                  = string
-  description           = "the metric name for the scale out rule"
+  description           = "the metric name for the scale down rule"
   default               = "Percentage CPU"
 }
 
 variable "ScaleDownRuleTimeGrain" {
   type                  = string
-  description           = "the metric name for the scale out rule"
+  description           = "the metric name for the scale down rule"
   default               = "PT1M"
 }
 
 variable "ScaleDownRuleStatistic" {
   type                  = string
-  description           = "the statistic name for the rule scale out rule"
+  description           = "the statistic name for the rule scale down rule"
   default               = "Average"
 }
 
 variable "ScaleDownRuleTimeWindow" {
   type                  = string
-  description           = "the time window for the rule scale out rule"
+  description           = "the time window for the rule scale down rule"
   default               = "PT5M"
 }
 
 variable "ScaleDownRuleTimeAggreg" {
   type                  = string
-  description           = "the time aggregation for the rule scale out rule"
+  description           = "the time aggregation for the rule scale down rule"
   default               = "Average"
 }
 
 variable "ScaleDownRuleOperator" {
   type                  = string
-  description           = "the operator for the rule scale out rule"
+  description           = "the operator for the rule scale down rule"
   default               = "LessThan"
 }
 
 variable "ScaleDownRuleThreshold" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "the theshold for the rule scale down rule"
   default               = 25
 }
 
 variable "ScaleDownActionType" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "the theshold for the rule scale down rule"
   default               = "ChangeCount"
 }
 
 variable "ScaleDownActionValue" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "the theshold for the rule scale down rule"
   default               = 3
 }
 
 variable "ScaleDownActionCooldown" {
   type                  = string
-  description           = "the theshold for the rule scale out rule"
+  description           = "the theshold for the rule scale down rule"
   default               = "PT1M"
 }
 
