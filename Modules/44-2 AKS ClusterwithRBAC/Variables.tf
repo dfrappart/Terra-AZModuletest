@@ -68,7 +68,17 @@ variable "AKSMaxPods" {
   description           = "The maximum number of pods per node"
 }
 
+variable "AKSNodeLabels" {
+  type                  = map
+  default               = null
+  description           = "The Nodes labels"
+}
 
+variable "AKSNodeTaints" {
+  type                  = list
+  default               = null
+  description           = "The Nodes taints list"
+}
 
 variable "AKSNodeOSDiskSize" {
   type                  = string
