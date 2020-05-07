@@ -19,7 +19,7 @@ variable "VNetName" {
 }
 
 variable "Subnetaddressprefix" {
-  type = string
+  type = list(string)
 }
 
 

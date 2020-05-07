@@ -20,5 +20,5 @@ output "Id" {
 
 output "AddressPrefix" {
 
-  value = azurerm_subnet.TerraSubnet.address_prefix
+  value = azurerm_subnet.TerraSubnet.address_prefixes
 }

@@ -50,6 +50,8 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
     min_count                  = var.MinAutoScaleCount
     max_count                  = var.MaxAutoScaleCount
     node_count                 = var.AKSNodeCount
+    node_labels                = var.AKSNodeLabels
+    node_taints                = var.AKSNodeTaints
 
 
   }
