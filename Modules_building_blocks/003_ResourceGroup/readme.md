@@ -71,7 +71,7 @@ can't guarantee that exactly these actions will be performed if
 
 ```
 
-output should be similar to this: 
+output should be similar to this:
 
 ```powershell
 
