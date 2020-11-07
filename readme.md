@@ -1,7 +1,10 @@
 # Terraform modules repository
 
-# This repository contains sample module for terraform
+This repository contains my own module for Azure deployment through Azure
 
-In this repository, you will find terraform sample module.
-The module contains usually 1 resource only, with as many as possible parameters
-While this is not a best practice for terraform module, it can be useful to rapidly get code without too much configuration or coding
+## Repository organization
+
+The repository is currently organized as follow:
+
+- **Modules_building_blocks** folder contains mostly single resource in each module, as much as possible with as much as paramaters declared
+- **Custom_Modules** folder contains more complex modules abstracting more resources
