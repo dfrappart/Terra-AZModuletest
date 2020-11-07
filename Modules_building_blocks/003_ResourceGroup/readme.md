@@ -28,7 +28,7 @@ module "ResourceGroup" {
 
 ### Sample display
 
-terraform plan should gives the following output: 
+terraform plan should gives the following output:
 
 ```powershell
 
@@ -68,5 +68,19 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 Note: You didn't specify an "-out" parameter to save this plan, so Terraform
 can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
+
+```
+
+output should be similar to this: 
+
+```powershell
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+RGId = <sensitive>
+RGLocation = westeurope
+RGName = rsg-lab-1
 
 ```
