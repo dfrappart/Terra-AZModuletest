@@ -28,6 +28,22 @@ Use as follow:
 
 # Creating the ResourceGroup
 
+module "ResourceGroup" {
+
+  #Module Location
+  source                             = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//003_ResourceGroup/"
+  #Module variable
+  RGSuffix                           = "-lab-1"
+  RGLocation                         = "westeurope"
+  ResourceOwnerTag                   = "DFR"
+  CountryTag                         = "fr"
+  CostCenterTag                      = "labtf"
+  EnvironmentTag                     = "dev"
+
+}
+
+# Creating a random string for the root password of mysql
+
 module "PSQLPWD" {
   #Module Location
   source                                  = "../../Modules_building_blocks/002_RandomPassword/"
@@ -36,6 +52,8 @@ module "PSQLPWD" {
   stringlenght                               = 16
 
 }
+
+# Creating a MySQL Server
 
 module "MySQL" {
   source                              = "../../Custom_Modules/PaaS_SRVDB_mySql"
