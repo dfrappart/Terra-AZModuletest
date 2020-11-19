@@ -204,10 +204,15 @@ variable "MySQLDbCollation" {
 
 variable "SubnetIds" {
     type                = list
-    description         = "The ID of the subnets that the MySQL server will be connected to. We use a list and the count feature to addmore than 1 subnet if necessary. It does impact the way we output the resources."
+    description         = "The ID of the subnets that the MySQL server will be connected to. We use a list and the count feature to add more than 1 subnet if necessary. It does impact the way we output the resources."
     default             = ["empty"]
 }
 
+variable "AllowedPubIPs" {
+    type                = list
+    description         = "The accept list for the FW rules. We use a list and the count feature to add more than 1 IP if necessary. It does impact the way we output the resources."
+    default             = ["empty"]
+}
 variable "LawId" {
     type                = string
     description         = "The ID of the storage account used for diag log storage"

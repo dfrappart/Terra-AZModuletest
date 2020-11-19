@@ -77,14 +77,27 @@ resource "azurerm_mysql_database" "MySQLDB" {
   collation                                   = var.MySQLDbCollation
 }
 
+# MySQL Vnet Rules
+
 resource "azurerm_mysql_virtual_network_rule" "MySQLServerVNetRule" {
-  count                                       = length(var.SubnetIds)
+  count                                       = var.SubnetIds[0] == "empty" ? 0 : length(var.SubnetIds)
   name                                        = "mysql-vnrul${var.mysqlsuffix}-${count.index+1}"
   resource_group_name                         = var.RGName
   server_name                                 = azurerm_mysql_server.MySQLServer.name
   subnet_id                                   = element(var.SubnetIds,count.index)
   #The following parameters is not exposed yet in the API and default to false, as opposite to psql equivalent
   #ignore_missing_vnet_service_endpoint        = true
+}
+
+# MySQL FW rules
+
+resource "azurerm_mysql_firewall_rule" "singleIP" {
+  count                                       = var.AllowedPubIPs[0] == "empty" ? 0 : length(var.AllowedPubIPs)
+  name                                        = "mysql-fwrul${var.mysqlsuffix}-${count.index+1}"
+  resource_group_name                         = var.RGName
+  server_name                                 = azurerm_mysql_server.MySQLServer.name
+  start_ip_address                            = var.AllowedPubIPs[count.index]
+  end_ip_address                              = var.AllowedPubIPs[count.index]
 }
 
 
