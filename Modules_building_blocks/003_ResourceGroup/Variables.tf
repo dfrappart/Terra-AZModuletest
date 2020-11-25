@@ -1,5 +1,5 @@
 ##############################################################
-#This module allows the creation of a RG
+#Variable definition file
 ##############################################################
 
 
@@ -20,7 +20,7 @@ variable "RGLocation" {
 
 
 ###################################################################
-#Tag related variables and naming convention section
+#Tag related variables section
 
 variable "ResourceOwnerTag" {
   type               = string
@@ -37,7 +37,7 @@ variable "CountryTag" {
 variable "CostCenterTag" {
   type                = string
   description         = "Tag describing the Cost Center"
-  default             = "rxldefaultcostcenter"
+  default             = "labtf"
 }
 
 variable "EnvironmentTag" {
