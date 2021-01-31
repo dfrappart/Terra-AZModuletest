@@ -78,31 +78,31 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 
 ### Module outputs
 
-| Output name | value | Description |
-|:------------|:------|:------------|
-| FullAKS | `azurerm_kubernetes_cluster.TerraAKSwithRBAC` | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
-| KubeName | azurerm_kubernetes_cluster.TerraAKSwithRBAC.name | The name of the resource |
-| KubeLocation | azurerm_kubernetes_cluster.TerraAKSwithRBAC.location | The location of the AKS Cluster |
-| KubeRG |azurerm_kubernetes_cluster.TerraAKSwithRBAC.resource_group_name | The resource group for AKS |
-| KubeVersion | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubernetes_version | The version of AKS |
-| KubeId | azurerm_kubernetes_cluster.TerraAKSwithRBAC.id | The AKS resource ID |
-| KubeFQDN | azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn | AKS public fqdn |
-| KubeAdminCFGRaw | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw | Kubernetes raw information - Sensitive information |
-| KubeAdminCFG | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config | kubernetes admin config - sensitive information |
-| KubeAdminCFG_UserName | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username | AKS admin name | 
-| KubeAdminCFG_HostName | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host | AKS hostname | 
-| KubeAdminCFG_Password | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password | AKS Admin Password - Sensitive information | 
-| KubeAdminCFG_ClientKey | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_key | AKS Admin Key - Sensitive information | 
-| KubeAdminCFG_ClientCertificate | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate | AKS Admin Certificate - Sensitive information | 
-| KubeAdminCFG_ClusCACert | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate | AKS Cluster CA Certificate - Sensitive information | 
-| KubeControlPlane_SAI | azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity | AKS Control plane Managed Identity block| 
-| KubeControlPlane_SAI_PrincipalId | azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].principal_id | AKS Control plane Managed Identity principal Id |
-| KubeControlPlane_SAI_PrincipalId | azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].tenant_id | AKS Control plane Managed Identity Tenant Id |
-| KubeKubelet_UAI | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity | User Assigned Identity block for the Kubelet |
-| KubeKubelet_UAI_ClientId | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].client_id | User Assigned Identity for kubelet principal Id |
-| KubeKubelet_UAI_ObjectId | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].object_id | User Assigned Identity for kubelet object Id |
-| KubeKubelet_UAI_Id | azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].user_assigned_identity_id | User Assigned Identity for kubelet resource Id |
-| NodeRG | azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group | The name of the resource group containing the nodes and other related AKS resources such as UAI and LB... |
+| Output name | Description | value |
+|:------------|:------------|------:|
+| FullAKS | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module | `azurerm_kubernetes_cluster.TerraAKSwithRBAC` |
+| KubeName | The name of the resource | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.name` | 
+| KubeLocation | The location of the AKS Cluster | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.location` |
+| KubeRG |The resource group for AKS | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.resource_group_name` | 
+| KubeVersion | The version of AKS | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubernetes_version` |
+| KubeId | The AKS resource ID | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.id` |
+| KubeFQDN | AKS public fqdn | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn` |
+| KubeAdminCFGRaw | Kubernetes raw information - Sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw` | 
+| KubeAdminCFG | kubernetes admin config - sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config` | 
+| KubeAdminCFG_UserName | AKS admin name | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username` |
+| KubeAdminCFG_HostName | AKS hostname | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host` | 
+| KubeAdminCFG_Password | AKS Admin Password - Sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password` |
+| KubeAdminCFG_ClientKey | AKS Admin Key - Sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_key` |
+| KubeAdminCFG_ClientCertificate | AKS Admin Certificate - Sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate` |
+| KubeAdminCFG_ClusCACert | AKS Cluster CA Certificate - Sensitive information | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate` | 
+| KubeControlPlane_SAI | AKS Control plane Managed Identity block| `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity` | 
+| KubeControlPlane_SAI_PrincipalId | AKS Control plane Managed Identity principal Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].principal_id` |
+| KubeControlPlane_SAI_PrincipalId | AKS Control plane Managed Identity Tenant Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].tenant_id` | 
+| KubeKubelet_UAI | User Assigned Identity block for the Kubelet | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity` | 
+| KubeKubelet_UAI_ClientId | User Assigned Identity for kubelet principal Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].client_id` | 
+| KubeKubelet_UAI_ObjectId | User Assigned Identity for kubelet object Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].object_id` | 
+| KubeKubelet_UAI_Id | User Assigned Identity for kubelet resource Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].user_assigned_identity_id` | 
+| NodeRG | The name of the resource group containing the nodes and other related AKS resources such as UAI and LB... | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group` | 
 
 ## Exemple configuration
 
