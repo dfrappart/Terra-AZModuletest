@@ -15,6 +15,7 @@ resource "azurerm_resource_group" "TerraRG" {
     Country                             = var.CountryTag
     CostCenter                          = var.CostCenterTag
     Environment                         = var.EnvironmentTag
+    Project                             = var.Project
     ManagedBy                           = "Terraform"
   }
 

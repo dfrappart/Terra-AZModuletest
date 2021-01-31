@@ -6,7 +6,7 @@
 
 Use as follow:
 
-```hcl
+```bash
 
 # Creating the ResourceGroup
 

@@ -8,14 +8,14 @@
 
 
 variable "RGSuffix" {
-  type              = string
-  default           = "-1"
+  type                = string
+  default             = "-1"
 }
 
 
 variable "RGLocation" {
-  type              = string
-  default           = "westeurope"
+  type                = string
+  default             = "westeurope"
 }
 
 
@@ -44,4 +44,10 @@ variable "EnvironmentTag" {
   type                = string
   description         = "The environment, dev, prod..."
   default             = "dev"
+}
+
+variable "Project" {
+  type                = string
+  description         = "The name of the project"
+  default             = "tfmodule"
 }
