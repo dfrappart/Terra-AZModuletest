@@ -78,8 +78,8 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 
 ### Module outputs
 
-| Output name | Description | value |
-|:------------|:-----------------------------------------:|------:|
+| Output name | Description &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| value |
+|:------------|:------------|:------|
 | FullAKS | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module | `azurerm_kubernetes_cluster.TerraAKSwithRBAC` |
 | KubeName | The name of the resource | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.name` | 
 | KubeLocation | The location of the AKS Cluster | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.location` |
