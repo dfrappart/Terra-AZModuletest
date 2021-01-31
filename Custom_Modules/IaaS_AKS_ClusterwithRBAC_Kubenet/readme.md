@@ -69,10 +69,10 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | IshttproutingEnabled | string | false | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. |
 | IsKubeDashboardEnabled | string | true | Is the Kubernetes Dashboard enabled? |
 | IsOMSAgentEnabled | string | true | Is the OMS Agent enabled? || ResourceOwnerTag | string | hqazureinitiative | Tag describing the owner |
-| CountryTag | string | fr | Tag describing the Rexel Country |
-| CostCenterTag | string | rxldefaultcostcenter | Tag describing the Cost Center |
-| Company | string | rxl | The Company owner of the resources, usually Rexel |
-| Project | string | "" | The name of the project |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | lab | Tag describing the Cost Center |
+| Company | string | dfitc | The Company owner of the resource |
+| Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |
 
 
@@ -80,7 +80,7 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 
 | Output name | value | Description |
 |:------------|:------|:------------|
-| FullAKS | azurerm_kubernetes_cluster.TerraAKSwithRBAC | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
+| FullAKS | `azurerm_kubernetes_cluster.TerraAKSwithRBAC` | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
 | KubeName | azurerm_kubernetes_cluster.TerraAKSwithRBAC.name | The name of the resource |
 | KubeLocation | azurerm_kubernetes_cluster.TerraAKSwithRBAC.location | The location of the AKS Cluster |
 | KubeRG |azurerm_kubernetes_cluster.TerraAKSwithRBAC.resource_group_name | The resource group for AKS |
