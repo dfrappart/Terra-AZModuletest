@@ -29,7 +29,7 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
   resource_group_name                     = var.AKSRGName
 
   default_node_pool {
-    name                                  = local.AKSDefaultNodePoolName
+    name                                  = substr(local.AKSDefaultNodePoolName,0,12)
     vm_size                               = var.AKSNodeInstanceType
     availability_zones                    = var.AKSAZ
     enable_auto_scaling                   = var.EnableAKSAutoScale      
