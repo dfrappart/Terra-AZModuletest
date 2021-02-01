@@ -139,9 +139,8 @@ module "AKS1" {
   source                                  = "github.com/dfrappart/Terra-AZModuletest//Custom_Modules//IaaS_AKS_ClusterwithRBAC_Kubenet/"
 
   #Module variable
-  RGLogName                               = data.azurerm_resource_group.RGLog.name
-  LawSubLogName                           = data.azurerm_log_analytics_workspace.LAWLogName.name
-  STASubLogName                           = data.azurerm_storage_account.STALogName.name
+  LawSubLogId                             = data.azurerm_log_analytics_workspace.LAWLogName.id
+  STASubLogId                             = data.azurerm_storage_account.STALogName.id
   AKSLocation                             = module.ResourceGroupAKS.RGLocation
   AKSRGName                               = module.ResourceGroupAKS.RGName
   AKSSubnetId                             = data.azurerm_subnet.AKSSubnet.id
