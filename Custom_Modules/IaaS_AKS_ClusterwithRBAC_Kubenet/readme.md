@@ -97,7 +97,7 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | KubeAdminCFG_ClusCACert | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate` | AKS Cluster CA Certificate - Sensitive information |  
 | KubeControlPlane_SAI | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity` | AKS Control plane Managed Identity block| 
 | KubeControlPlane_SAI_PrincipalId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].principal_id` |AKS Control plane Managed Identity principal Id | 
-| KubeControlPlane_SAI_PrincipalId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].tenant_id` | AKS Control plane Managed Identity Tenant Id | 
+| KubeControlPlane_SAI_TenantId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].tenant_id` | AKS Control plane Managed Identity Tenant Id | 
 | KubeKubelet_UAI | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity` | User Assigned Identity block for the Kubelet | 
 | KubeKubelet_UAI_ClientId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].client_id` |User Assigned Identity for kubelet principal Id |  
 | KubeKubelet_UAI_ObjectId |  `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].object_id` | User Assigned Identity for kubelet object Id |
