@@ -37,7 +37,7 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | LawSubLogId | string | null | The Id of the log analytics workspace for the logs |
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
-| CostCenterTag | string | rxldefaultcostcenter | Tag describing the Cost Center which is the same as the one on the EA |
+| CostCenterTag | string | tflab | Tag describing the Cost Center which is the same as the one on the EA |
 | Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
