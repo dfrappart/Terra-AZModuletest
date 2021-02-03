@@ -36,9 +36,9 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | STASubLogId | string | null | The Id of the storage account for the logs |
 | LawSubLogId | string | null | The Id of the log analytics workspace for the logs |
 | ResourceOwnerTag | string | hqazureinitiative | Tag describing the owner |
-| CountryTag | string | fr | Tag describing the Rexel Country |
-| CostCenterTag | string | rxldefaultcostcenter | Tag describing the Rexel Cost Center which is the same as the one on the EA |
-| Company | string | dfitc | The Company owner of the resources, usually Rexel |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | rxldefaultcostcenter | Tag describing the Cost Center which is the same as the one on the EA |
+| Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
   
