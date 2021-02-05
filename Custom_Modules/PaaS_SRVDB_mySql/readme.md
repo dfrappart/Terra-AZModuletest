@@ -20,6 +20,76 @@ In order to send alert, it relies on a existing Azure Action Group.
 
 Lastly, it is configured to send diagnostic to a storage account and a log analytic workspace
 
+### Module inputs
+
+| Variable name | Variable type | Default value | Description |
+|:--------------|:--------------|:--------------|:------------|
+| RgName | string | N/A | The name of the resource group in which the resources are deployed |
+| Location | string | N/A | The Azure region|
+| RGLogName | string | N/A | The name of the RG containing the logs collector objects (sta and log analytics) |
+| RGLogName | string | N/A | The name of the RG containing the logs collector objects (sta and log analytics) |
+| RGLogLawSubLogNameName | string | N/A | The name of the log analytics workspace containing the logs |
+| STASubLogName | string | N/A | The name of the storage account containing the logs |
+| MySQLSuffix | string | "-01" | A suffix to be added to the Server resource name |
+| MySQLSkuName | string | "GP_Gen5_2" | Specifies the SKU Name for this MySQL Server. The name of the SKU, follows the tier + family + cores pattern (e.g. B_Gen4_1, GP_Gen5_8). |
+| MySQLVersion | string | "5.7" | Specifies the version of MySQL to use. Valid values are 5.6, 5.7, and 8.0. Changing this forces a new resource to be created. |
+| MySQLLogin | string | "rxldbadmin" | The Administrator Login for the MySQL Server. Required when create_mode is Default. Changing this forces a new resource to be created. |
+| MySQLPwd | string | N/A | The Password associated with the administrator_login for the MySQL Server. Required when create_mode is Default. |
+| MySQLRetentionDays | string | 35 | Backup retention days for the server, supported values are between 7 and 35 days. |
+| MySQLCreateMode | string | null | The creation mode. Can be used to restore or replicate existing servers. Possible values are Default, Replica, GeoRestore, and PointInTimeRestore. Defaults to Default. |
+| SRCSRVId | string | null | For creation modes other than Default, the source server ID to use. |
+| MySQLGeoRedundantBackup | string | null | Turn Geo-redundant server backups on/off. This allows you to choose between locally redundant or geo-redundant backup storage in the General Purpose and Memory Optimized tiers. When the backups are stored in geo-redundant backup storage, they are not only stored within the region in which your server is hosted, but are also replicated to a paired data center. This provides better protection and ability to restore your server in a different region in the event of a disaster. This is not supported for the Basic tier. |
+| IsInfraEncrypted | string | null | Whether or not infrastructure is encrypted for this server. Defaults to false. Changing this forces a new resource to be created. |
+| IsPublicAccessEnabled | string | null | Whether or not public network access is allowed for this server. Defaults to true. |
+| RestorePIT | string | null | When create_mode is PointInTimeRestore, specifies the point in time to restore from creation_source_server_id. |
+| IsSSLEnforcementEnabled | bool | true | Specifies if SSL should be enforced on connections. Possible values are true and false. |
+| TLSVersion | bool | null | The minimum TLS version to support on the sever. Possible values are TLSEnforcementDisabled, TLS1_0, TLS1_1, and TLS1_2. Defaults to TLSEnforcementDisabled. |
+| MySQLStorageSize | string | 5120 | Max storage allowed for a server. Possible values are between 5120 MB(5GB) and 1048576 MB(1TB) for the Basic SKU and between 5120 MB(5GB) and 4194304 MB(4TB) for General Purpose/Memory Optimized SKUs. For more information see the product documentation. |
+| IsThreatDetectionEnabled | bool | true | Is the policy enabled? |
+| DisabledThreatAlertList | list | null | Specifies a list of alerts which should be disabled. Possible values include Access_Anomaly, Sql_Injection and Sql_Injection_Vulnerability. |
+| EmailAccountAdminEnabled | bool | null | Should the account administrators be emailed when this alert is triggered? |
+| ThreatAlertEmail | list | N/A | A list of email addresses which alerts should be sent to |
+| ThreatAlertRetentionDays | string | 365 | Specifies the number of days to keep in the Threat Detection audit logs. |
+| ThreatAlertTargetStorageKey | string | N/A | Specifies the identifier key of the Threat Detection audit storage account. |
+| ThreatAlertTargetEP | string | N/A | Specifies the identifier key of the Threat Detection audit storage account |
+| MySQLADAdminObjectId | string | N/A | Specifies the ID of the principal to set as the server administrator |
+| MySQLADAdminLogin | string | mysqlaadadmin | The login name of the principal to set as the server administrator |
+| MySQLDbList | list | ["defaultdbrws"] | List of MySQL databases names. |
+| MySQLDbCharset | string | latin2 | Specifies the Charset for the MySQL Database, which needs to be a valid MySQL Charset. Changing this forces a new resource to be created. |
+| MySQLDbCollation | string | latin2_general_ci | Specifies the Collation for the MySQL Database, which needs to be a valid MySQL Collation. Changing this forces a new resource to be created. |
+| SubnetIds | list | ["empty"] | List of Subnet Ids to authorize on the MySql Server |
+| AllowedPubIPs | list | ["empty"] | Public IP list to allow on Servers |
+| ACG1Id | string | N/A | Resource Id of the 1st action group |
+| DBLowConnectionThreshold | string | 3 | threshold for Memory server load on DB |
+| DBHighConnectionThreshold | string | 200 | threshold for Memory server load on DB |
+| DBFailedConnectionThreshold | string | 10 | threshold for failed connection on DB |
+| DBStoragePercentHighThreshold | string | 80 | threshold for Storage high threshold on DB |
+| DBCPUPercentHighThreshold | string | 80 | threshold for CPU high threshold on DB |
+| ResourceOwnerTag | string | That would be me | Tag describing the owner |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | rxldefaultcostcenter | Tag describing the Cost Center |
+| Company | string | dfitc | The Company owner of the resources, usually Rexel |
+| Project | string | tflab | The name of the project |
+| Environment | string | dev | The environment, dev, prod... |
+| ManagedByTag | string | Terraform | Resource provisioner |
+
+### Module outputs
+
+| Output name | value | Description |
+|:------------|:------|:------------|
+| FullMySQLServerOutput | `azurerm_mysql_server.MySQLServer` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
+| ServerName | `azurerm_mysql_server.MySQLServer.name` | The name of the MySQL server |
+| SkuName | `azurerm_mysql_server.MySQLServer.name` | The sku name of the MySQL |
+| Storage | `azurerm_mysql_server.MySQLServer.storage_mb` | The storage in MB of the MySQL server |
+| RetentionDays | `azurerm_mysql_server.MySQLServer.backup_retention_days` | The retention for backup |
+| ServerVersion | `azurerm_mysql_server.MySQLServer.version` | The MySQL version |
+| SslEnforcementEnabled | `azurerm_mysql_server.MySQLServer.ssl_enforcement_enabled` | Configuration of SSL Enforcement |
+| ServerId | `azurerm_mysql_server.MySQLServer.id` | MySQL Server resource Id |
+| ServerFQDN | `azurerm_mysql_server.MySQLServer.fqdn` | MySQL Server fqdn |
+| DBId | `azurerm_mysql_database.MySQLDB.*.id` | MySQL Database Ids |
+| MySQLADADminId | `var.MySQLCreateMode !="Replica" ? azurerm_mysql_active_directory_administrator.MySQLServerADAdmin[0].id : "Not Applicable, Replica Server"` | MySQL AAD Admin Id if applicable |
+| MySQLADADminId | `var.MySQLCreateMode !="Replica" ? azurerm_mysql_active_directory_administrator.MySQLServerADAdmin[0].login : "Not Applicable, Replica Server"` | MySQL AAD Admin login if applicable |
+
 ## How to call the module
 
 Use as follow:
