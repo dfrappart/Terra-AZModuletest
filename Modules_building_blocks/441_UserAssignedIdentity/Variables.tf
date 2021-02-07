@@ -1,5 +1,5 @@
 ######################################################################
-# This module create a keyvault resource
+# This module create a User Assign resource
 ######################################################################
 
 #Variable declaration for Module
@@ -57,5 +57,5 @@ variable "Project" {
 variable "Environment" {
   type                  = string
   description           = "The environment, dev, prod..."
-  default               = "dev"
+  default               = "lab"
 }
