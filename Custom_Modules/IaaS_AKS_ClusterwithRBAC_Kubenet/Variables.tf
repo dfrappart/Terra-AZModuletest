@@ -86,7 +86,7 @@ variable "AKSNodeTaints" {
 
 variable "AKSNodeOSDiskSize" {
   type                          = string
-  default                       = 30
+  default                       = 127
   description                   = "The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created."
 }
 
@@ -289,7 +289,7 @@ variable "AKSControlPlaneSku" {
 
 variable "IsAzPolicyEnabled" {
   type                          = string
-  default                       = false
+  default                       = true
   description                   = "Is the Azure Policy for Kubernetes Add On enabled? "
 
 }
