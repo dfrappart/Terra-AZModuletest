@@ -68,7 +68,7 @@ Lastly, it is configured to send diagnostic to a storage account and a log analy
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
 | CostCenterTag | string | rxldefaultcostcenter | Tag describing the Cost Center |
-| Company | string | dfitc | The Company owner of the resources, usually Rexel |
+| Company | string | dfitc | The Company owner of the resources |
 | Project | string | tflab | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |
 | ManagedByTag | string | Terraform | Resource provisioner |
