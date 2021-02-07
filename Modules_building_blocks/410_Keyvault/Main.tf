@@ -5,6 +5,15 @@
 #Resource Creation
 
 resource "azurerm_key_vault" "TerraKeyVault" {
+
+  lifecycle {
+    ignore_changes                        = [
+      
+      name
+
+    ]
+  }
+
   name                                      = "akv${lower(var.KeyVaultSuffix)}"
   location                                  = var.TargetLocation
   resource_group_name                       = var.TargetRG
