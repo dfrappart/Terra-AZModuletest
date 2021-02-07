@@ -94,7 +94,7 @@ Lastly, it is configured to send diagnostic to a storage account and a log analy
 
 Use as follow:
 
-```hcl
+```bash
 
 # Creating the ResourceGroup
 
