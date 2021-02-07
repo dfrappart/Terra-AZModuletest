@@ -1,5 +1,5 @@
 ######################################################################
-# This module create a keyvault resource
+# This module create a RBAC Builtin assignment
 ######################################################################
 
 
