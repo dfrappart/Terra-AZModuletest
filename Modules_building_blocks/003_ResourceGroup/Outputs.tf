@@ -19,3 +19,8 @@ output "RGId" {
 
   value           = azurerm_resource_group.TerraRG.id
 }
+
+output "RGFull" {
+
+  value           = azurerm_resource_group.TerraRG
+}
