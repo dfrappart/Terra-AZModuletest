@@ -3,6 +3,15 @@
 ##############################################################
 
 resource "azurerm_logic_app_workflow" "Terra_LGA" {
+
+  lifecycle {
+    ignore_changes                        = [
+      parameters
+
+
+    ]
+  }
+
   name                                  = "lga${var.LGASuffix}"
   location                              = var.LGALocation
   resource_group_name                   = var.RGName
