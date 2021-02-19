@@ -171,4 +171,3 @@ After deployment, something simlilar is visible in the portal:
 
 ![Illustration 1](./Img/RBAC001.png)
 
-
