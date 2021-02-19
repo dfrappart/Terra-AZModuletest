@@ -53,7 +53,7 @@ module "ResourceGroupVMAdmin" {
 
 }
 
-# Creating anUAI to be assigned to the role
+# Creating an UAI to be assigned to the role
 
 module "UAI1" {
 
@@ -170,6 +170,5 @@ UAI1_RG = "rsg-lab-1"
 After deployment, something simlilar is visible in the portal:
 
 ![Illustration 1](./Img/RBAC001.png)
-
 
 
