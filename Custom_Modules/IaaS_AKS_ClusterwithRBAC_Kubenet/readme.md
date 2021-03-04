@@ -35,8 +35,8 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | EnableAKSAutoScale | string | true | Is autoscaling enabled for this node pool |
 | EnableNodePublicIP | string | null | Define if Nodes get Public IP. Default API value is false |
 | AKSMaxPods | string | 100 | Define the max pod number per nodes, Change force new resoure to be created |
-| AKSNodeLabels | map | hqazureinitiative | Tag describing the owner |
-| AKSNodeTaints | string | fr | Tag describing the Rexel Country |
+| AKSNodeLabels | map | null | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. |
+| AKSNodeTaints | list | null | A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created. |
 | AKSNodeOSDiskSize | string | 30 | The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created. |
 | AKSSubnetId | string | N/A | The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. |
 | MaxAutoScaleCount | string | 10 | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 |
@@ -68,7 +68,8 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | IsAzPolicyEnabled | string | false | Is the Azure Policy for Kubernetes Add On enabled? |
 | IshttproutingEnabled | string | false | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. |
 | IsKubeDashboardEnabled | string | true | Is the Kubernetes Dashboard enabled? |
-| IsOMSAgentEnabled | string | true | Is the OMS Agent enabled? || ResourceOwnerTag | string | hqazureinitiative | Tag describing the owner |
+| IsOMSAgentEnabled | string | true | Is the OMS Agent enabled? |
+| ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
 | CostCenterTag | string | lab | Tag describing the Cost Center |
 | Company | string | dfitc | The Company owner of the resource |
