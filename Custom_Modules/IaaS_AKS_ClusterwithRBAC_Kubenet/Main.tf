@@ -9,6 +9,7 @@ locals {
   AKSDefaultNodePoolName                = "aksnp0${lower(var.AKSClusSuffix)}"
 }
 
+################################################################
 #Creating the AKS Cluster with RBAC Enabled and AAD integration
 
 resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
@@ -166,6 +167,10 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
   }
 }
 
+
+################################################################
+# Diagnostic settings resource
+
 resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
   name                                  = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.name}diag"
   target_resource_id                    = azurerm_kubernetes_cluster.TerraAKSwithRBAC.id
@@ -245,3 +250,49 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
 
   }
 }
+
+/*
+################################################################
+# AKS Alert
+
+resource "azurerm_monitor_metric_alert" "NodeCPUPercentage" {
+
+
+  name                                        = "malt-NodeCPUPercentage-${module.AKS1.KubeName}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [module.AKS1.KubeId]
+  description                                 = "${module.AKS1.KubeName}-NodeCPUPercentage"
+
+  criteria {
+    metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
+    metric_name                               = "node_cpu_usage_percentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACGId
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT1M"
+
+
+
+
+  tags = {
+    ResourceOwner                             = var.ResourceOwnerTag
+    Country                                   = var.CountryTag
+    CostCenter                                = var.CostCenterTag
+    Environment                               = var.Environment
+    ManagedBy                                 = "Terraform"
+  }
+
+}
+
+*/
