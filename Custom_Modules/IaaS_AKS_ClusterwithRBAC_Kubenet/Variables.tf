@@ -21,7 +21,7 @@ variable "STASubLogId" {
 
 variable "AKSClusSuffix" {
   type                          = string
-  default                       = "TerraAkSClus"
+  default                       = "AksClus"
   description                   = "A suffix to identify the cluster without breacking the naming convention"
 
 }
@@ -318,6 +318,18 @@ variable "IsOMSAgentEnabled" {
   type                          = string
   default                       = true
 }
+
+
+######################################################
+############### Monitoring Variable ##################
+######################################################
+
+variable "ACG1Id" {
+  type        = string
+  description = "Resource Id of the 1st action group"
+}
+
+
 
 ######################################################
 #Tag related variables and naming convention section
