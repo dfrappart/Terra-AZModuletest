@@ -2,7 +2,7 @@
 
 ## Module description
 
-This module assign a built in role to a principal.
+This module assign storage account.
 
 ### Module inputs
 
@@ -18,7 +18,7 @@ This module assign a built in role to a principal.
 | TLSVer | string | TLS1_2 | The minimum supported TLS version for the storage account. Possible values are TLS1_0, TLS1_1, and TLS1_2. |
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
-| CostCenterTag | string | tflab | Tag describing the Cost Center which is the same as the one on the EA |
+| CostCenterTag | string | tflab | Tag describing the Cost Center |
 | Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
