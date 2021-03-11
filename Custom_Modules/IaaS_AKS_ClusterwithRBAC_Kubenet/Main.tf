@@ -12,7 +12,7 @@ locals {
 ################################################################
 #Creating the AKS Cluster with RBAC Enabled and AAD integration
 
-resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
+resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
 
   lifecycle {
     ignore_changes                        = [
@@ -172,8 +172,8 @@ resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
 # Diagnostic settings resource
 
 resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
-  name                                  = "${azurerm_kubernetes_cluster.TerraAKSwithRBAC.name}diag"
-  target_resource_id                    = azurerm_kubernetes_cluster.TerraAKSwithRBAC.id
+  name                                  = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}diag"
+  target_resource_id                    = azurerm_kubernetes_cluster.AKSRBACKubenet.id
   storage_account_id                    = var.STASubLogId
   log_analytics_workspace_id            = var.LawSubLogId
 
@@ -251,17 +251,18 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
   }
 }
 
-/*
+
 ################################################################
 # AKS Alert
 
-resource "azurerm_monitor_metric_alert" "NodeCPUPercentage" {
+
+resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
-  name                                        = "malt-NodeCPUPercentage-${module.AKS1.KubeName}"
+  name                                        = "malt-NodeCPUPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
   resource_group_name                         = module.ResourceGroup.RGName
-  scopes                                      = [module.AKS1.KubeId]
-  description                                 = "${module.AKS1.KubeName}-NodeCPUPercentage"
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeCPUPercentageThreshold"
 
   criteria {
     metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
@@ -271,28 +272,764 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentage" {
     threshold                                 = 80
 
 
+
   }
 
 
   action {
-    action_group_id                           = var.ACGId
+    action_group_id                           = var.ACG1Id
   }
 
 
   frequency                                   = "PT1M"
-  window_size                                 = "PT1M"
+  window_size                                 = "PT5M"
 
 
 
 
   tags = {
-    ResourceOwner                             = var.ResourceOwnerTag
-    Country                                   = var.CountryTag
-    CostCenter                                = var.CostCenterTag
-    Environment                               = var.Environment
-    ManagedBy                                 = "Terraform"
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
   }
 
 }
 
-*/
+resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThresholdInsightContainer" {
+
+
+  name                                        = "malt-NodeCPUPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeCPUPercentageThresholdInsightContainer"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/nodes"
+    metric_name                               = "cpuUsagePercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+    dimension {
+      name                                    = "host"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
+
+
+  name                                        = "malt-NodeDiskPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeDiskPercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
+    metric_name                               = "node_disk_usage_percentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThresholdInsightContainer" {
+
+
+  name                                        = "malt-NodeDiskPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeDiskPercentageThresholdInsightContainer"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/nodes"
+    metric_name                               = "DiskUsedPercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+    dimension {
+      name                                    = "host"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold" {
+
+
+  name                                        = "malt-NodeWorkingSetMemoryPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeWorkingSetMemoryPercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
+    metric_name                               = "node_memory_working_set_percentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThresholdInsightContainer" {
+
+
+  name                                        = "malt-NodeWorkingSetMemoryPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeWorkingSetMemoryPercentageThresholdInsightContainer"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/nodes"
+    metric_name                               = "memoryWorkingSetPercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 80
+
+    dimension {
+      name                                    = "host"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "NodeNotReadyCountThreshold" {
+
+
+  name                                        = "malt-NodeNotReadyCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeNotReadyCountThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/nodes"
+    metric_name                               = "nodesCount"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 0
+
+    dimension {
+      name                                    = "Status"
+      operator                                = "Include"
+      values                                   = ["NotReady"]
+    }
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "PVUsagePercentageThreshold" {
+
+
+  name                                        = "malt-PVUsagePercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-PVUsagePercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/persistentvolumes"
+    metric_name                               = "pvUsageExceededPercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 95
+
+    dimension {
+      name                                    = "podName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "KubernetesNamespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "PodReadyPercentageThreshold" {
+
+
+  name                                        = "malt-PodReadyPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-PodReadyPercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "insights.container/pods"
+    metric_name                               = "podReadyPercentage"
+    aggregation                               = "Average"
+    operator                                  = "LessThan"
+    threshold                                 = 80
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "Kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "FailedPodCountThreshold" {
+
+
+  name                                        = "malt-FailedPodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-FailedPodCountThreshold"
+
+  criteria {
+    metric_namespace                          = "insights.container/pods"
+    metric_name                               = "podCount"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 0
+
+    dimension {
+      name                                    = "Phase"
+      operator                                = "Include"
+      values                                   = ["Failed"]
+    }
+
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
+
+
+  name                                        = "malt-UnschedulablePodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-UnschedulablePodCountThreshold"
+
+  criteria {
+    metric_namespace                          = "Microsoft.ContainerService/managedClusters"
+    metric_name                               = "cluster_autoscaler_unschedulable_pods_count"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 0
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "CompletedJobCount" {
+
+
+  name                                        = "malt-CompletedJobCount-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-CompletedJobCount"
+
+  criteria {
+    metric_namespace                          = "insights.container/pods"
+    metric_name                               = "completedJobsCount"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 0
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "ContainerCpuExceededPercentageThreshold" {
+
+
+  name                                        = "malt-ContainerCpuExceededPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ContainerCpuExceededPercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/containers"
+    metric_name                               = "cpuExceededPercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 95
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "ContainermemoryWorkingSetExceededPercentageThreshold" {
+
+
+  name                                        = "malt-ContainermemoryWorkingSetExceededPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ContainermemoryWorkingSetExceededPercentageThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/containers"
+    metric_name                               = "memoryWorkingSetExceededPercentage"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 95
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "RestartingContainerCountThreshold" {
+
+
+  name                                        = "malt-RestartingContainerCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-RestartingContainerCountThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/pods"
+    metric_name                               = "restartingContainerCount"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 95
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_metric_alert" "OomKilledContainerCountThreshold" {
+
+
+  name                                        = "malt-OomKilledContainerCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-OomKilledContainerCountThreshold"
+
+  criteria {
+    metric_namespace                          = "Insights.Container/pods"
+    metric_name                               = "oomKilledContainerCount"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = 0
+
+    dimension {
+      name                                    = "controllerName"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+    dimension {
+      name                                    = "kubernetes namespace"
+      operator                                = "Include"
+      values                                   = ["*"]
+    }
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT5M"
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
+
+resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
+
+
+  name                                        = "malt-ListAKSAdminCredsEvent-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
+  resource_group_name                         = module.ResourceGroup.RGName
+  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ListAKSAdminCredsEvent"
+
+  criteria {
+    resource_id                               = azurerm_kubernetes_cluster.AKSRBACKubenet.id
+    operation_name                            = "Microsoft.ContainerService/managedClusters/listClusterAdminCredential/action"
+    category                                  = "Administrative"
+
+  }
+
+
+  action {
+    action_group_id                           = var.ACG1Id
+  }
+
+
+
+
+  tags = {
+    ResourceOwner                       = var.ResourceOwnerTag
+    Country                             = var.CountryTag
+    CostCenter                          = var.CostCenterTag
+    Environment                         = var.Environment
+    ManagedBy                           = "Terraform"
+  }
+
+}
