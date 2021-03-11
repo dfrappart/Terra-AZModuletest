@@ -7,10 +7,11 @@
 #Module Output
 
 output "Id" {
-  value = azurerm_key_vault_certificate.Cert.id
+  value               = azurerm_key_vault_certificate.Cert.id
 }
 
 output "Full" {
-  value = azurerm_key_vault_certificate.Cert
+  value               = azurerm_key_vault_certificate.Cert
+  sensitive           = true
 }
 
