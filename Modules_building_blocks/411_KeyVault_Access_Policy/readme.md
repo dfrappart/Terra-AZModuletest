@@ -40,7 +40,7 @@ Use as follow:
 module "AKSKeyVaultAccessPolicyTF" {
 
   #Module Location
-  source                                  = "../../../Modules_building_blocks/411_KeyVault_Access_Policy/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//411_KeyVault_Access_Policy/"
 
   #Module variable     
   VaultId                                 = module.AKSKeyVault.Id

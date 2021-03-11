@@ -43,7 +43,7 @@ module "AKS_AGW_Cert_Wildcard" {
 
   count                                   = length(var.CertName_Wildcard)
   #Module Location
-  source                                  = "../../Modules/413_KeyvaultCert/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//413_KeyvaultCert/"
 
   #Module variable     
   KeyVaultCertName                        = var.CertName_Wildcard[count.index]
@@ -62,7 +62,82 @@ terraform plan should gives the following output:
 
 ```powershell
 
+An execution plan has been generated and is shown below.  
+Resource actions are indicated with the following symbols:
+  + create
 
+Terraform will perform the following actions:
+
+  # module.AKS_AGW_Cert_Wildcard[0].azurerm_key_vault_certificate.Cert will be created
+  + resource "azurerm_key_vault_certificate" "Cert" {
+      + certificate_attribute   = (known after apply)
+      + certificate_data        = (known after apply)
+      + certificate_data_base64 = (known after apply)
+      + id                      = (known after apply)
+      + key_vault_id            = (sensitive)
+      + name                    = "self-signed-aks-teknews-cloud"
+      + secret_id               = (known after apply)
+      + thumbprint              = (known after apply)
+      + version                 = (known after apply)
+
+      + certificate_policy {
+          + issuer_parameters {
+              + name = "Self"
+            }
+
+          + key_properties {
+              + exportable = true
+              + key_size   = 2048
+              + key_type   = "RSA"
+              + reuse_key  = true
+            }
+
+          + lifetime_action {
+              + action {
+                  + action_type = "AutoRenew"
+                }
+
+              + trigger {
+                  + days_before_expiry = 30
+                }
+            }
+
+          + secret_properties {
+              + content_type = "application/x-pkcs12"
+            }
+
+          + x509_certificate_properties {
+              + extended_key_usage = [
+                  + "1.3.6.1.5.5.7.3.1",
+                  + "1.3.6.1.5.5.7.3.2",
+                ]
+              + key_usage          = [
+                  + "cRLSign",
+                  + "dataEncipherment",
+                  + "digitalSignature",
+                  + "keyAgreement",
+                  + "keyCertSign",
+                  + "keyEncipherment",
+                ]
+              + subject            = "CN=*.aks.teknews.cloud"
+              + validity_in_months = 12
+
+              + subject_alternative_names {
+                  + dns_names = [
+                      + "*.aks.teknews.cloud",
+                    ]
+                }
+            }
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
 
 ```
 

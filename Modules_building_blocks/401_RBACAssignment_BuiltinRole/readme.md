@@ -39,7 +39,7 @@ Use as follow:
 module "ResourceGroupVMAdmin" {
 
   #Module Location
-  source                                = "../../Modules/002_ResourceGroup/"
+  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//002_ResourceGroup/"
   #Module variable    
   RGSuffix                              = "cpt_data"
   RGLocation                            = var.RGLocation
@@ -58,7 +58,7 @@ module "ResourceGroupVMAdmin" {
 module "UAI1" {
 
   #Module Location
-  source                                  = "../../Modules_building_blocks/441_UserAssignedIdentity/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//441_UserAssignedIdentity/"
 
   #Module variable
   UAISuffix                               = "lab1"
@@ -79,7 +79,7 @@ module "UAI1" {
 module "AssignUAI_Test" {
 
   #Module Location
-  source                                  = "../../Modules_building_blocks/401_RBACAssignment_BuiltinRole/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//401_RBACAssignment_BuiltinRole/"
 
   #Module variable
   RBACScope                               = module.ResourceGroup.RGId

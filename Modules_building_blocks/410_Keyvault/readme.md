@@ -73,7 +73,7 @@ Use as follow:
 module "ResourceGroupVMAdmin" {
 
   #Module Location
-  source                                = "../../Modules/002_ResourceGroup/"
+  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//002_ResourceGroup/"
   #Module variable    
   RGSuffix                              = "cpt_data"
   RGLocation                            = var.RGLocation
@@ -90,7 +90,7 @@ module "ResourceGroupVMAdmin" {
 module "AKSKeyVault" {
 
   #Module Location
-  source                                  = "../../Modules/410_Keyvault/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//410_Keyvault/"
 
   #Module variable     
   TargetRG                                = module.ResourceGroupVMAdmin.RGName

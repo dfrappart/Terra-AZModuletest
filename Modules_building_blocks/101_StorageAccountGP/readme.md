@@ -51,7 +51,7 @@ Use as follow:
 module "STATest" {
 
   #Module Location
-  source                                = "../../Modules/002_ResourceGroup/"
+  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//101_StorageAccountGP"
   #Module variable    
   STASuffix                             = "cpt_data"
   RGName                                = var.RGLocation

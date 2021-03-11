@@ -62,7 +62,7 @@ module "ResourceGroup" {
 module "UAI1" {
 
   #Module Location
-  source                             = "../../Modules_building_blocks/441_UserAssignedIdentity/"
+  source                             = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//441_UserAssignedIdentity/"
 
   #Module variable
   UAISuffix                          = "lab1"

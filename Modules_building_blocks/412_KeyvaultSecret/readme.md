@@ -49,7 +49,7 @@ Use as follow:
 module "SecretTest_to_KV" {
 
   #Module Location
-  source                                  = "../../../Modules_building_blocks/412_KeyvaultSecret/"
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//412_KeyvaultSecret/"
 
   #Module variable     
   KeyVaultSecretSuffix                    = "test1"
