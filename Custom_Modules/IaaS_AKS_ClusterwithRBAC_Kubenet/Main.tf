@@ -260,7 +260,7 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
   name                                        = "malt-NodeCPUPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeCPUPercentageThreshold"
 
@@ -301,7 +301,7 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThresholdInsightContai
 
 
   name                                        = "malt-NodeCPUPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeCPUPercentageThresholdInsightContainer"
 
@@ -347,7 +347,7 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 
   name                                        = "malt-NodeDiskPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeDiskPercentageThreshold"
 
@@ -387,7 +387,7 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThresholdInsightConta
 
 
   name                                        = "malt-NodeDiskPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeDiskPercentageThresholdInsightContainer"
 
@@ -432,7 +432,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 
   name                                        = "malt-NodeWorkingSetMemoryPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeWorkingSetMemoryPercentageThreshold"
 
@@ -472,7 +472,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 
   name                                        = "malt-NodeWorkingSetMemoryPercentageThresholdInsightContainer-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeWorkingSetMemoryPercentageThresholdInsightContainer"
 
@@ -517,7 +517,7 @@ resource "azurerm_monitor_metric_alert" "NodeNotReadyCountThreshold" {
 
 
   name                                        = "malt-NodeNotReadyCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-NodeNotReadyCountThreshold"
 
@@ -563,7 +563,7 @@ resource "azurerm_monitor_metric_alert" "PVUsagePercentageThreshold" {
 
 
   name                                        = "malt-PVUsagePercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-PVUsagePercentageThreshold"
 
@@ -614,7 +614,7 @@ resource "azurerm_monitor_metric_alert" "PodReadyPercentageThreshold" {
 
 
   name                                        = "malt-PodReadyPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-PodReadyPercentageThreshold"
 
@@ -665,7 +665,7 @@ resource "azurerm_monitor_metric_alert" "FailedPodCountThreshold" {
 
 
   name                                        = "malt-FailedPodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-FailedPodCountThreshold"
 
@@ -711,7 +711,7 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 
   name                                        = "malt-UnschedulablePodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-UnschedulablePodCountThreshold"
 
@@ -750,7 +750,7 @@ resource "azurerm_monitor_metric_alert" "CompletedJobCount" {
 
 
   name                                        = "malt-CompletedJobCount-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-CompletedJobCount"
 
@@ -801,7 +801,7 @@ resource "azurerm_monitor_metric_alert" "ContainerCpuExceededPercentageThreshold
 
 
   name                                        = "malt-ContainerCpuExceededPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ContainerCpuExceededPercentageThreshold"
 
@@ -852,7 +852,7 @@ resource "azurerm_monitor_metric_alert" "ContainermemoryWorkingSetExceededPercen
 
 
   name                                        = "malt-ContainermemoryWorkingSetExceededPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ContainermemoryWorkingSetExceededPercentageThreshold"
 
@@ -903,7 +903,7 @@ resource "azurerm_monitor_metric_alert" "RestartingContainerCountThreshold" {
 
 
   name                                        = "malt-RestartingContainerCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-RestartingContainerCountThreshold"
 
@@ -954,7 +954,7 @@ resource "azurerm_monitor_metric_alert" "OomKilledContainerCountThreshold" {
 
 
   name                                        = "malt-OomKilledContainerCountThreshold-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-OomKilledContainerCountThreshold"
 
@@ -1005,7 +1005,7 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
 
 
   name                                        = "malt-ListAKSAdminCredsEvent-${azurerm_kubernetes_cluster.AKSRBACKubenet.name}"
-  resource_group_name                         = module.ResourceGroup.RGName
+  resource_group_name                         = var.AKSRGName
   scopes                                      = [azurerm_kubernetes_cluster.AKSRBACKubenet.id]
   description                                 = "${azurerm_kubernetes_cluster.AKSRBACKubenet.name}-ListAKSAdminCredsEvent"
 
