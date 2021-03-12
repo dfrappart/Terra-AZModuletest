@@ -118,7 +118,7 @@ variable "SubContactList" {
 variable "ResourceOwnerTag" {
   type          = string
   description   = "Tag describing the owner"
-  default       = "hqazureinitiative"
+  default       = "That would be me"
 }
 
 variable "CountryTag" {
@@ -136,7 +136,7 @@ variable "CostCenterTag" {
 variable "Company" {
   type          = string
   description   = "The Company owner of the resources"
-  default       = "rxl"
+  default       = ""
 }
 
 variable "Project" {
