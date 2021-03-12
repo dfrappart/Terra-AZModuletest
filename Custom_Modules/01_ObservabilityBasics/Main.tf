@@ -78,7 +78,7 @@ resource "azurerm_security_center_workspace" "LawASC" {
 resource "azurerm_monitor_action_group" "DefaultSubActionGroup" {
   name                                = "acg-${local.ResourcePrefix}-${substr(var.Subid,15,52)}"
   resource_group_name                 = var.RGLogs
-  short_name                          = "acg${substr(var.Subid, 15, 22)}"
+  short_name                          = "acg${substr(var.Subid,15,52)}"
 
   email_receiver {
     name                              = "senttosubcontactlist"
