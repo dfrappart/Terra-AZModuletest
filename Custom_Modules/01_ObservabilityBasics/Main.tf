@@ -5,7 +5,7 @@
 
 locals {
 
-  ResourcePrefix                      = "${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-"
+  ResourcePrefix                      = "${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}"
 }
 
 ##############################################################
@@ -78,7 +78,7 @@ resource "azurerm_security_center_workspace" "LawASC" {
 resource "azurerm_monitor_action_group" "DefaultSubActionGroup" {
   name                                = "acg-${local.ResourcePrefix}-${substr(var.Subid,15,52)}"
   resource_group_name                 = var.RGLogs
-  short_name                          = "acgsub01"
+  short_name                          = "acgsub${substr(var.SubId, 15, 23)}"
 
   email_receiver {
     name                              = "senttosubcontactlist"
@@ -97,7 +97,7 @@ resource "azurerm_monitor_action_group" "DefaultSubActionGroup" {
 #Service health Alerts
 
 resource "azurerm_monitor_activity_log_alert" "SubSVCHealth" {
-  name                                = "alt-${local.ResourcePrefix}${substr(var.Subid,15,52)}-svchealth"
+  name                                = "malt-${local.ResourcePrefix}${substr(var.Subid,15,52)}-svchealth"
   resource_group_name                 = var.RGLogs
   scopes                              = [var.Subid]
   description                         = "This alert will monitor services health on the subscription level scope"
@@ -124,7 +124,7 @@ resource "azurerm_monitor_activity_log_alert" "SubSVCHealth" {
 #Resource health Alerts
 
 resource "azurerm_monitor_activity_log_alert" "SubRSCHealthUnavailable" {
-  name                                = "alt-${local.ResourcePrefix}${substr(var.Subid,15,52)}-rschealth"
+  name                                = "malt-${local.ResourcePrefix}${substr(var.Subid,15,52)}-rschealth"
   resource_group_name                 = var.RGLogs
   scopes                              = [var.Subid]
   description                         = "This alert will monitor resources health on the subscription level scope"
