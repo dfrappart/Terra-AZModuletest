@@ -5,4 +5,4 @@ terraform.tfstate.backup
 crash.log
 *.log
 /Tests/*
-/topudate/*
+toupdate/
