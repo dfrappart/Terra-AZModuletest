@@ -1,8 +1,3 @@
-AzureDFProviderSecret.tf
-AzureDVTProviderSecret.tf
-AzureDVTProviderSecret.*
-AzureDFProviderSecret.*
-Mainvariables.tf
 terraform.tfstate
 terraform.tfstate.backup
 *.tfstate*
@@ -10,3 +5,4 @@ terraform.tfstate.backup
 crash.log
 *.log
 /Tests/*
+/topudate/*
