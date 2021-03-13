@@ -5,7 +5,7 @@
 locals {
 
   STAPrefix                           = "st${lower(var.Company)}${lower(var.CountryTag)}${lower(var.Environment)}${substr(var.SubId, 0, 8)}"
-  ResourcePrefix                      = "${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-"
+  ResourcePrefix                      = "${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}"
 }
 
 #Resource Group creation

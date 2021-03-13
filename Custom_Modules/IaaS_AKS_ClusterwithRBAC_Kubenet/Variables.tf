@@ -1,5 +1,5 @@
 ##############################################################
-#This module allows the creation of a vNEt
+#This module creates an AKS Clulster with RBAC and Kubenet
 ##############################################################
 
 
