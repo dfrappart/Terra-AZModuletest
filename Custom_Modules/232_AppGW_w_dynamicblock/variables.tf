@@ -34,7 +34,7 @@ variable "AZList" {
   type                  = list
   description           = [1,2,3]
 }
-AZList
+
 
 variable "TargetSubnetId" {
   type                  = string
