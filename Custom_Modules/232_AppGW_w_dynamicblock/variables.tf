@@ -79,12 +79,6 @@ variable "AppGatewaySkuCapacity" {
 }
 
 
-variable "BEHTTPSettingsRequestTimeOut" {
-  type                              = string
-  description                       = "The request timeout in seconds, which must be between 1 and 86400 seconds."
-  default                           = 31
-}
-
 # settings for probe
 
 variable "ProbeInterval" {
@@ -153,14 +147,6 @@ variable "BEHTTPSettingsRequestTimeOut" {
   type                              = string
   description                       = "The request timeout in seconds, which must be between 1 and 86400 seconds."
   default                           = 31
-}
-
-# settings for backend http settings
-
-variable "FrontEndPort" {
-  type                              = string
-  description                       = "The port used for the Frontend Port."
-  default                           = 443
 }
 
 ######################################################
