@@ -4,23 +4,23 @@
 # Full output agw
 
 output "AppGW" {
-    value = azurerm_application_gateway.SpokeAppGW
+    value = azurerm_application_gateway.AGW
 }
 
 # resource Id output
 
 output "AppGW_Id" {
-  value = azurerm_application_gateway.SpokeAppGW.id
+  value = azurerm_application_gateway.AGW.id
 }
 
 #BE Pool Outputs
 
 output "AppGW_BEPool" {
-  value = azurerm_application_gateway.SpokeAppGW.backend_address_pool
+  value = azurerm_application_gateway.AGW.backend_address_pool
 }
 
 output "AppGW_BEPoolId" {
-  value = azurerm_application_gateway.SpokeAppGW.backend_address_pool[*].id
+  value = azurerm_application_gateway.AGW.backend_address_pool[*].id
 }
 
 # Full output agw uai
