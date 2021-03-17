@@ -25,6 +25,7 @@ output "RGLogId" {
 
 output "STALogFull" {
   value = azurerm_storage_account.STALog
+  sensitive = true
 }
 output "STALogName" {
   value = azurerm_storage_account.STALog.name
@@ -67,6 +68,7 @@ output "STALogConnectionURI" {
 
 output "SubLogAnalyticsFull" {
   value = azurerm_log_analytics_workspace.SubLogAnalyticsWS
+  sensitive = true
 }
 output "SubLogAnalyticsWSId" {
   value = azurerm_log_analytics_workspace.SubLogAnalyticsWS.id
