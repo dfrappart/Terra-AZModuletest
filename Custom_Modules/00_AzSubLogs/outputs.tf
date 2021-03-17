@@ -23,6 +23,9 @@ output "RGLogId" {
 ###################################################################
 #Output for the log storage account
 
+output "STALogFull" {
+  value = azurerm_storage_account.STALog
+}
 output "STALogName" {
   value = azurerm_storage_account.STALog.name
 }
@@ -62,6 +65,9 @@ output "STALogConnectionURI" {
 ###################################################################
 #Output for the log analytics workspace
 
+output "SubLogAnalyticsFull" {
+  value = azurerm_log_analytics_workspace.SubLogAnalyticsWS
+}
 output "SubLogAnalyticsWSId" {
   value = azurerm_log_analytics_workspace.SubLogAnalyticsWS.id
 }
