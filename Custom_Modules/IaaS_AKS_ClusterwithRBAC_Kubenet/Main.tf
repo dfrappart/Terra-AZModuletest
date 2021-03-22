@@ -268,7 +268,7 @@ resource "azurerm_role_assignment" "MSToMonitorPublisher" {
 ################################################################
 # AKS Alert
 
-/*
+
 resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
@@ -310,6 +310,7 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 }
 
+/*
 resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThresholdInsightContainer" {
 
 
@@ -356,6 +357,8 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThresholdInsightContai
 
 }
 
+*/
+
 resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 
@@ -396,6 +399,8 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 }
 
+
+/*
 resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThresholdInsightContainer" {
 
 
@@ -441,6 +446,8 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThresholdInsightConta
 
 }
 
+
+*/
 resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold" {
 
 
@@ -481,6 +488,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 }
 
+/*
 resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThresholdInsightContainer" {
 
 
@@ -525,6 +533,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
   }
 
 }
+
 
 resource "azurerm_monitor_metric_alert" "NodeNotReadyCountThreshold" {
 
@@ -719,7 +728,7 @@ resource "azurerm_monitor_metric_alert" "FailedPodCountThreshold" {
   }
 
 }
-
+*/
 resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 
@@ -759,6 +768,7 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 }
 
+/*
 resource "azurerm_monitor_metric_alert" "CompletedJobCount" {
 
 
@@ -1013,7 +1023,7 @@ resource "azurerm_monitor_metric_alert" "OomKilledContainerCountThreshold" {
   }
 
 }
-
+*/
 resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
 
 

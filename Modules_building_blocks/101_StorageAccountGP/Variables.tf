@@ -59,7 +59,7 @@ variable "StorageAccessTier" {
   description                           = "Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. Valid options are Hot and Cool, defaults to Hot."
 }
 
-#The Storage Account access tier
+#The Storage HTTPS Settings
 
 variable "HTTPSSetting" {
   type                                  = string
