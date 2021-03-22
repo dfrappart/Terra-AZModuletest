@@ -8,7 +8,7 @@
 
 variable "StorageContainerName" {
   type                        = string
-  default                     = data1
+  default                     = "data1"
   description                 = "The name of the storage container"
 }
 
