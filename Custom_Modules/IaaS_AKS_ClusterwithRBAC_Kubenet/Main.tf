@@ -252,10 +252,23 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
 }
 
 
+######################################################################
+# Requirement for monitoring
+######################################################################
+######################################################################
+# Mapping OMS UAI to Azure monitor publisher role
+
+resource "azurerm_role_assignment" "MSToMonitorPublisher" {
+  scope                               = azurerm_kubernetes_cluster.AKSRBACKubenet.id
+  role_definition_name                = "Monitoring Metrics Publisher"
+  principal_id                        = azurerm_kubernetes_cluster.AKSRBACKubenet.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
+}
+
+
 ################################################################
 # AKS Alert
 
-
+/*
 resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
@@ -1033,3 +1046,5 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
   }
 
 }
+
+*/
