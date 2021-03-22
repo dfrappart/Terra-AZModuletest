@@ -2,7 +2,7 @@
 #This module allows the creation of a storage account
 ##############################################################
 
-resource "azurerm_storage_account" "Terra_STOA" {
+resource "azurerm_storage_account" "STOA" {
   name                                  = "st${lower(var.STASuffix)}"
   resource_group_name                   = var.RGName
   location                              = var.StorageAccountLocation
