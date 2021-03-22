@@ -324,10 +324,10 @@ variable "IsOMSAgentEnabled" {
 ############### Monitoring Variable ##################
 ######################################################
 
-variable "ACG1Id" {
-  type        = string
-  description = "Resource Id of the 1st action group"
-}
+#variable "ACG1Id" {
+#  type        = string
+#  description = "Resource Id of the 1st action group"
+#}
 
 
 
