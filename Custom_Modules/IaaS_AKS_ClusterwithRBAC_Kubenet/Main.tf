@@ -1057,4 +1057,3 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
 
 }
 
-*/
