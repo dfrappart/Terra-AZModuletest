@@ -27,17 +27,17 @@ This module assign storage account.
 
 | Output name | value | Description |
 |:------------|:------|:------------|
-| STAFull | `azurerm_storage_account.Terra_STOA` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
-| Name | `azurerm_storage_account.Terra_STOA.name` | The resource name |
-| Id | `azurerm_storage_account.Terra_STOA.id` | The resource Id |
-| PrimaryBlobEP | `azurerm_storage_account.Terra_STOA.primary_blob_endpoint` | The primary Blob Endpoint |
-| PrimaryQueueEP | `azurerm_storage_account.Terra_STOA.primary_queue_endpoint` | The primary Queue Endpoint |
-| PrimaryTableEP | `azurerm_storage_account.Terra_STOA.primary_table_endpoint` | The primary Table Endpoint |
-| PrimaryFileEP | `azurerm_storage_account.Terra_STOA.primary_file_endpoint` | The primary File Endpoint |
-| PrimaryAccessKey | `azurerm_storage_account.Terra_STOA.primary_access_key` | The primary access key |
-| SecondaryAccessKey | `azurerm_storage_account.Terra_STOA.secondary_access_key` | The secondary access key |
-| ConnectionURI | `azurerm_storage_account.Terra_STOA.primary_blob_connection_string` | The blob connection string |
-| RGName | `azurerm_storage_account.Terra_STOA.resource_group_name` | The resource group containing the sta |
+| STAFull | `azurerm_storage_account.STOA` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
+| Name | `azurerm_storage_account.STOA.name` | The resource name |
+| Id | `azurerm_storage_account.STOA.id` | The resource Id |
+| PrimaryBlobEP | `azurerm_storage_account.STOA.primary_blob_endpoint` | The primary Blob Endpoint |
+| PrimaryQueueEP | `azurerm_storage_account.STOA.primary_queue_endpoint` | The primary Queue Endpoint |
+| PrimaryTableEP | `azurerm_storage_account.STOA.primary_table_endpoint` | The primary Table Endpoint |
+| PrimaryFileEP | `azurerm_storage_account.STOA.primary_file_endpoint` | The primary File Endpoint |
+| PrimaryAccessKey | `azurerm_storage_account.STOA.primary_access_key` | The primary access key |
+| SecondaryAccessKey | `azurerm_storage_account.STOA.secondary_access_key` | The secondary access key |
+| ConnectionURI | `azurerm_storage_account.STOA.primary_blob_connection_string` | The blob connection string |
+| RGName | `azurerm_storage_account.STOA.resource_group_name` | The resource group containing the sta |
 
 ## How to call the module
  
