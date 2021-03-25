@@ -7,20 +7,20 @@
 
 output "RGName" {
 
-  value           = azurerm_resource_group.TerraRG.name
+  value           = azurerm_resource_group.RG.name
 }
 
 output "RGLocation" {
 
-  value           = azurerm_resource_group.TerraRG.location
+  value           = azurerm_resource_group.RG.location
 }
 
 output "RGId" {
 
-  value           = azurerm_resource_group.TerraRG.id
+  value           = azurerm_resource_group.RG.id
 }
 
 output "RGFull" {
 
-  value           = azurerm_resource_group.TerraRG
+  value           = azurerm_resource_group.RG
 }
