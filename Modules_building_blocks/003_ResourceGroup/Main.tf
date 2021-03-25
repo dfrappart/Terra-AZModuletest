@@ -4,7 +4,7 @@
 
 #Creating a Resource Group
 
-resource "azurerm_resource_group" "TerraRG" {
+resource "azurerm_resource_group" "RG" {
 
     
   name                                  = "rsg${var.RGSuffix}"

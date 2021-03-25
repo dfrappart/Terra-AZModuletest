@@ -1,8 +1,33 @@
 # Resource Group Module
 
-## This Module deploys a Resource Group
+## Module description
 
-### How to call the module
+This module deploys a resource group
+
+### Module inputs
+
+| Variable name | Variable type | Default value | Description |
+|:--------------|:--------------|:--------------|:------------|
+| RGSuffix | string | N/A | a suffix to add at the end of the storage account name |
+| RGLocation | string | N/A | TThe name of the resource group in which to create the storage account. Changing this forces a new resource to be created. |
+| ResourceOwnerTag | string | That would be me | Tag describing the owner |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | tflab | Tag describing the Cost Center |
+| Company | string | dfitc | The Company owner of the resources |
+| Project | string | tfmodule | The name of the project |
+| Environment | string | dev | The environment, dev, prod... |  
+
+
+### Module outputs
+
+| Output name | value | Description |
+|:------------|:------|:------------|
+| RGFull | `azurerm_resource_group.RG` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
+| RGName | `azurerm_resource_group.RG.name` | The resource name |
+| RGLocation | `azurerm_resource_group.RG.id` | The resource location |
+| RGId | `azurerm_resource_group.RG.primary_blob_endpoint` | The resource id |
+
+## How to call the module
 
 Use as follow:
 
@@ -84,3 +109,9 @@ RGLocation = westeurope
 RGName = rsg-lab-1
 
 ```
+
+## Sample deployment
+
+After deployment, something simlilar is visible in the portal:
+
+![Illustration 1](./Img/RG001.png)
