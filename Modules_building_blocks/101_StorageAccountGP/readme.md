@@ -2,7 +2,7 @@
 
 ## Module description
 
-This module assign storage account.
+This module deploys a storage account.
 
 ### Module inputs
 
