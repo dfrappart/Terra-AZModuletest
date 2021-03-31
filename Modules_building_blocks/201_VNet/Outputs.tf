@@ -6,21 +6,21 @@
 #Output for the VNet module
 
 output "Name" {
-  value = azurerm_virtual_network.Terra_VNet.name
+  value = azurerm_virtual_network.VNet.name
 }
 
 output "Id" {
-  value = azurerm_virtual_network.Terra_VNet.id
+  value = azurerm_virtual_network.VNet.id
 }
 
 output "AddressSpace" {
-  value = azurerm_virtual_network.Terra_VNet.address_space
+  value = azurerm_virtual_network.VNet.address_space
 }
 
 output "RGName" {
-  value = azurerm_virtual_network.Terra_VNet.resource_group_name
+  value = azurerm_virtual_network.VNet.resource_group_name
 }
 
-output "RGLocation" {
-  value = azurerm_virtual_network.Terra_VNet.location
+output "Location" {
+  value = azurerm_virtual_network.VNet.location
 }

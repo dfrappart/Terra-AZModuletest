@@ -8,12 +8,28 @@ This module deploys an Azure Virtual Network
 
 | Variable name | Variable type | Default value | Description |
 |:--------------|:--------------|:--------------|:------------|
-
+| VNetSuffix | string | N/A | a suffix to add at the end of the storage account name |
+| RGName | string | N/A | The name of the resource group in which to create the VNet. Changing this forces a new resource to be created. |
+| VNetAddressSpace | list | ["10.0.0.0/20"] | The address space that is used the virtual network. You can supply more than one address space. | 
+| DNSServerList | list | null | The List of IP addresses of DNS servers | 
+| IsVMProtectionEnabled | string | null | Whether to enable VM protection for all the subnets in this Virtual Network. Defaults to false. | 
+| ResourceOwnerTag | string | That would be me | Tag describing the owner |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | tflab | Tag describing the Cost Center |
+| Project | string | tfmodule | The name of the project |
+| Environment | string | dev | The environment, dev, prod... |  
 
 ### Module outputs
 
 | Output name | value | Description |
 |:------------|:------|:------------|
+| Name | `azurerm_virtual_network.VNet.name`| The resource name |
+| Id | `azurerm_virtual_network.VNet.id` | The resource id|
+| AddressSpace | `azurerm_virtual_network.VNet.address_space` | The virtualnetwork address space|
+| RGName | `azurerm_virtual_network.VNet.resource_group_name` | The resource group in which the vnet lives |
+| Location | `azurerm_virtual_network.VNet.location` ||
+| Full |`azurerm_virtual_network.VNet.` | Send all the information of the resource in the output|
+
 ## How to call the module
 
 An existing RG is required, so use of data source is recommanded.
