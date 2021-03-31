@@ -10,6 +10,8 @@ resource "azurerm_virtual_network" "VNet" {
   resource_group_name                         = var.RGName
   address_space                               = var.VNetAddressSpace
   location                                    = var.VNetLocation
+  dns_servers                                 = var.DNSServerList
+  vm_protection_enabled                       = var.IsVMProtectionEnabled
 
   tags = {
     ResourceOwner                             = var.ResourceOwnerTag
