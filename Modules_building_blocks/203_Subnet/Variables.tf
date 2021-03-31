@@ -29,5 +29,12 @@ variable "Subnetaddressprefixes" {
 
 }
 
+variable "ServicesEP" {
+  type              = list
+  description       = "The list of Service endpoints to associate with the subnet. Possible values include: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage and Microsoft.Web."
+  default           = null
+
+}
+
 
 

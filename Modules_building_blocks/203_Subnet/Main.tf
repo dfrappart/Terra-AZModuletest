@@ -7,14 +7,11 @@
 
 resource "azurerm_subnet" "Subnet" {
 
-
-
-    name                        = "sub${lower(var.SubnetSuffix)}"
-    resource_group_name         = var.RGName
-    virtual_network_name        = var.VNetName
-    address_prefixes            = var.Subnetaddressprefixes
-
-
+  name                        = "sub${lower(var.SubnetSuffix)}"
+  resource_group_name         = var.RGName
+  virtual_network_name        = var.VNetName
+  address_prefixes            = var.Subnetaddressprefixes
+  service_endpoints           = var.ServicesEP
 
 }
 
