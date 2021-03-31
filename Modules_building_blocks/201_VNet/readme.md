@@ -28,7 +28,7 @@ This module deploys an Azure Virtual Network
 | AddressSpace | `azurerm_virtual_network.VNet.address_space` | The virtualnetwork address space|
 | RGName | `azurerm_virtual_network.VNet.resource_group_name` | The resource group in which the vnet lives |
 | Location | `azurerm_virtual_network.VNet.location` ||
-| Full |`azurerm_virtual_network.VNet.` | Send all the information of the resource in the output|
+| VnetFull |`azurerm_virtual_network.VNet` | Send all the information of the resource in the output|
 
 ## How to call the module
 

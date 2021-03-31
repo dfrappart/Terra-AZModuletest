@@ -24,3 +24,7 @@ output "RGName" {
 output "Location" {
   value = azurerm_virtual_network.VNet.location
 }
+
+output "VnetFull" {
+  value = azurerm_virtual_network.VNet
+}
