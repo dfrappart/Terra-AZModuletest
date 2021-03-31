@@ -19,7 +19,7 @@ variable "RGName" {
 
 variable "VNetName" {
   type              = string
-  de                = "The name of the virtual network to which to attach the subnet. Changing this forces a new resource to be created."
+  default           = "The name of the virtual network to which to attach the subnet. Changing this forces a new resource to be created."
 
 }
 
