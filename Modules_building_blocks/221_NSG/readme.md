@@ -35,7 +35,19 @@ Use as follow:
 
 ```bash
 
+module "NSG" {
 
+    #Module location
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//221_NSG/"
+
+    #Module variable
+    NSGSuffix                         = "aci"
+    RGName                            ="rsgvaultlab"
+    NSGLocation                       = "westeurope"
+    Project                           = "vaultaci"
+
+
+}
 
 ```
 
@@ -45,15 +57,30 @@ terraform plan should gives the following output:
 
 ```powershell
 
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
 
+Terraform will perform the following actions:
 
-```
+  # module.NSG.azurerm_network_security_group.NSG will be created
+  + resource "azurerm_network_security_group" "NSG" {
+      + id                  = (known after apply)
+      + location            = "westeurope"
+      + name                = "nsgaci"
+      + resource_group_name = "rsgvaultlab"
+      + security_rule       = (known after apply)
+      + tags                = {
+          + "CostCenter"    = "labtf"
+          + "Country"       = "fr"
+          + "Environment"   = "lab"
+          + "ManagedBy"     = "Terraform"
+          + "Project"       = "vaultaci"
+          + "ResourceOwner" = "That would be me"
+        }
+    }
 
-output should be similar to this:
-
-```powershell
-
-
+Plan: 1 to add, 0 to change, 0 to destroy.
 
 ```
 
