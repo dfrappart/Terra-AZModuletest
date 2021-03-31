@@ -11,8 +11,8 @@ This module deploys a Network Security Group
 | NSGSuffix | string | "" | A suffix to add at the end of the nsg name |
 | NSGLocation | string | N/A | The region in which the resource lives. Changing this forces a new resource to be created. |
 | RGName | string | N/A | The name of the resource group in which the NSG lives. Changing this forces a new resource to be created. |
-| NICId | string | null | The Nic id associated to the nsg, default to null |
-| SubnetId | string | null | The Subnet id associated to the nsg, default to null |
+| NICId | string | "" | The Nic id associated to the nsg, default to empty string |
+| SubnetId | string | "" | The Subnet id associated to the nsg, default to empty string |
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
 | CostCenterTag | string | tflab | Tag describing the Cost Center |

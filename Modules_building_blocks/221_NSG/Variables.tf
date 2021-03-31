@@ -25,15 +25,15 @@ variable "NSGLocation" {
 
 variable "NICId" {
   type                = string
-  default             = null 
-  description         = "The Nic id associated to the nsg, default to null"
+  default             = "" 
+  description         = "The Nic id associated to the nsg, default to empty string"
 
 }
 
 variable "SubnetId" {
   type                = string
-  default             = null
-  description         = "The Subnet id associated to the nsg, default to null"
+  default             = ""
+  description         = "The Subnet id associated to the nsg, default to empty string"
 }
 
 ###################################################################
