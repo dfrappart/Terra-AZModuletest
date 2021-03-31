@@ -31,7 +31,27 @@ Use as follow:
 
 ```bash
 
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
 
+Terraform will perform the following actions:
+
+  # module.subnet.azurerm_subnet.Subnet will be created
+  + resource "azurerm_subnet" "Subnet" {
+      + address_prefix                                 = (known after apply)
+      + address_prefixes                               = [
+          + "10.0.0.0/26",
+        ]
+      + enforce_private_link_endpoint_network_policies = false
+      + enforce_private_link_service_network_policies  = false
+      + id                                             = (known after apply)
+      + name                                           = "subagw"
+      + resource_group_name                            = "rsgvaultlab"
+      + virtual_network_name                           = "vnetaci"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
 
 ```  
 
