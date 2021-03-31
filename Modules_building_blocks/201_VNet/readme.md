@@ -54,14 +54,10 @@ module "VNet" {
     source = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//201_VNet/"
 
     #Module variable
-    VNetName                           = "TestModule_VNet"
+    VNetSuffix                         = "plop"
     RGName                             = data.azurerm_resource_group.ImportedRG.name
-    VNetLocation                       = data.azurerm_resource_group.ImportedRG.location
-    VNetAddressSpace                   = ["10.0.0.0/20"]
-    ResourceOwnerTag                   = "DFR"
-    CountryTag                         = "fr"
-    CostCenterTag                      = "labtf"
-    EnvironmentTag                     = "dev"
+    VNetLocation                       = data.azurerm_resource_group.ImportedRG.name.location
+    Project                            = "anotherproject"
 
 
 }
@@ -81,23 +77,24 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  # module.VNet.azurerm_virtual_network.Terra_VNet will be created
-  + resource "azurerm_virtual_network" "Terra_VNet" {
+  # module.VNet.azurerm_virtual_network.VNet will be created
+  + resource "azurerm_virtual_network" "VNet" {
       + address_space         = [
           + "10.0.0.0/20",
         ]
       + guid                  = (known after apply)
       + id                    = (known after apply)
       + location              = "westeurope"
-      + name                  = "TestModule_VNet"
-      + resource_group_name   = "rsgvaultlab"
+      + name                  = "vnetplop"
+      + resource_group_name   = "RG-Testmodule"
       + subnet                = (known after apply)
       + tags                  = {
-          + "CostCenter"    = "labtf"
+          + "CostCenter"    = "tflab"
           + "Country"       = "fr"
-          + "Environment"   = "dev"
+          + "Environment"   = "lab"
           + "ManagedBy"     = "Terraform"
-          + "ResourceOwner" = "DFR"
+          + "Project"       = "tflab"
+          + "ResourceOwner" = "That would be me"
         }
       + vm_protection_enabled = false
     }
