@@ -8,12 +8,11 @@ This module deploys a resource group
 
 | Variable name | Variable type | Default value | Description |
 |:--------------|:--------------|:--------------|:------------|
-| RGSuffix | string | N/A | a suffix to add at the end of the storage account name |
-| RGLocation | string | N/A | TThe name of the resource group in which to create the storage account. Changing this forces a new resource to be created. |
+| RGSuffix | string | N/A | a suffix to add at the end of the resource group name |
+| RGLocation | string | N/A | The regionin which the resource group is located. Changing this forces a new resource to be created. |
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
 | CostCenterTag | string | tflab | Tag describing the Cost Center |
-| Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
 
