@@ -68,7 +68,8 @@ variable "Project" {
 
 variable "EnvironmentTag" {
   type                      = string
-  description               = "Environment trigram. Possible values are DEV, UAT, PPD, PRD"
+  description               = "Environment trigram. Possible values are DEV, UAT, PPD, PRD..."
+  default                   = "lab"
 }
 
 variable "ManagedByTag" {
