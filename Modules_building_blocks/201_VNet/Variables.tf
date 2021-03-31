@@ -33,7 +33,7 @@ variable "DNSServerList" {
   description               = "The List of IP addresses of DNS servers"
 }
 
-variable "IsVMProtectionEnabled " {
+variable "IsVMProtectionEnabled" {
   type                      = string
   default                   = null
   description               = "Whether to enable VM protection for all the subnets in this Virtual Network. Defaults to false."
