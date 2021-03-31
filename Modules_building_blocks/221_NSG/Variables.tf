@@ -26,14 +26,14 @@ variable "NSGLocation" {
 variable "NICId" {
   type                = string
   default             = null 
-  description         = "The name of the resource group in which the NSG lives"
+  description         = "The Nic id associated to the nsg, default to null"
 
 }
 
 variable "SubnetId" {
   type                = string
   default             = null
-  description         = "The region in which the resource lives"
+  description         = "The Subnet id associated to the nsg, default to null"
 }
 
 ###################################################################
