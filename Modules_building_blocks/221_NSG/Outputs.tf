@@ -17,6 +17,6 @@ output "RGName" {
   value = azurerm_network_security_group.NSG.resource_group_name
 }
 
-output "RGName" {
+output "NSGFull" {
   value = azurerm_network_security_group.NSG
 }
