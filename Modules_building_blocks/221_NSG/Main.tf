@@ -29,7 +29,7 @@ resource "azurerm_subnet_network_security_group_association" "Subnet_NSG_Associa
 
 }
 
-resource "azurerm_network_interface_application_security_group_association" "Nic_NSG_Association" {
+resource "azurerm_network_interface_network_security_group_association" "Nic_NSG_Association" {
 
   #conditional on count depending on SubnetId value
   count                               = can(NICId) ? 1 : 0  
