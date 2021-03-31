@@ -31,6 +31,30 @@ Use as follow:
 
 ```bash
 
+module "subnet" {
+
+    #Module location
+    source = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//203_Subnet/"
+
+    #Module variable
+    SubnetSuffix                      = "agw"
+    RGName                            = module.ResourceGroup.RGFull.name
+    VNetName                          = module.VNet.VnetFull.name
+    Subnetaddressprefixes             = [cidrsubnet(module.VNet.VnetFull.address_space[0],6,0)]
+
+
+
+}
+
+```  
+
+
+## Sample display
+
+terraform plan should gives the following output:
+
+```powershell
+
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
@@ -52,17 +76,6 @@ Terraform will perform the following actions:
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
-
-```  
-
-
-## Sample display
-
-terraform plan should gives the following output:
-
-```powershell
-
-
 
 ```
 
