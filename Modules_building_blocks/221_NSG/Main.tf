@@ -23,7 +23,7 @@ resource "azurerm_network_security_group" "NSG" {
 resource "azurerm_subnet_network_security_group_association" "Subnet_NSG_Association" {
     
   #conditional on count depending on SubnetId value
-  count                               = can(var.SubnetId) ? 1 : 0
+  count                               = var.SubnetId != "" ? 1 : 0
   subnet_id                           = var.SubnetId
   network_security_group_id           = azurerm_network_security_group.NSG.id
 
@@ -32,7 +32,7 @@ resource "azurerm_subnet_network_security_group_association" "Subnet_NSG_Associa
 resource "azurerm_network_interface_security_group_association" "Nic_NSG_Association" {
 
   #conditional on count depending on SubnetId value
-  count                               = can(var.NICId) ? 1 : 0  
+  count                               = var.NICId != "" ? 1 : 0  
   
   network_interface_id                = var.NICId
   network_security_group_id           = azurerm_network_security_group.NSG.id
