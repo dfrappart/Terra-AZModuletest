@@ -188,3 +188,7 @@ output "BESubnetNSGFlowLogFullOutput" {
 output "SpokeBastionFullOutput" {
   value = azurerm_bastion_host.SpokeBastion
 }
+
+output "SpokeBastionPubIPFullOutput" {
+  value = azurerm_public_ip.BastionPublicIP
+}
