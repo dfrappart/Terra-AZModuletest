@@ -307,8 +307,8 @@ variable "IshttproutingEnabled" {
 
 variable "IsKubeDashboardEnabled" {
   type                          = string
-  default                       = true
-  description                   = "Is the Kubernetes Dashboard enabled? "
+  default                       = false
+  description                   = "Is the Kubernetes Dashboard enabled? - Deprecated from aks 1.19.x"
 
 }
 
