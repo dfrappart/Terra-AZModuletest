@@ -6,7 +6,8 @@
 #Output for the storage account log
 
 output "STALogsFullOutput" {
-  value = data.azurerm_storage_account.STASubLog
+  value                       = data.azurerm_storage_account.STASubLog
+  sensitive                   = true
 }
 
 
@@ -14,7 +15,8 @@ output "STALogsFullOutput" {
 #Output Log analytics workspace
 
 output "LAWFullOutput" {
-  value = data.azurerm_log_analytics_workspace.LawSubLog
+  value                       = data.azurerm_log_analytics_workspace.LawSubLog
+  sensitive                   = true
 }
 
 
@@ -22,7 +24,8 @@ output "LAWFullOutput" {
 #Output for the VNet
 
 output "VNetFullOutput" {
-  value = azurerm_virtual_network.SpokeVNet
+  value                       = azurerm_virtual_network.SpokeVNet
+  sensitive                   = true
 }
 
 ##############################################################
@@ -31,25 +34,29 @@ output "VNetFullOutput" {
 # Subnet Bastion
 
 output "AzureBastionSubnetFullOutput" {
-  value = azurerm_subnet.AzBastionmanagedSubnet
+  value                       = azurerm_subnet.AzBastionmanagedSubnet
+  sensitive                   = false
 }
 
 # Subnet AppGW
 
 output "AGWSubnetFullOutput" {
-  value = azurerm_subnet.AppGWSubnet
+  value                       = azurerm_subnet.AppGWSubnet
+  sensitive                   = false
 }
 
 # Subnet FESubnet
 
 output "FESubnetFullOutput" {
-  value = azurerm_subnet.FESubnet
+  value                       = azurerm_subnet.FESubnet
+  sensitive                   = false
 }
 
 # Subnet BESubnet
 
 output "BESubnetFullOutput" {
-  value = azurerm_subnet.BESubnet
+  value                       = azurerm_subnet.BESubnet
+  sensitive                   = false
 }
 
 ##############################################################
@@ -58,76 +65,80 @@ output "BESubnetFullOutput" {
 # NSG Bastion Subnet
 
 output "AzureBastionNSGFullOutput" {
-  value = azurerm_network_security_group.AzureBastionNSG
+  value                       = azurerm_network_security_group.AzureBastionNSG
+  sensitive                   = false
 }
 
 # NSG AppGW Subnet
 
 output "AGWSubnetNSGFullOutput" {
-  value = azurerm_network_security_group.AppGWSubnetNSG
+  value                       = azurerm_network_security_group.AppGWSubnetNSG
+  sensitive                   = false
 }
 
 # NSG FE Subnet
 
 output "FESubnetNSGFullOutput" {
-  value = azurerm_network_security_group.FESubnetNSG
+  value                       = azurerm_network_security_group.FESubnetNSG
+  sensitive                   = false
 }
 
 # NSG BE Subnet
 
 output "BESubnetNSGFullOutput" {
-  value = azurerm_network_security_group.BESubnetNSG
+  value                       = azurerm_network_security_group.BESubnetNSG
+  sensitive                   = false
 }
 
 ######################################################
 #NSG Rules outputs
 
 output "Default_FESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value = azurerm_network_security_rule.Default_FESubnet_AllowRDPSSHFromBastion
+  value                       = azurerm_network_security_rule.Default_FESubnet_AllowRDPSSHFromBastion
 }
 
 output "Default_FESubnet_AllowLBFullOutput" {
-  value = azurerm_network_security_rule.Default_FESubnet_AllowLB
+  value                       = azurerm_network_security_rule.Default_FESubnet_AllowLB
 }
 
 output "Default_FESubnet_DenyVNetSSHRDPInFullOutput" {
-  value = azurerm_network_security_rule.Default_FESubnet_DenyVNetSSHRDPIn
+  value                       = azurerm_network_security_rule.Default_FESubnet_DenyVNetSSHRDPIn
 }
 
 output "Default_BESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value = azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion
+  value                       = azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion
 }
 
 output "Default_BESubnet_AllowLBFullOutput" {
-  value = azurerm_network_security_rule.Default_BESubnet_AllowLB
+  value                       = azurerm_network_security_rule.Default_BESubnet_AllowLB
 }
 
 output "Default_AppGWSubnet_GatewayManagerFullOutput" {
-  value = azurerm_network_security_rule.Default_AppGWSubnet_GatewayManager
+  value                       = azurerm_network_security_rule.Default_AppGWSubnet_GatewayManager
 }
 
 output "Default_BastionSubnet_AllowHTTPSBastionInFullOutput" {
-  value = azurerm_network_security_rule.Default_BastionSubnet_AllowHTTPSBastionIn
+  value                       = azurerm_network_security_rule.Default_BastionSubnet_AllowHTTPSBastionIn
 }
 
 output "Default_BastionSubnet_AllowGatewayManagerFullOutput" {
-  value = azurerm_network_security_rule.Default_BastionSubnet_AllowGatewayManager
+  value                       = azurerm_network_security_rule.Default_BastionSubnet_AllowGatewayManager
 }
 
 output "Default_BastionSubnet_AllowRemoteBastionOutFullOutput" {
-  value = azurerm_network_security_rule.Default_BastionSubnet_AllowRemoteBastionOut
+  value                       = azurerm_network_security_rule.Default_BastionSubnet_AllowRemoteBastionOut
 }
 
 output "Default_AllowAzureCloudHTTPSOutOutFullOutput" {
-  value = azurerm_network_security_rule.Default_AllowAzureCloudHTTPSOut
+  value                       = azurerm_network_security_rule.Default_AllowAzureCloudHTTPSOut
 }
 
 output "Default_BastionSubnet_DenyVNetOutFullOutput" {
-  value = azurerm_network_security_rule.Default_BastionSubnet_DenyVNetOut
+  value                       = azurerm_network_security_rule.Default_BastionSubnet_DenyVNetOut
 }
 
 output "Default_BastionSubnet_DenyInternetOutFullOutput" {
-  value = azurerm_network_security_rule.Default_BastionSubnet_DenyInternetOut
+  value                       = azurerm_network_security_rule.Default_BastionSubnet_DenyInternetOut
 }
 
 
@@ -135,60 +146,62 @@ output "Default_BastionSubnet_DenyInternetOutFullOutput" {
 #Output for Diagnostic logs
 
 output "AzureBastionNSGDiagFullOutput" {
-  value = azurerm_monitor_diagnostic_setting.AzureBastionNSGDiag
+  value                       = azurerm_monitor_diagnostic_setting.AzureBastionNSGDiag
 }
 
 # NSG AppGW Subnet
 
 output "AppGWSubnetNSGDiagFullOutput" {
-  value = azurerm_monitor_diagnostic_setting.AppGWSubnetNSGDiag
+  value                       = azurerm_monitor_diagnostic_setting.AppGWSubnetNSGDiag
 }
 
 # NSG FE Subnet
 
 output "FESubnetNSGDiagFullOutput" {
-  value = azurerm_monitor_diagnostic_setting.FESubnetNSGDiag
+  value                       = azurerm_monitor_diagnostic_setting.FESubnetNSGDiag
 }
 
 
 # NSG BE Subnet
 
 output "BESubnetNSGDiagFullOutput" {
-  value = azurerm_monitor_diagnostic_setting.BESubnetNSGDiag
+  value                       = azurerm_monitor_diagnostic_setting.BESubnetNSGDiag
 }
 
 ##############################################################
 #Output for Flowlogs
 
 output "AzureBastionNSGFlowLogFullOutput" {
-  value = azurerm_network_watcher_flow_log.AzureBastionNSGFlowLog
+  value                       = azurerm_network_watcher_flow_log.AzureBastionNSGFlowLog
 }
 
 # NSG AppGW Subnet
 
 output "AppGWSubnetNSGFlowLogFullOutput" {
-  value = azurerm_network_watcher_flow_log.AppGWSubnetNSGFlowLog
+  value                       = azurerm_network_watcher_flow_log.AppGWSubnetNSGFlowLog
 }
 
 # NSG FE Subnet
 
 output "FESubnetNSGFlowLogFullOutput" {
-  value = azurerm_network_watcher_flow_log.FESubnetNSGFlowLog
+  value                       = azurerm_network_watcher_flow_log.FESubnetNSGFlowLog
 }
 
 # NSG BE Subnet
 
 output "BESubnetNSGFlowLogFullOutput" {
-  value = azurerm_network_watcher_flow_log.BESubnetNSGFlowLog
+  value                       = azurerm_network_watcher_flow_log.BESubnetNSGFlowLog
 }
 
 ##############################################################
 #Output for Bastion Host
 
 output "SpokeBastionFullOutput" {
-  value = azurerm_bastion_host.SpokeBastion
+  value                       = azurerm_bastion_host.SpokeBastion
+  sensitive                   = true
 }
 
 output "SpokeBastionPubIPFullOutput" {
-  value = azurerm_public_ip.BastionPublicIP
+  value                       = azurerm_public_ip.BastionPublicIP
+  sensitive                   = true
 }
