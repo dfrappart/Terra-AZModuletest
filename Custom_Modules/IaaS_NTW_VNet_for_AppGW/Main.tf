@@ -725,6 +725,7 @@ resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
     retention_policy {
       enabled                           = true
       days                              = 365
-    }  
+    }
+  }  
 }
 
