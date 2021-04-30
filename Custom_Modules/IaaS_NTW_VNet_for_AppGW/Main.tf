@@ -719,6 +719,12 @@ resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
     } 
   }
 
-
+  metric {
+    category                            = "AllMetrics"
+    enabled                             = true
+    retention_policy {
+      enabled                           = true
+      days                              = 365
+    }  
 }
 
