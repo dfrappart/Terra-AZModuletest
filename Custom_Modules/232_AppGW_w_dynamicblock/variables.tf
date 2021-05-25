@@ -42,6 +42,17 @@ variable "TargetSubnetId" {
   description                       = "The subnet Id for the app gw"
 }
 
+variable "TargetSubnetAddressPrefix" {
+  type                              = string
+  description                       = "The subnet prefix for the app gw"
+}
+
+variable "AppGwPrivateFrontendIpAddressHostnum" {
+  type                              = string
+  description                       = "Determines the priv ip of the application gateway"
+  default                           = 10
+}
+
 variable "AGWSuffix" {
   type                              = string
   description                       = "A short string to add at the end of the app gw name"

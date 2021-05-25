@@ -27,6 +27,8 @@ Those repositories of logs are referenced through data sources. Names for those 
 | StaSubLogId | String | The id of the storage account containing the logs on the subscription level | N/A |
 | KVId | String | The target Key Vault ID. | N/A |
 | TargetSubnetId | String | The subnet Id for the app gw | N/A |
+| TargetSubnetAddressPrefix | String | TThe subnet prefix for the app gw | N/A |
+| AppGwPrivateFrontendIpAddressHostnum | String | TDetermines the priv ip of the application gateway | 10 |
 | AGWSuffix | String | A short string to add at the end of the app gw name | "-1" |
 | AppGatewaySkuName | String | The AppGW Sku Name | "WAF_v2" |
 | AppGatewaySkuTier | String | The AppGW Sku Name | "WAF_v2" |
