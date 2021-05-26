@@ -544,13 +544,54 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowGatewayMana
   access                                = "Allow"
   protocol                              = "Tcp"
   source_port_range                     = "*"
-  destination_port_ranges               = ["443","4443"]
+  destination_port_ranges               = ["443"]
   source_address_prefix                 = "GatewayManager"
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
 }
 
+resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowAzureLB" {
+  name                                  = "Default_BastionSubnet_AllowAzureLB"
+  priority                              = 2030
+  direction                             = "Inbound"
+  access                                = "Allow"
+  protocol                              = "Tcp"
+  source_port_range                     = "*"
+  destination_port_ranges               = ["443"]
+  source_address_prefix                 = "AzureLoadBalancer"
+  destination_address_prefix            = "*"
+  resource_group_name                   = var.TargetRG
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+}
+
+resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowBastionCommunicationIn" {
+  name                                  = "Default_BastionSubnet_AllowBastionCommunicationIn"
+  priority                              = 2040
+  direction                             = "Inbound"
+  access                                = "Allow"
+  protocol                              = "Tcp"
+  source_port_range                     = "*"
+  destination_port_ranges               = ["8080","5701"]
+  source_address_prefix                 = "*"
+  destination_address_prefix            = "VirtualNetwork"
+  resource_group_name                   = var.TargetRG
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+}
+
+resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetIn" {
+  name                                  = "Default_BastionSubnet_DenyVNetIn"
+  priority                              = 2510
+  direction                             = "Inbound"
+  access                                = "Deny"
+  protocol                              = "Tcp"
+  source_port_range                     = "*"
+  destination_port_range                = "*"
+  source_address_prefix                 = "VirtualNetwork"
+  destination_address_prefix            = "*"
+  resource_group_name                   = var.TargetRG
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+}
 
 # NSG Egress Rules
 
@@ -578,6 +619,34 @@ resource "azurerm_network_security_rule" "Default_AllowAzureCloudHTTPSOut" {
   destination_port_range                = "443"
   source_address_prefix                 = "*"
   destination_address_prefix            = "AzureCloud"
+  resource_group_name                   = var.TargetRG
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+}
+
+resource "azurerm_network_security_rule" "Default_AllowAzureBastionCommunicationOut" {
+  name                                  = "Default_AllowAzureBastionCommunicationOut"
+  priority                              = 2030
+  direction                             = "Outbound"
+  access                                = "Allow"
+  protocol                              = "Tcp"
+  source_port_range                     = "*"
+  destination_port_ranges                = ["8080","5701"]
+  source_address_prefix                 = "VirtualNetwork"
+  destination_address_prefix            = "VirtualNetwork"
+  resource_group_name                   = var.TargetRG
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+}
+
+resource "azurerm_network_security_rule" "Default_AllowAzureBastionGetSessionInformationOut" {
+  name                                  = "Default_AllowAzureBastionGetSessionInformationOut"
+  priority                              = 2040
+  direction                             = "Outbound"
+  access                                = "Allow"
+  protocol                              = "Tcp"
+  source_port_range                     = "*"
+  destination_port_ranges                = ["80"]
+  source_address_prefix                 = "*"
+  destination_address_prefix            = "Internet"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
 }
