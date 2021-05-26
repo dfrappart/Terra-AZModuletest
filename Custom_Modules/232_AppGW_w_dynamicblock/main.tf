@@ -152,6 +152,13 @@ resource "azurerm_application_gateway" "AGW" {
     public_ip_address_id                = azurerm_public_ip.AppGWPIP.id
   }
 
+  frontend_ip_configuration {
+    name                                  = "agw-fip-prv-${var.AGWSuffix}"
+    private_ip_address_allocation         = "static"
+    private_ip_address                    = cidrhost(var.TargetSubnetAddressPrefix, var.AppGwPrivateFrontendIpAddressHostnum)
+    subnet_id                             = var.TargetSubnetId
+  }
+
 # settings for front end
 /*
   dynamic "frontend_port" {
