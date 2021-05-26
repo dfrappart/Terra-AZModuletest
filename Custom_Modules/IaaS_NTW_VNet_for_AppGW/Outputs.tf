@@ -3,15 +3,6 @@
 ##############################################################
 
 ##############################################################
-#Output for the storage account log
-
-output "STALogsFullOutput" {
-  value                       = data.azurerm_storage_account.STASubLog
-  sensitive                   = true
-}
-
-
-##############################################################
 #Output Log analytics workspace
 
 output "LAWFullOutput" {
