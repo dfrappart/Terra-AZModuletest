@@ -15,9 +15,9 @@ variable "LawSubLogName" {
   description   = "name of the log analytics workspace containing the logs"
 }
 
-variable "STASubLogName" {
+variable "STALogId" {
   type          = string
-  description   = "name of the storage account containing the logs"
+  description   = "Id of the storage account containing the logs"
 }
 
 variable "TargetRG" {

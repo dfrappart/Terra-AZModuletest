@@ -22,8 +22,4 @@ data "azurerm_log_analytics_workspace" "LawSubLog" {
   resource_group_name         = data.azurerm_resource_group.RGLogs.name
 }
 
-data "azurerm_storage_account" "STASubLog" {
-  name                        = var.STASubLogName
-  resource_group_name         = data.azurerm_resource_group.RGLogs.name
-}
 

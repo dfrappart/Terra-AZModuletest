@@ -28,7 +28,7 @@ resource "azurerm_virtual_network" "SpokeVNet" {
 resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
   name                                  = "${azurerm_virtual_network.SpokeVNet.name}diag"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -80,7 +80,7 @@ resource "azurerm_network_security_group" "AzureBastionNSG" {
 resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
   name                                  = "${azurerm_network_security_group.AzureBastionNSG.name}diag"
   target_resource_id                    = azurerm_network_security_group.AzureBastionNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -110,7 +110,7 @@ resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
   resource_group_name                   = var.NetworkWatcherRGName
 
   network_security_group_id             = azurerm_network_security_group.AzureBastionNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   enabled                               = true
   version                               = 2
 
@@ -169,7 +169,7 @@ resource "azurerm_network_security_group" "AppGWSubnetNSG" {
 resource "azurerm_monitor_diagnostic_setting" "AppGWSubnetNSGDiag" {
   name                                  = "${azurerm_network_security_group.AppGWSubnetNSG.name}diag"
   target_resource_id                    = azurerm_network_security_group.AppGWSubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -198,7 +198,7 @@ resource "azurerm_network_watcher_flow_log" "AppGWSubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.AppGWSubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   enabled                               = true
   version                               = 2
 
@@ -259,7 +259,7 @@ resource "azurerm_network_security_group" "FESubnetNSG" {
 resource "azurerm_monitor_diagnostic_setting" "FESubnetNSGDiag" {
   name                                  = "${azurerm_network_security_group.FESubnetNSG.name}diag"
   target_resource_id                    = azurerm_network_security_group.FESubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -288,7 +288,7 @@ resource "azurerm_network_watcher_flow_log" "FESubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.FESubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   enabled                               = true
   version                               = 2
 
@@ -346,7 +346,7 @@ resource "azurerm_network_security_group" "BESubnetNSG" {
 resource "azurerm_monitor_diagnostic_setting" "BESubnetNSGDiag" {
   name                                  = "${azurerm_network_security_group.BESubnetNSG.name}diag"
   target_resource_id                    = azurerm_network_security_group.BESubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -375,7 +375,7 @@ resource "azurerm_network_watcher_flow_log" "BESubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.BESubnetNSG.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   enabled                               = true
   version                               = 2
 
@@ -641,7 +641,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
 resource "azurerm_monitor_diagnostic_setting" "AZBastionPIPDiag" {
   name                                  = "${azurerm_public_ip.BastionPublicIP.name}diag"
   target_resource_id                    = azurerm_public_ip.BastionPublicIP.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
@@ -707,7 +707,7 @@ resource "azurerm_bastion_host" "SpokeBastion" {
 resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
   name                                  = "${azurerm_bastion_host.SpokeBastion.name}diag"
   target_resource_id                    = azurerm_bastion_host.SpokeBastion.id
-  storage_account_id                    = data.azurerm_storage_account.STASubLog.id
+  storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   log {
