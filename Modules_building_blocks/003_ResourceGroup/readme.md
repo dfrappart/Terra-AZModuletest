@@ -23,8 +23,8 @@ This module deploys a resource group
 |:------------|:------|:------------|
 | RGFull | `azurerm_resource_group.RG` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
 | RGName | `azurerm_resource_group.RG.name` | The resource name |
-| RGLocation | `azurerm_resource_group.RG.id` | The resource location |
-| RGId | `azurerm_resource_group.RG.primary_blob_endpoint` | The resource id |
+| RGLocation | `azurerm_resource_group.RG.location` | The resource location |
+| RGId | `azurerm_resource_group.RG.id` | The resource id |
 
 ## How to call the module
 
