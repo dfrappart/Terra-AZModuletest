@@ -179,6 +179,7 @@ resource "azurerm_databricks_workspace" "DTBWS" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "DatabricksDiag" {
+  count                                 = var.DTBWSSku == "premium" ? 1 : 0
   name                                  = "diag-${azurerm_databricks_workspace.DTBWS.name}"
   target_resource_id                    = azurerm_databricks_workspace.DTBWS.id
   storage_account_id                    = var.STALogId
