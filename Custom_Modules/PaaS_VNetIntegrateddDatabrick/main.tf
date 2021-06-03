@@ -178,3 +178,23 @@ resource "azurerm_databricks_workspace" "DTBWS" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "DatabricksDiag" {
+  name                                  = "diag-${azurerm_databricks_workspace.DTBWS.name}"
+  target_resource_id                    = azurerm_databricks_workspace.DTBWS.id
+  storage_account_id                    = var.STALogId
+  log_analytics_workspace_id            = var.LawLogId
+
+  dynamic "log" {
+    for_each = var.logcategories
+    iterator = each
+    content {
+      category                          = each.value.LogCatName
+      enabled                           = each.value.IsLogCatEnabled
+      retention_policy {
+        enabled                         = each.value.IsRetentionEnabled
+        days                            = each.value.RetentionDay
+      }
+    }
+  }
+
+}

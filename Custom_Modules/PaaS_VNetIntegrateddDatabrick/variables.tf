@@ -133,6 +133,139 @@ variable "DTBWSPIP" {
 }
 
 
+variable "logcategories" {
+  type                              = map
+  description                       = "A map used to feed the dynamic blocks of the gw configuration"
+  default                           = {
+
+      "logcat1"                     = {
+        LogCatName                  = "dbfs"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat2"                     = {
+        LogCatName                  = "jobs"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    } 
+
+      "logcat3"                     = {
+        LogCatName                  = "notebook"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat4"                     = {
+        LogCatName                  = "ssh"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat5"                     = {
+        LogCatName                  = "workspace"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat6"                     = {
+        LogCatName                  = "secrets"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat7"                     = {
+        LogCatName                  = "sqlPermissions"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat8"                     = {
+        LogCatName                  = "instancePools"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat9"                     = {
+        LogCatName                  = "sqlanalytics"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    } 
+
+      "logcat10"                     = {
+        LogCatName                  = "genie"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat11"                     = {
+        LogCatName                  = "globalInitScripts"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat12"                     = {
+        LogCatName                  = "iamRole"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat13"                     = {
+        LogCatName                  = "mlflowExperiment"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat14"                     = {
+        LogCatName                  = "featureStore"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat15"                     = {
+        LogCatName                  = "RemoteHistoryService"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat16"                     = {
+        LogCatName                  = "mlflowAcledArtifact"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+      "logcat2"                     = {
+        LogCatName                  = "clusters"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    } 
+
+      "logcat3"                     = {
+        LogCatName                  = "accounts"
+        IsLogCatEnabled             = true
+        IsRetentionEnabled          = true
+        RetentionDay                = 365
+    }
+
+  }
+}
 
 ######################################################
 #Tag related variables and naming convention section
