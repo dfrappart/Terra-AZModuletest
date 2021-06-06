@@ -250,14 +250,14 @@ variable "logcategories" {
         RetentionDay                = 365
     }
 
-      "logcat2"                     = {
+      "logcat17"                     = {
         LogCatName                  = "clusters"
         IsLogCatEnabled             = true
         IsRetentionEnabled          = true
         RetentionDay                = 365
     } 
 
-      "logcat3"                     = {
+      "logcat18"                     = {
         LogCatName                  = "accounts"
         IsLogCatEnabled             = true
         IsRetentionEnabled          = true
