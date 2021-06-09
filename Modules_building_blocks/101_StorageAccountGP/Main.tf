@@ -12,6 +12,7 @@ resource "azurerm_storage_account" "STOA" {
   access_tier                           = var.StorageAccessTier
   enable_https_traffic_only             = var.HTTPSSetting
   min_tls_version                       = var.TLSVer
+  is_hns_enabled                        = var.IsHNSEnabled
 
   tags = {
     ResourceOwner                       = var.ResourceOwnerTag

@@ -67,13 +67,27 @@ variable "HTTPSSetting" {
   description                           = "Boolean flag which forces HTTPS if enabled, see here for more information. Defaults to true."
 }
 
-#The Storage Account access tier
+#The Storage TLS Version
 
 variable "TLSVer" {
   type                                  = string
   default                               = "TLS1_2"
   description                           = "The minimum supported TLS version for the storage account. Possible values are TLS1_0, TLS1_1, and TLS1_2."
 }
+
+#HNS enabled parameter
+
+variable "IsHNSEnabled" {
+  type                                  = string
+  default                               = null
+  description                           = " Is Hierarchical Namespace enabled? This can be used with Azure Data Lake Storage Gen 2 (see here for more information). Changing this forces a new resource to be created."
+}
+/*
+NOTE:
+
+This can only be true when account_tier is Standard or when account_tier is Premium and account_kind is BlockBlobStorage 
+*/
+
 ###################################################################
 #Tag related variables section
 
