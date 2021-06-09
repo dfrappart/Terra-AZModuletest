@@ -19,7 +19,6 @@ This module deploys a storage account.
 | ResourceOwnerTag | string | That would be me | Tag describing the owner |
 | CountryTag | string | fr | Tag describing the Country |
 | CostCenterTag | string | tflab | Tag describing the Cost Center |
-| Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
 
