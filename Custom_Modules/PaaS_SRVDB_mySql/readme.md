@@ -30,7 +30,7 @@ Lastly, it is configured to send diagnostic to a storage account and a log analy
 | RGLogName | string | N/A | The name of the RG containing the logs collector objects (sta and log analytics) |
 | RGLogLawSubLogNameName | string | N/A | The name of the log analytics workspace containing the logs |
 | STASubLogName | string | N/A | The name of the storage account containing the logs |
-| MySQLSuffix | string | "-01" | A suffix to be added to the Server resource name |
+| mysqlsuffix | string | "-01" | A suffix to be added to the Server resource name |
 | MySQLSkuName | string | "GP_Gen5_2" | Specifies the SKU Name for this MySQL Server. The name of the SKU, follows the tier + family + cores pattern (e.g. B_Gen4_1, GP_Gen5_8). |
 | MySQLVersion | string | "5.7" | Specifies the version of MySQL to use. Valid values are 5.6, 5.7, and 8.0. Changing this forces a new resource to be created. |
 | MySQLLogin | string | "rxldbadmin" | The Administrator Login for the MySQL Server. Required when create_mode is Default. Changing this forces a new resource to be created. |
