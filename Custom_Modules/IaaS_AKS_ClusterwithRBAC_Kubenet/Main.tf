@@ -53,9 +53,9 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
 
   }
 
-  dns_prefix                              = var.IsAKSPrivate ? null : local.DNSPrefix
-  dns_prefix_private_cluster              = var.IsAKSPrivate ? local.DNSPrefix : null
-  node_resource_group                     = var.UseAKSNodeRGDefaultName ? null :local.NodeRGName
+  dns_prefix                              = var.IsAKSPrivate == true ? null : local.DNSPrefix
+  dns_prefix_private_cluster              = var.IsAKSPrivate == true ? local.DNSPrefix : null
+  node_resource_group                     = var.UseAKSNodeRGDefaultName == true ? null :local.NodeRGName
   private_cluster_enabled                 = var.IsAKSPrivate
   private_dns_zone_id                     = var.PrivateDNSZoneId
 
