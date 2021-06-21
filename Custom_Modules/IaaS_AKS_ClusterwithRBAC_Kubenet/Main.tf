@@ -2,12 +2,7 @@
 #This module allows the creation of an AKS Cluster
 ################################################################
 
-locals {
 
-
-  AKSClusterName                        = "aks-${lower(var.AKSClusSuffix)}"
-  AKSDefaultNodePoolName                = "aksnp0${lower(var.AKSClusSuffix)}"
-}
 
 ################################################################
 #Creating the AKS Cluster with RBAC Enabled and AAD integration
@@ -58,7 +53,13 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
 
   }
 
-  dns_prefix                              = "aks${lower(var.Project)}${lower(var.Environment)}"
+  dns_prefix                              = var.IsAKSPrivate ? null : local.DNSPrefix
+  dns_prefix_private_cluster              = var.IsAKSPrivate ? local.DNSPrefix : null
+  node_resource_group                     = local.NodeRGName
+  private_cluster_enabled                 = var.IsAKSPrivate
+  private_dns_zone_id                     = var.PrivateDNSZoneId
+
+
   api_server_authorized_ip_ranges         = var.APIAccessList
 
   auto_scaler_profile {
@@ -87,7 +88,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
   #  client_secret                         = var.K8SSPSecret
   #}
   identity {
-    type                                  = "SystemAssigned"
+    type                                  = var.AKSIdentityType
+    user_assigned_identity_id             = var.UAIId
   }
 
   kubernetes_version                      = var.KubeVersion
@@ -114,9 +116,6 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
 
   }
   
-  node_resource_group                     = "rsg-${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-aksobjects"
-  private_cluster_enabled                 = var.IsAKSPrivate
-
   role_based_access_control {
     enabled                               = true
 

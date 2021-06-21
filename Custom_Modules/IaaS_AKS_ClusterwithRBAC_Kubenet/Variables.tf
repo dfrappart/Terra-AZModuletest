@@ -249,24 +249,55 @@ variable "AKSLBSku" {
 
 
 ##############################################################
+# Spec for Node resource group
 
 variable "AKSNodesRG" {
   type                          = string
-  default                       = null
-  description                   = "The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created. "
+  default                       = "unspecified"
+  description                   = "The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created. If set to unspecified, the name is build from a local"
 }
+
+variable "UseAKSNodeRGDefaultName" {
+  type                          = string
+  default                       = false
+  description                   = "This variable is used to define if the default name for the node rg is used, default to false, which allows to either use the name provided bu AKSNodeRG or the local in locals.tf"
+}
+
+##############################################################
+# Spec for private cluster configuration
 
 variable "IsAKSPrivate" {
   type                          = string
-  default                       = null
+  default                       = false
   description                   = "Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created."
+}
+
+variable "PrivateDNSZoneId" {
+  type                          = string
+  default                       = null
+  description                   = "Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning."
+}
+
+##############################################################
+# Spec for AKS managed identity
+
+variable "AKSIdentityType" {
+  type                          = string
+  default                       = "SystemAssigned"
+  description                   = "The type of identity used for the managed cluster. Possible values are SystemAssigned and UserAssigned. If UserAssigned is set, a user_assigned_identity_id must be set as well."
+}
+
+variable "UAIId" {
+  type                          = string
+  default                       = null
+  description                   = "The ID of a user assigned identity."
 }
 
 ##############################################################
 # RBAC config
 
 variable "AKSClusterAdminsIds" {
-  type                          = list
+  type                          = list(string)
   description                   = " A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster."
 }
 
