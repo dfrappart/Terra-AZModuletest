@@ -54,7 +54,7 @@ variable "Project" {
   default               = "tfmodule"
 }
 
-variable "Environment" {
+variable "EnvironmentTag" {
   type                  = string
   description           = "The environment, dev, prod..."
   default               = "lab"
