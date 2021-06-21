@@ -21,7 +21,7 @@ This module deploys a Private DNS Zone
 | CostCenterTag | string | tflab | Tag describing the Cost Center |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |
-| extra_tags | map | {} | Additional optional tags. |
+| ExtraTags | map | {} | Additional optional tags. |
 
 
 ### Module outputs

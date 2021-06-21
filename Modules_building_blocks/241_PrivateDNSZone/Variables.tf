@@ -90,7 +90,7 @@ variable "Project" {
   default             = "tfmodule"
 }
 
-variable "extra_tags" {
+variable "ExtraTags" {
   type        = map
   description = "Additional optional tags."
   default     = {}

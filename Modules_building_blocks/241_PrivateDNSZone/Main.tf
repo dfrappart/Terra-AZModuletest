@@ -20,5 +20,5 @@ resource "azurerm_private_dns_zone" "PrivateDNSZone" {
 
   }
 
-  tags                                  = merge(local.DefaultTags, var.extra_tags)
+  tags                                  = merge(local.DefaultTags, var.ExtraTags)
 }
