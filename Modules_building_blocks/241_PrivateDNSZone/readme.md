@@ -59,7 +59,47 @@ terraform plan should gives the following output:
 
 ```powershell
 
+PS C:\Users\jubei.yagyu\01_Infra> terraform plan -target module.PrivDNS
+module.ResourceGroup.azurerm_resource_group.RG: Refreshing state... [id=/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsglabmeetup]
 
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.PrivDNS.azurerm_private_dns_zone.PrivateDNSZone will be created
+  + resource "azurerm_private_dns_zone" "PrivateDNSZone" {
+      + id                                                    = (known after apply)
+      + max_number_of_record_sets                             = (known after apply)
+      + max_number_of_virtual_network_links                   = (known after apply)
+      + max_number_of_virtual_network_links_with_registration = (known after apply)
+      + name                                                  = "test.privatelink.westeurope.azmk8s.io"
+      + number_of_record_sets                                 = (known after apply)
+      + resource_group_name                                   = "rsglabmeetup"
+      + tags                                                  = {
+          + "CostCenter"    = "labtf"
+          + "Country"       = "fr"
+          + "Environment"   = "lab"
+          + "ManagedBy"     = "Terraform"
+          + "Project"       = "tfmodule"
+          + "ResourceOwner" = "That would be me"
+        }
+
+      + soa_record {
+          + email         = (known after apply)
+          + expire_time   = (known after apply)
+          + fqdn          = (known after apply)
+          + host_name     = (known after apply)
+          + minimum_ttl   = (known after apply)
+          + refresh_time  = (known after apply)
+          + retry_time    = (known after apply)
+          + serial_number = (known after apply)
+          + tags          = (known after apply)
+          + ttl           = (known after apply)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
 
 ```
 
