@@ -18,6 +18,7 @@ This module deploys a User Assigned Identity.
 | Company | string | dfitc | The Company owner of the resources |
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |  
+| ExtraTags | map | {} | Additional optional tags. |
   
 
 
@@ -25,13 +26,13 @@ This module deploys a User Assigned Identity.
 
 | Output name | value | Description |
 |:------------|:------|:------------|
-| FullUAIOutput | `azurerm_user_assigned_identity.terraUAI` |send all the resource information available in the output. In future version, this may be the only output and detailed information will probably be queried specifically from the root module |
-| Id | `azurerm_user_assigned_identity.terraUAI.id` | The resource id of the UAI |
-| Name | `azurerm_user_assigned_identity.terraUAI.name` | The name of the UAI |
-| Location | `azurerm_user_assigned_identity.terraUAI.location` | The region in which the resource are deployed |
-| RG | `azurerm_user_assigned_identity.terraUAI.resource_group_name` | The region in which the resource are deployed |
-| PrincipalId | `azurerm_user_assigned_identity.terraUAI.principal_id` | The principal Id of the UAI |
-| ClientId | `azurerm_user_assigned_identity.terraUAI.client_id` | The client id of the UAI |
+| FullUAIOutput | `azurerm_user_assigned_identity.UAI` |send all the resource information available in the output. In future version, this may be the only output and detailed information will probably be queried specifically from the root module |
+| Id | `azurerm_user_assigned_identity.UAI.id` | The resource id of the UAI |
+| Name | `azurerm_user_assigned_identity.UAI.name` | The name of the UAI |
+| Location | `azurerm_user_assigned_identity.UAI.location` | The region in which the resource are deployed |
+| RG | `azurerm_user_assigned_identity.UAI.resource_group_name` | The region in which the resource are deployed |
+| PrincipalId | `azurerm_user_assigned_identity.UAI.principal_id` | The principal Id of the UAI |
+| ClientId | `azurerm_user_assigned_identity.UAI.client_id` | The client id of the UAI |
 
   
   
@@ -108,8 +109,8 @@ Terraform will perform the following actions:
         }
     }
 
-  # module.UAI1.azurerm_user_assigned_identity.terraUAI will be created
-  + resource "azurerm_user_assigned_identity" "terraUAI" {
+  # module.UAI1.azurerm_user_assigned_identity.UAI will be created
+  + resource "azurerm_user_assigned_identity" "UAI" {
       + client_id           = (known after apply)
       + id                  = (known after apply)
       + location            = "westeurope"

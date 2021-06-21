@@ -59,3 +59,9 @@ variable "Environment" {
   description           = "The environment, dev, prod..."
   default               = "lab"
 }
+
+variable "ExtraTags" {
+  type        = map
+  description = "Additional optional tags."
+  default     = {}
+}
