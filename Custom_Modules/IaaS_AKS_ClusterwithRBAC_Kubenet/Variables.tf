@@ -259,7 +259,7 @@ variable "AKSNodesRG" {
 
 variable "UseAKSNodeRGDefaultName" {
   type                          = string
-  default                       = false
+  default                       = null
   description                   = "This variable is used to define if the default name for the node rg is used, default to false, which allows to either use the name provided bu AKSNodeRG or the local in locals.tf"
 }
 
