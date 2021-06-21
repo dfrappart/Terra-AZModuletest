@@ -1,6 +1,6 @@
 
 locals {
-
+  UAIName           = "uai${lower(var.UAISuffix)}"
   DefaultTags = tomap({
     ResourceOwner   = var.ResourceOwnerTag
     Country         = var.CountryTag
