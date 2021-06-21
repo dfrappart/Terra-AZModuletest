@@ -5,7 +5,7 @@ locals {
     Country         = var.CountryTag
     CostCenter      = var.CostCenterTag
     Project         = var.Project
-    Environment     = var.Environment
+    Environment     = var.EnvironmentTag
     ManagedBy       = "Terraform"
   })
 

@@ -37,7 +37,7 @@ Use as follow:
 
 ```bash
 
-module "NSG" {
+module "PrivDNS" {
 
     #Module location
     source = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//241_PrivateDNSZone/"
