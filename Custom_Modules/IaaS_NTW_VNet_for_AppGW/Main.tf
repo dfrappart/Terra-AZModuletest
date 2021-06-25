@@ -61,6 +61,7 @@ resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
 #Azure managed Bastion
 
 resource "azurerm_network_security_group" "AzureBastionNSG" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "nsg-bst${lower(var.VNetSuffix)}"
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
@@ -78,6 +79,7 @@ resource "azurerm_network_security_group" "AzureBastionNSG" {
 #Diagnostic settings on the Bastion nsg
 
 resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "${azurerm_network_security_group.AzureBastionNSG.name}diag"
   target_resource_id                    = azurerm_network_security_group.AzureBastionNSG.id
   storage_account_id                    = var.STALogId
@@ -106,6 +108,7 @@ resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
 #NSG Flow logs on the Bastion nsg
 
 resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
 
@@ -129,8 +132,7 @@ resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
 }
 
 resource "azurerm_subnet" "AzBastionmanagedSubnet" {
-
-
+    count                               = var.IsBastionEnabled ? 1 : 0
     name                                = "AzureBastionSubnet"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
@@ -140,8 +142,10 @@ resource "azurerm_subnet" "AzBastionmanagedSubnet" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "BastionSubnetNSGAssociation" {
-    subnet_id                           = azurerm_subnet.AzBastionmanagedSubnet.id
-    network_security_group_id           = azurerm_network_security_group.AzureBastionNSG.id
+  count                                 = var.IsBastionEnabled ? 1 : 0
+  subnet_id                             = azurerm_subnet.AzBastionmanagedSubnet.id
+  network_security_group_id             = azurerm_network_security_group.AzureBastionNSG.id
+
 }
 
 ###################################################################################
@@ -524,6 +528,7 @@ resource "azurerm_network_security_rule" "Default_AppGWSubnet_GatewayManager" {
 # NSG Ingress Rules
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowHTTPSBastionIn" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_AllowHTTPSBastionIn"
   priority                              = 2010
   direction                             = "Inbound"
@@ -538,6 +543,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowHTTPSBastio
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowGatewayManager" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_AllowGatewayManager"
   priority                              = 2020
   direction                             = "Inbound"
@@ -552,6 +558,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowGatewayMana
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowAzureLB" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_AllowAzureLB"
   priority                              = 2030
   direction                             = "Inbound"
@@ -566,6 +573,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowAzureLB" {
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowBastionCommunicationIn" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_AllowBastionCommunicationIn"
   priority                              = 2040
   direction                             = "Inbound"
@@ -573,13 +581,15 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowBastionComm
   protocol                              = "Tcp"
   source_port_range                     = "*"
   destination_port_ranges               = ["8080","5701"]
-  source_address_prefix                 = "*"
+  source_address_prefix                 = "VirtualNetwork"
   destination_address_prefix            = "VirtualNetwork"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
 }
 
+/*
 resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetIn" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_DenyVNetIn"
   priority                              = 2510
   direction                             = "Inbound"
@@ -592,10 +602,11 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetIn" {
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
 }
-
+*/
 # NSG Egress Rules
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowRemoteBastionOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_AllowRemoteBastionOut"
   priority                              = 2010
   direction                             = "Outbound"
@@ -610,6 +621,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowRemoteBasti
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureCloudHTTPSOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_AllowAzureCloudHTTPSOut"
   priority                              = 2020
   direction                             = "Outbound"
@@ -624,6 +636,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureCloudHTTPSOut" {
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureBastionCommunicationOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_AllowAzureBastionCommunicationOut"
   priority                              = 2030
   direction                             = "Outbound"
@@ -638,6 +651,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureBastionCommunication
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureBastionGetSessionInformationOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_AllowAzureBastionGetSessionInformationOut"
   priority                              = 2040
   direction                             = "Outbound"
@@ -652,6 +666,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureBastionGetSessionInf
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_DenyVNetOut"
   priority                              = 2510
   direction                             = "Outbound"
@@ -666,6 +681,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetOut" {
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BastionSubnet_DenyInternetOut"
   priority                              = 2520
   direction                             = "Outbound"
@@ -686,6 +702,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut"
 # Azure Bastion
 
 resource "azurerm_public_ip" "BastionPublicIP" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "bst-pubip"
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
@@ -708,6 +725,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
 #Diagnostic settings on the Bastion pip
 
 resource "azurerm_monitor_diagnostic_setting" "AZBastionPIPDiag" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "${azurerm_public_ip.BastionPublicIP.name}diag"
   target_resource_id                    = azurerm_public_ip.BastionPublicIP.id
   storage_account_id                    = var.STALogId
@@ -752,6 +770,7 @@ resource "azurerm_monitor_diagnostic_setting" "AZBastionPIPDiag" {
 }
 
 resource "azurerm_bastion_host" "SpokeBastion" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "bst${lower(var.VNetSuffix)}"
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
@@ -774,6 +793,7 @@ resource "azurerm_bastion_host" "SpokeBastion" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "${azurerm_bastion_host.SpokeBastion.name}diag"
   target_resource_id                    = azurerm_bastion_host.SpokeBastion.id
   storage_account_id                    = var.STALogId

@@ -45,6 +45,15 @@ variable "VNetSuffix" {
   description   = "The suffix for the module spoke, something like spoke01"
 }
 
+
+######################################################
+# Bastion activation
+
+variable "IsBastionEnabled" {
+  type          = string
+  default       = false
+  description   = "Define if Bastion is enabled or not"
+}
 ######################################################
 #Network watcher variables
 
