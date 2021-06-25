@@ -50,10 +50,23 @@ variable "VNetSuffix" {
 # Bastion activation
 
 variable "IsBastionEnabled" {
-  type          = string
+  type          = bool
   default       = false
   description   = "Define if Bastion is enabled or not"
 }
+
+variable "DefaultBastionDisabledOutput" {
+  type          = map
+  
+  description   = "Define default output when bastion is disabled"
+
+  default       = {
+    "id" = null
+    "name" = null 
+    "description" = "Bastion is disabled"
+  }
+}
+
 ######################################################
 #Network watcher variables
 

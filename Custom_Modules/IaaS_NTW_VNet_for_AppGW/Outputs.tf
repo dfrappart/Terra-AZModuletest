@@ -25,7 +25,7 @@ output "VNetFullOutput" {
 # Subnet Bastion
 
 output "AzureBastionSubnetFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0] : var.DefaultBastionDisabledOutput
   sensitive                   = false
 }
 
@@ -56,7 +56,7 @@ output "BESubnetFullOutput" {
 # NSG Bastion Subnet
 
 output "AzureBastionNSGFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_group.AzureBastionNSG[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_group.AzureBastionNSG[0] : var.DefaultBastionDisabledOutput
   sensitive                   = false
 }
 
@@ -109,27 +109,27 @@ output "Default_AppGWSubnet_GatewayManagerFullOutput" {
 }
 
 output "Default_BastionSubnet_AllowHTTPSBastionInFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowHTTPSBastionIn[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowHTTPSBastionIn[0] : var.DefaultBastionDisabledOutput
 }
 
 output "Default_BastionSubnet_AllowGatewayManagerFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowGatewayManager[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowGatewayManager[0] : var.DefaultBastionDisabledOutput
 }
 
 output "Default_BastionSubnet_AllowRemoteBastionOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowRemoteBastionOut[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowRemoteBastionOut[0] : var.DefaultBastionDisabledOutput
 }
 
 output "Default_AllowAzureCloudHTTPSOutOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_AllowAzureCloudHTTPSOut[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_AllowAzureCloudHTTPSOut[0] : var.DefaultBastionDisabledOutput
 }
 
 output "Default_BastionSubnet_DenyVNetOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyVNetOut[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyVNetOut[0] : var.DefaultBastionDisabledOutput
 }
 
 output "Default_BastionSubnet_DenyInternetOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyInternetOut[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyInternetOut[0] : var.DefaultBastionDisabledOutput
 }
 
 
@@ -137,7 +137,7 @@ output "Default_BastionSubnet_DenyInternetOutFullOutput" {
 #Output for Diagnostic logs
 
 output "AzureBastionNSGDiagFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_monitor_diagnostic_setting.AzureBastionNSGDiag[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_monitor_diagnostic_setting.AzureBastionNSGDiag[0] : var.DefaultBastionDisabledOutput
 }
 
 # NSG AppGW Subnet
@@ -163,7 +163,7 @@ output "BESubnetNSGDiagFullOutput" {
 #Output for Flowlogs
 
 output "AzureBastionNSGFlowLogFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_watcher_flow_log.AzureBastionNSGFlowLog[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_network_watcher_flow_log.AzureBastionNSGFlowLog[0] : var.DefaultBastionDisabledOutput
 }
 
 # NSG AppGW Subnet
@@ -188,11 +188,11 @@ output "BESubnetNSGFlowLogFullOutput" {
 #Output for Bastion Host
 
 output "SpokeBastionFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0] : var.DefaultBastionDisabledOutput
   sensitive                   = true
 }
 
 output "SpokeBastionPubIPFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_public_ip.BastionPublicIP[0] : tomap("No Bastion Enabled")
+  value                       = var.IsBastionEnabled ? azurerm_public_ip.BastionPublicIP[0] : var.DefaultBastionDisabledOutput
   sensitive                   = true
 }
