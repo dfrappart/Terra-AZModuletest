@@ -80,8 +80,8 @@ resource "azurerm_network_security_group" "AzureBastionNSG" {
 
 resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  name                                  = "${azurerm_network_security_group.AzureBastionNSG.name}diag"
-  target_resource_id                    = azurerm_network_security_group.AzureBastionNSG.id
+  name                                  = "${azurerm_network_security_group.AzureBastionNSG[0].name}diag"
+  target_resource_id                    = azurerm_network_security_group.AzureBastionNSG[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
@@ -112,7 +112,7 @@ resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
 
-  network_security_group_id             = azurerm_network_security_group.AzureBastionNSG.id
+  network_security_group_id             = azurerm_network_security_group.AzureBastionNSG[0].id
   storage_account_id                    = var.STALogId
   enabled                               = true
   version                               = 2
@@ -143,8 +143,8 @@ resource "azurerm_subnet" "AzBastionmanagedSubnet" {
 
 resource "azurerm_subnet_network_security_group_association" "BastionSubnetNSGAssociation" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  subnet_id                             = azurerm_subnet.AzBastionmanagedSubnet.id
-  network_security_group_id             = azurerm_network_security_group.AzureBastionNSG.id
+  subnet_id                             = azurerm_subnet.AzBastionmanagedSubnet[0].id
+  network_security_group_id             = azurerm_network_security_group.AzureBastionNSG[0].id
 
 }
 
@@ -539,7 +539,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowHTTPSBastio
   source_address_prefix                 = "Internet"
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowGatewayManager" {
@@ -554,7 +554,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowGatewayMana
   source_address_prefix                 = "GatewayManager"
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowAzureLB" {
@@ -569,7 +569,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowAzureLB" {
   source_address_prefix                 = "AzureLoadBalancer"
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowBastionCommunicationIn" {
@@ -584,7 +584,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowBastionComm
   source_address_prefix                 = "VirtualNetwork"
   destination_address_prefix            = "VirtualNetwork"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 /*
@@ -600,7 +600,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetIn" {
   source_address_prefix                 = "VirtualNetwork"
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 */
 # NSG Egress Rules
@@ -617,7 +617,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowRemoteBasti
   source_address_prefix                 = "*"
   destination_address_prefix            = "VirtualNetwork"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureCloudHTTPSOut" {
@@ -632,7 +632,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureCloudHTTPSOut" {
   source_address_prefix                 = "*"
   destination_address_prefix            = "AzureCloud"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureBastionCommunicationOut" {
@@ -647,7 +647,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureBastionCommunication
   source_address_prefix                 = "VirtualNetwork"
   destination_address_prefix            = "VirtualNetwork"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_AllowAzureBastionGetSessionInformationOut" {
@@ -662,7 +662,7 @@ resource "azurerm_network_security_rule" "Default_AllowAzureBastionGetSessionInf
   source_address_prefix                 = "*"
   destination_address_prefix            = "Internet"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetOut" {
@@ -677,7 +677,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyVNetOut" {
   source_address_prefix                 = "*"
   destination_address_prefix            = "VirtualNetwork"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut" {
@@ -692,7 +692,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut"
   source_address_prefix                 = "*"
   destination_address_prefix            = "Internet"
   resource_group_name                   = var.TargetRG
-  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG.name
+  network_security_group_name           = azurerm_network_security_group.AzureBastionNSG[0].name
 }
 
 ###################################################################################
@@ -727,7 +727,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
 resource "azurerm_monitor_diagnostic_setting" "AZBastionPIPDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "${azurerm_public_ip.BastionPublicIP.name}diag"
-  target_resource_id                    = azurerm_public_ip.BastionPublicIP.id
+  target_resource_id                    = azurerm_public_ip.BastionPublicIP[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
@@ -777,8 +777,8 @@ resource "azurerm_bastion_host" "SpokeBastion" {
 
   ip_configuration {
     name                                = "bst-ipconfig${lower(var.VNetSuffix)}"
-    subnet_id                           = azurerm_subnet.AzBastionmanagedSubnet.id
-    public_ip_address_id                = azurerm_public_ip.BastionPublicIP.id
+    subnet_id                           = azurerm_subnet.AzBastionmanagedSubnet[0].id
+    public_ip_address_id                = azurerm_public_ip.BastionPublicIP[0].id
   }
 
   tags = {
@@ -795,7 +795,7 @@ resource "azurerm_bastion_host" "SpokeBastion" {
 resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "${azurerm_bastion_host.SpokeBastion.name}diag"
-  target_resource_id                    = azurerm_bastion_host.SpokeBastion.id
+  target_resource_id                    = azurerm_bastion_host.SpokeBastion[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
