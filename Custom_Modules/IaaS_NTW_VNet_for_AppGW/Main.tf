@@ -432,7 +432,7 @@ resource "azurerm_network_security_rule" "Default_FESubnet_AllowRDPSSHFromBastio
   protocol                              = "Tcp"
   source_port_range                     = "*"
   destination_port_ranges               = ["22","3389"]
-  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet.address_prefixes
+  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet[0].address_prefixes
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.FESubnetNSG.name
@@ -481,7 +481,7 @@ resource "azurerm_network_security_rule" "Default_BESubnet_AllowRDPSSHFromBastio
   protocol                              = "Tcp"
   source_port_range                     = "*"
   destination_port_ranges               = ["22","3389"]
-  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet.address_prefixes
+  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet[0].address_prefixes
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.BESubnetNSG.name
