@@ -97,7 +97,7 @@ output "Default_FESubnet_DenyVNetSSHRDPInFullOutput" {
 }
 
 output "Default_BESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value                       = var.DefaultBastionDisabledOutput ? azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion : ["BastionDisable"]
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion : ["BastionDisable"]
 }
 
 output "Default_BESubnet_AllowLBFullOutput" {
