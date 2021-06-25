@@ -26,7 +26,7 @@ resource "azurerm_virtual_network" "SpokeVNet" {
 #Diagnostic settings on VNet
 
 resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
-  name                                  = "${azurerm_virtual_network.SpokeVNet.name}diag"
+  name                                  = "diag-${azurerm_virtual_network.SpokeVNet.name}"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -80,7 +80,7 @@ resource "azurerm_network_security_group" "AzureBastionNSG" {
 
 resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  name                                  = "${azurerm_network_security_group.AzureBastionNSG[0].name}diag"
+  name                                  = "diag-${azurerm_network_security_group.AzureBastionNSG[0].name}"
   target_resource_id                    = azurerm_network_security_group.AzureBastionNSG[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -171,7 +171,7 @@ resource "azurerm_network_security_group" "AppGWSubnetNSG" {
 #Diagnostic settings on the AppGW nsg
 
 resource "azurerm_monitor_diagnostic_setting" "AppGWSubnetNSGDiag" {
-  name                                  = "${azurerm_network_security_group.AppGWSubnetNSG.name}diag"
+  name                                  = "diag-${azurerm_network_security_group.AppGWSubnetNSG.name}"
   target_resource_id                    = azurerm_network_security_group.AppGWSubnetNSG.id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -261,7 +261,7 @@ resource "azurerm_network_security_group" "FESubnetNSG" {
 #Diagnostic settings on FE nsg
 
 resource "azurerm_monitor_diagnostic_setting" "FESubnetNSGDiag" {
-  name                                  = "${azurerm_network_security_group.FESubnetNSG.name}diag"
+  name                                  = "diag-${azurerm_network_security_group.FESubnetNSG.name}"
   target_resource_id                    = azurerm_network_security_group.FESubnetNSG.id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -348,7 +348,7 @@ resource "azurerm_network_security_group" "BESubnetNSG" {
 #Diagnostic settings on the BE nsg
 
 resource "azurerm_monitor_diagnostic_setting" "BESubnetNSGDiag" {
-  name                                  = "${azurerm_network_security_group.BESubnetNSG.name}diag"
+  name                                  = "diag-${azurerm_network_security_group.BESubnetNSG.name}"
   target_resource_id                    = azurerm_network_security_group.BESubnetNSG.id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -432,7 +432,7 @@ resource "azurerm_network_security_rule" "Default_FESubnet_AllowRDPSSHFromBastio
   protocol                              = "Tcp"
   source_port_range                     = "*"
   destination_port_ranges               = ["22","3389"]
-  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet.address_prefixes
+  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet[0].address_prefixes
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.FESubnetNSG.name
@@ -481,7 +481,7 @@ resource "azurerm_network_security_rule" "Default_BESubnet_AllowRDPSSHFromBastio
   protocol                              = "Tcp"
   source_port_range                     = "*"
   destination_port_ranges               = ["22","3389"]
-  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet.address_prefixes
+  source_address_prefixes               = azurerm_subnet.AzBastionmanagedSubnet[0].address_prefixes
   destination_address_prefix            = "*"
   resource_group_name                   = var.TargetRG
   network_security_group_name           = azurerm_network_security_group.BESubnetNSG.name
@@ -726,7 +726,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
 
 resource "azurerm_monitor_diagnostic_setting" "AZBastionPIPDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  name                                  = "${azurerm_public_ip.BastionPublicIP.name}diag"
+  name                                  = "diag-${azurerm_public_ip.BastionPublicIP[0].name}"
   target_resource_id                    = azurerm_public_ip.BastionPublicIP[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -794,7 +794,7 @@ resource "azurerm_bastion_host" "SpokeBastion" {
 
 resource "azurerm_monitor_diagnostic_setting" "AZBastionDiag" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  name                                  = "${azurerm_bastion_host.SpokeBastion.name}diag"
+  name                                  = "diag-${azurerm_bastion_host.SpokeBastion[0].name}"
   target_resource_id                    = azurerm_bastion_host.SpokeBastion[0].id
   storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
