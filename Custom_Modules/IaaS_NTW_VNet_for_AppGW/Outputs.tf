@@ -85,7 +85,7 @@ output "BESubnetNSGFullOutput" {
 #NSG Rules outputs
 
 output "Default_FESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value                       = azurerm_network_security_rule.Default_FESubnet_AllowRDPSSHFromBastion
+  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_FESubnet_AllowRDPSSHFromBastion : var.DefaultBastionDisabledOutput
 }
 
 output "Default_FESubnet_AllowLBFullOutput" {
@@ -97,7 +97,7 @@ output "Default_FESubnet_DenyVNetSSHRDPInFullOutput" {
 }
 
 output "Default_BESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value                       = azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion
+  value                       = var.DefaultBastionDisabledOutput ? azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion : var.DefaultBastionDisabledOutput
 }
 
 output "Default_BESubnet_AllowLBFullOutput" {

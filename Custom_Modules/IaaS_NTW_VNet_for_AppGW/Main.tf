@@ -425,6 +425,7 @@ resource "azurerm_subnet_network_security_group_association" "BESubnetNSGAssocia
 #Inbound
 
 resource "azurerm_network_security_rule" "Default_FESubnet_AllowRDPSSHFromBastion" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_FESubnet_AllowRDPSSHFromBastion"
   priority                              = 2010
   direction                             = "Inbound"
@@ -474,6 +475,7 @@ resource "azurerm_network_security_rule" "Default_FESubnet_DenyVNetSSHRDPIn" {
 # Inbound
 
 resource "azurerm_network_security_rule" "Default_BESubnet_AllowRDPSSHFromBastion" {
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "Default_BESubnet_AllowRDPSSHFromBastion"
   priority                              = 2010
   direction                             = "Inbound"
