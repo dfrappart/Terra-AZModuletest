@@ -41,15 +41,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
     node_count                            = var.AKSNodeCount
     orchestrator_version                  = var.KubeVersion
 
-    tags = {
-        ResourceOwner                     = var.ResourceOwnerTag
-        Country                           = var.CountryTag
-        CostCenter                        = var.CostCenterTag
-        Environment                       = var.Environment
-        Project                           = var.Project
-        ManagedBy                         = "Terraform"
-        AKSNodePool                       = local.AKSDefaultNodePoolName
-      }
+    tags = merge(local.DefaultTags, var.extra_tags)
 
   }
 
@@ -157,14 +149,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACKubenet" {
 
   }
 
-  tags = {
-        ResourceOwner                   = var.ResourceOwnerTag
-        Country                         = var.CountryTag
-        CostCenter                      = var.CostCenterTag
-        Environment                     = var.Environment
-        Project                         = var.Project
-        ManagedBy                       = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags) 
 }
 
 
@@ -300,13 +285,7 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags)
 
 }
 
@@ -340,13 +319,7 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags)
 
 }
 
@@ -381,13 +354,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags)
 
 }
 
@@ -421,13 +388,7 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags)
 
 }
 
@@ -455,13 +416,7 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
 
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(local.DefaultTags, var.extra_tags)
 
 }
 

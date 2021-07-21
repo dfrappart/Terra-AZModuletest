@@ -400,3 +400,9 @@ variable "Environment" {
   description   = "The environment, dev, prod..."
   default       = "dev"
 }
+
+variable "extra_tags" {
+  type        = map
+  description = "Additional optional tags."
+  default     = {}
+}
