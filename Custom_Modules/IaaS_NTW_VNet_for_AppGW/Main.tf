@@ -132,6 +132,15 @@ resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
 }
 
 resource "azurerm_subnet" "AzBastionmanagedSubnet" {
+
+  lifecycle {
+    ignore_changes                        = [
+      #Ignore change for prvate endpoint policy
+      enforce_private_link_endpoint_network_policies
+
+    ]
+  }
+
     count                               = var.IsBastionEnabled ? 1 : 0
     name                                = "AzureBastionSubnet"
     resource_group_name                 = var.TargetRG
@@ -223,6 +232,15 @@ resource "azurerm_network_watcher_flow_log" "AppGWSubnetNSGFlowLog" {
 #AppGW Subnet
 
 resource "azurerm_subnet" "AppGWSubnet" {
+
+  lifecycle {
+    ignore_changes                        = [
+      #Ignore change for prvate endpoint policy
+      enforce_private_link_endpoint_network_policies
+
+    ]
+  }
+
     name                                = "subAGW${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
@@ -311,6 +329,15 @@ resource "azurerm_network_watcher_flow_log" "FESubnetNSGFlowLog" {
 }
 
 resource "azurerm_subnet" "FESubnet" {
+
+  lifecycle {
+    ignore_changes                        = [
+      #Ignore change for prvate endpoint policy
+      enforce_private_link_endpoint_network_policies
+
+    ]
+  }
+
     name                                = "subFE${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
@@ -400,6 +427,15 @@ resource "azurerm_network_watcher_flow_log" "BESubnetNSGFlowLog" {
 #BE Subnet
 
 resource "azurerm_subnet" "BESubnet" {
+
+  lifecycle {
+    ignore_changes                        = [
+      #Ignore change for prvate endpoint policy
+      enforce_private_link_endpoint_network_policies
+
+    ]
+  }
+  
     name                                = "subBE${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
