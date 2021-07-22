@@ -10,8 +10,17 @@
 
 | Variable name | Variable type | Default value | Description |
 |:--------------|:--------------|:--------------|:------------|
-
-
+| AKSClusId | string | N/A | The Id of the Cluster |
+| AKSRGName | string | N/A | The RG for for AKS |
+| AKSClusName | string | N/A | The name of the cluster |
+| ACG1Id | string | N/A | Resource Id of the 1st action group |
+| ResourceOwnerTag | string | That would be me | Tag describing the owner |
+| CountryTag | string | fr | Tag describing the Country |
+| CostCenterTag | string | lab | Tag describing the Cost Center |
+| Company | string | dfitc | The Company owner of the resource |
+| Project | string | tfmodule | The name of the project |
+| Environment | string | dev | The environment, dev, prod... |
+| extra_tags | map | {} | Additional optional tags. |
 
 ### Module outputs
 
@@ -584,8 +593,6 @@ Terraform will perform the following actions:
 Plan: 10 to add, 0 to change, 0 to destroy.
 
 ```
-
-
 
 ## Sample deployment
 

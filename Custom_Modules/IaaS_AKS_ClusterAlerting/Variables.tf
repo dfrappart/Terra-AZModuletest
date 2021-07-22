@@ -11,7 +11,7 @@
 variable "AKSClusId" {
   type                          = string
   description                   = "The Id of the Cluster"
-  default                       = "westeurope"
+  
 }
 
 variable "AKSRGName" {
