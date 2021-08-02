@@ -44,7 +44,7 @@ variable "AKSRGName" {
 
 variable "AKSNodeInstanceType" {
   type                          = string
-  default                       = "Standard_DS2_v4"
+  default                       = "standard_d2s_v4"
   description                   = "The type of Azure instance for the pool"
 }
 
