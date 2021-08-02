@@ -2,19 +2,8 @@
 #This module allows the creation of an AKS Cluster
 ################################################################
 
-locals {
-
-  STAPrefix                             = "st${lower(var.Company)}${lower(var.CountryTag)}${lower(var.Environment)}${lower(var.Project)}"
-  AKSClusterName                        = "aks-${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}"
-  AKSDefaultNodePoolName                = "aksnp0${lower(var.Environment)}${lower(var.Project)}"
-}
-
-
 ################################################################
 # AKS Alert
-
-
-
 
 resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThresholdInsightContainer" {
 
