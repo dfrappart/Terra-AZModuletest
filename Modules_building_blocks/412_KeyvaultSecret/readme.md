@@ -13,6 +13,7 @@ This module deploys an Azure KeyVault secret.
 | KeyVaultId | string | N/A | The ID of the Key Vault where the Secret should be created. |
 | StartingDate |string | "notspecified" | An UTC datetime (Y-m-H:M:S'Z') defining when the secret is usable |
 | ExpirationDate | string | "notspecified" | An UTC datetime (Y-m-H:M:S'Z') defining when the secret expires |
+| SecretContentType | string | null | Specifies the content type for the Key Vault Secret |
 | stringlenght | number | 16 | The default length of the secret |
 | stringspecial | string | true | Is the password using special character? |
 | stringupper | string | true | Is the password using capital character? |

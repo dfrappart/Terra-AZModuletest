@@ -32,6 +32,11 @@ variable "ExpirationDate" {
   description         = "An UTC datetime (Y-m-H:M:S'Z') defining when the secret expires"
 }
 
+variable "SecretContentType" {
+  type                = string
+  default             = null
+  description         = "Specifies the content type for the Key Vault Secret"
+}
 
 variable "stringlenght" {
     type                = number
