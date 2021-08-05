@@ -36,6 +36,7 @@ resource "azurerm_key_vault_secret" "TerraSecret" {
   key_vault_id                            = var.KeyVaultId
   not_before_date                         = var.StartingDate != "notspecified" ? var.StartingDate : local.StartingDate
   expiration_date                         = var.ExpirationDate != "notspecified" ? var.ExpirationDate : local.ExpirationDate
+  content_type                            = var.SecretContentType
 
 
     tags = {

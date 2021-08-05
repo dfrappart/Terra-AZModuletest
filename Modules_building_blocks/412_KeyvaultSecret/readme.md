@@ -25,8 +25,6 @@ This module deploys an Azure KeyVault secret.
 | Project | string | tfmodule | The name of the project |
 | Environment | string | lab | The environment, dev, prod... |  
 | SecretUsedBy | string | "notspecified" | A tag defining who is using the password. Aim to be used for automation purpose |  
-  
-
 
 ### Module outputs
 
@@ -37,11 +35,7 @@ This module deploys an Azure KeyVault secret.
 | Version | `azurerm_key_vault_secret.TerraSecret.version` | The version of the keyvault secret |
 | Name | `azurerm_key_vault_secret.TerraSecret.name` | The name of the keyvault secret |
 
-  
-  
-
 ## How to call the module
- 
 
 Use as follow:
 
@@ -155,4 +149,3 @@ After deployment, something simlilar is visible in the portal:
 ![Illustration 1](./Img/akvsecret001.png)
 
 ![Illustration 2](./Img/akvsecret002.png)
-
