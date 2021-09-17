@@ -247,6 +247,11 @@ variable "AKSLBSku" {
   description                   = "Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are Basic and Standard. Defaults to Standard."
 }
 
+variable "AKSNetPolProvider" {
+  type                          = string
+  description                   = "Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
+  default                       = "calico"
+}
 
 ##############################################################
 # Spec for Node resource group
