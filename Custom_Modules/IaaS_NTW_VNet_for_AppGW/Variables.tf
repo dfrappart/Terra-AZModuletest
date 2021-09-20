@@ -54,10 +54,32 @@ variable "CidrDividerInfraSubnet" {
 variable "CidrDividerAppSubnet" {
   type          = string
   default       = 2
-  description   = "The suffix for the module spoke, something like spoke01"
+  description   = "The divider used for the function cidrsubnet. Default to 2 with a default CIDR to /24"
 }
 
+variable "BastionSubnetPosition" {
+  type          = string
+  default       = 0
+  description   = "A integer used in the function cidrsubnet to position the subnet range"
+}
 
+variable "AGWSubnetPosition" {
+  type          = string
+  default       = 1
+  description   = "A integer used in the function cidrsubnet to position the subnet range"
+}
+
+variable "FESubnetPosition" {
+  type          = string
+  default       = 2
+  description   = "A integer used in the function cidrsubnet to position the subnet range"
+}
+
+variable "BESubnetPosition" {
+  type          = string
+  default       = 3
+  description   = "A integer used in the function cidrsubnet to position the subnet range"
+}
 ######################################################
 # Bastion activation
 
