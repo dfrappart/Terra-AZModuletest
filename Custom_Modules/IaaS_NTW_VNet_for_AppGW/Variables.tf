@@ -45,6 +45,18 @@ variable "VNetSuffix" {
   description   = "The suffix for the module spoke, something like spoke01"
 }
 
+variable "CidrDividerInfraSubnet" {
+  type          = string
+  default       = 2
+  description   = "The divider used for the function cidrsubnet. Default to 2 with a default CIDR to /24"
+}
+
+variable "CidrDividerAppSubnet" {
+  type          = string
+  default       = 2
+  description   = "The suffix for the module spoke, something like spoke01"
+}
+
 
 ######################################################
 # Bastion activation

@@ -145,7 +145,7 @@ resource "azurerm_subnet" "AzBastionmanagedSubnet" {
     name                                = "AzureBastionSubnet"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
-    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],2,0)]
+    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],var.CidrDividerInfraSubnet,0)]
 
 
 }
@@ -244,7 +244,7 @@ resource "azurerm_subnet" "AppGWSubnet" {
     name                                = "subAGW${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
-    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],2,1)]
+    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],var.CidrDividerInfraSubnet,1)]
 
 }
 
@@ -341,7 +341,7 @@ resource "azurerm_subnet" "FESubnet" {
     name                                = "subFE${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
-    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],2,2)]
+    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],var.CidrDividerAppSubnet,2)]
     service_endpoints                   = var.SubnetEndpointLists
 
 }
@@ -439,7 +439,7 @@ resource "azurerm_subnet" "BESubnet" {
     name                                = "subBE${lower(var.VNetSuffix)}"
     resource_group_name                 = var.TargetRG
     virtual_network_name                = azurerm_virtual_network.SpokeVNet.name
-    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],2,3)]
+    address_prefixes                    = [cidrsubnet(var.VNetAddressSpace[0],var.CidrDividerAppSubnet,3)]
     service_endpoints                   = var.SubnetEndpointLists
 
 }
