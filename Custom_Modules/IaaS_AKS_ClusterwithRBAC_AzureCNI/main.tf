@@ -134,6 +134,15 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       log_analytics_workspace_id          = var.LawSubLogId
     }
 
+    dynamic "ingress_application_gateway" {
+      for_each = { for k,v in local.AGIC : k=>v if v.Enabled}
+      enabled                             = local.AGIC.Enabled
+      gateway_id                          = local.AGIC.Id
+      gateway_name                        = local.AGIC.Name
+      subnet_cidr                         = local.AGIC.SubnetCidr
+      subnet_id                           = local.AGIC.SubnetId
+    }
+
   }
 
   tags = merge(local.DefaultTags, var.extra_tags) 
