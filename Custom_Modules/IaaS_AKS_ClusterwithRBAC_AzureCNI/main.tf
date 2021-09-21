@@ -134,6 +134,15 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       log_analytics_workspace_id          = var.LawSubLogId
     }
 
+    ingress_application_gateway {
+      enabled                             = var.IsAGICEnabled
+      gateway_id                          = var.AGWId
+      gateway_name                        = var.AGWName
+      subnet_cidr                         = var.AGWSubnetCidr
+      subnet_id                           = var.AGWSubnetId
+    }
+
+/*
     dynamic "ingress_application_gateway" {
       for_each = { for k,v in local.AGIC : k=>v if v.Enabled == "true" }
       iterator = each
@@ -149,6 +158,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       }
 
     }
+*/
+
 
   }
 

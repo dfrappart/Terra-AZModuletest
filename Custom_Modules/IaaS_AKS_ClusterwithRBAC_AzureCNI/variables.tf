@@ -287,32 +287,32 @@ variable "PrivateDNSZoneId" {
 # Variable for AGIC
 
 variable "IsAGICEnabled" {
-  type                          = string
-  default                       = "false"
+  type                          = bool
+  default                       = false
   description                   = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
 }
 
 variable "AGWId" {
   type                          = string
-  default                       = ""
+  default                       = null
   description                   = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
 }
 
 variable "AGWName" {
   type                          = string
-  default                       = ""
+  default                       = null
   description                   = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
 }
 
 variable "AGWSubnetCidr" {
   type                          = string
-  default                       = ""
+  default                       = null
   description                   = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
 }
 
 variable "AGWSubnetId" {
   type                          = string
-  default                       = ""
+  default                       = null
   description                   = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
 }
 
