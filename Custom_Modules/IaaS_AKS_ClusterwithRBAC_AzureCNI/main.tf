@@ -135,7 +135,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     }
 
     dynamic "ingress_application_gateway" {
-      for_each = { for k,v in local.AGIC : k=>v if v.Enabled == "false" }
+      for_each = { for k,v in local.AGIC : k=>v if v.Enabled == "true" }
       iterator = each
 
       content {

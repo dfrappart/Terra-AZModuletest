@@ -10,11 +10,11 @@ locals {
   DefaultNodeRGName                     = null
 
   AGIC = {
-    Enabled                               = var.IsAGICEnabled
-    Id                                    = var.AGWId
-    Name                                  = var.AGWName
-    SubnetCidr                            = var.AGWSubnetCidr
-    SubnetId                              = var.AGWSubnetId
+    Enabled                             = var.IsAGICEnabled
+    Id                                  = var.AGWId
+    Name                                = var.AGWName
+    SubnetCidr                          = var.AGWSubnetCidr
+    SubnetId                            = var.AGWSubnetId
   }
 
   DefaultTags = tomap({
