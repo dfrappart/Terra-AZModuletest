@@ -287,8 +287,8 @@ variable "PrivateDNSZoneId" {
 # Variable for AGIC
 
 variable "IsAGICEnabled" {
-  type                          = bool
-  default                       = false
+  type                          = string
+  default                       = "false"
   description                   = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
 }
 
