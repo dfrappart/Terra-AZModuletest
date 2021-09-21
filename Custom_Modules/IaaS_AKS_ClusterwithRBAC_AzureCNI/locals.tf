@@ -9,6 +9,13 @@ locals {
   CustomNodeRGName                      = var.AKSNodesRG != "unspecified" ? var.AKSNodesRG : "rsg-${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-aksobjects" 
   DefaultNodeRGName                     = null
 
+  AGIC = tomap({
+    Enabled                               = var.IsAGICEnabled
+    Id                                    = var.AGWId
+    Name                                  = var.AGWName
+    SubnetCidr                            = var.AGWSubnetCidr
+    SubnetId                              = var.AGWSubnetId
+  })
 
   DefaultTags = tomap({
     ResourceOwner                       = var.ResourceOwnerTag
