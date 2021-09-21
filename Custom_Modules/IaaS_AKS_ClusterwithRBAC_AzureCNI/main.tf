@@ -134,31 +134,30 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       log_analytics_workspace_id          = var.LawSubLogId
     }
 
-    ingress_application_gateway {
+    #ingress_application_gateway {
+    #  enabled                             = var.IsAGICEnabled
+    #  gateway_id                          = var.AGWId
+    #  gateway_name                        = var.AGWName
+    #  subnet_cidr                         = var.AGWSubnetCidr
+    #  subnet_id                           = var.AGWSubnetId
+    #}
+
+
+    dynamic "ingress_application_gateway" {
+      for_each = var.IsAGICEnabled ? ["fake"] : []
+
+      content {
+
       enabled                             = var.IsAGICEnabled
       gateway_id                          = var.AGWId
       gateway_name                        = var.AGWName
       subnet_cidr                         = var.AGWSubnetCidr
       subnet_id                           = var.AGWSubnetId
-    }
-
-/*
-    dynamic "ingress_application_gateway" {
-      for_each = { for k,v in local.AGIC : k=>v if v.Enabled == "true" }
-      iterator = each
-
-      content {
-
-        enabled                             = each.value.Enabled
-        gateway_id                          = each.value.Id
-        gateway_name                        = each.value.Name
-        subnet_cidr                         = each.value.SubnetCidr
-        subnet_id                           = each.value.SubnetId
 
       }
 
     }
-*/
+
 
 
   }
