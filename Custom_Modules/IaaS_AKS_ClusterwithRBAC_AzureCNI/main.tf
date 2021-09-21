@@ -134,29 +134,30 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       log_analytics_workspace_id          = var.LawSubLogId
     }
 
-    #ingress_application_gateway {
-    #  enabled                             = var.IsAGICEnabled
-    #  gateway_id                          = var.AGWId
-    #  gateway_name                        = var.AGWName
-    #  subnet_cidr                         = var.AGWSubnetCidr
-    #  subnet_id                           = var.AGWSubnetId
-    #}
-
-
-    dynamic "ingress_application_gateway" {
-      for_each = var.IsAGICEnabled ? ["fake"] : []
-
-      content {
-
+    ingress_application_gateway {
       enabled                             = var.IsAGICEnabled
       gateway_id                          = var.AGWId
       gateway_name                        = var.AGWName
       subnet_cidr                         = var.AGWSubnetCidr
       subnet_id                           = var.AGWSubnetId
-
-      }
-
     }
+
+# This block code seems to work but it's simpler with the above version
+
+#    dynamic "ingress_application_gateway" {
+#      for_each = var.IsAGICEnabled ? ["fake"] : []
+#
+#      content {
+#
+#      enabled                             = var.IsAGICEnabled
+#      gateway_id                          = var.AGWId
+#      gateway_name                        = var.AGWName
+#      subnet_cidr                         = var.AGWSubnetCidr
+#      subnet_id                           = var.AGWSubnetId
+#
+#      }
+#
+#    }
 
 
 
