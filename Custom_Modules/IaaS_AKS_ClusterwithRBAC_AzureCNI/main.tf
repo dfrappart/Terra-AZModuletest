@@ -108,7 +108,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     load_balancer_sku                     = var.AKSLBSku
 
    dynamic "load_balancer_profile" {
-      for_each = var.AKSLBSku == Standard ? ["fake"] : []
+      for_each = var.AKSLBSku == "Standard" ? ["fake"] : []
 
       content {
 
