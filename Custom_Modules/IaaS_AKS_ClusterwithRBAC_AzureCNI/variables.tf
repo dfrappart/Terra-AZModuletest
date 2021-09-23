@@ -305,6 +305,36 @@ variable "AKSNetPolProvider" {
   default                       = "calico"
 }
 
+variable "AKSLBOutboundPortsAllocated" {
+  type                          = string
+  description                   = "Number of desired SNAT port for each VM in the clusters load balancer. Must be between 0 and 64000 inclusive. Defaults to 0."
+  default                       = null
+}
+
+variable "AKSLBIdleTimeout" {
+  type                          = string
+  description                   = "Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive. Defaults to 30."
+  default                       = null
+}
+
+variable "AKSLBOutboundIP" {
+  type                          = string
+  description                   = "Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive."
+  default                       = null
+}
+
+variable "AKSLBOutboundIPPrefixIds" {
+  type                          = list
+  description                   = "The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer."
+  default                       = null
+}
+
+variable "AKSLBOutboundIPAddressIds" {
+  type                          = list
+  description                   = "The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer."
+  default                       = null
+}
+
 ##############################################################
 # Spec for Node resource group
 

@@ -107,6 +107,21 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     pod_cidr                              = var.AKSPodCIDR
     load_balancer_sku                     = var.AKSLBSku
 
+   dynamic "load_balancer_profile" {
+      for_each = var.AKSLBSku == Standard ? ["fake"] : []
+
+      content {
+
+      outbound_ports_allocated            = var.AKSLBOutboundPortsAllocated
+      idle_timeout_in_minutes             = var.AKSLBIdleTimeout
+      managed_outbound_ip_count           = var.AKSLBOutboundIPCount
+      outbound_ip_prefix_ids              = var.AKSLBOutboundIPPrefixIds
+      outbound_ip_address_ids             = var.AKSLBOutboundIPAddressIds
+
+      }
+
+    }
+
   }
   
   role_based_access_control {
