@@ -185,6 +185,53 @@ variable "AutoScaleProfilScaleDownUtilThreshold" {
   description                   = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. Defaults to 0.5."
 }
 
+variable "AutoScaleProfilExpander" {
+  type                          = string
+  default                       = null
+  description                   = "Expander to use. Possible values are least-waste, priority, most-pods and random. Defaults to random."
+}
+
+variable "AutoscaleProfilMaxNodeProvTime" {
+  type                          = string
+  default                       = null
+  description                   = "Maximum time the autoscaler waits for a node to be provisioned. Defaults to 15m."
+}
+
+variable "AutoscaleProfilMaxUnreadyNodes" {
+  type                          = string
+  default                       = null
+  description                   = "Maximum Number of allowed unready nodes. Defaults to 3."
+}
+
+variable "AutoscaleProfilMaxUnreadyPercentage" {
+  type                          = string
+  default                       = null
+  description                   = "Maximum percentage of unready nodes the cluster autoscaler will stop if the percentage is exceeded. Defaults to 45."
+}
+
+variable "AutoscaleProfilNewPodScaleUpDelay" {
+  type                          = string
+  default                       = null
+  description                   = "For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. Defaults to 10s."
+}
+
+variable "AutoscaleProfilEmptyBulkDeleteMax" {
+  type                          = string
+  default                       = null
+  description                   = "Maximum number of empty nodes that can be deleted at the same time. Defaults to 10."
+}
+
+variable "AutoscaleProfilSkipNodesWLocalStorage" {
+  type                          = string
+  default                       = null
+  description                   = " If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true."
+}
+
+variable "AutoscaleProfilSkipNodeWithSystemPods" {
+  type                          = string
+  default                       = null
+  description                   = "If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to true."
+}
 ##############################################################
 
 variable "AKSDiskEncryptionId" {

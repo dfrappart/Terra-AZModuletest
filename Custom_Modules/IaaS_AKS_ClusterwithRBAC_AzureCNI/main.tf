@@ -57,7 +57,12 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   auto_scaler_profile {
     
     balance_similar_node_groups           = var.AutoScaleProfilBalanceSimilarNdGP
+    expander                              = var.AutoScaleProfilExpander
     max_graceful_termination_sec          = var.AutoScaleProfilMaxGracefullTerm
+    max_node_provisioning_time            = var.AutoscaleProfilMaxNodeProvTime
+    max_unready_nodes                     = var.AutoscaleProfilMaxUnreadyNodes
+    max_unready_percentage                = var.AutoscaleProfilMaxUnreadyPercentage
+    new_pod_scale_up_delay                = var.AutoscaleProfilNewPodScaleUpDelay
     scale_down_delay_after_add            = var.AutoScaleProfilScaleDownAfterAdd
     scale_down_delay_after_delete         = var.AutoScaleProfilScaleDownAfterDelete
     scale_down_delay_after_failure        = var.AutoScaleProfilScaleDownAfterFail
@@ -65,6 +70,9 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     scale_down_unneeded                   = var.AutoScaleProfilScaleDownUnneeded
     scale_down_unready                    = var.AutoScaleProfilScaleDownUnready
     scale_down_utilization_threshold      = var.AutoScaleProfilScaleDownUtilThreshold
+    empty_bulk_delete_max                 = var.AutoscaleProfilEmptyBulkDeleteMax
+    skip_nodes_with_local_storage         = var.AutoscaleProfilSkipNodesWLocalStorage
+    skip_nodes_with_system_pods           = var.AutoscaleProfilSkipNodeWithSystemPods
 
   }
 
