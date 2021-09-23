@@ -317,7 +317,7 @@ variable "AKSLBIdleTimeout" {
   default                       = null
 }
 
-variable "AKSLBOutboundIP" {
+variable "AKSLBOutboundIPCount" {
   type                          = string
   description                   = "Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive."
   default                       = null
