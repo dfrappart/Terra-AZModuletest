@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   default_node_pool {
     name                                  = substr(local.AKSDefaultNodePoolName,0,12)
     vm_size                               = var.AKSNodeInstanceType
-    availability_zones                    = var.AKSAZ
+    availability_zones                    = var.AKSLBSku == "Standard" ? var.AKSAZ : null
     enable_auto_scaling                   = var.EnableAKSAutoScale      
     enable_node_public_ip                 = var.EnableNodePublicIP        
     max_pods                              = var.AKSMaxPods
