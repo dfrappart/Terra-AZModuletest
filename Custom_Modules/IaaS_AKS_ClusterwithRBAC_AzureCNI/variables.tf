@@ -382,7 +382,7 @@ variable "AGWId" {
 
 variable "AGWName" {
   type                          = string
-  default                       = null
+  default                       = "agwautocreated"
   description                   = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
 }
 
