@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       default_node_pool[0].node_count,
       default_node_pool[0].orchestrator_version,
       kubernetes_version,
-      addon_profile[0].ingress_application_gateway
+      #addon_profile[0].ingress_application_gateway
 
 
     ]
