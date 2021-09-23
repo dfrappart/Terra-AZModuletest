@@ -294,6 +294,11 @@ resource "azurerm_role_assignment" "MSToMonitorPublisher" {
 
 resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
+  lifecycle {
+    ignore_changes                        = [
+      tags
+    ]
+  }
 
   name                                        = "malt-NodeCPUPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
   resource_group_name                         = var.AKSRGName
@@ -328,7 +333,11 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 }
 
 resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
-
+  lifecycle {
+    ignore_changes                        = [
+      tags
+    ]
+  }
 
   name                                        = "malt-NodeDiskPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
   resource_group_name                         = var.AKSRGName
@@ -363,7 +372,11 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 
 resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold" {
-
+  lifecycle {
+    ignore_changes                        = [
+      tags
+    ]
+  }
 
   name                                        = "malt-NodeWorkingSetMemoryPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
   resource_group_name                         = var.AKSRGName
@@ -398,7 +411,11 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 
 resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
-
+  lifecycle {
+    ignore_changes                        = [
+      tags
+    ]
+  }
 
   name                                        = "malt-UnschedulablePodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
   resource_group_name                         = var.AKSRGName
@@ -432,7 +449,11 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 
 resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
-
+  lifecycle {
+    ignore_changes                        = [
+      tags
+    ]
+  }
 
   name                                        = "malt-ListAKSAdminCredsEvent-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
   resource_group_name                         = var.AKSRGName
