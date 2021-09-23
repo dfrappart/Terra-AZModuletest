@@ -258,6 +258,11 @@ variable "PublicSSHKey" {
 ##############################################################
 # Network profile config
 
+variable "AKSNetworkPlugin" {
+  type                          = string
+  default                       = "azure"
+  description                   = "IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created."
+}
 variable "AKSNetworkDNS" {
   type                          = string
   default                       = null
@@ -267,7 +272,7 @@ variable "AKSNetworkDNS" {
 variable "AKSDockerBridgeCIDR" {
   type                          = string
   default                       = null
-  description                   = "IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
+  description                   = "(Required) Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
 }
 
 variable "AKSOutboundType" {

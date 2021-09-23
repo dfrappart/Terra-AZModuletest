@@ -98,12 +98,13 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   }
 
   network_profile {
-    network_plugin                        = "azure"
+    network_plugin                        = var.AKSNetworkPlugin
     network_policy                        = var.AKSNetPolProvider
     dns_service_ip                        = var.AKSNetworkDNS
     docker_bridge_cidr                    = var.AKSDockerBridgeCIDR
     outbound_type                         = var.AKSOutboundType
     service_cidr                          = var.AKSSVCCIDR
+    pod_cidr                              = var.AKSPodCIDR
     load_balancer_sku                     = var.AKSLBSku
 
   }
