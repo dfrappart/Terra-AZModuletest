@@ -161,7 +161,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     ingress_application_gateway {
       enabled                             = var.IsAGICEnabled
       gateway_id                          = var.AGWId
-      gateway_name                        = var.AGWId != null ? var.AGWName : null
+      gateway_name                        = var.AGWName
       subnet_cidr                         = var.AGWSubnetCidr
       subnet_id                           = var.AGWSubnetId
     }
