@@ -60,10 +60,22 @@ variable "EnableAKSAutoScale" {
   description                   = "Is autoscaling enabled for this node pool"
 }
 
+variable "EnableHostEncryption" {
+  type                          = string
+  default                       = null
+  description                   = "Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false."
+}
+
 variable "EnableNodePublicIP" {
   type                          = string
   default                       = null
   description                   = "Define if Nodes get Public IP. Defualt API value is false"
+}
+
+variable "NodePoolWithFIPSEnabled" {
+  type                          = string
+  default                       = null
+  description                   = "Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
 }
 
 variable "AKSMaxPods" {
@@ -119,6 +131,106 @@ variable "KubeVersion" {
   default                       = null
   description                   = "The version of Kube, used for Node pool version but also for Control plane version"
 }
+
+variable "KubeletDiskType" {
+  type                          = string
+  default                       = null
+  description                   = "The type of disk used by kubelet. At this time the only possible value is OS."
+}
+
+variable "TaintCriticalAddonsEnabled" {
+  type                          = string
+  default                       = null
+  description                   = "Enabling this option will taint default node pool with CriticalAddonsOnly=true:NoSchedule taint. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeOSDiskType" {
+  type                          = string
+  default                       = null
+  description                   = "The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeOSSku" {
+  type                          = string
+  default                       = null
+  description                   = "OsSKU to be used to specify Linux OSType. Not applicable to Windows OSType. Possible values include: Ubuntu, CBLMariner. Defaults to Ubuntu. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodePodSubnetId" {
+  type                          = string
+  default                       = null
+  description                   = "The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeUltraSSDEnabled" {
+  type                          = string
+  default                       = null
+  description                   = "Used to specify whether the UltraSSD is enabled in the Default Node Pool. Defaults to false."
+}
+
+##############################################################
+# kubelet_config block variables
+
+variable "KubeletAllowedUnsafeSysctls" {
+  type                          = list(string)
+  default                       = null
+  description                   = "Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created."
+}
+
+variable "KubeletContainerLogMaxLine" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created."
+}
+
+variable "KubeletContainerLogMaxSize" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the maximum size (e.g. 10MB) of container log file before it is rotated. Changing this forces a new resource to be created."
+}
+
+variable "KubeletCpuCfsQuotaEnabled" {
+  type                          = string
+  default                       = null
+  description                   = "Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created."
+}
+
+variable "KubeletCpuCfsQuotaPeriod" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the CPU CFS quota period value. Changing this forces a new resource to be created."
+}
+
+variable "KubeletCpuManagerPolicy" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the CPU Manager policy to use. Possible values are none and static, Changing this forces a new resource to be created."
+}
+
+variable "KubeletImageGcHighThreshold" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the percent of disk usage above which image garbage collection is always run. Must be between 0 and 100. Changing this forces a new resource to be created."
+}
+
+variable "KubeletImageGcLowThreshold" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the percent of disk usage lower than which image garbage collection is never run. Must be between 0 and 100. Changing this forces a new resource to be created."
+}
+
+variable "KubeletPodMaxPid" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the maximum number of processes per pod. Changing this forces a new resource to be created."
+}
+
+variable "KubeletTopologyManagerPolicy" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the Topology Manager policy to use. Possible values are none, best-effort, restricted or single-numa-node. Changing this forces a new resource to be created."
+}
+
 
 ##############################################################
 
@@ -240,6 +352,11 @@ variable "AKSDiskEncryptionId" {
   description                   = "The encryption id to encrypted nodes disk. Default to null to use Azure managed encryption."
 }
 
+variable "LocalAccountDisabled" {
+  type                          = string
+  default                       = null
+  description                   = "Is local account disabled for AAD integrated kubernetes cluster?"
+}
 
 ##############################################################
 # Linux profile config
@@ -363,6 +480,12 @@ variable "PrivateDNSZoneId" {
   type                          = string
   default                       = null
   description                   = "Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning."
+}
+
+variable "PrivateClusterPublicFqdn" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false."
 }
 
 ##############################################################

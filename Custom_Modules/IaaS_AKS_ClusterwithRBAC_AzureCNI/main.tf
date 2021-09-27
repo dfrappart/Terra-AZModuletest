@@ -29,17 +29,44 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     name                                  = substr(local.AKSDefaultNodePoolName,0,12)
     vm_size                               = var.AKSNodeInstanceType
     availability_zones                    = var.AKSLBSku == "Standard" ? var.AKSAZ : null
-    enable_auto_scaling                   = var.EnableAKSAutoScale      
-    enable_node_public_ip                 = var.EnableNodePublicIP        
+    enable_auto_scaling                   = var.EnableAKSAutoScale
+    enable_host_encryption                = var.EnableHostEncryption      
+    enable_node_public_ip                 = var.EnableNodePublicIP
+    fips_enabled                          = var.NodePoolWithFIPSEnabled        
     max_pods                              = var.AKSMaxPods
     node_labels                           = var.AKSNodeLabels
     node_taints                           = var.AKSNodeTaints
-    os_disk_size_gb                       = var.AKSNodeOSDiskSize  
+    os_disk_size_gb                       = var.AKSNodeOSDiskSize 
+    os_disk_type                          = var.AKSNodeOSDiskType 
     vnet_subnet_id                        = var.AKSSubnetId
     max_count                             = var.MaxAutoScaleCount
     min_count                             = var.MinAutoScaleCount
     node_count                            = var.AKSNodeCount
     orchestrator_version                  = var.KubeVersion
+    pod_subnet_id                         = var.AKSNodePodSubnetId
+    ultra_ssd_enabled                     = var.AKSNodeUltraSSDEnabled
+
+    kubelet_config {
+
+      allowed_unsafe_sysctls              = var.KubeletAllowedUnsafeSysctls
+      container_log_max_line              = var.KubeletContainerLogMaxLine
+      container_log_max_size_mb           = var.KubeletContainerLogMaxSize
+      cpu_cfs_quota_enabled               = var.KubeletCpuCfsQuotaEnabled
+      cpu_cfs_quota_period                = var.KubeletCpuCfsQuotaPeriod
+      cpu_manager_policy                  = var.KubeletCpuManagerPolicy
+      image_gc_high_threshold             = var.KubeletImageGcHighThreshold
+      image_gc_low_threshold              = var.KubeletImageGcLowThreshold
+      pod_max_pid                         = var.KubeletPodMaxPid
+      topology_manager_policy             = var.KubeletTopologyManagerPolicy
+
+    }
+
+    kubelet_disk_type                     = var.KubeletDiskType
+    linux_os_config {
+      
+    }
+
+    only_critical_addons_enabled          = var.TaintCriticalAddonsEnabled 
 
     tags = merge(local.DefaultTags, var.extra_tags)
 
@@ -50,6 +77,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   node_resource_group                     = var.UseAKSNodeRGDefaultName ? local.DefaultNodeRGName : local.CustomNodeRGName
   private_cluster_enabled                 = var.IsAKSPrivate
   private_dns_zone_id                     = var.PrivateDNSZoneId
+  private_cluster_public_fqdn_enabled     = var.PrivateClusterPublicFqdn
+  local_account_disabled                  = var.LocalAccountDisabled
 
 
   api_server_authorized_ip_ranges         = var.APIAccessList
