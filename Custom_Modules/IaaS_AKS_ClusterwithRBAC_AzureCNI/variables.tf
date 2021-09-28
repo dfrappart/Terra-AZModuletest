@@ -231,6 +231,201 @@ variable "KubeletTopologyManagerPolicy" {
   description                   = "Specifies the Topology Manager policy to use. Possible values are none, best-effort, restricted or single-numa-node. Changing this forces a new resource to be created."
 }
 
+##############################################################
+# linux_os_config block variables
+
+variable "LinuxOSConfigSwapFileSize" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the size of swap file on each node in MB. Changing this forces a new resource to be created."
+}
+
+variable "LinuxOSConfigTransparentHugePageDefrag" {
+  type                          = string
+  default                       = null
+  description                   = "specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created."
+}
+
+variable "LinuxOSConfigTransparentHugePageEnabled" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the Transparent Huge Page enabled configuration. Possible values are always, madvise and never. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlFsAioMaxNr" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting fs.aio-max-nr. Must be between 65536 and 6553500. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlFsFileMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting fs.file-max. Must be between 8192 and 12000500. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlFsInotifyMaxUserWatches" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting fs.inotify.max_user_watches. Must be between 781250 and 2097152. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlFsNrOpen" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting fs.nr_open. Must be between 8192 and 20000500. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlKernelThreadsMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting kernel.threads-max. Must be between 20 and 513785. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoredevMaxBacklog" {
+  type                          = string
+  default                       = null
+  description                   = "he sysctl setting net.core.netdev_max_backlog. Must be between 1000 and 3240000. Changing this forces a new resource to be "
+}
+
+variable "SysCtlNetCoreOptmemMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.optmem_max. Must be between 20480 and 4194304. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoreRmemDefault" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.rmem_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoreRmemMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.rmem_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoreSomaxconn" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.somaxconn. Must be between 4096 and 3240000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoreWmemDefault" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.wmem_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetCoreWmemMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.core.wmem_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created."
+}
+
+
+variable "SysCtlNetIpv4IpLocalPortRangeMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.ip_local_port_range max value. Must be between 1024 and 60999. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4IpLocalPortRangeMin" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.ip_local_port_range min value. Must be between 1024 and 60999. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NeighDefaultGcThreshold1" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.neigh.default.gc_thresh1. Must be between 128 and 80000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NeighDefaultGcThreshold2" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.neigh.default.gc_thresh2. Must be between 512 and 90000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NeighDefaultGcThreshold3" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.neigh.default.gc_thresh3. Must be between 512 and 90000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpFinTimeOut" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_fin_timeout. Must be between 5 and 120. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpKeepAliveIntvl" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_keepalive_intvl. Must be between 10 and 75. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpKeepAliveProbes" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_keepalive_probes. Must be between 1 and 15. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpKeepAliveTime" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_keepalive_time. Must be between 30 and 432000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpMaxSynBacklog" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_max_syn_backlog. Must be between 128 and 3240000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpMaxTwBuckets" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_max_tw_buckets. Must be between 8000 and 1440000. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetIpv4NTcpMaxTwReuse" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.ipv4.tcp_tw_reuse. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetfilterNfConntrackBuckets" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.netfilter.nf_conntrack_max. Must be between 131072 and 589824. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlNetfilterNfConntrackMax" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting net.netfilter.nf_conntrack_max. Must be between 131072 and 589824. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlVmMaxMapCount" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting vm.max_map_count. Must be between 65530 and 262144. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlVmSwapiness" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting vm.swappiness. Must be between 0 and 100. Changing this forces a new resource to be created."
+}
+
+variable "SysCtlVmVfsCachePressure" {
+  type                          = string
+  default                       = null
+  description                   = "The sysctl setting vm.vfs_cache_pressure. Must be between 0 and 100. Changing this forces a new resource to be created."
+}
 
 ##############################################################
 
