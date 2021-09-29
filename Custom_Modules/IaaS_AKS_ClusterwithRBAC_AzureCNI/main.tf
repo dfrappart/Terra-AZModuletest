@@ -218,7 +218,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
     oms_agent {
       enabled                             = var.IsOMSAgentEnabled
-      log_analytics_workspace_id          = var.LawSubLogId
+      log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
     }
 
     ingress_application_gateway {

@@ -22,20 +22,20 @@ variable "STASubLogId" {
 variable "AKSClusSuffix" {
   type                          = string
   default                       = "AksClus"
-  description                   = "A suffix to identify the cluster without breacking the naming convention"
+  description                   = "A suffix to identify the cluster without breacking the naming convention. Changing this will change the name so forces a new resource to be created."
 
 }
 
 
 variable "AKSLocation" {
   type                          = string
-  description                   = "The region for AKS"
+  description                   = "The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created."
   default                       = "westeurope"
 }
 
 variable "AKSRGName" {
   type                          = string
-  description                   = "The RG for for AKS"
+  description                   = "Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created."
 
 }
 
@@ -45,19 +45,19 @@ variable "AKSRGName" {
 variable "AKSNodeInstanceType" {
   type                          = string
   default                       = "standard_d2s_v4"
-  description                   = "The type of Azure instance for the pool"
+  description                   = "The size of the Virtual Machine, such as Standard_DS2_v2."
 }
 
 variable "AKSAZ" {
   type                          = list(string)
   default                       = ["1","2","3"]
-  description                   = "The list of AZ to use"
+  description                   = "A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created."
 }
 
 variable "EnableAKSAutoScale" {
   type                          = string
   default                       = true
-  description                   = "Is autoscaling enabled for this node pool"
+  description                   = "Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true."
 }
 
 variable "EnableHostEncryption" {
@@ -243,7 +243,7 @@ variable "LinuxOSConfigSwapFileSize" {
 variable "LinuxOSConfigTransparentHugePageDefrag" {
   type                          = string
   default                       = null
-  description                   = "specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created."
+  description                   = "Specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created."
 }
 
 variable "LinuxOSConfigTransparentHugePageEnabled" {
@@ -285,7 +285,7 @@ variable "SysCtlKernelThreadsMax" {
 variable "SysCtlNetCoredevMaxBacklog" {
   type                          = string
   default                       = null
-  description                   = "he sysctl setting net.core.netdev_max_backlog. Must be between 1000 and 3240000. Changing this forces a new resource to be "
+  description                   = "The sysctl setting net.core.netdev_max_backlog. Must be between 1000 and 3240000. Changing this forces a new resource to be created. "
 }
 
 variable "SysCtlNetCoreOptmemMax" {
@@ -531,7 +531,7 @@ variable "AutoscaleProfilEmptyBulkDeleteMax" {
 variable "AutoscaleProfilSkipNodesWLocalStorage" {
   type                          = string
   default                       = null
-  description                   = " If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true."
+  description                   = "If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true."
 }
 
 variable "AutoscaleProfilSkipNodeWithSystemPods" {
@@ -573,7 +573,7 @@ variable "PublicSSHKey" {
 variable "AKSNetworkPlugin" {
   type                          = string
   default                       = "azure"
-  description                   = "IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created."
+  description                   = "Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
 }
 variable "AKSNetworkDNS" {
   type                          = string
@@ -795,7 +795,7 @@ variable "IsOMSAgentEnabled" {
 
 variable "ACG1Id" {
   type        = string
-  description = "Resource Id of the 1st action group"
+  description = "Resource Id of the action group used for alerting with Azure Alert rules"
 }
 
 
