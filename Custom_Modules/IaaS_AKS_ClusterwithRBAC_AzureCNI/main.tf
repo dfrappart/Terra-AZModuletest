@@ -14,8 +14,11 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       #Ignore change for node count since it is autoscaling
       default_node_pool[0].node_count,
       default_node_pool[0].orchestrator_version,
+      #Ignore change for some default node pool block
+      default_node_pool[0].kubelet_config,
+      default_node_pool[0].linux_os_config,
+      #Ignore change on kubernetes version. It should not be
       kubernetes_version,
-      #addon_profile[0].ingress_application_gateway
 
 
     ]
