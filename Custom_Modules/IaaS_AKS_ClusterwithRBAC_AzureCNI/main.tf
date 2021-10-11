@@ -117,6 +117,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   private_cluster_public_fqdn_enabled     = var.PrivateClusterPublicFqdn
   local_account_disabled                  = var.LocalAccountDisabled
 
+  automatic_channel_upgrade               = var.AutoUpgradeChannelConfig 
+
 
   api_server_authorized_ip_ranges         = var.APIAccessList
 
