@@ -92,6 +92,7 @@ Diagnostic settings logs are sent to a storage account and a log analytic worksp
 | SysCtlVmSwapiness | string | null | The sysctl setting vm.swappiness. Must be between 0 and 100. Changing this forces a new resource to be created. |
 | SysCtlVmVfsCachePressure | string | null | The sysctl setting vm.vfs_cache_pressure. Must be between 0 and 100. Changing this forces a new resource to be created. |
 | APIAccessList | list(string) | null | The IP ranges to whitelist for incoming traffic to the masters. |
+| AutoUpgradeChannelConfig | string | "none" | The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none. |
 | AutoScaleProfilBalanceSimilarNdGP | string | null | Detect similar node groups and balance the number of nodes between them. Defaults to false. |
 | AutoScaleProfilMaxGracefullTerm | string | null | Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to 600. |
 | AutoScaleProfilScaleDownAfterAdd | string | null | How long after the scale up of AKS nodes the scale down evaluation resumes. Defaults to 10m. |
