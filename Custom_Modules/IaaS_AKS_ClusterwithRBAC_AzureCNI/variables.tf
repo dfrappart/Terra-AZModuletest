@@ -437,7 +437,7 @@ variable "APIAccessList" {
 
 variable "AutoUpgradeChannelConfig" {
   type                          = string
-  default                       = "none"
+  default                       = null
   description                   = "The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none."
 }
 
