@@ -6,5 +6,5 @@
 #Output for the module
 
 output "LGAFull" {
-  value = azurerm_logic_app_workflow.Terra_LGA
+  value = azurerm_logic_app_workflow.LGA
 }

@@ -27,7 +27,7 @@ This module creates a simple logic app
 
 | Output name | value | Description |
 |:------------|:------|:------------|
-| LGAFull | `azurerm_logic_app_workflow.Terra_LGA` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
+| LGAFull | `azurerm_logic_app_workflow.LGA` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
 
 ## How to call the module
  
@@ -36,7 +36,22 @@ Use as follow:
 
 ```bash
 
+module "LGA_Kured" {
 
+  count                                   = 2 
+  #Module Location
+  source                                  = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//700_LogicAppBasic/"
+  #Module variable      
+  LGASuffix                               = "${var.ResourcesSuffix}kured${count.index+1}"
+  RGName                                  = module.ResourceGroup_Kured[count.index].RGFull.name
+  LGALocation                             = var.AzureRegion
+  ResourceOwnerTag                        = var.ResourceOwnerTag
+  CountryTag                              = var.CountryTag
+  CostCenterTag                           = var.CostCenterTag
+  EnvironmentTag                          = var.Environment
+  Project                                 = var.Project
+
+}
 
 ```
 

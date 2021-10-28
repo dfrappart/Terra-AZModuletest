@@ -2,7 +2,7 @@
 #This module allows the creation of a storage account
 ##############################################################
 
-resource "azurerm_logic_app_workflow" "Terra_LGA" {
+resource "azurerm_logic_app_workflow" "LGA" {
 
   lifecycle {
     ignore_changes                        = [
