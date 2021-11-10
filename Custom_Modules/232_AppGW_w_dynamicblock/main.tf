@@ -286,7 +286,7 @@ resource "azurerm_application_gateway" "AGW" {
     ManagedBy                           = "Terraform"
   }
 
-  depends_on [
+  depends_on = [
     azurerm_key_vault_access_policy.KeyVaultAccessPolicy01,
     azurerm_user_assigned_identity.AppGatewayManagedId
   ]
