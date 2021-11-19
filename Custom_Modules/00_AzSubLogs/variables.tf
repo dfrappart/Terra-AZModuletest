@@ -59,6 +59,14 @@ variable "SubLogSuffix" {
   default       = "log"
 }
 
+#The Storage TLS Version
+
+variable "TLSVer" {
+  type                                  = string
+  default                               = "TLS1_2"
+  description                           = "The minimum supported TLS version for the storage account. Possible values are TLS1_0, TLS1_1, and TLS1_2."
+}
+
 variable "LAWSku" {
   type          = string
   description   = "SKu for Log analytics, PerGB2018"

@@ -36,6 +36,8 @@ resource "azurerm_storage_account" "STALog" {
   account_replication_type            = "LRS"
   account_kind                        = "StorageV2"
   enable_https_traffic_only           = true
+  min_tls_version                     = var.TLSVer
+  
 
   tags = {
     ResourceOwner                 = var.ResourceOwnerTag
