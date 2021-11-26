@@ -76,7 +76,7 @@ data "azurerm_subscription" "TargetSub" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "AZSubDiag" {
-  name                                = "${data.azurerm_subscription.TargetSub.subscription_id}${lower(var.SubLogSuffix)}diag"
+  name                                = "${data.azurerm_subscription.TargetSub.subscription_id}${lower(var.Project)}diag"
   target_resource_id                  = data.azurerm_subscription.TargetSub.id
   storage_account_id                  = azurerm_storage_account.STALog.id
   log_analytics_workspace_id          = azurerm_log_analytics_workspace.SubLogAnalyticsWS.id
