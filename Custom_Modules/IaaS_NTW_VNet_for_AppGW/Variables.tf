@@ -89,18 +89,22 @@ variable "IsBastionEnabled" {
   description   = "Define if Bastion is enabled or not"
 }
 
-variable "DefaultBastionDisabledOutput" {
-  type          = map
-  
-  description   = "Define default output when bastion is disabled"
 
-  default       = {
-    "id" = null
-    "name" = null 
-    "description" = "Bastion is disabled"
-  }
-}
-
+#variable "BastionDisabledIPConfig" {
+#  type = map(object({
+#    "name" = string
+#    "public_ip_address" = string
+#    "subnet_id" = string
+#  }))
+#  default = {
+#    "name" = "bst-pubip-config"
+#    "public_ip_address_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/publicIPAddresses/<bst-pubip>"
+#    "subnet_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/vnetpocdoc/subnets/AzureBastionSubnet"
+#
+#    }
+#  
+#}
+#
 ######################################################
 #Network watcher variables
 
