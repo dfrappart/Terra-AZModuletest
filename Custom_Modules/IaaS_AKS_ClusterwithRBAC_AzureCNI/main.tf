@@ -331,6 +331,15 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
     } 
   }
 
+  log {
+    category                            = "cloud-controller-manager"
+    enabled                             = true
+    retention_policy {
+      enabled                           = true
+      days                              = 365
+    } 
+  }
+
   metric {
     category                            = "AllMetrics"
     enabled                             = true
