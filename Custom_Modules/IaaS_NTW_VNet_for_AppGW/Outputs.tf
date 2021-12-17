@@ -25,7 +25,7 @@ output "VNetFullOutput" {
 # Subnet Bastion
 
 output "AzureBastionSubnetFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0] : var.DefaultBastionDisabledOutput
+  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0] : local.defaultsubnetoutput
   sensitive                   = false
 }
 
@@ -55,11 +55,15 @@ output "BESubnetFullOutput" {
 
 # NSG Bastion Subnet
 
-output "AzureBastionNSGFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_group.AzureBastionNSG[0] : var.DefaultBastionDisabledOutput
+output "AzureBastionNSGName" {
+  value                       = var.IsBastionEnabled ? azurerm_network_security_group.AzureBastionNSG[0].name : "BastionIsDisabled"
   sensitive                   = false
 }
 
+output "AzureBastionNSGId" {
+  value                       = var.IsBastionEnabled ? azurerm_network_security_group.AzureBastionNSG[0].id : "BastionIsDisabled"
+  sensitive                   = false
+}
 # NSG AppGW Subnet
 
 output "AGWSubnetNSGFullOutput" {
@@ -81,118 +85,21 @@ output "BESubnetNSGFullOutput" {
   sensitive                   = false
 }
 
-######################################################
-#NSG Rules outputs
-
-output "Default_FESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_FESubnet_AllowRDPSSHFromBastion : ["BastionDisable"]
-}
-
-output "Default_FESubnet_AllowLBFullOutput" {
-  value                       = azurerm_network_security_rule.Default_FESubnet_AllowLB
-}
-
-output "Default_FESubnet_DenyVNetSSHRDPInFullOutput" {
-  value                       = azurerm_network_security_rule.Default_FESubnet_DenyVNetSSHRDPIn
-}
-
-output "Default_BESubnet_AllowRDPSSHFromBastionFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BESubnet_AllowRDPSSHFromBastion : ["BastionDisable"]
-}
-
-output "Default_BESubnet_AllowLBFullOutput" {
-  value                       = azurerm_network_security_rule.Default_BESubnet_AllowLB
-}
-
-output "Default_AppGWSubnet_GatewayManagerFullOutput" {
-  value                       = azurerm_network_security_rule.Default_AppGWSubnet_GatewayManager
-}
-
-output "Default_BastionSubnet_AllowHTTPSBastionInFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowHTTPSBastionIn[0] : var.DefaultBastionDisabledOutput
-}
-
-output "Default_BastionSubnet_AllowGatewayManagerFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowGatewayManager[0] : var.DefaultBastionDisabledOutput
-}
-
-output "Default_BastionSubnet_AllowRemoteBastionOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_AllowRemoteBastionOut[0] : var.DefaultBastionDisabledOutput
-}
-
-output "Default_AllowAzureCloudHTTPSOutOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_AllowAzureCloudHTTPSOut[0] : var.DefaultBastionDisabledOutput
-}
-
-output "Default_BastionSubnet_DenyVNetOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyVNetOut[0] : var.DefaultBastionDisabledOutput
-}
-
-output "Default_BastionSubnet_DenyInternetOutFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_security_rule.Default_BastionSubnet_DenyInternetOut[0] : var.DefaultBastionDisabledOutput
-}
-
-
-##############################################################
-#Output for Diagnostic logs
-
-output "AzureBastionNSGDiagFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_monitor_diagnostic_setting.AzureBastionNSGDiag[0] : var.DefaultBastionDisabledOutput
-}
-
-# NSG AppGW Subnet
-
-output "AppGWSubnetNSGDiagFullOutput" {
-  value                       = azurerm_monitor_diagnostic_setting.AppGWSubnetNSGDiag
-}
-
-# NSG FE Subnet
-
-output "FESubnetNSGDiagFullOutput" {
-  value                       = azurerm_monitor_diagnostic_setting.FESubnetNSGDiag
-}
-
-
-# NSG BE Subnet
-
-output "BESubnetNSGDiagFullOutput" {
-  value                       = azurerm_monitor_diagnostic_setting.BESubnetNSGDiag
-}
-
-##############################################################
-#Output for Flowlogs
-
-output "AzureBastionNSGFlowLogFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_network_watcher_flow_log.AzureBastionNSGFlowLog[0] : var.DefaultBastionDisabledOutput
-}
-
-# NSG AppGW Subnet
-
-output "AppGWSubnetNSGFlowLogFullOutput" {
-  value                       = azurerm_network_watcher_flow_log.AppGWSubnetNSGFlowLog
-}
-
-# NSG FE Subnet
-
-output "FESubnetNSGFlowLogFullOutput" {
-  value                       = azurerm_network_watcher_flow_log.FESubnetNSGFlowLog
-}
-
-# NSG BE Subnet
-
-output "BESubnetNSGFlowLogFullOutput" {
-  value                       = azurerm_network_watcher_flow_log.BESubnetNSGFlowLog
-}
-
 ##############################################################
 #Output for Bastion Host
 
-output "SpokeBastionFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0] : var.DefaultBastionDisabledOutput
+
+output "SpokeBastionName" {
+  value                       = var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0].name : "BastionDisabled"
   sensitive                   = true
 }
 
-output "SpokeBastionPubIPFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_public_ip.BastionPublicIP[0] : var.DefaultBastionDisabledOutput
+output "SpokeBastionRG" {
+  value                       = var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0].resource_group_name : "BastionDisabled"
+  sensitive                   = true
+}
+
+output "SpokeBastionIpConfig" {
+  value                       =  var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0].ip_configuration[0] : local.defaultIpConfigOutput
   sensitive                   = true
 }
