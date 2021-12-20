@@ -18,8 +18,8 @@ variable "RGName" {
 
 variable "SOARecordEmail" {
   type                = string
-  description         = "The email contact for the SOA record."
-  default             = null
+  description         = "The email contact for the SOA record, by default azureprivatedns-host.microsoft.com"
+  default             = "azureprivatedns-host.microsoft.com"
   
 
 }

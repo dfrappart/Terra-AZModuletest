@@ -10,7 +10,7 @@ This module deploys a Private DNS Zone
 |:--------------|:--------------|:--------------|:------------|
 | PrivateDNSDomainName | string | N/A | The name of the Private DNS Zone. Must be a valid domain name. |
 | RGName | string | N/A | The region in which the resource lives. Changing this forces a new resource to be created. |
-| SOARecordEmail | string | N/A | The email contact for the SOA record. |
+| SOARecordEmail | string | azureprivatedns-host.microsoft.com | The email contact for the SOA record,by default azureprivatedns-host.microsoft.com. |
 | SOARecordExpireTime | string | null | The expire time for the SOA record. Defaults to 2419200. |
 | SOARecordMinTTL | string | null | The minimum Time To Live for the SOA record. By convention, it is used to determine the negative caching duration. Defaults to 10. |
 | SOARecordRefreshTime | string | null | The refresh time for the SOA record. Defaults to 3600. |
