@@ -19,6 +19,7 @@ variable "RGName" {
 variable "SOARecordEmail" {
   type                = string
   description         = "The email contact for the SOA record."
+  default             = null
   
 
 }
