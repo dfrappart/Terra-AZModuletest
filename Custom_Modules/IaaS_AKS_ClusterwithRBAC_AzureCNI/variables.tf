@@ -794,6 +794,11 @@ variable "IsOMSAgentEnabled" {
   default                       = true
 }
 
+variable "IsOpenServiceMeshEnabled" {
+  type                          = string
+  default                       = false
+  description                   = "Is Open Service Mesh enabled?"
+}
 
 ######################################################
 ############### Monitoring Variable ##################
