@@ -165,6 +165,9 @@ resource "azurerm_databricks_workspace" "DTBWS" {
     virtual_network_id                    = azurerm_virtual_network.VNet.id
     public_subnet_name                    = element(azurerm_subnet.Subnet.*.name,0)
     private_subnet_name                   = element(azurerm_subnet.Subnet.*.name,1)
+    public_subnet_network_security_group_association_id = element(azurerm_subnet_network_security_group_association.Subnet_NSG_Association.*.id,0)
+    private_subnet_network_security_group_association_id = element(azurerm_subnet_network_security_group_association.Subnet_NSG_Association.*.id,1)
+
 
   }
     
