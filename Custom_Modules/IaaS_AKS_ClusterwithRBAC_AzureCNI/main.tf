@@ -234,6 +234,10 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       subnet_id                           = var.AGWSubnetId
     }
 
+    open_service_mesh {
+      enabled                             = var.IsOpenServiceMeshEnabled
+    }
+
 # This block code seems to work but it's simpler with the above version
 
 #    dynamic "ingress_application_gateway" {
