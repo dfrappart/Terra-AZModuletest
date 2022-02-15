@@ -243,7 +243,7 @@ variable "AKSSVCCIDR" {
 
 variable "AKSLBSku" {
   type                          = string
-  default                       = null
+  default                       = "Standard"
   description                   = "Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are Basic and Standard. Defaults to Standard."
 }
 
