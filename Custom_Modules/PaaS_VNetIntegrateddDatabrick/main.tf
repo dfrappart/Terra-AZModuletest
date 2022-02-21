@@ -132,6 +132,7 @@ resource "azurerm_monitor_diagnostic_setting" "NSGDiag" {
 
 resource "azurerm_network_watcher_flow_log" "SubnetNSGFlowLog" {
   count                                 = length(var.SubnetNames)
+  name                                  = "flowlog-nsg-${element(var.SubnetNames,count.index)}"
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.NSG[count.index].id
