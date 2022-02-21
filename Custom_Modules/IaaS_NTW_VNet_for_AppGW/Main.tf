@@ -108,7 +108,8 @@ resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
 #NSG Flow logs on the Bastion nsg
 
 resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
-  count                                 = var.IsBastionEnabled ? 1 : 0
+  count                                 = var.IsBastionEnabled ? 1 : 
+  name                                  = "flowlog-nsg-azurebastionsubnet"
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
 
@@ -209,6 +210,7 @@ resource "azurerm_monitor_diagnostic_setting" "AppGWSubnetNSGDiag" {
 
 resource "azurerm_network_watcher_flow_log" "AppGWSubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
+  name                                  = "flowlog-${azurerm_network_security_group.AppGWSubnetNSG.name}"
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.AppGWSubnetNSG.id
   storage_account_id                    = var.STALogId
@@ -308,6 +310,7 @@ resource "azurerm_monitor_diagnostic_setting" "FESubnetNSGDiag" {
 
 resource "azurerm_network_watcher_flow_log" "FESubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
+  name                                  = "flowlog-${azurerm_network_security_group.FESubnetNSG.name}"
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.FESubnetNSG.id
   storage_account_id                    = var.STALogId
@@ -404,6 +407,7 @@ resource "azurerm_monitor_diagnostic_setting" "BESubnetNSGDiag" {
 
 resource "azurerm_network_watcher_flow_log" "BESubnetNSGFlowLog" {
   network_watcher_name                  = var.NetworkWatcherName
+  name                                  = "flowlog-${azurerm_network_security_group.BESubnetNSG.name}"
   resource_group_name                   = var.NetworkWatcherRGName
   network_security_group_id             = azurerm_network_security_group.BESubnetNSG.id
   storage_account_id                    = var.STALogId
