@@ -124,7 +124,7 @@ resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
   }
 
   traffic_analytics {
-    enabled                             = true
+    enabled                             = var.IsTrafficAnalyticsEnabled #true
     workspace_id                        = data.azurerm_log_analytics_workspace.LawSubLog.workspace_id
     workspace_region                    = data.azurerm_log_analytics_workspace.LawSubLog.location
     workspace_resource_id               = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -223,7 +223,7 @@ resource "azurerm_network_watcher_flow_log" "AppGWSubnetNSGFlowLog" {
   }
 
   traffic_analytics {
-    enabled                             = true
+    enabled                             = var.IsTrafficAnalyticsEnabled #true
     workspace_id                        = data.azurerm_log_analytics_workspace.LawSubLog.workspace_id
     workspace_region                    = data.azurerm_log_analytics_workspace.LawSubLog.location
     workspace_resource_id               = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -323,7 +323,7 @@ resource "azurerm_network_watcher_flow_log" "FESubnetNSGFlowLog" {
   }
 
   traffic_analytics {
-    enabled                             = true
+    enabled                             = var.IsTrafficAnalyticsEnabled #true
     workspace_id                        = data.azurerm_log_analytics_workspace.LawSubLog.workspace_id
     workspace_region                    = data.azurerm_log_analytics_workspace.LawSubLog.location
     workspace_resource_id               = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -420,7 +420,7 @@ resource "azurerm_network_watcher_flow_log" "BESubnetNSGFlowLog" {
   }
 
   traffic_analytics {
-    enabled                             = true
+    enabled                             = var.IsTrafficAnalyticsEnabled #true
     workspace_id                        = data.azurerm_log_analytics_workspace.LawSubLog.workspace_id
     workspace_region                    = data.azurerm_log_analytics_workspace.LawSubLog.location
     workspace_resource_id               = data.azurerm_log_analytics_workspace.LawSubLog.id

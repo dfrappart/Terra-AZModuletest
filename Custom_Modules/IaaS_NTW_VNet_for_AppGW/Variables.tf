@@ -89,6 +89,14 @@ variable "IsBastionEnabled" {
   description   = "Define if Bastion is enabled or not"
 }
 
+######################################################
+# Bastion activation
+
+variable "IsTrafficAnalyticsEnabled" {
+  type          = bool
+  default       = true
+  description   = "Define if Traffic Analytics is enabled or not"
+}
 
 #variable "BastionDisabledIPConfig" {
 #  type = map(object({
