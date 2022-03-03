@@ -108,7 +108,7 @@ resource "azurerm_monitor_diagnostic_setting" "AzureBastionNSGDiag" {
 #NSG Flow logs on the Bastion nsg
 
 resource "azurerm_network_watcher_flow_log" "AzureBastionNSGFlowLog" {
-  count                                 = var.IsBastionEnabled ? 1 : 
+  count                                 = var.IsBastionEnabled ? 1 : 0
   name                                  = "flowlog-nsg-azurebastionsubnet"
   network_watcher_name                  = var.NetworkWatcherName
   resource_group_name                   = var.NetworkWatcherRGName
