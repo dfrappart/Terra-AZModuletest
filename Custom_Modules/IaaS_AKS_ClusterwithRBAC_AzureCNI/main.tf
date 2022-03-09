@@ -205,38 +205,41 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   sku_tier                                = var.AKSControlPlaneSku
 
+  azure_policy {
+    enabled                             = var.IsAzPolicyEnabled
+  }
+
+    
+  http_application_routing {
+    enabled                             = var.IshttproutingEnabled
+  }
+    
+  kube_dashboard {
+    enabled                             = var.IsKubeDashboardEnabled
+  }
+
+
+  oms_agent {
+    enabled                             = var.IsOMSAgentEnabled
+    log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
+  }
+
+  ingress_application_gateway {
+    enabled                             = var.IsAGICEnabled
+    gateway_id                          = var.AGWId
+    gateway_name                        = var.AGWName
+    subnet_cidr                         = var.AGWSubnetCidr
+    subnet_id                           = var.AGWSubnetId
+  }
+
+  open_service_mesh {
+    enabled                             = var.IsOpenServiceMeshEnabled
+  }
+
+/*
   addon_profile {
 
-    azure_policy {
-      enabled                             = var.IsAzPolicyEnabled
-    }
 
-    
-    http_application_routing {
-      enabled                             = var.IshttproutingEnabled
-    }
-    
-    kube_dashboard {
-      enabled                             = var.IsKubeDashboardEnabled
-    }
-
-
-    oms_agent {
-      enabled                             = var.IsOMSAgentEnabled
-      log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
-    }
-
-    ingress_application_gateway {
-      enabled                             = var.IsAGICEnabled
-      gateway_id                          = var.AGWId
-      gateway_name                        = var.AGWName
-      subnet_cidr                         = var.AGWSubnetCidr
-      subnet_id                           = var.AGWSubnetId
-    }
-
-    open_service_mesh {
-      enabled                             = var.IsOpenServiceMeshEnabled
-    }
 
 # This block code seems to work but it's simpler with the above version
 
@@ -258,8 +261,10 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
 
   }
+*/
 
   tags = merge(local.DefaultTags, var.extra_tags) 
+  
 }
 
 
