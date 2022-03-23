@@ -101,6 +101,6 @@ variable "Environment" {
 
 variable "SecretUsedBy" {
   type                = string
-  default             = "notspecified"
-  description         = "Specify who uses this password" #tfsec:ignore:general-secrets-no-plaintext-exposure
+  default             = "notspecified" #tfsec:ignore:general-secrets-no-plaintext-exposure
+  description         = "Specify who uses this password" 
 }
