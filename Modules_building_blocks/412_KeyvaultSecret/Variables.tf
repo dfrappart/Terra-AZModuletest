@@ -12,7 +12,7 @@ variable "KeyVaultSecretSuffix" {
 variable "PasswordValue" {
   type                = string
   description         = "The value of the password"
-  default             = "notspecified"
+  default             = "notspecified" #tfsec:ignore:general-secrets-no-plaintext-exposure
 }
 
 variable "KeyVaultId" {
@@ -22,7 +22,7 @@ variable "KeyVaultId" {
 
 variable "StartingDate" {
   type                = string
-  default             = "notspecified"
+  default             = "notspecified" #tfsec:ignore:general-secrets-no-plaintext-exposure
   description         = "An UTC datetime (Y-m-H:M:S'Z') defining when the secret is usable"
 }
 
