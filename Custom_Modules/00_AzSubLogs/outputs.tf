@@ -102,7 +102,3 @@ output "SubLogAnalyticsWS_SecondaryAccessKey" {
   sensitive               = true 
 }
 
-output "SubLogAnalyticsWS_PortalURL" {
-  value                   = azurerm_log_analytics_workspace.SubLogAnalyticsWS.portal_url  
-  sensitive               = true
-}
