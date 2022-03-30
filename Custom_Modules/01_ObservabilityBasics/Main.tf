@@ -122,7 +122,7 @@ resource "azurerm_monitor_activity_log_alert" "SubSVCHealth" {
 
 ##############################################################
 #Resource health Alerts
-
+/*
 resource "azurerm_monitor_activity_log_alert" "SubRSCHealthUnavailable" {
   name                                = "malt-${local.ResourcePrefix}${substr(var.Subid,15,52)}-rschealth"
   resource_group_name                 = var.RGLogs
@@ -146,3 +146,4 @@ resource "azurerm_monitor_activity_log_alert" "SubRSCHealthUnavailable" {
   }
 
 }
+*/
