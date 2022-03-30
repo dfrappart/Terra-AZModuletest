@@ -339,7 +339,7 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
 resource "azurerm_role_assignment" "MSToMonitorPublisher" {
   scope                               = azurerm_kubernetes_cluster.AKSRBACCNI.id
   role_definition_name                = "Monitoring Metrics Publisher"
-  principal_id                        = azurerm_kubernetes_cluster.AKSRBACCNI.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
+  principal_id                        = azurerm_kubernetes_cluster.AKSRBACCNI.oms_agent[0].oms_agent_identity[0].object_id
 }
 
 
