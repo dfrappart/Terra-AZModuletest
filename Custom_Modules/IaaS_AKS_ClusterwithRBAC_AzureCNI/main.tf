@@ -205,8 +205,6 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   sku_tier                                = var.AKSControlPlaneSku
 
-  addon_profile {
-
     azure_policy {
       enabled                             = var.IsAzPolicyEnabled
     }
@@ -257,7 +255,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
 
 
-  }
+  
 
   tags = merge(local.DefaultTags, var.extra_tags) 
 }
