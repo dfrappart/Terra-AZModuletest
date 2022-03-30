@@ -31,7 +31,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   default_node_pool {
     name                                  = substr(local.AKSDefaultNodePoolName,0,12)
     vm_size                               = var.AKSNodeInstanceType
-    availability_zones                    = var.AKSLBSku == "Standard" ? var.AKSAZ : null
+    zones                                 = var.AKSLBSku == "Standard" ? var.AKSAZ : null
     enable_auto_scaling                   = var.EnableAKSAutoScale
     enable_host_encryption                = var.EnableHostEncryption      
     enable_node_public_ip                 = var.EnableNodePublicIP
@@ -192,16 +192,16 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   }
   
-  role_based_access_control {
-    enabled                               = true
+  role_based_access_control_enabled       = true
 
-    azure_active_directory {
+  azure_active_directory_role_based_access_control_enabled {
       managed                             = true
+      azure_rbac_enabled                  = true
       admin_group_object_ids              = var.AKSClusterAdminsIds
 
-    }
-
   }
+
+  
 
   sku_tier                                = var.AKSControlPlaneSku
 
