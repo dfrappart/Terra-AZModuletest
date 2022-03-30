@@ -150,7 +150,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   identity {
     type                                  = var.AKSIdentityType
-    user_assigned_identity_id             = var.UAIId
+    identity_ids                          = var.UAIId
   }
 
   kubernetes_version                      = var.KubeVersion

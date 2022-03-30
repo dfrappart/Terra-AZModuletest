@@ -728,13 +728,13 @@ variable "AGWSubnetId" {
 variable "AKSIdentityType" {
   type                          = string
   default                       = "SystemAssigned"
-  description                   = "The type of identity used for the managed cluster. Possible values are SystemAssigned and UserAssigned. If UserAssigned is set, a user_assigned_identity_id must be set as well."
+  description                   = "Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
 }
 
-variable "UAIId" {
-  type                          = string
+variable "UAIIds" {
+  type                          = list
   default                       = null
-  description                   = "The ID of a user assigned identity."
+  description                   = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
 }
 
 ##############################################################
