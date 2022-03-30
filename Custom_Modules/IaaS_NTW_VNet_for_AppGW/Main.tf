@@ -749,7 +749,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
   allocation_method                     = "Static"
-  sku                                   = "standard"
+  sku                                   = "Standard"
   domain_name_label                     = "bst-pubip${lower(var.VNetSuffix)}"
 
 
