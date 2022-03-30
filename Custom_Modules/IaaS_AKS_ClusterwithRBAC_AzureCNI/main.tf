@@ -205,53 +205,29 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   sku_tier                                = var.AKSControlPlaneSku
 
-    azure_policy {
-      enabled                             = var.IsAzPolicyEnabled
-    }
+  azure_policy_enabled                    = var.IsAzPolicyEnabled    
+  http_application_routing_enabled        = var.IshttproutingEnabled
 
+  oms_agent {
+
+    log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
+  }
+
+
+  open_service_mesh_enabled             = var.IsOpenServiceMeshEnabled
     
-    http_application_routing {
-      enabled                             = var.IshttproutingEnabled
-    }
-    
-    kube_dashboard {
-      enabled                             = var.IsKubeDashboardEnabled
-    }
+  dynamic "ingress_application_gateway" {
+    for_each = var.IsAGICEnabled ? ["fake"] : []
 
-
-    oms_agent {
-      enabled                             = var.IsOMSAgentEnabled
-      log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
-    }
-
-    ingress_application_gateway {
-      enabled                             = var.IsAGICEnabled
+    content {
       gateway_id                          = var.AGWId
       gateway_name                        = var.AGWName
       subnet_cidr                         = var.AGWSubnetCidr
       subnet_id                           = var.AGWSubnetId
+
     }
 
-    open_service_mesh {
-      enabled                             = var.IsOpenServiceMeshEnabled
-    }
-
-# This block code seems to work but it's simpler with the above version
-
-#    dynamic "ingress_application_gateway" {
-#      for_each = var.IsAGICEnabled ? ["fake"] : []
-#
-#      content {
-#
-#      enabled                             = var.IsAGICEnabled
-#      gateway_id                          = var.AGWId
-#      gateway_name                        = var.AGWName
-#      subnet_cidr                         = var.AGWSubnetCidr
-#      subnet_id                           = var.AGWSubnetId
-#
-#      }
-#
-#    }
+  }
 
 
 
