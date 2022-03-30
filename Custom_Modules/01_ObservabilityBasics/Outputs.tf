@@ -82,7 +82,7 @@ output "ServiceHealthAlertCriteria" {
 
 ##############################################################
 #Resources health Alerts Output
-
+/*
 output "ResourcesHealthAlertName" {
 
   value = azurerm_monitor_activity_log_alert.SubRSCHealthUnavailable.name
@@ -97,3 +97,4 @@ output "ResourcesHealthAlertCriteria" {
 
   value = azurerm_monitor_activity_log_alert.SubRSCHealthUnavailable.criteria
 }
+*/
