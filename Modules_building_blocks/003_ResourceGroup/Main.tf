@@ -10,14 +10,7 @@ resource "azurerm_resource_group" "RG" {
   name                                  = "rsg${var.RGSuffix}"
   location                              = var.RGLocation
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Environment                         = var.EnvironmentTag
-    Project                             = var.Project
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 
 }
 

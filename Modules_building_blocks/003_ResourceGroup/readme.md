@@ -9,12 +9,10 @@ This module deploys a resource group
 | Variable name | Variable type | Default value | Description |
 |:--------------|:--------------|:--------------|:------------|
 | RGSuffix | string | N/A | a suffix to add at the end of the resource group name |
-| RGLocation | string | N/A | The regionin which the resource group is located. Changing this forces a new resource to be created. |
-| ResourceOwnerTag | string | That would be me | Tag describing the owner |
-| CountryTag | string | fr | Tag describing the Country |
-| CostCenterTag | string | tflab | Tag describing the Cost Center |
-| Project | string | tfmodule | The name of the project |
-| Environment | string | dev | The environment, dev, prod... |  
+| RGLocation | string | N/A | The region in which the resource group is located. Changing this forces a new resource to be created. |
+| DefaultTags | map | See variable file | A map used to define default tags. |
+| ExtraTags | map | {} | A map to add custom tags |
+
 
 
 ### Module outputs
@@ -36,15 +34,19 @@ Use as follow:
 
 module "ResourceGroup" {
 
-    #Module Location
-    source                            = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//01 ResourceGroup/"
-    #Module variable
-    RGSuffix                          = "-lab-1"
-    RGLocation                        = "westeurope"
-    ResourceOwnerTag                  = "DFR"
-    CountryTag                        = "fr"
-    CostCenterTag                     = "labtf"
-    EnvironmentTag                     = "dev"
+  #Module Location
+  source                            = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//01 ResourceGroup/"
+  #Module variable
+  RGSuffix                          = "-lab-1"
+  RGLocation                        = "westeurope"
+  DefaultTags                       = {
+    ResourceOwner                       = "That would be me"
+    Country                             = "fr"
+    CostCenter                          = "labtf"
+    Project                             = "tfmodule"
+    Environment                         = "lab"
+    ManagedBy                           = "Terraform"
+  }
 
 }
 

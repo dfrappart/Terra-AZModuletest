@@ -22,32 +22,22 @@ variable "RGLocation" {
 ###################################################################
 #Tag related variables section
 
-variable "ResourceOwnerTag" {
-  type               = string
-  description        = "Tag describing the owner"
-  default            = "That would be me"
+variable "DefaultTags" {
+  type                                  = map
+  description                           = "Define a set of default tags"
+  default                               = {
+    ResourceOwner                       = "That would be me"
+    Country                             = "fr"
+    CostCenter                          = "labtf"
+    Project                             = "tfmodule"
+    Environment                         = "lab"
+    ManagedBy                           = "Terraform"
+
+  }
 }
 
-variable "CountryTag" {
-  type                = string
-  description         = "Tag describing the Country"
-  default             = "fr"
-}
-
-variable "CostCenterTag" {
-  type                = string
-  description         = "Tag describing the Cost Center"
-  default             = "labtf"
-}
-
-variable "EnvironmentTag" {
-  type                = string
-  description         = "The environment, dev, prod..."
-  default             = "dev"
-}
-
-variable "Project" {
-  type                = string
-  description         = "The name of the project"
-  default             = "tfmodule"
+variable "ExtraTags" {
+  type                                  = map
+  description                           = "Define a set of additional optional tags."
+  default                               = {}
 }
