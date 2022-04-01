@@ -68,6 +68,39 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
   name                                  = "${azurerm_storage_account.STOA.name}diag-to-law"
   target_resource_id                    = azurerm_storage_account.STOA.id
   log_analytics_workspace_id            = var.LawLogId
+/*
+  dynamic "log" {
+    for_each                            = var.LogCategories
+
+    content {
+      category                              = log.value.LogCatName
+      enabled                               = log.value.IsLogCatEnabledForLAW
+
+    }
+  }
+*/
+  dynamic "metric" {
+    for_each                            = {
+      for k,v in var.MetricCategories : k=>v if v.IsMetricCatEnabledForLAW == true
+    }
+
+    content {
+
+    category                                = metric.value.MetricCatName
+    enabled                                 = metric.value.IsMetricCatEnabledForLAW
+
+    }
+    
+
+  }
+}
+
+
+resource "azurerm_monitor_diagnostic_setting" "STABlobDiag_ToLAW" {
+  count                                 = var.LawLogId != "unspecified" ? 1 : 0
+  name                                  = "${azurerm_storage_account.STOA.name}diag-to-law"
+  target_resource_id                    = "${azurerm_storage_account.STOA.id}/blob"
+  log_analytics_workspace_id            = var.LawLogId
 
   dynamic "log" {
     for_each                            = var.LogCategories
