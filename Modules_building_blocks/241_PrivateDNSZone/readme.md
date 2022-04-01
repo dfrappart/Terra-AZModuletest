@@ -1,4 +1,4 @@
-# NSG Module
+# Azure Private DNS zone Module
 
 ## Module description
 
@@ -22,15 +22,13 @@ This module deploys a Private DNS Zone
 | Project | string | tfmodule | The name of the project |
 | Environment | string | dev | The environment, dev, prod... |
 | ExtraTags | map | {} | Additional optional tags. |
-
-
+  
 ### Module outputs
 
 | Output name | value | Description |
 |:------------|:------|:------------|
 | PrivateDNSZoneFull | `azurerm_private_dns_zone.PrivateDNSZone` | send all the resource information available in the output. |
-
-
+  
 ## How to call the module
 
 Use as follow:
