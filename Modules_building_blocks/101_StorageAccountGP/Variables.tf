@@ -176,7 +176,7 @@ variable "MetricCategories" {
 
                                           "Metric1" = {
                                             MetricCatName             = "Transaction"
-                                            IsMetricCatEnabledForLAW  = false
+                                            IsMetricCatEnabledForLAW  = true
                                             IsMetricCatEnabledForSTA  = true
                                             IsRetentionEnabled        = true
                                             RetentionDaysValue        = 365
