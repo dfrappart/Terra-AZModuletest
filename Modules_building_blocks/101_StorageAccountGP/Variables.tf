@@ -184,3 +184,24 @@ variable "MetricCategories" {
 
   }
 }
+
+###################################################################
+# Network rules related variables section
+
+variable "AllowedIPList" {
+  type                                  = list
+  description                           = "List of public IP or IP ranges in CIDR Format. Only IPV4 addresses are allowed. Private IP address ranges (as defined in RFC 1918) are not allowed."
+  default                               = []
+}
+
+variable "AllowedSubnetIdList" {
+  type                                  = list
+  description                           = "A list of virtual network subnet ids to to secure the storage account."
+  default                               = []
+}
+
+variable "ByPassConfig" {
+  type                                  = list
+  description                           = " Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
+  default                               = ["Logging","Metrics"]
+}

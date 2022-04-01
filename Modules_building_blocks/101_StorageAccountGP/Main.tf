@@ -2,6 +2,9 @@
 #This module allows the creation of a storage account
 ##############################################################
 
+##############################################################
+# STA Creation
+
 resource "azurerm_storage_account" "STOA" {
   name                                  = "st${lower(var.STASuffix)}"
   resource_group_name                   = var.RGName
@@ -19,6 +22,8 @@ resource "azurerm_storage_account" "STOA" {
 }
 
 
+##############################################################
+# STA diag nostic settings Creation
 
 resource "azurerm_monitor_diagnostic_setting" "STADiag_ToSTA" {
   count                                 = var.STALogId != "unspecified" ? 1: 0
@@ -86,4 +91,15 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
     
 
   }
+}
+
+##############################################################
+# STA Network rules creation
+resource "azurerm_storage_account_network_rules" "STANTWDefaultRule" {
+  storage_account_id = azurerm_storage_account.test.id
+
+  default_action                       = "Deny"
+  ip_rules                             = var.AllowedIPList
+  virtual_network_subnet_ids           = var.AllowedSubnetIdList
+  bypass                               = var.ByPassConfig
 }

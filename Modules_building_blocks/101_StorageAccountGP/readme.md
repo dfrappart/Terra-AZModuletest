@@ -20,6 +20,9 @@ This module deploys a storage account.
 | ExtraTags | map | {} | A map to add custom tags |
 | LogCategories | map | See `Variables.tf` | A map used to define log categories in diagnostic settings |
 | MetricCategories | map | See `Variables.tf` | A map used to define log categories in diagnostic settings |
+| AllowedIPList | list | [] | List of public IP or IP ranges in CIDR Format. Only IPV4 addresses are allowed. Private IP address ranges (as defined in RFC 1918) are not allowed. |
+| AllowedSubnetIdList | list | [] | A list of virtual network subnet ids to to secure the storage account. |
+| ByPassConfig | list |  ["Logging","Metrics"] | Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None. |
   
 ### Module outputs
   
