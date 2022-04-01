@@ -95,7 +95,7 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
   }
 }
 
-
+/*
 resource "azurerm_monitor_diagnostic_setting" "STABlobDiag_ToLAW" {
   count                                 = var.LawLogId != "unspecified" ? 1 : 0
   name                                  = "${azurerm_storage_account.STOA.name}diag-to-law"
@@ -127,7 +127,7 @@ resource "azurerm_monitor_diagnostic_setting" "STABlobDiag_ToLAW" {
 
   }
 }
-
+*/
 ##############################################################
 # STA Network rules creation
 resource "azurerm_storage_account_network_rules" "STANTWDefaultRule" {
