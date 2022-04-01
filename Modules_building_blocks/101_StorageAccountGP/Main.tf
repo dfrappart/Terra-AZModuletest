@@ -96,7 +96,7 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
 ##############################################################
 # STA Network rules creation
 resource "azurerm_storage_account_network_rules" "STANTWDefaultRule" {
-  storage_account_id = azurerm_storage_account.test.id
+  storage_account_id = azurerm_storage_account.STOA.id
 
   default_action                       = "Deny"
   ip_rules                             = var.AllowedIPList
