@@ -182,6 +182,14 @@ variable "MetricCategories" {
                                             RetentionDaysValue        = 365
     }
 
+                                          "Metric" = {
+                                            MetricCatName             = "Capacity"
+                                            IsMetricCatEnabledForLAW  = true
+                                            IsMetricCatEnabledForSTA  = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
   }
 }
 
