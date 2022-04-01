@@ -12,11 +12,9 @@ This module deploys a resource group
 | RGLocation | string | N/A | The region in which the resource group is located. Changing this forces a new resource to be created. |
 | DefaultTags | map | See variable file | A map used to define default tags. |
 | ExtraTags | map | {} | A map to add custom tags |
-
-
-
+  
 ### Module outputs
-
+  
 | Output name | value | Description |
 |:------------|:------|:------------|
 | RGFull | `azurerm_resource_group.RG` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
