@@ -16,14 +16,13 @@ This module deploys a storage account.
 | StorageAccessTier | string | null | Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. Valid options are Hot and Cool, defaults to Hot. |
 | HTTPSSetting | string | true | Boolean flag which forces HTTPS if enabled, see here for more information. Defaults to true. |
 | TLSVer | string | TLS1_2 | The minimum supported TLS version for the storage account. Possible values are TLS1_0, TLS1_1, and TLS1_2. |
-| ResourceOwnerTag | string | That would be me | Tag describing the owner |
-| CountryTag | string | fr | Tag describing the Country |
-| CostCenterTag | string | tflab | Tag describing the Cost Center |
-| Project | string | tfmodule | The name of the project |
-| Environment | string | dev | The environment, dev, prod... |  
-
+| DefaultTags | map | See `Variables.tf` | A map used to define default tags. |
+| ExtraTags | map | {} | A map to add custom tags |
+| LogCategories | map | See `Variables.tf` | A map used to define log categories in diagnostic settings |
+| MetricCategories | map | See `Variables.tf` | A map used to define log categories in diagnostic settings |
+  
 ### Module outputs
-
+  
 | Output name | value | Description |
 |:------------|:------|:------------|
 | STAFull | `azurerm_storage_account.STOA` | send all the resource information available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
@@ -39,8 +38,7 @@ This module deploys a storage account.
 | RGName | `azurerm_storage_account.STOA.resource_group_name` | The resource group containing the sta |
 
 ## How to call the module
- 
-
+  
 Use as follow:
 
 ```bash
@@ -50,11 +48,11 @@ Use as follow:
 module "STATest" {
 
   #Module Location
-  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//101_StorageAccountGP"
+  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks/101_StorageAccountGP"
   #Module variable    
   STASuffix                             = "cpt_data"
-  RGName                                = var.RGLocation
-  StorageAccountLocation                = var.ResourceOwnerTag
+  RGName                                = var.RGName
+  StorageAccountLocation                = var.RGLocation
 
 
 
@@ -208,11 +206,8 @@ can't guarantee that exactly these actions will be performed if
 
 ```
 
-
-
 ## Sample deployment
 
 After deployment, something simlilar is visible in the portal:
 
 ![Illustration 1](./Img/STA001.png)
-

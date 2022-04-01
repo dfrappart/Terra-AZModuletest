@@ -91,32 +91,96 @@ This can only be true when account_tier is Standard or when account_tier is Prem
 ###################################################################
 #Tag related variables section
 
-variable "ResourceOwnerTag" {
-  type                                  = string
-  description                           = "Tag describing the owner"
-  default                               = "That would be me"
+variable "DefaultTags" {
+  type                                  = map
+  description                           = "Define a set of default tags"
+  default                               = {
+    ResourceOwner                       = "That would be me"
+    Country                             = "fr"
+    CostCenter                          = "labtf"
+    Project                             = "tfmodule"
+    Environment                         = "lab"
+    ManagedBy                           = "Terraform"
+
+  }
 }
 
-variable "CountryTag" {
-  type                                  = string
-  description                           = "Tag describing the Country"
-  default                               = "fr"
+variable "ExtraTags" {
+  type                                  = map
+  description                           = "Define a set of additional optional tags."
+  default                               = {}
 }
 
-variable "CostCenterTag" {
+
+###################################################################
+# Diag settings related variables section
+
+variable "LawLogId" {
   type                                  = string
-  description                           = "Tag describing the Cost Center"
-  default                               = "labtf"
+  description                           = "The Id of the Log Analytics workspace used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default                               = "unspecified"
 }
 
-variable "EnvironmentTag" {
+variable "STALogId" {
   type                                  = string
-  description                           = "The environment, dev, prod..."
-  default                               = "dev"
+  description                           = "The Id of the storage account used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default                               = "unspecified"
 }
 
-variable "Project" {
-  type                                  = string
-  description                           = "The project name"
-  default                               = "tfmodule"
+variable "LogCategories" {
+  type                                  = map(object({
+                                            LogCatName                = string
+                                            IsLogCatEnabledForLAW     = bool
+                                            IsLogCatEnabledForSTA     = bool
+                                            IsRetentionEnabled        = bool
+                                            RetentionDaysValue        = number
+  }))
+  description                           = "Define The logs categories"
+  default                               = {
+
+                                          "Category1" = {
+                                            LogCatName                = "StorageRead"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+                                          "Category2" = {
+                                            LogCatName                = "StorageWrite"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+                                          "Category3" = {
+                                            LogCatName                = "StorageDelete"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
+  }
+}
+
+variable "MetricCategories" {
+  type                                  = map(object({
+                                            LogCatName                = string
+                                            IsLogCatEnabledForLAW     = bool
+                                            IsLogCatEnabledForSTA     = bool
+                                            IsRetentionEnabled        = bool
+                                            RetentionDaysValue        = number
+  }))
+  description                           = "Define The metric categories"
+  default                               = {
+
+                                          "Metric1" = {
+                                            LogCatName                = "Transaction"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
+  }
 }
