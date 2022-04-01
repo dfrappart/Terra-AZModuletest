@@ -68,7 +68,7 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
   name                                  = "${azurerm_storage_account.STOA.name}diag-to-law"
   target_resource_id                    = azurerm_storage_account.STOA.id
   log_analytics_workspace_id            = var.LawLogId
-/*
+
   dynamic "log" {
     for_each                            = var.LogCategories
 
@@ -78,7 +78,7 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
 
     }
   }
-*/
+
   dynamic "metric" {
     for_each                            = {
       for k,v in var.MetricCategories : k=>v if v.IsMetricCatEnabledForLAW == true
