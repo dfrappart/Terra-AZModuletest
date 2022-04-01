@@ -45,8 +45,8 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToSTA" {
 
     content {
 
-    category                                = metric.value.MetricName
-    enabled                                 = metric.value.IsMetricEnabledForSTA
+    category                                = metric.value.MetricCatName
+    enabled                                 = metric.value.IsMetricCatEnabledForSTA
       retention_policy {
         enabled                                 = metric.value.IsRetentionEnabled
         days                                    = metric.value.RetentionDaysValue
@@ -79,8 +79,8 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
 
     content {
 
-    category                                = metric.value.MetricName
-    enabled                                 = metric.value.IsMetricEnabledForSTA
+    category                                = metric.value.MetricCatName
+    enabled                                 = metric.value.IsMetricCatEnabledForLAW
 
     }
     

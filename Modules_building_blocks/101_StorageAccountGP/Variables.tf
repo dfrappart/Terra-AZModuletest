@@ -165,9 +165,9 @@ variable "LogCategories" {
 
 variable "MetricCategories" {
   type                                  = map(object({
-                                            LogCatName                = string
-                                            IsLogCatEnabledForLAW     = bool
-                                            IsLogCatEnabledForSTA     = bool
+                                            MetricCatName             = string
+                                            IsMetricCatEnabledForLAW  = bool
+                                            IsMetricCatEnabledForSTA  = bool
                                             IsRetentionEnabled        = bool
                                             RetentionDaysValue        = number
   }))
@@ -175,9 +175,9 @@ variable "MetricCategories" {
   default                               = {
 
                                           "Metric1" = {
-                                            LogCatName                = "Transaction"
-                                            IsLogCatEnabledForLAW     = false
-                                            IsLogCatEnabledForSTA     = true
+                                            MetricCatName             = "Transaction"
+                                            IsMetricCatEnabledForLAW  = false
+                                            IsMetricCatEnabledForSTA  = true
                                             IsRetentionEnabled        = true
                                             RetentionDaysValue        = 365
     }
