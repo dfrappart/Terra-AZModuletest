@@ -27,7 +27,7 @@ resource "azurerm_storage_account" "STOA" {
 
 resource "azurerm_monitor_diagnostic_setting" "STADiag_ToSTA" {
   count                                 = var.STALogId != "unspecified" ? 1: 0
-  name                                  = "${azurerm_storage_account.STOA.name}diag"
+  name                                  = "${azurerm_storage_account.STOA.name}diagto-sta"
   target_resource_id                    = azurerm_storage_account.STOA.id
   storage_account_id                    = var.STALogId
 /*
@@ -65,7 +65,7 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToSTA" {
 
 resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
   count                                 = var.LawLogId != "unspecified" ? 1 : 0
-  name                                  = "${azurerm_storage_account.STOA.name}diag"
+  name                                  = "${azurerm_storage_account.STOA.name}diag-to-law"
   target_resource_id                    = azurerm_storage_account.STOA.id
   log_analytics_workspace_id            = var.LawLogId
 /*
