@@ -80,7 +80,9 @@ resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
   }
 */
   dynamic "metric" {
-    for_each                            = var.MetricCategories
+    for_each                            = {
+      for k,v in var.MetricCategories : k=>v if v.IsMetricCatEnabledForLAW == true
+    }
 
     content {
 

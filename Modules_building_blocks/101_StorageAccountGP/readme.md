@@ -48,16 +48,17 @@ Use as follow:
 
 # Creating the STA
 
-module "STATest" {
+module "STA" {
 
   #Module Location
-  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks/101_StorageAccountGP"
+  source                                = "github.com/dfrappart/Terra-AZModuletest/Modules_building_blocks/101_StorageAccountGP"
   #Module variable    
-  STASuffix                             = "cpt_data"
-  RGName                                = var.RGName
-  StorageAccountLocation                = var.RGLocation
-
-
+  STASuffix                             = var.ResourcesSuffix
+  RGName                                = module.ResourceGroup[1].RGName
+  StorageAccountLocation                = var.AzureRegion
+  DefaultTags                           = var.DefaultTags
+  LawLogId                              = data.azurerm_log_analytics_workspace.LAWLog.id
+  STALogId                              = data.azurerm_storage_account.STALog.id
 
 }
 
@@ -73,68 +74,114 @@ terraform plan should gives the following output:
 
 PS C:\Users\jubei.yagyu> terraform plan
 
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
   + create
 
 Terraform will perform the following actions:
 
-  # module.STAVelero.azurerm_storage_account.STOA will be created
+  # module.STA1.azurerm_monitor_diagnostic_setting.STADiag_ToLAW[0] will be created
+  + resource "azurerm_monitor_diagnostic_setting" "STADiag_ToLAW" {
+      + id                         = (known after apply)
+      + log_analytics_workspace_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-fr-poc-taflog/providers/Microsoft.OperationalInsights/workspaces/law-fr-poc-taflog00000000"
+      + name                       = "sttafdiag"
+      + target_resource_id         = (known after apply)
+
+      + metric {
+          + category = "Transaction"
+          + enabled  = false
+        }
+    }
+
+  # module.STA1.azurerm_monitor_diagnostic_setting.STADiag_ToSTA[0] will be created
+  + resource "azurerm_monitor_diagnostic_setting" "STADiag_ToSTA" {
+      + id                 = (known after apply)
+      + name               = "sttafdiag"
+      + storage_account_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-fr-poc-taflog/providers/Microsoft.Storage/storageAccounts/stfrpoc00000000taflog"
+      + target_resource_id = (known after apply)
+
+      + metric {
+          + category = "Transaction"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+    }
+
+  # module.STA1.azurerm_storage_account.STOA will be created
   + resource "azurerm_storage_account" "STOA" {
-      + access_tier                      = (known after apply)
-      + account_kind                     = "StorageV2"        
-      + account_replication_type         = "LRS"     
-      + account_tier                     = "Standard"
-      + allow_blob_public_access         = false     
-      + enable_https_traffic_only        = true      
-      + id                               = (known after apply)
-      + is_hns_enabled                   = false
-      + large_file_share_enabled         = (known after apply)
-      + location                         = "westeurope"       
-      + min_tls_version                  = "TLS1_2"
-      + name                             = "stdfr"      
-      + primary_access_key               = (sensitive value)  
-      + primary_blob_connection_string   = (sensitive value)  
-      + primary_blob_endpoint            = (known after apply)
-      + primary_blob_host                = (known after apply)
-      + primary_connection_string        = (sensitive value)  
-      + primary_dfs_endpoint             = (known after apply)
-      + primary_dfs_host                 = (known after apply)
-      + primary_file_endpoint            = (known after apply)
-      + primary_file_host                = (known after apply)
-      + primary_location                 = (known after apply)
-      + primary_queue_endpoint           = (known after apply)
-      + primary_queue_host               = (known after apply)
-      + primary_table_endpoint           = (known after apply)
-      + primary_table_host               = (known after apply)
-      + primary_web_endpoint             = (known after apply)
-      + primary_web_host                 = (known after apply) 
-      + resource_group_name              = "rsgdfr"
-      + secondary_access_key             = (sensitive value)   
-      + secondary_blob_connection_string = (sensitive value)   
-      + secondary_blob_endpoint          = (known after apply) 
-      + secondary_blob_host              = (known after apply) 
-      + secondary_connection_string      = (sensitive value)   
-      + secondary_dfs_endpoint           = (known after apply)
-      + secondary_dfs_host               = (known after apply)
-      + secondary_file_endpoint          = (known after apply)
-      + secondary_file_host              = (known after apply)
-      + secondary_location               = (known after apply)
-      + secondary_queue_endpoint         = (known after apply)
-      + secondary_queue_host             = (known after apply)
-      + secondary_table_endpoint         = (known after apply)
-      + secondary_table_host             = (known after apply)
-      + secondary_web_endpoint           = (known after apply)
-      + secondary_web_host               = (known after apply)
-      + tags                             = {
-          + "CostCenter"    = "labtf"
+      + access_tier                       = (known after apply)
+      + account_kind                      = "StorageV2"
+      + account_replication_type          = "LRS"
+      + account_tier                      = "Standard"
+      + allow_nested_items_to_be_public   = true
+      + enable_https_traffic_only         = true
+      + id                                = (known after apply)
+      + infrastructure_encryption_enabled = false
+      + is_hns_enabled                    = false
+      + large_file_share_enabled          = (known after apply)
+      + location                          = "francecentral"
+      + min_tls_version                   = "TLS1_2"
+      + name                              = "sttaf"
+      + nfsv3_enabled                     = false
+      + primary_access_key                = (sensitive value)
+      + primary_blob_connection_string    = (sensitive value)
+      + primary_blob_endpoint             = (known after apply)
+      + primary_blob_host                 = (known after apply)
+      + primary_connection_string         = (sensitive value)
+      + primary_dfs_endpoint              = (known after apply)
+      + primary_dfs_host                  = (known after apply)
+      + primary_file_endpoint             = (known after apply)
+      + primary_file_host                 = (known after apply)
+      + primary_location                  = (known after apply)
+      + primary_queue_endpoint            = (known after apply)
+      + primary_queue_host                = (known after apply)
+      + primary_table_endpoint            = (known after apply)
+      + primary_table_host                = (known after apply)
+      + primary_web_endpoint              = (known after apply)
+      + primary_web_host                  = (known after apply)
+      + queue_encryption_key_type         = "Service"
+      + resource_group_name               = "rsgtafcptdata"
+      + secondary_access_key              = (sensitive value)
+      + secondary_blob_connection_string  = (sensitive value)
+      + secondary_blob_endpoint           = (known after apply)
+      + secondary_blob_host               = (known after apply)
+      + secondary_connection_string       = (sensitive value)
+      + secondary_dfs_endpoint            = (known after apply)
+      + secondary_dfs_host                = (known after apply)
+      + secondary_file_endpoint           = (known after apply)
+      + secondary_file_host               = (known after apply)
+      + secondary_location                = (known after apply)
+      + secondary_queue_endpoint          = (known after apply)
+      + secondary_queue_host              = (known after apply)
+      + secondary_table_endpoint          = (known after apply)
+      + secondary_table_host              = (known after apply)
+      + secondary_web_endpoint            = (known after apply)
+      + secondary_web_host                = (known after apply)
+      + shared_access_key_enabled         = true
+      + table_encryption_key_type         = "Service"
+      + tags                              = {
+          + "CostCenter"    = "taf"
           + "Country"       = "fr"
           + "Environment"   = "dev"
           + "ManagedBy"     = "Terraform"
-          + "ResourceOwner" = "That would be me"        
+          + "Project"       = "taf"
+          + "ResourceOwner" = "That would be me"
         }
 
       + blob_properties {
+          + change_feed_enabled      = (known after apply)
+          + default_service_version  = (known after apply)
+          + last_access_time_enabled = (known after apply)
+          + versioning_enabled       = (known after apply)
+
+          + container_delete_retention_policy {
+              + days = (known after apply)
+            }
+
           + cors_rule {
               + allowed_headers    = (known after apply)
               + allowed_methods    = (known after apply)
@@ -148,17 +195,16 @@ Terraform will perform the following actions:
             }
         }
 
-      + identity {
-          + principal_id = (known after apply)
-          + tenant_id    = (known after apply)
-          + type         = (known after apply)
-        }
-
       + network_rules {
           + bypass                     = (known after apply)
           + default_action             = (known after apply)
           + ip_rules                   = (known after apply)
           + virtual_network_subnet_ids = (known after apply)
+
+          + private_link_access {
+              + endpoint_resource_id = (known after apply)
+              + endpoint_tenant_id   = (known after apply)
+            }
         }
 
       + queue_properties {
@@ -192,9 +238,49 @@ Terraform will perform the following actions:
               + version               = (known after apply)
             }
         }
+
+      + routing {
+          + choice                      = (known after apply)
+          + publish_internet_endpoints  = (known after apply)
+          + publish_microsoft_endpoints = (known after apply)
+        }
+
+      + share_properties {
+          + cors_rule {
+              + allowed_headers    = (known after apply)
+              + allowed_methods    = (known after apply)
+              + allowed_origins    = (known after apply)
+              + exposed_headers    = (known after apply)
+              + max_age_in_seconds = (known after apply)
+            }
+
+          + retention_policy {
+              + days = (known after apply)
+            }
+
+          + smb {
+              + authentication_types            = (known after apply)
+              + channel_encryption_type         = (known after apply)
+              + kerberos_ticket_encryption_type = (known after apply)
+              + versions                        = (known after apply)
+            }
+        }
     }
 
-Plan: 1 to add, 0 to change, 0 to destroy.
+  # module.STA1.azurerm_storage_account_network_rules.STANTWDefaultRule will be created
+  + resource "azurerm_storage_account_network_rules" "STANTWDefaultRule" {
+      + bypass                     = [
+          + "Logging",
+          + "Metrics",
+        ]
+      + default_action             = "Deny"
+      + id                         = (known after apply)
+      + ip_rules                   = (known after apply)
+      + storage_account_id         = (known after apply)
+      + virtual_network_subnet_ids = (known after apply)
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
   + STAFull = (sensitive value)
