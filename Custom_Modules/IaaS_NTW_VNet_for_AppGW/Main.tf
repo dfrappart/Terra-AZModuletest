@@ -13,14 +13,7 @@ resource "azurerm_virtual_network" "SpokeVNet" {
   address_space                         = var.VNetAddressSpace
   location                              = var.TargetLocation
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 #Diagnostic settings on VNet
@@ -66,14 +59,7 @@ resource "azurerm_network_security_group" "AzureBastionNSG" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 #Diagnostic settings on the Bastion nsg
@@ -168,14 +154,7 @@ resource "azurerm_network_security_group" "AppGWSubnetNSG" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 #Diagnostic settings on the AppGW nsg
@@ -268,14 +247,7 @@ resource "azurerm_network_security_group" "FESubnetNSG" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 #Diagnostic settings on FE nsg
@@ -365,14 +337,7 @@ resource "azurerm_network_security_group" "BESubnetNSG" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 #Diagnostic settings on the BE nsg
@@ -753,14 +718,7 @@ resource "azurerm_public_ip" "BastionPublicIP" {
   domain_name_label                     = "bst-pubip${lower(var.VNetSuffix)}"
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
 
@@ -823,14 +781,7 @@ resource "azurerm_bastion_host" "SpokeBastion" {
     public_ip_address_id                = azurerm_public_ip.BastionPublicIP[0].id
   }
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = merge(var.DefaultTags,var.ExtraTags)
 
 }
 

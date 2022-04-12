@@ -137,37 +137,106 @@ variable "SubnetEndpointLists" {
   description   = "The list of Service endpoints to associate with the subnet."
 }
 
+###################################################################
+#Tag related variables section
 
+variable "DefaultTags" {
+  type                                  = map
+  description                           = "Define a set of default tags"
+  default                               = {
+    ResourceOwner                       = "That would be me"
+    Country                             = "fr"
+    CostCenter                          = "labtf"
+    Project                             = "tfmodule"
+    Environment                         = "lab"
+    ManagedBy                           = "Terraform"
 
-######################################################
-#Tag related variables and naming convention section
-
-variable "ResourceOwnerTag" {
-  type          = string
-  description   = "Tag describing the owner"
-  default       = "That would be me"
+  }
 }
 
-variable "CountryTag" {
-  type          = string
-  description   = "Tag describing the Country"
-  default       = "fr"
+variable "ExtraTags" {
+  type                                  = map
+  description                           = "Define a set of additional optional tags."
+  default                               = {}
 }
 
-variable "CostCenterTag" {
-  type          = string
-  description   = "Tag describing the Cost Center"
-  default       = "lab"
+###################################################################
+# Diag settings related variables section
+
+variable "LawLogId" {
+  type                                  = string
+  description                           = "The Id of the Log Analytics workspace used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default                               = "unspecified"
 }
 
-variable "Project" {
-  type          = string
-  description   = "The name of the project"
-  default       = "vnet"
+variable "STALogId" {
+  type                                  = string
+  description                           = "The Id of the storage account used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default                               = "unspecified"
 }
 
-variable "Environment" {
-  type          = string
-  description   = "The environment, dev, prod..."
-  default       = "lab"
+variable "LogCategories" {
+  type                                  = map(object({
+                                            LogCatName                = string
+                                            IsLogCatEnabledForLAW     = bool
+                                            IsLogCatEnabledForSTA     = bool
+                                            IsRetentionEnabled        = bool
+                                            RetentionDaysValue        = number
+  }))
+  description                           = "Define The logs categories"
+  default                               = {
+
+                                          "Category1" = {
+                                            LogCatName                = "StorageRead"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+                                          "Category2" = {
+                                            LogCatName                = "StorageWrite"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+                                          "Category3" = {
+                                            LogCatName                = "StorageDelete"
+                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForSTA     = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
+  }
+}
+
+variable "MetricCategories" {
+  type                                  = map(object({
+                                            MetricCatName             = string
+                                            IsMetricCatEnabledForLAW  = bool
+                                            IsMetricCatEnabledForSTA  = bool
+                                            IsRetentionEnabled        = bool
+                                            RetentionDaysValue        = number
+  }))
+  description                           = "Define The metric categories"
+  default                               = {
+
+                                          "Metric1" = {
+                                            MetricCatName             = "Transaction"
+                                            IsMetricCatEnabledForLAW  = true
+                                            IsMetricCatEnabledForSTA  = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
+                                          "Metric" = {
+                                            MetricCatName             = "Capacity"
+                                            IsMetricCatEnabledForLAW  = true
+                                            IsMetricCatEnabledForSTA  = true
+                                            IsRetentionEnabled        = true
+                                            RetentionDaysValue        = 365
+    }
+
+  }
 }
