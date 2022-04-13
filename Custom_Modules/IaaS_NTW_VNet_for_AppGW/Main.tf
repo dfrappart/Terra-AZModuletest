@@ -22,25 +22,31 @@ resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
   name                                  = "diag-${azurerm_virtual_network.SpokeVNet.name}"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
   storage_account_id                    = var.STALogId
-  log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
+  #log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
-  log {
-    category                            = "VMProtectionAlerts"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
+  dynamic "log" {
+    for_each = var.VNetLogCategories
+    content {
+      category                            = log.value.LogCatName
+      enabled                             = log.value.IsLogCatEnabledForSTA
+      retention_policy {
+        enabled                           = log.value.IsRetentionEnabled
+        days                              = log.value.RetentionDaysValue
+      }
     } 
   }
 
-  metric {
-    category                            = "AllMetrics"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    }    
+  dynamic "metric" {
+    for_each = var.VNetMetricCategories
 
+    content {
+      category                            = metric.value.MetricCatName
+      enabled                             = metric.value.IsMetricCatEnabledForSTA
+      retention_policy {
+        enabled                           = metric.value.IsRetentionEnabled
+        days                              = metric.value.RetentionDaysValue
+      }    
+    }
   }
 }
 

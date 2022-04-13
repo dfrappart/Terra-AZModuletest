@@ -170,7 +170,7 @@ variable "STALogId" {
   default                               = "unspecified"
 }
 
-variable "LogCategories" {
+variable "VNetLogCategories" {
   type                                  = map(object({
                                             LogCatName                = string
                                             IsLogCatEnabledForLAW     = bool
@@ -182,31 +182,18 @@ variable "LogCategories" {
   default                               = {
 
                                           "Category1" = {
-                                            LogCatName                = "StorageRead"
+                                            LogCatName                = "VMProtectionAlerts"
                                             IsLogCatEnabledForLAW     = false
                                             IsLogCatEnabledForSTA     = true
                                             IsRetentionEnabled        = true
                                             RetentionDaysValue        = 365
     }
-                                          "Category2" = {
-                                            LogCatName                = "StorageWrite"
-                                            IsLogCatEnabledForLAW     = false
-                                            IsLogCatEnabledForSTA     = true
-                                            IsRetentionEnabled        = true
-                                            RetentionDaysValue        = 365
-    }
-                                          "Category3" = {
-                                            LogCatName                = "StorageDelete"
-                                            IsLogCatEnabledForLAW     = false
-                                            IsLogCatEnabledForSTA     = true
-                                            IsRetentionEnabled        = true
-                                            RetentionDaysValue        = 365
-    }
+
 
   }
 }
 
-variable "MetricCategories" {
+variable "VNetMetricCategories" {
   type                                  = map(object({
                                             MetricCatName             = string
                                             IsMetricCatEnabledForLAW  = bool
@@ -218,15 +205,7 @@ variable "MetricCategories" {
   default                               = {
 
                                           "Metric1" = {
-                                            MetricCatName             = "Transaction"
-                                            IsMetricCatEnabledForLAW  = true
-                                            IsMetricCatEnabledForSTA  = true
-                                            IsRetentionEnabled        = true
-                                            RetentionDaysValue        = 365
-    }
-
-                                          "Metric" = {
-                                            MetricCatName             = "Capacity"
+                                            MetricCatName             = "AllMetrics"
                                             IsMetricCatEnabledForLAW  = true
                                             IsMetricCatEnabledForSTA  = true
                                             IsRetentionEnabled        = true
