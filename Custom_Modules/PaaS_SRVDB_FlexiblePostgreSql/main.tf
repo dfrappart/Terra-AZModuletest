@@ -65,7 +65,143 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
 ################################ Monitoring #######################################
 ###################################################################################
 
+#DB Alert
 
+resource "azurerm_monitor_metric_alert" "DBConnectThreshold" {
+
+
+  name                                        = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBConnectThreshold"
+  resource_group_name                         = var.RgName
+  scopes                                      = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
+  description                                 = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBConnectThreshold"
+
+  criteria {
+    metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
+    metric_name                               = "active_connections"
+    aggregation                               = "Average"
+    operator                                  = "Equals"
+    threshold                                 = var.DBLowConnectionThreshold
+
+
+  }
+
+  criteria {
+    metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
+    metric_name                               = "active_connections"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = var.DBHighConnectionThreshold
+
+
+  }
+
+  criteria {
+    metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
+    metric_name                               = "connections_failed"
+    aggregation                               = "Total"
+    operator                                  = "GreaterThan"
+    threshold                                 = var.DBFailedConnectionThreshold
+
+
+  }
+
+  dynamic "action" {
+    for_each = var.ACGIds
+    iterator = each
+    
+    content {
+      action_group_id                          = each.key
+    }
+    
+  }
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT1M"
+
+
+
+
+  tags = merge(var.DefaultTags,var.ExtraTags)
+
+}
+
+resource "azurerm_monitor_metric_alert" "DBStorage" {
+
+  
+  name                                      = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBStorageThreshold"
+  resource_group_name                       = var.RgName
+  scopes                                    = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
+  description                               = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBStorageThreshold"
+
+  criteria {
+    metric_namespace                        = "Microsoft.DBforPostgreSQL/flexibleServers"
+    metric_name                             = "storage_percent"
+    aggregation                             = "Average"
+    operator                                = "GreaterThan"
+    threshold                               = var.DBStoragePercentHighThreshold
+
+
+  }
+
+  dynamic "action" {
+    for_each = var.ACGIds
+    iterator = each
+    
+    content {
+      action_group_id                          = each.key
+    }
+    
+  }
+
+  frequency                                 = "PT1M"
+  window_size                               = "PT1M"
+
+
+
+
+  tags = merge(var.DefaultTags,var.ExtraTags)
+
+}
+
+resource "azurerm_monitor_metric_alert" "DBCPU" {
+
+  
+  name                                        = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
+  resource_group_name                         = var.RgName
+  scopes                                      = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
+  description                                 = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
+
+  criteria {
+    metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
+    metric_name                               = "cpu_percent"
+    aggregation                               = "Average"
+    operator                                  = "GreaterThan"
+    threshold                                 = var.DBCPUPercentHighThreshold
+
+
+  }
+
+
+  dynamic "action" {
+    for_each = var.ACGIds
+    iterator = each
+    
+    content {
+      action_group_id                          = each.key
+    }
+    
+  }
+
+
+  frequency                                   = "PT1M"
+  window_size                                 = "PT1M"
+
+
+
+
+  tags = merge(var.DefaultTags,var.ExtraTags)
+
+}
 
 ###################################################################################
 ############################# Diagnostic settings #################################
