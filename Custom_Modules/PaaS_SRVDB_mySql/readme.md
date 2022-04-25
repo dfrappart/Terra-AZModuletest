@@ -33,7 +33,7 @@ Lastly, it is configured to send diagnostic to a storage account and a log analy
 | mysqlsuffix | string | "-01" | A suffix to be added to the Server resource name |
 | MySQLSkuName | string | "GP_Gen5_2" | Specifies the SKU Name for this MySQL Server. The name of the SKU, follows the tier + family + cores pattern (e.g. B_Gen4_1, GP_Gen5_8). |
 | MySQLVersion | string | "5.7" | Specifies the version of MySQL to use. Valid values are 5.6, 5.7, and 8.0. Changing this forces a new resource to be created. |
-| MySQLLogin | string | "rxldbadmin" | The Administrator Login for the MySQL Server. Required when create_mode is Default. Changing this forces a new resource to be created. |
+| MySQLLogin | string | "sqladmin" | The Administrator Login for the MySQL Server. Required when create_mode is Default. Changing this forces a new resource to be created. |
 | MySQLPwd | string | N/A | The Password associated with the administrator_login for the MySQL Server. Required when create_mode is Default. |
 | MySQLRetentionDays | string | 35 | Backup retention days for the server, supported values are between 7 and 35 days. |
 | MySQLCreateMode | string | null | The creation mode. Can be used to restore or replicate existing servers. Possible values are Default, Replica, GeoRestore, and PointInTimeRestore. Defaults to Default. |
