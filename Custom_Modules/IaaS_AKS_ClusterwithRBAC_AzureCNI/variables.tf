@@ -790,14 +790,14 @@ variable "IsCSIKVAddonEnabled" {
 variable "CSIKVSecretRotationEnabled" {
   type                          = bool
   default                       = false
-  description                   = "Is rotation from the KV secret enabled"
+  description                   = "Is rotation from the KV secret enabled?"
 
 }
 
 variable "CSIKVSecretRotationInterval" {
   type                          = string
   default                       = "2m"
-  description                   = "The period of check for rotation of the secret value"
+  description                   = "The interval to poll for secret rotation. This attribute is only set when secret_rotation is true and defaults to 2m."
 
 }
 
