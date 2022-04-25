@@ -94,7 +94,213 @@ terraform plan should gives the following output:
 
 ```powershell
 
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
 
+Terraform will perform the following actions:
+
+  # module.psql.azurerm_monitor_diagnostic_setting.AzurePSQLDiagToLAWA[0] will be created
+  + resource "azurerm_monitor_diagnostic_setting" "AzurePSQLDiagToLAWA" {
+      + id                         = (known after apply)
+      + log_analytics_workspace_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-dffr-lab-subsetupconsulconslog/providers/Microsoft.OperationalInsights/workspaces/law-dffr-lab-subsetupconsulconslog16e85b36"       
+      + name                       = "mon-psql-diag-to-Law-1"
+      + target_resource_id         = (known after apply)
+
+      + log {
+          + category = "PostgreSQLLogs"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+      + log {
+          + category = "QueryStoreRuntimeStatistics"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+      + log {
+          + category = "QueryStoreWaitStatistics"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+
+      + metric {
+          + category = "AllMetrics"
+          + enabled  = false
+        }
+    }
+
+  # module.psql.azurerm_monitor_diagnostic_setting.AzurePSQLDiagToSTA[0] will be created
+  + resource "azurerm_monitor_diagnostic_setting" "AzurePSQLDiagToSTA" {
+      + id                 = (known after apply)
+      + name               = "mon-psql-diag-to-STA-1"
+      + storage_account_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-dffr-lab-subsetupconsulconslog/providers/Microsoft.Storage/storageAccounts/stdffrlab16e85b36conslog"
+      + target_resource_id = (known after apply)
+
+      + log {
+          + category = "PostgreSQLLogs"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+      + log {
+          + category = "QueryStoreRuntimeStatistics"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+      + log {
+          + category = "QueryStoreWaitStatistics"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+
+      + metric {
+          + category = "AllMetrics"
+          + enabled  = true
+
+          + retention_policy {
+              + days    = 365
+              + enabled = true
+            }
+        }
+    }
+
+  # module.psql.azurerm_monitor_metric_alert.DBCPU will be created
+  + resource "azurerm_monitor_metric_alert" "DBCPU" {
+      + auto_mitigate            = true
+      + description              = "psql1-DBDBCPUThreshold"
+      + enabled                  = true
+      + frequency                = "PT1M"
+      + id                       = (known after apply)
+      + name                     = "maltpsql1-DBDBCPUThreshold"
+      + resource_group_name      = "rsg-consul-data"
+      + scopes                   = (known after apply)
+      + severity                 = 3
+      + tags                     = {
+          + "CostCenter"    = "labtf"
+          + "Country"       = "fr"
+          + "Environment"   = "lab"
+          + "ManagedBy"     = "Terraform"
+          + "Project"       = "tfmodule"
+          + "ResourceOwner" = "That would be me"
+        }
+      + target_resource_location = (known after apply)
+      + target_resource_type     = (known after apply)
+      + window_size              = "PT1M"
+
+      + action {
+          + action_group_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-dffr-lab-subsetupconsulconslog/providers/Microsoft.Insights/actionGroups/acg-fr-lab-subsetupconsul-00000000-0000-0000-0000-000000000000"   
+        }
+
+      + criteria {
+          + aggregation            = "Average"
+          + metric_name            = "cpu_percent"
+          + metric_namespace       = "Microsoft.DBforPostgreSQL/servers"
+          + operator               = "GreaterThan"
+          + skip_metric_validation = false
+          + threshold              = 80
+        }
+    }
+
+  # module.psql.azurerm_monitor_metric_alert.DBConnectThreshold will be created
+  + resource "azurerm_monitor_metric_alert" "DBConnectThreshold" {
+      + auto_mitigate            = true
+      + description              = "psql1-DBConnectThreshold"
+      + enabled                  = true
+      + frequency                = "PT1M"
+      + id                       = (known after apply)
+      + name                     = "maltpsql1-DBConnectThreshold"
+      + resource_group_name      = "rsg-consul-data"
+      + scopes                   = (known after apply)
+      + severity                 = 3
+      + tags                     = {
+          + "CostCenter"    = "labtf"
+          + "Country"       = "fr"
+          + "Environment"   = "lab"
+          + "ManagedBy"     = "Terraform"
+          + "Project"       = "tfmodule"
+          + "ResourceOwner" = "That would be me"
+        }
+      + target_resource_location = (known after apply)
+      + target_resource_type     = (known after apply)
+      + window_size              = "PT1M"
+
+      + action {
+          + action_group_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rsg-dffr-lab-subsetupconsulconslog/providers/Microsoft.Insights/actionGroups/acg-fr-lab-subsetupconsul-00000000-0000-0000-0000-000000000000"   
+        }
+
+      + criteria {
+          + aggregation            = "Average"
+          + metric_name            = "active_connections"
+          + metric_namespace       = "Microsoft.DBforPostgreSQL/servers"
+          + operator               = "Equals"
+          + skip_metric_validation = false
+          + threshold              = 3
+        }
+      + criteria {
+          + aggregation            = "Average"
+          + metric_name            = "active_connections"
+          + metric_namespace       = "Microsoft.DBforPostgreSQL/servers"
+          + operator               = "GreaterThan"
+          + skip_metric_validation = false
+          + threshold              = 200
+        }
+      + criteria {
+          + aggregation            = "Total"
+          + metric_name            = "connections_failed"
+          + metric_namespace       = "Microsoft.DBforPostgreSQL/servers"
+          + operator               = "GreaterThan"
+          + skip_metric_validation = false
+          + threshold              = 10
+        }
+    }
+
+  # module.psql.azurerm_monitor_metric_alert.DBStorage will be created
+  + resource "azurerm_monitor_metric_alert" "DBStorage" {
+      + auto_mitigate            = true
+      + description              = "psql1-DBStorageThreshold"
+      + enabled                  = true
+      + frequency                = "PT1M"
+      + id                       = (known after apply)
+      + name                     = "maltpsql1-DBStorageThreshold"
+      + resource_group_name      = "rsg-consul-data"
+      + scopes                   = (known after apply)
+      + severity                 = 3
+      + tags                     = {
+        }
+      + version                           = "11"
+
+      + threat_detection_policy {
+          + enabled = true
+        }
+    }
+
+Plan: 6 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 
 ```
 
@@ -109,5 +315,3 @@ output should be similar to this:
 ## Sample deployment
 
 After deployment, something simlilar is visible in the portal:
-
-
