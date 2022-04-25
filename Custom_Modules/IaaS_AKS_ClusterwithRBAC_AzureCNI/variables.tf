@@ -778,24 +778,40 @@ variable "IshttproutingEnabled" {
 
 }
 
-# kube dashboard addon
+# CSI driver for KV
 
-variable "IsKubeDashboardEnabled" {
-  type                          = string
+variable "IsCSIKVAddonEnabled" {
+  type                          = bool
   default                       = false
-  description                   = "Is the Kubernetes Dashboard enabled? - Deprecated from aks 1.19.x"
+  description                   = "Is the CSI driver for KV enabled?"
+
+}
+
+variable "CSIKVSecretRotationEnabled" {
+  type                          = bool
+  default                       = false
+  description                   = "Is rotation from the KV secret enabled"
+
+}
+
+variable "CSIKVSecretRotationInterval" {
+  type                          = string
+  default                       = "2m"
+  description                   = "The period of check for rotation of the secret value"
 
 }
 
 # oms agent addon
 
 variable "IsOMSAgentEnabled" {
-  type                          = string
+  type                          = bool
   default                       = true
 }
 
+# oms agent addon
+
 variable "IsOpenServiceMeshEnabled" {
-  type                          = string
+  type                          = bool
   default                       = false
   description                   = "Is Open Service Mesh enabled?"
 }

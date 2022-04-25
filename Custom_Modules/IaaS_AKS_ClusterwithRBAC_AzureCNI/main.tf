@@ -208,6 +208,19 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   azure_policy_enabled                    = var.IsAzPolicyEnabled    
   http_application_routing_enabled        = var.IshttproutingEnabled
 
+  dynamic "key_vault_secrets_provider" {
+
+    for_each = var.IsCSIKVAddonEnabled ? ["fake"] : []
+
+    content {
+
+      secret_rotation_enabled               = var.CSIKVSecretRotationEnabled
+      secret_rotation_interval              = var.CSIKVSecretRotationInterval
+
+    }
+
+  }
+
   oms_agent {
 
     log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
