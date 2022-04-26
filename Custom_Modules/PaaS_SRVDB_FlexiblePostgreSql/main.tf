@@ -67,8 +67,8 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
 resource "azurerm_virtual_network" "psqlflexiblentw" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
   name                                        = "psqlflexiblentw"
-  location                                    = var.RgName
-  resource_group_name                         = var.Location
+  location                                    = var.Location
+  resource_group_name                         = var.RgName
   address_space                               = ["172.24.0.0/16"]  
 }
 
