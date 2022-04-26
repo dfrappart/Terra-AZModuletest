@@ -59,7 +59,51 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
 # PostgreSQL databases
 
 
+# Network requirements
 
+######################################################################
+# creating an azure postgresql flexible server for lab usage
+
+resource "azurerm_virtual_network" "psqlflexiblentw" {
+  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+  name                                        = "psqlflexiblentw"
+  location                                    = var.RgName
+  resource_group_name                         = var.Location
+  address_space                               = ["172.24.0.0/16"]  
+}
+
+resource "azurerm_private_dns_zone" "PSQLPrivateDNSZoneId" {
+  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+  name                                        = "dfrpsqltest.postgres.database.azure.com"
+  resource_group_name                         = var.RgName
+}
+
+resource "azurerm_subnet" "psqlsubnet" {
+  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+  name                                        = "psqlsubnet"
+  resource_group_name                         = var.RgName
+  virtual_network_name                        = azurerm_virtual_network.psqlflexiblentw.name
+  address_prefixes                            = ["172.24.0.0/24"]
+  service_endpoints                           = ["Microsoft.Storage"]
+  delegation {
+    name                                      = "postgresql"
+    service_delegation {
+      name                                      = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions                                       = [
+                                                        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
+
+
+resource "azurerm_private_dns_zone_virtual_network_link" "example" {
+  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+  name                                        = "${azurerm_private_dns_zone.psqlpvdnszone.name}_to_${azurerm_virtual_network.psqlflexiblentw.name}"
+  private_dns_zone_name                       = azurerm_private_dns_zone.psqlpvdnszone.name
+  virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw.id
+  resource_group_name                         = var.RgName
+}
 
 ###################################################################################
 ################################ Monitoring #######################################

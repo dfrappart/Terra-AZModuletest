@@ -131,13 +131,13 @@ variable "PostgreRestorePIT" {
 variable "PSQLSubnetId" {
   type                                        = string
   description                                 = "The ID of the virtual network subnet to create the PostgreSQL Flexible Server. The provided subnet should not have any other resource deployed in it and this subnet will be delegated to the PostgreSQL Flexible Server, if not already delegated. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = null
+  default                                     = ["unspecified"]
 }
 
 variable "PSQLPrivateDNSZoneId" {
   type                                        = string
   description                                 = " The ID of the private dns zone to create the PostgreSQL Flexible Server. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = null
+  default                                     = ["unspecified"]
 }
 
 variable "HAMode" {

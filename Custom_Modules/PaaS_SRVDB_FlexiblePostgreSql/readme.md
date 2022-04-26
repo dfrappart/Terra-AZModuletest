@@ -1,22 +1,37 @@
 # Azure Database for PostgresSQL Flexible Module
 
-## Module description
+## Requirements
 
-This module deploys a Azure DataBase for PostGreSQL Flexible Server.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.1.7 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.2.0 |
 
-- database(s) with a count functionnality
+## Providers
 
-It is also configured to create Azure monitor Alert on the following metrics:
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.2.0 |
 
-- Database connection threshold
-- Database storage threshold
-- Database CPU Threshold
+## Modules
 
-In order to send alert, it relies on a existing Azure Action Group.
+No modules.
 
-Lastly, it is configured to send diagnostic to a storage account and a log analytic workspace
+## Resources
 
-### Module inputs
+| Name | Type |
+|------|------|
+| [azurerm_postgresql_flexible_server.PostgreServer](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_flexible_server_configuration) | resource |
+| [azurerm_postgresql_database.PostgreDB](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/disk_encryption_set) | data source |
+| [azurerm_postgresql_virtual_network_rule.PosgreServerNetRule](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/key_vault) | data source |
+| [azurerm_postgresql_firewall_rule.SingleIP](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_monitor_metric_alert.DBConnectThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/resource_group) | data source |
+| [azurerm_monitor_metric_alert.DBStorage](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/subnet) | data source |
+| [azurerm_monitor_metric_alert.DBCPU](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/subnet) | data source |
+| [azurerm_monitor_diagnostic_setting.AzurePSQLDiagToSTA](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/subnet) | data source |
+| [azurerm_monitor_diagnostic_setting.AzurePSQLDiagToLAWA](https://registry.terraform.io/providers/hashicorp/azurerm/2.98.0/docs/data-sources/subnet) | data source |
+
+## Module inputs
 
 | Variable name | Variable type | Default value | Description |
 |:--------------|:--------------|:--------------|:------------|
@@ -55,7 +70,7 @@ Lastly, it is configured to send diagnostic to a storage account and a log analy
 | DefaultTags |  map(object()) | See variables.tfstring | A map to define mandatory tags |
 | ExtraTags | map(object()) | See variables.tf | A map to add custom tags if needed |
   
-### Module outputs
+## Module outputs
 
 | Output name | value | Description |
 |:------------|:------|:------------|
