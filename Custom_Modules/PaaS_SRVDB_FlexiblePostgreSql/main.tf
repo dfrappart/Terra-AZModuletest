@@ -82,7 +82,7 @@ resource "azurerm_subnet" "psqlsubnet" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
   name                                        = "psqlsubnet"
   resource_group_name                         = var.RgName
-  virtual_network_name                        = azurerm_virtual_network.psqlflexiblentw.name
+  virtual_network_name                        = azurerm_virtual_network.psqlflexiblentw[0].name
   address_prefixes                            = ["172.24.0.0/24"]
   service_endpoints                           = ["Microsoft.Storage"]
   delegation {
@@ -99,8 +99,8 @@ resource "azurerm_subnet" "psqlsubnet" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
-  name                                        = "${azurerm_private_dns_zone.psqlpvdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
-  private_dns_zone_name                       = azurerm_private_dns_zone.psqlpvdnszone[0].name
+  name                                        = "${azurerm_private_dns_zone.PSQLPrivateDNSZoneId[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
+  private_dns_zone_name                       = azurerm_private_dns_zone.PSQLPrivateDNSZoneId[0].name
   virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw[0].id
   resource_group_name                         = var.RgName
 }
