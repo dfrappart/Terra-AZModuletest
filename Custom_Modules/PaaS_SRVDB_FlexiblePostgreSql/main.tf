@@ -26,7 +26,7 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
 
   
   delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet[0].id : var.PSQLSubnetId
-  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone[0].psqlflexdnszone.id : var.PSQLPrivateDNSZoneId
+  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone.psqlflexdnszone[0].id : var.PSQLPrivateDNSZoneId
 
   high_availability {
     mode                                      = var.HAMode
