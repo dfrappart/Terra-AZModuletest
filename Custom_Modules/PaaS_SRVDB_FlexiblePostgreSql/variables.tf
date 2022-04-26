@@ -236,3 +236,33 @@ variable "ACGIds" {
   description                                 = "A set of Action GroupResource Id"
   default                                     = []
 }
+
+variable "DBLowConnectionThreshold" {
+  type                                        = number
+  description                                 = "threshold for Memory server load on DB"
+  default                                     = 3
+}
+
+variable "DBHighConnectionThreshold" {
+  type                                        = number
+  description                                 = "threshold for Memory server load on DB"
+  default                                     = 200
+}
+
+variable "DBFailedConnectionThreshold" {
+  type                                        = number
+  description                                 = "threshold for failed connection on DB"
+  default                                     = 10
+}
+
+variable "DBStoragePercentHighThreshold" {
+  type                                        = number
+  description                                 = "threshold for Storage high threshold on DB"
+  default                                     = 80
+}
+
+variable "DBCPUPercentHighThreshold" {
+  type                                        = number
+  description                                 = "threshold for CPU high threshold on DB"
+  default                                     = 80
+}
