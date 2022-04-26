@@ -25,8 +25,8 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
   point_in_time_restore_time_in_utc           = var.PostgreRestorePIT
 
   
-  delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet.id : var.PSQLSubnetId
-  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone.psqlflexdnszone.id : var.PSQLPrivateDNSZoneId
+  delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet[0].id : var.PSQLSubnetId
+  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone[0].psqlflexdnszone.id : var.PSQLPrivateDNSZoneId
 
   high_availability {
     mode                                      = var.HAMode
