@@ -74,7 +74,7 @@ resource "azurerm_virtual_network" "psqlflexiblentw" {
 
 resource "azurerm_private_dns_zone" "psqlflexdnszone" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
-  name                                        = "dfrpsqltest.postgres.database.azure.com"
+  name                                        = "dfrpsqltest2.postgres.database.azure.com"
   resource_group_name                         = var.RgName
 }
 
