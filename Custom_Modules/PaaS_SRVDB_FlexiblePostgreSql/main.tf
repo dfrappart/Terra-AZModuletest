@@ -114,10 +114,10 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
 resource "azurerm_monitor_metric_alert" "DBConnectThreshold" {
 
 
-  name                                        = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBConnectThreshold"
+  name                                        = "malt${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBConnectThreshold"
   resource_group_name                         = var.RgName
-  scopes                                      = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
-  description                                 = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBConnectThreshold"
+  scopes                                      = [azurerm_postgresql_flexible_server.PostGreSQLFlexServer.id]
+  description                                 = "${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBConnectThreshold"
 
   criteria {
     metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
@@ -172,10 +172,10 @@ resource "azurerm_monitor_metric_alert" "DBConnectThreshold" {
 resource "azurerm_monitor_metric_alert" "DBStorage" {
 
   
-  name                                      = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBStorageThreshold"
+  name                                      = "malt${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBStorageThreshold"
   resource_group_name                       = var.RgName
-  scopes                                    = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
-  description                               = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBStorageThreshold"
+  scopes                                    = [azurerm_postgresql_flexible_server.PostGreSQLFlexServer.id]
+  description                               = "${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBStorageThreshold"
 
   criteria {
     metric_namespace                        = "Microsoft.DBforPostgreSQL/flexibleServers"
@@ -210,10 +210,10 @@ resource "azurerm_monitor_metric_alert" "DBStorage" {
 resource "azurerm_monitor_metric_alert" "DBCPU" {
 
   
-  name                                        = "malt${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
+  name                                        = "malt${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
   resource_group_name                         = var.RgName
-  scopes                                      = [azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.id]
-  description                                 = "${azurerm_postgresql_flexible_server.flexibleServers.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
+  scopes                                      = [azurerm_postgresql_flexible_server.PostGreSQLFlexServer.id]
+  description                                 = "${azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name}-DBDBCPUThreshold"
 
   criteria {
     metric_namespace                          = "Microsoft.DBforPostgreSQL/flexibleServers"
