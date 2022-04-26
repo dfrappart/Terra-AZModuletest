@@ -25,8 +25,8 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
   point_in_time_restore_time_in_utc           = var.PostgreRestorePIT
 
   
-  delegated_subnet_id                         = var.PSQLSubnetId
-  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId
+  delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet.id : var.PSQLSubnetId
+  private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone.psqlflexdnszone.id : var.PSQLPrivateDNSZoneId
 
   high_availability {
     mode                                      = var.HAMode
@@ -72,7 +72,7 @@ resource "azurerm_virtual_network" "psqlflexiblentw" {
   address_space                               = ["172.24.0.0/16"]  
 }
 
-resource "azurerm_private_dns_zone" "PSQLPrivateDNSZoneId" {
+resource "azurerm_private_dns_zone" "psqlflexdnszone" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
   name                                        = "dfrpsqltest.postgres.database.azure.com"
   resource_group_name                         = var.RgName
@@ -99,8 +99,8 @@ resource "azurerm_subnet" "psqlsubnet" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet" {
   count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
-  name                                        = "${azurerm_private_dns_zone.PSQLPrivateDNSZoneId[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
-  private_dns_zone_name                       = azurerm_private_dns_zone.PSQLPrivateDNSZoneId[0].name
+  name                                        = "${azurerm_private_dns_zone.psqlflexdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
+  private_dns_zone_name                       = azurerm_private_dns_zone.psqlflexdnszone[0].name
   virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw[0].id
   resource_group_name                         = var.RgName
 }
