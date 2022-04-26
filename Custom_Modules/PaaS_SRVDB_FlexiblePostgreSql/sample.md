@@ -6,7 +6,21 @@ Use as follow:
 
 ```bash
 
+module "psqlflex" {
 
+  source = ""
+
+  RgName                                  = ""
+  Location                                = "" 
+  PostgrePwd                              = ""
+  #PSQLSubnetId                            = azurerm_subnet.psqlsubnet.id # If not provided, the module create a Vnet and a subnet delegated to postgresql
+  #PSQLPrivateDNSZoneId                    = azurerm_private_dns_zone.psqlpvdnszone.id  # If not provided, the module create a DNS zone
+  LawLogId                                = data.azurerm_log_analytics_workspace.LAWLog.id
+  STALogId                                = data.azurerm_storage_account.STALog.id
+  #PostgreSkuName                          = "GP_Standard_D4s_v3"
+
+
+}
 
 ```
 

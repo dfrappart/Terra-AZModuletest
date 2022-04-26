@@ -117,7 +117,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet_No
 
 resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet_NoDNSProvided" {
   count                                       = var.PSQLSubnetId == "unspecified" && var.PSQLPrivateDNSZoneId != "unspecified" ? 1 : 0
-  name                                        = "${azurerm_private_dns_zone.psqlflexdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
+  name                                        = "${split("/",var.PSQLPrivateDNSZoneId)[8]}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
   private_dns_zone_name                       = split("/",var.PSQLPrivateDNSZoneId)[8]
   virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw[0].id
   resource_group_name                         = var.RgName
