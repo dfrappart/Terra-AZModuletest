@@ -2,7 +2,7 @@
 # Globals
 variable "RgName" {
   type                                        = string
-  description                                 = "Resource Group name provided as a string. chaning this input will recreate everything"
+  description                                 = "Resource Group name provided as a string. Changing this input will recreate everything"
 }
 
 variable "Location" {
