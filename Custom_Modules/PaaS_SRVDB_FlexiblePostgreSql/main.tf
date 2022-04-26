@@ -73,7 +73,7 @@ resource "azurerm_virtual_network" "psqlflexiblentw" {
 }
 
 resource "azurerm_private_dns_zone" "psqlflexdnszone" {
-  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+  count                                       = var.PSQLPrivateDNSZoneId == "unspecified" ? 1 : 0
   name                                        = "dfrpsqltest2.postgres.database.azure.com"
   resource_group_name                         = var.RgName
 }
@@ -97,10 +97,28 @@ resource "azurerm_subnet" "psqlsubnet" {
 }
 
 
-resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet" {
-  count                                       = var.PSQLSubnetId == "unspecified" ? 1 : 0
+resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet_NoVNETDNSProvided" {
+  count                                       = var.PSQLSubnetId == "unspecified" && var.PSQLPrivateDNSZoneId == "unspecified" ? 1 : 0
   name                                        = "${azurerm_private_dns_zone.psqlflexdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
   private_dns_zone_name                       = azurerm_private_dns_zone.psqlflexdnszone[0].name
+  virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw[0].id
+  resource_group_name                         = var.RgName
+}
+
+
+resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet_NoVNetProvided" {
+  count                                       = var.PSQLSubnetId != "unspecified" && var.PSQLPrivateDNSZoneId == "unspecified" ? 1 : 0
+  name                                        = "${azurerm_private_dns_zone.psqlflexdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
+  private_dns_zone_name                       = azurerm_private_dns_zone.psqlflexdnszone[0].name
+  virtual_network_id                          =  var.PSQLSubnetId
+  resource_group_name                         = var.RgName
+}
+
+
+resource "azurerm_private_dns_zone_virtual_network_link" "PVDNSLinkToPsqlVNet_NoDNSProvided" {
+  count                                       = var.PSQLSubnetId == "unspecified" && var.PSQLPrivateDNSZoneId != "unspecified" ? 1 : 0
+  name                                        = "${azurerm_private_dns_zone.psqlflexdnszone[0].name}_to_${azurerm_virtual_network.psqlflexiblentw[0].name}"
+  private_dns_zone_name                       = var.PSQLPrivateDNSZoneId
   virtual_network_id                          = azurerm_virtual_network.psqlflexiblentw[0].id
   resource_group_name                         = var.RgName
 }
