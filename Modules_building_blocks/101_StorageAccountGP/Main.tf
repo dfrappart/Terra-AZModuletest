@@ -133,7 +133,7 @@ resource "azurerm_monitor_diagnostic_setting" "STABlobDiag_ToLAW" {
 resource "azurerm_storage_account_network_rules" "STANTWDefaultRule" {
   storage_account_id = azurerm_storage_account.STOA.id
 
-  default_action                       = "Deny"
+  default_action                       = var.STANTWRuleDefaultAction
   ip_rules                             = var.AllowedIPList
   virtual_network_subnet_ids           = var.AllowedSubnetIdList
   bypass                               = var.ByPassConfig
