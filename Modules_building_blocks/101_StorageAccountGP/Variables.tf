@@ -213,3 +213,10 @@ variable "ByPassConfig" {
   description                           = " Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
   default                               = ["Logging","Metrics"]
 }
+
+
+variable "STANTWRuleDefaultAction" {
+  type                                  = "string"
+  description                           = "Specifies the default action of allow or deny when no other rules match. Valid options are Deny or Allow."
+  default                               = "Deny"
+}
