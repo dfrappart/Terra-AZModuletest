@@ -216,7 +216,7 @@ variable "ByPassConfig" {
 
 
 variable "STANTWRuleDefaultAction" {
-  type                                  = "string"
+  type                                  = string
   description                           = "Specifies the default action of allow or deny when no other rules match. Valid options are Deny or Allow."
   default                               = "Deny"
 }
