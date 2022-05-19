@@ -18,11 +18,10 @@ resource "azurerm_virtual_network" "SpokeVNet" {
 
 #Diagnostic settings on VNet
 
-resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
+resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiagtoSTA" {
   name                                  = "diag-tosta-${azurerm_virtual_network.SpokeVNet.name}"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
   storage_account_id                    = var.STALogId
-  #log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   dynamic "log" {
     for_each = var.VNetLogCategories
@@ -51,10 +50,9 @@ resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
 }
 
 
-resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
+resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiagToLaw" {
   name                                  = "diag-tolaw-${azurerm_virtual_network.SpokeVNet.name}"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
-  #storage_account_id                    = var.STALogId
   log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
 
   dynamic "log" {
