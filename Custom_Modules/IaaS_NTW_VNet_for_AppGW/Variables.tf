@@ -183,7 +183,7 @@ variable "VNetLogCategories" {
 
                                           "Category1" = {
                                             LogCatName                = "VMProtectionAlerts"
-                                            IsLogCatEnabledForLAW     = false
+                                            IsLogCatEnabledForLAW     = true
                                             IsLogCatEnabledForSTA     = true
                                             IsRetentionEnabled        = true
                                             RetentionDaysValue        = 365
