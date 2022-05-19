@@ -24,8 +24,8 @@ output "VNetFullOutput" {
 
 # Subnet Bastion
 
-output "AzureBastionSubnetFullOutput" {
-  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0] : local.defaultsubnetoutput
+output "AzureBastionSubnetFullId" {
+  value                       = var.IsBastionEnabled ? azurerm_subnet.AzBastionmanagedSubnet[0].id : "No bastion enabled"
   sensitive                   = false
 }
 
