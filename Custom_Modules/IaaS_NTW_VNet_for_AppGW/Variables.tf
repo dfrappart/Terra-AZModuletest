@@ -206,7 +206,7 @@ variable "VNetMetricCategories" {
 
                                           "Metric1" = {
                                             MetricCatName             = "AllMetrics"
-                                            IsMetricCatEnabledForLAW  = true
+                                            IsMetricCatEnabledForLAW  = false
                                             IsMetricCatEnabledForSTA  = true
                                             IsRetentionEnabled        = true
                                             RetentionDaysValue        = 365

@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "SpokeVNet" {
 #Diagnostic settings on VNet
 
 resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
-  name                                  = "diag-${azurerm_virtual_network.SpokeVNet.name}"
+  name                                  = "diag-tosta-${azurerm_virtual_network.SpokeVNet.name}"
   target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
   storage_account_id                    = var.STALogId
   #log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
@@ -50,6 +50,38 @@ resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
   }
 }
 
+
+resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiag" {
+  name                                  = "diag-tolaw-${azurerm_virtual_network.SpokeVNet.name}"
+  target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
+  #storage_account_id                    = var.STALogId
+  log_analytics_workspace_id            = data.azurerm_log_analytics_workspace.LawSubLog.id
+
+  dynamic "log" {
+    for_each = var.VNetLogCategories
+    content {
+      category                            = log.value.LogCatName
+      enabled                             = log.value.IsLogCatEnabledForLAW
+      retention_policy {
+        enabled                           = log.value.IsRetentionEnabled
+        days                              = log.value.RetentionDaysValue
+      }
+    } 
+  }
+
+  dynamic "metric" {
+    for_each = var.VNetMetricCategories
+
+    content {
+      category                            = metric.value.MetricCatName
+      enabled                             = metric.value.IsMetricCatEnabledForLAW
+      retention_policy {
+        enabled                           = metric.value.IsRetentionEnabled
+        days                              = metric.value.RetentionDaysValue
+      }    
+    }
+  }
+}
 
 ###################################################################################
 ############################## Subnets & NSG ######################################
