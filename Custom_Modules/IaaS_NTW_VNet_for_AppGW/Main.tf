@@ -750,7 +750,7 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut"
 
 resource "azurerm_public_ip" "BastionPublicIP" {
   count                                 = var.IsBastionEnabled ? 1 : 0
-  name                                  = "bst-pubip"
+  name                                  = "bst-pubip${lower(var.VNetSuffix)}"
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
   allocation_method                     = "Static"
