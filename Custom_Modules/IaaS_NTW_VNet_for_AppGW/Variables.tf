@@ -85,6 +85,27 @@ variable "IsBastionEnabled" {
 }
 
 ######################################################
+# Bastion features
+
+variable "BastionSku" {
+  type          = string
+  default       = "standard"
+  description   = "The SKU of the Bastion Host. Accepted values are Basic and Standard"
+}
+
+variable "BastionTunnelingEnabled" {
+  type          = bool
+  default       = true
+  description   = "Is Tunneling feature enabled for the Bastion Host. Defaults to false."
+}
+
+variable "BastionFileCopyEnabled" {
+  type          = bool
+  default       = true
+  description   = "Is File Copy feature enabled for the Bastion Host. Defaults to false."
+}
+
+######################################################
 # Bastion activation
 
 variable "IsTrafficAnalyticsEnabled" {

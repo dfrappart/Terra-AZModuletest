@@ -814,6 +814,9 @@ resource "azurerm_bastion_host" "SpokeBastion" {
   name                                  = "bst${lower(var.VNetSuffix)}"
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
+  sku                                   = var.BastionSku
+  tunneling_enabled                     = var.BastionTunnelingEnabled
+  file_copy_enabled                     = var.BastionFileCopyEnabled
 
   ip_configuration {
     name                                = "bst-ipconfig${lower(var.VNetSuffix)}"
