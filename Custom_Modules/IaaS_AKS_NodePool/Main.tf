@@ -11,6 +11,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "AKSNodePool" {
       node_count,
       orchestrator_version,
       linux_os_config,
+      kubelet_config,
       tags
     ]
   }
