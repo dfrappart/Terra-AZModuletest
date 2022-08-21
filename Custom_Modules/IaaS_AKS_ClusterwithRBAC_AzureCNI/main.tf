@@ -117,8 +117,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   private_cluster_public_fqdn_enabled     = var.PrivateClusterPublicFqdn
   local_account_disabled                  = var.LocalAccountDisabled
 
-  automatic_channel_upgrade               = var.AutoUpgradeChannelConfig 
-
+  automatic_channel_upgrade               = var.AutoUpgradeChannelConfig
 
   api_server_authorized_ip_ranges         = var.APIAccessList
 
@@ -146,7 +145,9 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   disk_encryption_set_id                  = var.AKSDiskEncryptionId
 
+  oidc_issuer_enabled                     = var.IsOIDCIssuerEnabled
 
+  run_command_enabled                     = var.IsRunCommandEnabled
 
   identity {
     type                                  = var.AKSIdentityType
@@ -160,9 +161,9 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     for_each = var.IsKubeletUsingUAI ? ["fake"] : []
 
     content {
-      client_id                             = var.KubeletClientId
-      object_id                             = var.KubeletObjectId
-      user_assigned_identity_id             = var.KubeletUAIId
+      client_id                           = var.KubeletClientId
+      object_id                           = var.KubeletObjectId
+      user_assigned_identity_id           = var.KubeletUAIId
     }
 
   }
@@ -240,6 +241,14 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     
   }
 
+  dynamic "microsoft_defender" {
+    for_each = local.IsDefenderEnabled ? ["fake"] : []
+
+    content {
+      log_analytics_workspace_id          = local.LawDefenderId
+    }
+    
+  }
 
   open_service_mesh_enabled             = var.IsOpenServiceMeshEnabled
     
@@ -266,96 +275,6 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
 ################################################################
 # Diagnostic settings resource
-/*
-resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
-  name                                  = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}diag"
-  target_resource_id                    = azurerm_kubernetes_cluster.AKSRBACCNI.id
-  storage_account_id                    = var.STASubLogId
-  log_analytics_workspace_id            = var.LawSubLogId
-
-  log {
-    category                            = "kube-apiserver"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "kube-controller-manager"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "kube-scheduler"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "kube-audit"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "cluster-autoscaler"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "kube-audit-admin"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "guard"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  log {
-    category                            = "cloud-controller-manager"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    } 
-  }
-
-  metric {
-    category                            = "AllMetrics"
-    enabled                             = true
-    retention_policy {
-      enabled                           = true
-      days                              = 365
-    }    
-
-  }
-}
-*/
 
 resource "azurerm_monitor_diagnostic_setting" "AKSDiagToSTA" {
 
