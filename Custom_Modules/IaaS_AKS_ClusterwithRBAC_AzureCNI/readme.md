@@ -1,542 +1,193 @@
-
-# AKS Cluster Azure CNI module
-
-## Module description
-
-This module allows the deployment of an AKS cluster with:
-
-- RBAC Enable
-- Managed Azure AD integration
-- Azure CNI Networking
-
-It includes configuration for:
-
-- The AKS cluster resource
-- The associate diagnostic settings
-- Azure Monitor Alerts
-
-Azure Monitor alerts rely on a existing Azure Action Group.
-There is a delay between the cluster provisioning and the availability of the Azure monitor metric from the namespace `Insights.Container`. Thus those alert are not configured in this module.
-Diagnostic settings logs are sent to a storage account and a log analytic workspace.
-
-### Module inputs
-
-| Variable name | Variable type | Default value | Description |
-|:--------------|:--------------|:--------------|:------------|
-| LawSubLogId | string | N/A | ID of the log analytics workspace containing the logs |
-| STASubLogId | string | N/A | Id of the storage account containing the logs |
-| AKSLocation | string | westeurope | The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created. |
-| AKSClusSuffix | string | AksClus | A suffix to identify the cluster without breacking the naming convention. Changing this will change the name so forces a new resource to be created. |
-| AKSRGName | string | N/A | Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. |
-| AKSNodeInstanceType | string | "standard_d2s_v4" | The size of the Virtual Machine, such as Standard_DS2_v2. |
-| AKSAZ | list | ["1","2","3"] | A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created. |
-| EnableAKSAutoScale | string | true | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. |
-| EnableHostEncryption | string | true | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false. |
-| EnableNodePublicIP | string | null | Define if Nodes get Public IP. Default API value is false |
-| NodePoolWithFIPSEnabled | string | null | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. |
-| AKSMaxPods | string | 100 | Define the max pod number per nodes, Change force new resoure to be created |
-| AKSNodeLabels | map | null | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. |
-| AKSNodeTaints | list | null | A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created. |
-| AKSNodeOSDiskSize | string | 127 | The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created. |
-| AKSSubnetId | string | N/A | The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. |
-| MaxAutoScaleCount | string | 10 | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 |
-| MinAutoScaleCount | string | 2 | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 |
-| AKSNodeCount | string | 3 | The number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. |
-| KubeVersion | string | null | The version of Kube, used for Node pool version but also for Control plane version |
-| KubeletDiskType | string | null | The type of disk used by kubelet. At this time the only possible value is OS. |
-| TaintCriticalAddonsEnabled | string | null | Enabling this option will taint default node pool with CriticalAddonsOnly=true:NoSchedule taint. Changing this forces a new resource to be created. |
-| AKSNodeOSDiskType | string | null | The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created. |
-| AKSNodeOSSku | string | null | OsSKU to be used to specify Linux OSType. Not applicable to Windows OSType. Possible values include: Ubuntu, CBLMariner. Defaults to Ubuntu. Changing this forces a new resource to be created. |
-| AKSNodePodSubnetId | string | null | The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created. |
-| AKSNodeUltraSSDEnabled | string | null | Used to specify whether the UltraSSD is enabled in the Default Node Pool. Defaults to false. |
-| KubeletAllowedUnsafeSysctls | list(string) | null | Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created. |
-| KubeletContainerLogMaxLine | string | null | Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created. |
-| KubeletContainerLogMaxSize | string | null | Specifies the maximum size (e.g. 10MB) of container log file before it is rotated. Changing this forces a new resource to be created. |
-| KubeletCpuCfsQuotaEnabled | string | null | Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created. |
-| KubeletCpuCfsQuotaPeriod | string | null| Specifies the CPU CFS quota period value. Changing this forces a new resource to be created. |
-| KubeletCpuManagerPolicy | string | null | TSpecifies the CPU Manager policy to use. Possible values are none and static, Changing this forces a new resource to be created. |
-| KubeletImageGcHighThreshold | string | null | Specifies the percent of disk usage above which image garbage collection is always run. Must be between 0 and 100. Changing this forces a new resource to be created. |
-| KubeletImageGcLowThreshold | string | null | pecifies the percent of disk usage lower than which image garbage collection is never run. Must be between 0 and 100. Changing this forces a new resource to be created. |
-| KubeletPodMaxPid | string | null | Specifies the maximum number of processes per pod. Changing this forces a new resource to be created. |
-| KubeletTopologyManagerPolicy | string | null | Specifies the Topology Manager policy to use. Possible values are none, best-effort, restricted or single-numa-node. Changing this forces a new resource to be created. |
-| LinuxOSConfigSwapFileSize | string | null | Specifies the size of swap file on each node in MB. Changing this forces a new resource to be created. |
-| LinuxOSConfigTransparentHugePageDefrag | string | null | Specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created. |
-| LinuxOSConfigTransparentHugePageEnabled | string | null | Specifies the Transparent Huge Page enabled configuration. Possible values are always, madvise and never. Changing this forces a new resource to be created. |
-| SysCtlFsAioMaxNr | string | null | The sysctl setting fs.aio-max-nr. Must be between 65536 and 6553500. Changing this forces a new resource to be created. |
-| SysCtlFsFileMax | string | null | The sysctl setting fs.file-max. Must be between 8192 and 12000500. Changing this forces a new resource to be created. |
-| SysCtlFsInotifyMaxUserWatches | string | null | The sysctl setting fs.inotify.max_user_watches. Must be between 781250 and 2097152. Changing this forces a new resource to be created. |
-| SysCtlFsNrOpen | string | null | The sysctl setting fs.nr_open. Must be between 8192 and 20000500. Changing this forces a new resource to be created. |
-| SysCtlKernelThreadsMax | string | null | The sysctl setting kernel.threads-max. Must be between 20 and 513785. Changing this forces a new resource to be created. |
-| SysCtlNetCoredevMaxBacklog | string | null | The sysctl setting net.core.netdev_max_backlog. Must be between 1000 and 3240000. Changing this forces a new resource to be created. |
-| SysCtlNetCoreOptmemMax | string | null | The sysctl setting net.core.optmem_max. Must be between 20480 and 4194304. Changing this forces a new resource to be created. |
-| SysCtlNetCoreRmemDefault | string | null | The sysctl setting net.core.rmem_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created. |
-| SysCtlNetCoreRmemMax | string | null | The sysctl setting net.core.rmem_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created. |
-| SysCtlNetCoreSomaxconn | string | null | The sysctl setting net.core.somaxconn. Must be between 4096 and 3240000. Changing this forces a new resource to be created. |
-| SysCtlNetCoreWmemDefault | string | null | The sysctl setting net.core.wmem_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created. |
-| SysCtlNetCoreWmemMax | string | null | The sysctl setting net.core.wmem_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4IpLocalPortRangeMax | string | null | The sysctl setting net.ipv4.ip_local_port_range max value. Must be between 1024 and 60999. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4IpLocalPortRangeMin | string | null | The sysctl setting net.ipv4.ip_local_port_range min value. Must be between 1024 and 60999. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NeighDefaultGcThreshold1 | string | null | The sysctl setting net.ipv4.neigh.default.gc_thresh1. Must be between 128 and 80000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NeighDefaultGcThreshold2 | string | null | The sysctl setting net.ipv4.neigh.default.gc_thresh2. Must be between 512 and 90000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NeighDefaultGcThreshold3 | string | null | The sysctl setting net.ipv4.neigh.default.gc_thresh3. Must be between 512 and 90000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpFinTimeOut | string | null | The sysctl setting net.ipv4.tcp_fin_timeout. Must be between 5 and 120. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpKeepAliveIntvl | string | null | The sysctl setting net.ipv4.tcp_keepalive_intvl. Must be between 10 and 75. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpKeepAliveProbes | string | null | The sysctl setting net.ipv4.tcp_keepalive_probes. Must be between 1 and 15. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpKeepAliveTime | string | null | The sysctl setting net.ipv4.tcp_keepalive_time. Must be between 30 and 432000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpMaxSynBacklog | string | null | The sysctl setting net.ipv4.tcp_max_syn_backlog. Must be between 128 and 3240000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpMaxTwBuckets | string | null | The sysctl setting net.ipv4.tcp_max_tw_buckets. Must be between 8000 and 1440000. Changing this forces a new resource to be created. |
-| SysCtlNetIpv4NTcpMaxTwReuse | string | null | The sysctl setting net.ipv4.tcp_tw_reuse. Changing this forces a new resource to be created. |
-| SysCtlNetfilterNfConntrackBuckets | string | null | The sysctl setting net.netfilter.nf_conntrack_max. Must be between 131072 and 589824. Changing this forces a new resource to be created. |
-| SysCtlNetfilterNfConntrackMax | string | null | The sysctl setting net.netfilter.nf_conntrack_max. Must be between 131072 and 589824. Changing this forces a new resource to be created. |
-| SysCtlVmMaxMapCount | string | null | The sysctl setting vm.max_map_count. Must be between 65530 and 262144. Changing this forces a new resource to be created. |
-| SysCtlVmSwapiness | string | null | The sysctl setting vm.swappiness. Must be between 0 and 100. Changing this forces a new resource to be created. |
-| SysCtlVmVfsCachePressure | string | null | The sysctl setting vm.vfs_cache_pressure. Must be between 0 and 100. Changing this forces a new resource to be created. |
-| APIAccessList | list(string) | null | The IP ranges to whitelist for incoming traffic to the masters. |
-| AutoUpgradeChannelConfig | string | "none" | The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none. |
-| AutoScaleProfilBalanceSimilarNdGP | string | null | Detect similar node groups and balance the number of nodes between them. Defaults to false. |
-| AutoScaleProfilMaxGracefullTerm | string | null | Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to 600. |
-| AutoScaleProfilScaleDownAfterAdd | string | null | How long after the scale up of AKS nodes the scale down evaluation resumes. Defaults to 10m. |
-| AutoScaleProfilScaleDownAfterDelete | string | null | How long after node deletion that scale down evaluation resumes. Defaults to the value used for scan_interval. |
-| AutoScaleProfilScaleDownAfterFail | string | null | How long after scale down failure that scale down evaluation resumes. Defaults to 3m. |
-| AutoScaleProfilScanInterval | string | null | How often the AKS Cluster should be re-evaluated for scale up/down. Defaults to 10s. |
-| AutoScaleProfilScaleDownUnneeded | string | null | How long a node should be unneeded before it is eligible for scale down. Defaults to 10m. |
-| AutoScaleProfilScaleDownUnready | string | null | How long an unready node should be unneeded before it is eligible for scale down. Defaults to 20m. |
-| AutoScaleProfilScaleDownUtilThreshold | string | null | Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. Defaults to 0.5. |
-| AutoScaleProfilExpander | string | null | Expander to use. Possible values are least-waste, priority, most-pods and random. Defaults to random. |
-| AutoscaleProfilMaxNodeProvTime | string | null | Maximum time the autoscaler waits for a node to be provisioned. Defaults to 15m. |
-| AutoscaleProfilMaxUnreadyNodes | string | null | Maximum Number of allowed unready nodes. Defaults to 3. |
-| AutoscaleProfilMaxUnreadyPercentage | string | null | Maximum percentage of unready nodes the cluster autoscaler will stop if the percentage is exceeded. Defaults to 45. |
-| AutoscaleProfilNewPodScaleUpDelay | string | null | For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. Defaults to 10s. |
-| AutoscaleProfilEmptyBulkDeleteMax | string | null | Maximum number of empty nodes that can be deleted at the same time. Defaults to 10. |
-| AutoscaleProfilSkipNodesWLocalStorage | string | null | If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true. |
-| AutoscaleProfilSkipNodeWithSystemPods | string | null | If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to true. |
-| AKSDiskEncryptionId | string | null | the encryption id to encrypted nodes disk. Default to null to use Azure managed encryption. |
-| LocalAccountDisabled | string | null | Is local account disabled for AAD integrated kubernetes cluster? |
-| AKSAdminName | string | "AKSAdmin" | The Admin Username for the Cluster. Changing this forces a new resource to be created. |
-| PublicSSHKey | string | N/A | An ssh_key block. Only one is currently allowed. Changing this forces a new resource to be created. |
-| AKSNetworkPlugin | string | "azure" | Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created. |
-| AKSNetworkDNS | string | null | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. |
-| AKSDockerBridgeCIDR | string | null | IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created. |
-| AKSOutboundType | string | null | The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer. |
-| AKSPodCIDR | string | null | The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet. Changing this forces a new resource to be created. |
-| AKSSVCCIDR | string | null | The Network Range used by the Kubernetes service. Changing this forces a new resource to be created. |
-| AKSLBSku | string | null | Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are Basic and Standard. Defaults to Standard. |
-| AKSNetPolProvider | string | calico | Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. |
-| AKSLBOutboundPortsAllocated | string | null | Number of desired SNAT port for each VM in the clusters load balancer. Must be between 0 and 64000 inclusive. Defaults to 0. |
-| AKSLBIdleTimeout | string | null | Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive. Defaults to 30. |
-| AKSLBOutboundIPCount | string | null | Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive. |
-| AKSLBOutboundIPPrefixIds | list | null | The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer. |
-| AKSLBOutboundIPAddressIds | list | null | The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer. |
-| AKSNodesRG | string | "unspecified" | The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created.|
-| UseAKSNodeRGDefaultName | string | false | This variable is used to define if the default name for the node rg is used, default to false, which allows to either use the name provided bu AKSNodeRG or the local in locals.tf |
-| IsAKSPrivate | string | null | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created.|
-| PrivateDNSZoneId | string | null | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. |
-| PrivateClusterPublicFqdn | string | null | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. |
-| IsAGICEnabled | bool | false | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? |
-| AGWId | string | null | The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster. |
-| AGWName | string | null | The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.|
-| AGWSubnetCidr | string | null | The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. |
-| AGWSubnetId | string | null | The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. |
-| AKSIdentityType | string | "SystemAssigned" | The type of identity used for the managed cluster. Possible values are SystemAssigned and UserAssigned. If UserAssigned is set, a user_assigned_identity_id must be set as well. |
-| UAIId | string | null | The ID of a user assigned identity. |
-| AKSClusterAdminsIds | list | null | A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster.|
-| AKSControlPlaneSku | string | null | The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid (which includes the Uptime SLA). Defaults to Free. Note: It is currently possible to upgrade in place from Free to Paid. However, changing this value from Paid to Free will force a new resource to be created. |
-| IsAzPolicyEnabled | string | false | Is the Azure Policy for Kubernetes Add On enabled? |
-| IshttproutingEnabled | string | false | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. |
-| IsKubeDashboardEnabled | string | true | Is the Kubernetes Dashboard enabled? |
-| IsOMSAgentEnabled | string | true | Is the OMS Agent enabled? |
-| ACG1Id | string | N/A | Resource Id of the action group used for alerting with Azure Alert rules |
-| ResourceOwnerTag | string | That would be me | Tag describing the owner |
-| CountryTag | string | fr | Tag describing the Country |
-| CostCenterTag | string | lab | Tag describing the Cost Center |
-| Company | string | dfitc | The Company owner of the resource |
-| Project | string | tfmodule | The name of the project |
-| Environment | string | dev | The environment, dev, prod... |
-| extra_tags | map | {} | Additional optional tags. |
-
-### Module outputs
-
-| Output name | Value | Description |
-|:------------|:------------|:------|
-| FullAKS | `azurerm_kubernetes_cluster.TerraAKSwithRBAC` | Send all the resource infromation available in the output. In future version, this may be the only output and detailed informtion will probably be queried specifically from the root module |
-| KubeName | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.name` | The name of the resource |
-| KubeLocation | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.location` |The location of the AKS Cluster |
-| KubeRG | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.resource_group_name` | The resource group for AKS |
-| KubeVersion | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubernetes_version` |The version of AKS |
-| KubeId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.id` |The AKS resource ID |
-| KubeFQDN | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.fqdn` |AKS public fqdn |
-| KubeAdminCFGRaw | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config_raw` | Kubernetes raw information - Sensitive information |
-| KubeAdminCFG | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config` | kubernetes admin config - sensitive information |
-| KubeAdminCFG_UserName | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.username` |AKS admin name |
-| KubeAdminCFG_HostName | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.host` | AKS hostname |
-| KubeAdminCFG_Password |  `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.password` |AKS Admin Password - Sensitive information |
-| KubeAdminCFG_ClientKey | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_key` |AKS Admin Key - Sensitive information |
-| KubeAdminCFG_ClientCertificate | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.client_certificate` |AKS Admin Certificate - Sensitive information |
-| KubeAdminCFG_ClusCACert | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kube_admin_config.0.cluster_ca_certificate` | AKS Cluster CA Certificate - Sensitive information |  
-| KubeControlPlane_SAI | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity` | AKS Control plane Managed Identity block|
-| KubeControlPlane_SAI_PrincipalId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].principal_id` |AKS Control plane Managed Identity principal Id |
-| KubeControlPlane_SAI_TenantId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.identity[0].tenant_id` | AKS Control plane Managed Identity Tenant Id |
-| KubeKubelet_UAI | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity` | User Assigned Identity block for the Kubelet |
-| KubeKubelet_UAI_ClientId | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].client_id` |User Assigned Identity for kubelet principal Id |  
-| KubeKubelet_UAI_ObjectId |  `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].object_id` | User Assigned Identity for kubelet object Id |
-| KubeKubelet_UAI_Id | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.kubelet_identity[0].user_assigned_identity_id` | User Assigned Identity for kubelet resource Id |
-| NodeRG | `azurerm_kubernetes_cluster.TerraAKSwithRBAC.node_resource_group` | The name of the resource group containing the nodes and other related AKS resources such as UAI and LB... |
-
-## Exemple configuration
-
-Deploy the following to have a working AKS cluster:
-
-```bash
-
-
-######################################################################
-# Module for RG AKS Cluster Control plane
-
-module "ResourceGroupAKS" {
-
-  #Module Location
-  source                                = "github.com/dfrappart/Terra-AZModuletest//Modules_building_blocks//003_ResourceGroup/"
-  #Module variable    
-  RGSuffix                              = "aks"
-  RGLocation                            = var.RGLocation
-  ResourceOwnerTag                      = var.ResourceOwnerTag
-  CountryTag                            = var.CountryTag
-  CostCenterTag                         = var.CostCenterTag
-  Company                               = var.Company
-  Project                               = var.Project
-  Environment                           = var.Environment
-
-
-}
-
-######################################################################
-# Module for AKS
-
-module "AKS1" {
-  #Module Location
-  source                                  = "github.com/dfrappart/Terra-AZModuletest//Custom_Modules//IaaS_AKS_ClusterwithRBAC_Kubenet/"
-
-  #Module variable
-  LawSubLogId                             = data.azurerm_log_analytics_workspace.LAWLogName.id
-  STASubLogId                             = data.azurerm_storage_account.STALogName.id
-  AKSLocation                             = module.ResourceGroupAKS.RGLocation
-  AKSRGName                               = module.ResourceGroupAKS.RGName
-  AKSSubnetId                             = data.azurerm_subnet.AKSSubnet.id
-  APIAccessList                           = var.APIAccessList
-  PublicSSHKey                            = data.azurerm_key_vault_secret.AKSPubKey.value
-  AKSClusterAdminsIds                     = [var.AKSClusterAdminsIds]
-  AKSNodeInstanceType                     = var.AKSNodeInstanceType
-  IsAzPolicyEnabled                       = var.IsAzPolicyEnabled
-  AKSNodeOSDiskSize                       = var.AKSDefaultNodePoolOSDiskSize
-  ResourceOwnerTag                        = var.ResourceOwnerTag
-  CountryTag                              = var.CountryTag
-  CostCenterTag                           = var.CostCenterTag
-  Company                                 = var.Company
-  Project                                 = var.Project
-  Environment                             = var.Environment
-
-}
-
-```
-
-## Sample display
-
-terraform plan should gives the following output:
-
-```powershell
-
-PS C:\Users\user1\Documents\IaC\Azure\Terra-AZModuletest\Tests\RG> terraform plan
-module.ResourceGroup.azurerm_resource_group.TerraRG: Refreshing state... [id=/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rsg-lab-1]
-
-An execution plan has been generated and is shown below.  
-Resource actions are indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-  # module.AKS1.azurerm_kubernetes_cluster.TerraAKSwithRBAC will be created
-  + resource "azurerm_kubernetes_cluster" "TerraAKSwithRBAC" {
-      + dns_prefix              = "aksaksdev"
-      + fqdn                    = (known after apply)
-      + id                      = (known after apply)
-      + kube_admin_config       = (known after apply)
-      + kube_admin_config_raw   = (sensitive value)  
-      + kube_config             = (known after apply)
-      + kube_config_raw         = (sensitive value)  
-      + kubelet_identity        = (known after apply)
-      + kubernetes_version      = (known after apply)
-      + location                = "westeurope"
-      + name                    = "aks-dfitcfr-dev-aks"
-      + node_resource_group     = "rsg-dfitcfr-dev-aks-aksobjects"
-      + private_cluster_enabled = (known after apply)
-      + private_fqdn            = (known after apply)
-      + private_link_enabled    = (known after apply)
-      + resource_group_name     = "rsg-lab-1"        
-      + sku_tier                = "Free"
-      + tags                    = {
-          + "CostCenter"      = "labtf"
-          + "Country"         = "fr"    
-          + "Environment"     = "dev"
-          + "ManagedBy"       = "Terraform"
-          + "ResourceOwner"   = "david@teknews.cloud"
-        }
-
-      + addon_profile {
-
-          + azure_policy {
-              + enabled = false
-            }
-
-          + http_application_routing {
-              + enabled                            = false
-              + http_application_routing_zone_name = (known after apply)
-            }
-
-          + kube_dashboard {
-              + enabled = true
-            }
-
-          + oms_agent {
-              + enabled                    = true
-              + log_analytics_workspace_id = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rsg-dffr-lab-subsetup-log/providers/Microsoft.OperationalInsights/workspaces/law-dffr-lab-subsetup-log49816259"
-              + oms_agent_identity         = (known after apply)
-            }
-        }
-
-      + auto_scaler_profile {
-          + balance_similar_node_groups      = false
-          + max_graceful_termination_sec     = (known after apply)
-          + new_pod_scale_up_delay           = (known after apply)
-          + scale_down_delay_after_add       = (known after apply)
-          + scale_down_delay_after_delete    = (known after apply)
-          + scale_down_delay_after_failure   = (known after apply)
-          + scale_down_unneeded              = (known after apply)
-          + scale_down_unready               = (known after apply)
-          + scale_down_utilization_threshold = (known after apply)
-          + scan_interval                    = (known after apply)
-        }
-
-      + default_node_pool {
-          + availability_zones   = [
-              + "1",
-              + "2",
-              + "3",
-            ]
-          + enable_auto_scaling  = true
-          + max_count            = 10
-          + max_pods             = 100
-          + min_count            = 2
-          + name                 = "aksnp0devaks"
-          + node_count           = 3
-          + orchestrator_version = (known after apply)
-          + os_disk_size_gb      = 127
-          + os_disk_type         = "Managed"
-          + tags                 = {
-              + "AKSNodePool"     = "aksnp0devaks"
-              + "CostCenter"      = "labtf"
-              + "Country"         = "fr"
-              + "Environment"     = "dev"
-              + "ManagedBy"       = "Terraform"
-              + "ResourceOwner"   = "david@teknews.cloud"
-            }
-          + type                 = "VirtualMachineScaleSets"
-          + vm_size              = "Standard_DS2_v2"
-          + vnet_subnet_id       = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rsg-vnet/providers/Microsoft.Network/virtualNetworks/vnet-aks/subnets/aks-subnet"
-        }
-
-      + identity {
-          + principal_id = (known after apply)
-          + tenant_id    = (known after apply)
-          + type         = "SystemAssigned"
-        }
-
-      + linux_profile {
-          + admin_username = "AKSAdmin"
-
-          + ssh_key {
-              + key_data = "ssh-rsa AAAAB..."
-            }
-        }
-
-      + network_profile {
-          + dns_service_ip     = (known after apply)
-          + docker_bridge_cidr = (known after apply)
-          + load_balancer_sku  = "standard"
-          + network_mode       = (known after apply)
-          + network_plugin     = "kubenet"
-          + network_policy     = "calico"
-          + outbound_type      = "loadBalancer"
-          + pod_cidr           = (known after apply)
-          + service_cidr       = (known after apply)
-
-          + load_balancer_profile {
-              + effective_outbound_ips    = (known after apply)
-              + idle_timeout_in_minutes   = (known after apply)
-              + managed_outbound_ip_count = (known after apply)
-              + outbound_ip_address_ids   = (known after apply)
-              + outbound_ip_prefix_ids    = (known after apply)
-              + outbound_ports_allocated  = (known after apply)
-            }
-        }
-
-      + role_based_access_control {
-          + enabled = true
-
-          + azure_active_directory {
-              + admin_group_object_ids = [
-                  + "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxc",
-                ]
-              + managed                = true
-              + tenant_id              = (known after apply)
-            }
-        }
-
-      + windows_profile {
-          + admin_password = (sensitive value)
-          + admin_username = (known after apply)
-        }
-    }
-
-  # module.AKS1.azurerm_monitor_diagnostic_setting.AKSDiag will be created
-  + resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
-      + id                         = (known after apply)
-      + log_analytics_workspace_id = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rsg-dffr-lab-subsetup-log/providers/Microsoft.OperationalInsights/workspaces/law-dffr-lab-subsetup-log49816259"
-      + name                       = "aks-dfitcfr-dev-aksdiag"
-      + storage_account_id         = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rsg-dffr-lab-subsetup-log/providers/Microsoft.Storage/storageAccounts/stdffrlab49816259log"
-      + target_resource_id         = (known after apply)
-
-      + log {
-          + category = "cluster-autoscaler"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "guard"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "kube-apiserver"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "kube-audit"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "kube-audit-admin"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "kube-controller-manager"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-      + log {
-          + category = "kube-scheduler"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-
-      + metric {
-          + category = "AllMetrics"
-          + enabled  = true
-
-          + retention_policy {
-              + days    = 365
-              + enabled = true
-            }
-        }
-    }
-
-Plan: 2 to add, 0 to change, 0 to destroy.
-
-------------------------------------------------------------------------
-
-Note: You didn't specify an "-out" parameter to save this plan, so Terraform
-can't guarantee that exactly these actions will be performed if
-"terraform apply" is subsequently run.
-
-```
-
-Output should be simmilar to this:
-
-```powershell
-
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
-
-Outputs:
-
-KubeAdminCFG = <sensitive>
-KubeAdminCFGRaw = <sensitive>
-KubeAdminCFG_ClientCertificate = <sensitive>
-KubeAdminCFG_ClientKey = <sensitive>
-KubeAdminCFG_ClusCACert = <sensitive>
-KubeAdminCFG_HostName = <sensitive>
-KubeAdminCFG_Password = <sensitive>
-KubeAdminCFG_UserName = <sensitive>
-KubeControlPlane_SAI = <sensitive>
-KubeControlPlane_SAI_PrincipalId = <sensitive>
-KubeControlPlane_SAI_TenantId = <sensitive>
-KubeFQDN = "aksaksdev-6f33411e.hcp.westeurope.azmk8s.io"
-KubeId = <sensitive>
-KubeKubelet_UAI = <sensitive>
-KubeKubelet_UAI_ClientId = <sensitive>
-KubeKubelet_UAI_Id = <sensitive>
-KubeKubelet_UAI_ObjectId = <sensitive>
-KubeLocation = "westeurope"
-KubeName = "aks-dfitcfr-dev-aks"
-KubeRG = "rsg-lab-1"
-KubeVersion = "1.18.14"
-RGId = <sensitive>
-RGLocation = "westeurope"
-RGName = "rsg-lab-1"
-
-```
-
-## Sample deployment
-
-After deployment, something simlilar is visible in the portal:
-
-![Illustration 1](./Img/aks001.png)
-
-![Illustration 2](./Img/aks002.png)
-
-![Illustration 3](./Img/aks003.png)
-
-![Illustration 4](./Img/aks004.png)
-
-![Illustration 5](./Img/aks005.png)
-
-![Illustration 6](./Img/aks006.png)
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_kubernetes_cluster.AKSRBACCNI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
+| [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
+| [azurerm_monitor_diagnostic_setting.AKSDiagToLAW](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.AKSDiagToSTA](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_metric_alert.NodeCPUPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.NodeDiskPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.NodeWorkingSetMemoryPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.UnschedulablePodCountThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_role_assignment.MSToMonitorPublisher](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_ACGIds"></a> [ACGIds](#input\_ACGIds) | A list of Action GroupResource Id | `list` | `[]` | no |
+| <a name="input_AGWId"></a> [AGWId](#input\_AGWId) | The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_AGWName"></a> [AGWName](#input\_AGWName) | The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_AGWSubnetCidr"></a> [AGWSubnetCidr](#input\_AGWSubnetCidr) | The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_AGWSubnetId"></a> [AGWSubnetId](#input\_AGWSubnetId) | The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_AKSAZ"></a> [AKSAZ](#input\_AKSAZ) | A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created. | `list(string)` | <pre>[<br>  "1",<br>  "2",<br>  "3"<br>]</pre> | no |
+| <a name="input_AKSAdminName"></a> [AKSAdminName](#input\_AKSAdminName) | The Admin Username for the Cluster. Changing this forces a new resource to be created. | `string` | `"AKSAdmin"` | no |
+| <a name="input_AKSClusSuffix"></a> [AKSClusSuffix](#input\_AKSClusSuffix) | A suffix to identify the cluster without breacking the naming convention. Changing this will change the name so forces a new resource to be created. | `string` | `"AksClus"` | no |
+| <a name="input_AKSClusterAdminsIds"></a> [AKSClusterAdminsIds](#input\_AKSClusterAdminsIds) | A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster. | `list(string)` | n/a | yes |
+| <a name="input_AKSControlPlaneSku"></a> [AKSControlPlaneSku](#input\_AKSControlPlaneSku) | The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid (which includes the Uptime SLA). Defaults to Free. Note: It is currently possible to upgrade in place from Free to Paid. However, changing this value from Paid to Free will force a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSDiskEncryptionId"></a> [AKSDiskEncryptionId](#input\_AKSDiskEncryptionId) | The encryption id to encrypted nodes disk. Default to null to use Azure managed encryption. | `string` | `null` | no |
+| <a name="input_AKSDockerBridgeCIDR"></a> [AKSDockerBridgeCIDR](#input\_AKSDockerBridgeCIDR) | (Required) Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSIdentityType"></a> [AKSIdentityType](#input\_AKSIdentityType) | Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both). | `string` | `"SystemAssigned"` | no |
+| <a name="input_AKSLBIdleTimeout"></a> [AKSLBIdleTimeout](#input\_AKSLBIdleTimeout) | Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive. Defaults to 30. | `string` | `null` | no |
+| <a name="input_AKSLBOutboundIPAddressIds"></a> [AKSLBOutboundIPAddressIds](#input\_AKSLBOutboundIPAddressIds) | The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer. | `list` | `null` | no |
+| <a name="input_AKSLBOutboundIPCount"></a> [AKSLBOutboundIPCount](#input\_AKSLBOutboundIPCount) | Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive. | `string` | `2` | no |
+| <a name="input_AKSLBOutboundIPPrefixIds"></a> [AKSLBOutboundIPPrefixIds](#input\_AKSLBOutboundIPPrefixIds) | The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer. | `list` | `null` | no |
+| <a name="input_AKSLBOutboundPortsAllocated"></a> [AKSLBOutboundPortsAllocated](#input\_AKSLBOutboundPortsAllocated) | Number of desired SNAT port for each VM in the clusters load balancer. Must be between 0 and 64000 inclusive. Defaults to 0. | `string` | `null` | no |
+| <a name="input_AKSLBSku"></a> [AKSLBSku](#input\_AKSLBSku) | Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are Basic and Standard. Defaults to Standard. | `string` | `"standard"` | no |
+| <a name="input_AKSLocation"></a> [AKSLocation](#input\_AKSLocation) | The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created. | `string` | `"westeurope"` | no |
+| <a name="input_AKSMaxPods"></a> [AKSMaxPods](#input\_AKSMaxPods) | Define the max pod number per nodes, Change force new resoure to be created | `string` | `100` | no |
+| <a name="input_AKSNetPolProvider"></a> [AKSNetPolProvider](#input\_AKSNetPolProvider) | Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. | `string` | `"calico"` | no |
+| <a name="input_AKSNetworkDNS"></a> [AKSNetworkDNS](#input\_AKSNetworkDNS) | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSNetworkPlugin"></a> [AKSNetworkPlugin](#input\_AKSNetworkPlugin) | Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created. | `string` | `"azure"` | no |
+| <a name="input_AKSNodeCount"></a> [AKSNodeCount](#input\_AKSNodeCount) | The number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `3` | no |
+| <a name="input_AKSNodeInstanceType"></a> [AKSNodeInstanceType](#input\_AKSNodeInstanceType) | The size of the Virtual Machine, such as Standard\_DS2\_v2. | `string` | `"standard_d2s_v4"` | no |
+| <a name="input_AKSNodeLabels"></a> [AKSNodeLabels](#input\_AKSNodeLabels) | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. | `map` | `null` | no |
+| <a name="input_AKSNodeOSDiskSize"></a> [AKSNodeOSDiskSize](#input\_AKSNodeOSDiskSize) | The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created. | `string` | `127` | no |
+| <a name="input_AKSNodeOSDiskType"></a> [AKSNodeOSDiskType](#input\_AKSNodeOSDiskType) | The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSNodeOSSku"></a> [AKSNodeOSSku](#input\_AKSNodeOSSku) | OsSKU to be used to specify Linux OSType. Not applicable to Windows OSType. Possible values include: Ubuntu, CBLMariner. Defaults to Ubuntu. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSNodePodSubnetId"></a> [AKSNodePodSubnetId](#input\_AKSNodePodSubnetId) | The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSNodeTaints"></a> [AKSNodeTaints](#input\_AKSNodeTaints) | A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created. | `list` | `null` | no |
+| <a name="input_AKSNodeUltraSSDEnabled"></a> [AKSNodeUltraSSDEnabled](#input\_AKSNodeUltraSSDEnabled) | Used to specify whether the UltraSSD is enabled in the Default Node Pool. Defaults to false. | `string` | `null` | no |
+| <a name="input_AKSNodesRG"></a> [AKSNodesRG](#input\_AKSNodesRG) | The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created. If set to unspecified, the name is build from a local | `string` | `"unspecified"` | no |
+| <a name="input_AKSOutboundType"></a> [AKSOutboundType](#input\_AKSOutboundType) | The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer. | `string` | `null` | no |
+| <a name="input_AKSPodCIDR"></a> [AKSPodCIDR](#input\_AKSPodCIDR) | The CIDR to use for pod IP addresses. This field can only be set when network\_plugin is set to kubenet. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSRGName"></a> [AKSRGName](#input\_AKSRGName) | Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
+| <a name="input_AKSSVCCIDR"></a> [AKSSVCCIDR](#input\_AKSSVCCIDR) | The Network Range used by the Kubernetes service. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSSubnetId"></a> [AKSSubnetId](#input\_AKSSubnetId) | The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
+| <a name="input_APIAccessList"></a> [APIAccessList](#input\_APIAccessList) | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
+| <a name="input_AutoScaleProfilBalanceSimilarNdGP"></a> [AutoScaleProfilBalanceSimilarNdGP](#input\_AutoScaleProfilBalanceSimilarNdGP) | Detect similar node groups and balance the number of nodes between them. Defaults to false. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilExpander"></a> [AutoScaleProfilExpander](#input\_AutoScaleProfilExpander) | Expander to use. Possible values are least-waste, priority, most-pods and random. Defaults to random. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilMaxGracefullTerm"></a> [AutoScaleProfilMaxGracefullTerm](#input\_AutoScaleProfilMaxGracefullTerm) | Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to 600. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownAfterAdd"></a> [AutoScaleProfilScaleDownAfterAdd](#input\_AutoScaleProfilScaleDownAfterAdd) | How long after the scale up of AKS nodes the scale down evaluation resumes. Defaults to 10m. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownAfterDelete"></a> [AutoScaleProfilScaleDownAfterDelete](#input\_AutoScaleProfilScaleDownAfterDelete) | How long after node deletion that scale down evaluation resumes. Defaults to the value used for scan\_interval. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownAfterFail"></a> [AutoScaleProfilScaleDownAfterFail](#input\_AutoScaleProfilScaleDownAfterFail) | How long after scale down failure that scale down evaluation resumes. Defaults to 3m. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownUnneeded"></a> [AutoScaleProfilScaleDownUnneeded](#input\_AutoScaleProfilScaleDownUnneeded) | How long a node should be unneeded before it is eligible for scale down. Defaults to 10m. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownUnready"></a> [AutoScaleProfilScaleDownUnready](#input\_AutoScaleProfilScaleDownUnready) | How long an unready node should be unneeded before it is eligible for scale down. Defaults to 20m. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScaleDownUtilThreshold"></a> [AutoScaleProfilScaleDownUtilThreshold](#input\_AutoScaleProfilScaleDownUtilThreshold) | Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. Defaults to 0.5. | `string` | `null` | no |
+| <a name="input_AutoScaleProfilScanInterval"></a> [AutoScaleProfilScanInterval](#input\_AutoScaleProfilScanInterval) | How often the AKS Cluster should be re-evaluated for scale up/down. Defaults to 10s. | `string` | `null` | no |
+| <a name="input_AutoUpgradeChannelConfig"></a> [AutoUpgradeChannelConfig](#input\_AutoUpgradeChannelConfig) | The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilEmptyBulkDeleteMax"></a> [AutoscaleProfilEmptyBulkDeleteMax](#input\_AutoscaleProfilEmptyBulkDeleteMax) | Maximum number of empty nodes that can be deleted at the same time. Defaults to 10. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilMaxNodeProvTime"></a> [AutoscaleProfilMaxNodeProvTime](#input\_AutoscaleProfilMaxNodeProvTime) | Maximum time the autoscaler waits for a node to be provisioned. Defaults to 15m. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilMaxUnreadyNodes"></a> [AutoscaleProfilMaxUnreadyNodes](#input\_AutoscaleProfilMaxUnreadyNodes) | Maximum Number of allowed unready nodes. Defaults to 3. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilMaxUnreadyPercentage"></a> [AutoscaleProfilMaxUnreadyPercentage](#input\_AutoscaleProfilMaxUnreadyPercentage) | Maximum percentage of unready nodes the cluster autoscaler will stop if the percentage is exceeded. Defaults to 45. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilNewPodScaleUpDelay"></a> [AutoscaleProfilNewPodScaleUpDelay](#input\_AutoscaleProfilNewPodScaleUpDelay) | For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. Defaults to 10s. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilSkipNodeWithSystemPods"></a> [AutoscaleProfilSkipNodeWithSystemPods](#input\_AutoscaleProfilSkipNodeWithSystemPods) | If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to true. | `string` | `null` | no |
+| <a name="input_AutoscaleProfilSkipNodesWLocalStorage"></a> [AutoscaleProfilSkipNodesWLocalStorage](#input\_AutoscaleProfilSkipNodesWLocalStorage) | If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true. | `string` | `null` | no |
+| <a name="input_CSIKVSecretRotationEnabled"></a> [CSIKVSecretRotationEnabled](#input\_CSIKVSecretRotationEnabled) | Is rotation from the KV secret enabled? | `bool` | `false` | no |
+| <a name="input_CSIKVSecretRotationInterval"></a> [CSIKVSecretRotationInterval](#input\_CSIKVSecretRotationInterval) | The interval to poll for secret rotation. This attribute is only set when secret\_rotation is true and defaults to 2m. | `string` | `"2m"` | no |
+| <a name="input_Company"></a> [Company](#input\_Company) | The Company owner of the resources | `string` | `"dfitc"` | no |
+| <a name="input_CostCenterTag"></a> [CostCenterTag](#input\_CostCenterTag) | Tag describing the Cost Center | `string` | `"lab"` | no |
+| <a name="input_CountryTag"></a> [CountryTag](#input\_CountryTag) | Tag describing the Country | `string` | `"fr"` | no |
+| <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwne": "That could be me"<br>}</pre> | no |
+| <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
+| <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false. | `string` | `null` | no |
+| <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
+| <a name="input_Environment"></a> [Environment](#input\_Environment) | The environment, dev, prod... | `string` | `"dev"` | no |
+| <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
+| <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
+| <a name="input_IsAzPolicyEnabled"></a> [IsAzPolicyEnabled](#input\_IsAzPolicyEnabled) | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `true` | no |
+| <a name="input_IsCSIKVAddonEnabled"></a> [IsCSIKVAddonEnabled](#input\_IsCSIKVAddonEnabled) | Is the CSI driver for KV enabled? | `bool` | `false` | no |
+| <a name="input_IsKubeletUsingUAI"></a> [IsKubeletUsingUAI](#input\_IsKubeletUsingUAI) | A boolean used to activate the block for kubelent identity | `bool` | `true` | no |
+| <a name="input_IsOMSAgentEnabled"></a> [IsOMSAgentEnabled](#input\_IsOMSAgentEnabled) | Is Container Insight enabled? | `bool` | `true` | no |
+| <a name="input_IsOpenServiceMeshEnabled"></a> [IsOpenServiceMeshEnabled](#input\_IsOpenServiceMeshEnabled) | Is Open Service Mesh enabled? | `bool` | `false` | no |
+| <a name="input_IshttproutingEnabled"></a> [IshttproutingEnabled](#input\_IshttproutingEnabled) | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. | `bool` | `false` | no |
+| <a name="input_KubeVersion"></a> [KubeVersion](#input\_KubeVersion) | The version of Kube, used for Node pool version but also for Control plane version | `string` | `null` | no |
+| <a name="input_KubeletAllowedUnsafeSysctls"></a> [KubeletAllowedUnsafeSysctls](#input\_KubeletAllowedUnsafeSysctls) | Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created. | `list(string)` | `null` | no |
+| <a name="input_KubeletClientId"></a> [KubeletClientId](#input\_KubeletClientId) | Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both). | `string` | `null` | no |
+| <a name="input_KubeletContainerLogMaxLine"></a> [KubeletContainerLogMaxLine](#input\_KubeletContainerLogMaxLine) | Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletContainerLogMaxSize"></a> [KubeletContainerLogMaxSize](#input\_KubeletContainerLogMaxSize) | Specifies the maximum size (e.g. 10MB) of container log file before it is rotated. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletCpuCfsQuotaEnabled"></a> [KubeletCpuCfsQuotaEnabled](#input\_KubeletCpuCfsQuotaEnabled) | Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletCpuCfsQuotaPeriod"></a> [KubeletCpuCfsQuotaPeriod](#input\_KubeletCpuCfsQuotaPeriod) | Specifies the CPU CFS quota period value. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletCpuManagerPolicy"></a> [KubeletCpuManagerPolicy](#input\_KubeletCpuManagerPolicy) | Specifies the CPU Manager policy to use. Possible values are none and static, Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletDiskType"></a> [KubeletDiskType](#input\_KubeletDiskType) | The type of disk used by kubelet. At this time the only possible value is OS. | `string` | `null` | no |
+| <a name="input_KubeletImageGcHighThreshold"></a> [KubeletImageGcHighThreshold](#input\_KubeletImageGcHighThreshold) | Specifies the percent of disk usage above which image garbage collection is always run. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletImageGcLowThreshold"></a> [KubeletImageGcLowThreshold](#input\_KubeletImageGcLowThreshold) | Specifies the percent of disk usage lower than which image garbage collection is never run. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletObjectId"></a> [KubeletObjectId](#input\_KubeletObjectId) | Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_KubeletPodMaxPid"></a> [KubeletPodMaxPid](#input\_KubeletPodMaxPid) | Specifies the maximum number of processes per pod. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletTopologyManagerPolicy"></a> [KubeletTopologyManagerPolicy](#input\_KubeletTopologyManagerPolicy) | Specifies the Topology Manager policy to use. Possible values are none, best-effort, restricted or single-numa-node. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_KubeletUAIId"></a> [KubeletUAIId](#input\_KubeletUAIId) | Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster. | `string` | `null` | no |
+| <a name="input_LawLogId"></a> [LawLogId](#input\_LawLogId) | ID of the log analytics workspace containing the logs | `string` | `"unspecified"` | no |
+| <a name="input_LinuxOSConfigSwapFileSize"></a> [LinuxOSConfigSwapFileSize](#input\_LinuxOSConfigSwapFileSize) | Specifies the size of swap file on each node in MB. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_LinuxOSConfigTransparentHugePageDefrag"></a> [LinuxOSConfigTransparentHugePageDefrag](#input\_LinuxOSConfigTransparentHugePageDefrag) | Specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_LinuxOSConfigTransparentHugePageEnabled"></a> [LinuxOSConfigTransparentHugePageEnabled](#input\_LinuxOSConfigTransparentHugePageEnabled) | Specifies the Transparent Huge Page enabled configuration. Possible values are always, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `string` | `null` | no |
+| <a name="input_LogCategory"></a> [LogCategory](#input\_LogCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    #LogCatName            = string<br>    IsLogCatEnabledForLAW = bool<br>    IsLogCatEnabledForSTA = bool<br>    IsRetentionEnabled    = bool<br>    RetentionDaysValue    = number<br>  }))</pre> | <pre>{<br>  "cloud-controller-manager": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "cluster-autoscaler": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "guard": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-apiserver": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit-admin": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-controller-manager": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-scheduler": {<br>    "IsLogCatEnabledForLAW": true,<br>    "IsLogCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
+| <a name="input_MaxAutoScaleCount"></a> [MaxAutoScaleCount](#input\_MaxAutoScaleCount) | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 | `string` | `10` | no |
+| <a name="input_MetricCategory"></a> [MetricCategory](#input\_MetricCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    MetricCatName            = string<br>    IsMetricCatEnabledForLAW = bool<br>    IsMetricCatEnabledForSTA = bool<br>    IsRetentionEnabled       = bool<br>    RetentionDaysValue       = number<br>  }))</pre> | <pre>{<br>  "Category1": {<br>    "IsMetricCatEnabledForLAW": false,<br>    "IsMetricCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "MetricCatName": "AllMetrics",<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
+| <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
+| <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. | `bool` | `null` | no |
+| <a name="input_PrivateDNSZoneId"></a> [PrivateDNSZoneId](#input\_PrivateDNSZoneId) | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. | `string` | `null` | no |
+| <a name="input_Project"></a> [Project](#input\_Project) | The name of the project | `string` | `"tfmodule"` | no |
+| <a name="input_PublicSSHKey"></a> [PublicSSHKey](#input\_PublicSSHKey) | An ssh\_key block. Only one is currently allowed. Changing this forces a new resource to be created. | `string` | n/a | yes |
+| <a name="input_ResourceOwnerTag"></a> [ResourceOwnerTag](#input\_ResourceOwnerTag) | Tag describing the owner | `string` | `"That would be me"` | no |
+| <a name="input_STALogId"></a> [STALogId](#input\_STALogId) | Id of the storage account containing the logs | `string` | `"unspecified"` | no |
+| <a name="input_SysCtlFsAioMaxNr"></a> [SysCtlFsAioMaxNr](#input\_SysCtlFsAioMaxNr) | The sysctl setting fs.aio-max-nr. Must be between 65536 and 6553500. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlFsFileMax"></a> [SysCtlFsFileMax](#input\_SysCtlFsFileMax) | The sysctl setting fs.file-max. Must be between 8192 and 12000500. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlFsInotifyMaxUserWatches"></a> [SysCtlFsInotifyMaxUserWatches](#input\_SysCtlFsInotifyMaxUserWatches) | The sysctl setting fs.inotify.max\_user\_watches. Must be between 781250 and 2097152. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlFsNrOpen"></a> [SysCtlFsNrOpen](#input\_SysCtlFsNrOpen) | The sysctl setting fs.nr\_open. Must be between 8192 and 20000500. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlKernelThreadsMax"></a> [SysCtlKernelThreadsMax](#input\_SysCtlKernelThreadsMax) | The sysctl setting kernel.threads-max. Must be between 20 and 513785. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreOptmemMax"></a> [SysCtlNetCoreOptmemMax](#input\_SysCtlNetCoreOptmemMax) | The sysctl setting net.core.optmem\_max. Must be between 20480 and 4194304. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreRmemDefault"></a> [SysCtlNetCoreRmemDefault](#input\_SysCtlNetCoreRmemDefault) | The sysctl setting net.core.rmem\_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreRmemMax"></a> [SysCtlNetCoreRmemMax](#input\_SysCtlNetCoreRmemMax) | The sysctl setting net.core.rmem\_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreSomaxconn"></a> [SysCtlNetCoreSomaxconn](#input\_SysCtlNetCoreSomaxconn) | The sysctl setting net.core.somaxconn. Must be between 4096 and 3240000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreWmemDefault"></a> [SysCtlNetCoreWmemDefault](#input\_SysCtlNetCoreWmemDefault) | The sysctl setting net.core.wmem\_default. Must be between 212992 and 134217728. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoreWmemMax"></a> [SysCtlNetCoreWmemMax](#input\_SysCtlNetCoreWmemMax) | The sysctl setting net.core.wmem\_max. Must be between 212992 and 134217728. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetCoredevMaxBacklog"></a> [SysCtlNetCoredevMaxBacklog](#input\_SysCtlNetCoredevMaxBacklog) | The sysctl setting net.core.netdev\_max\_backlog. Must be between 1000 and 3240000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4IpLocalPortRangeMax"></a> [SysCtlNetIpv4IpLocalPortRangeMax](#input\_SysCtlNetIpv4IpLocalPortRangeMax) | The sysctl setting net.ipv4.ip\_local\_port\_range max value. Must be between 1024 and 60999. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4IpLocalPortRangeMin"></a> [SysCtlNetIpv4IpLocalPortRangeMin](#input\_SysCtlNetIpv4IpLocalPortRangeMin) | The sysctl setting net.ipv4.ip\_local\_port\_range min value. Must be between 1024 and 60999. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpFinTimeOut"></a> [SysCtlNetIpv4NTcpFinTimeOut](#input\_SysCtlNetIpv4NTcpFinTimeOut) | The sysctl setting net.ipv4.tcp\_fin\_timeout. Must be between 5 and 120. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpKeepAliveIntvl"></a> [SysCtlNetIpv4NTcpKeepAliveIntvl](#input\_SysCtlNetIpv4NTcpKeepAliveIntvl) | The sysctl setting net.ipv4.tcp\_keepalive\_intvl. Must be between 10 and 75. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpKeepAliveProbes"></a> [SysCtlNetIpv4NTcpKeepAliveProbes](#input\_SysCtlNetIpv4NTcpKeepAliveProbes) | The sysctl setting net.ipv4.tcp\_keepalive\_probes. Must be between 1 and 15. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpKeepAliveTime"></a> [SysCtlNetIpv4NTcpKeepAliveTime](#input\_SysCtlNetIpv4NTcpKeepAliveTime) | The sysctl setting net.ipv4.tcp\_keepalive\_time. Must be between 30 and 432000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpMaxSynBacklog"></a> [SysCtlNetIpv4NTcpMaxSynBacklog](#input\_SysCtlNetIpv4NTcpMaxSynBacklog) | The sysctl setting net.ipv4.tcp\_max\_syn\_backlog. Must be between 128 and 3240000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpMaxTwBuckets"></a> [SysCtlNetIpv4NTcpMaxTwBuckets](#input\_SysCtlNetIpv4NTcpMaxTwBuckets) | The sysctl setting net.ipv4.tcp\_max\_tw\_buckets. Must be between 8000 and 1440000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NTcpMaxTwReuse"></a> [SysCtlNetIpv4NTcpMaxTwReuse](#input\_SysCtlNetIpv4NTcpMaxTwReuse) | The sysctl setting net.ipv4.tcp\_tw\_reuse. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NeighDefaultGcThreshold1"></a> [SysCtlNetIpv4NeighDefaultGcThreshold1](#input\_SysCtlNetIpv4NeighDefaultGcThreshold1) | The sysctl setting net.ipv4.neigh.default.gc\_thresh1. Must be between 128 and 80000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NeighDefaultGcThreshold2"></a> [SysCtlNetIpv4NeighDefaultGcThreshold2](#input\_SysCtlNetIpv4NeighDefaultGcThreshold2) | The sysctl setting net.ipv4.neigh.default.gc\_thresh2. Must be between 512 and 90000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetIpv4NeighDefaultGcThreshold3"></a> [SysCtlNetIpv4NeighDefaultGcThreshold3](#input\_SysCtlNetIpv4NeighDefaultGcThreshold3) | The sysctl setting net.ipv4.neigh.default.gc\_thresh3. Must be between 512 and 90000. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetfilterNfConntrackBuckets"></a> [SysCtlNetfilterNfConntrackBuckets](#input\_SysCtlNetfilterNfConntrackBuckets) | The sysctl setting net.netfilter.nf\_conntrack\_max. Must be between 131072 and 589824. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlNetfilterNfConntrackMax"></a> [SysCtlNetfilterNfConntrackMax](#input\_SysCtlNetfilterNfConntrackMax) | The sysctl setting net.netfilter.nf\_conntrack\_max. Must be between 131072 and 589824. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlVmMaxMapCount"></a> [SysCtlVmMaxMapCount](#input\_SysCtlVmMaxMapCount) | The sysctl setting vm.max\_map\_count. Must be between 65530 and 262144. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlVmSwapiness"></a> [SysCtlVmSwapiness](#input\_SysCtlVmSwapiness) | The sysctl setting vm.swappiness. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_SysCtlVmVfsCachePressure"></a> [SysCtlVmVfsCachePressure](#input\_SysCtlVmVfsCachePressure) | The sysctl setting vm.vfs\_cache\_pressure. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_TaintCriticalAddonsEnabled"></a> [TaintCriticalAddonsEnabled](#input\_TaintCriticalAddonsEnabled) | Enabling this option will taint default node pool with CriticalAddonsOnly=true:NoSchedule taint. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_UAIIds"></a> [UAIIds](#input\_UAIIds) | Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster. | `list` | `null` | no |
+| <a name="input_UseAKSNodeRGDefaultName"></a> [UseAKSNodeRGDefaultName](#input\_UseAKSNodeRGDefaultName) | This variable is used to define if the default name for the node rg is used, default to false, which allows to either use the name provided bu AKSNodeRG or the local in locals.tf | `string` | `false` | no |
+| <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional optional tags. | `map` | `{}` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_FullAKS"></a> [FullAKS](#output\_FullAKS) | Full output of the cluster, just in case |
+| <a name="output_KubeControlPlane_SAI"></a> [KubeControlPlane\_SAI](#output\_KubeControlPlane\_SAI) | The Identity block for the control plane |
+| <a name="output_KubeControlPlane_SAI_PrincipalId"></a> [KubeControlPlane\_SAI\_PrincipalId](#output\_KubeControlPlane\_SAI\_PrincipalId) | Client Id of the AKS control plane. This is this guid that is used to assign rbac role to AKS control plane, such as acces to network operation or dns attachment... |
+| <a name="output_KubeControlPlane_SAI_TenantId"></a> [KubeControlPlane\_SAI\_TenantId](#output\_KubeControlPlane\_SAI\_TenantId) | The tenant id in which the control plane identity lives |
+| <a name="output_KubeFQDN"></a> [KubeFQDN](#output\_KubeFQDN) | Cluster fully qualified domain name |
+| <a name="output_KubeId"></a> [KubeId](#output\_KubeId) | The resource Id of the cluster |
+| <a name="output_KubeKubelet_UAI"></a> [KubeKubelet\_UAI](#output\_KubeKubelet\_UAI) | The Kubelet Identity block |
+| <a name="output_KubeKubelet_UAI_ClientId"></a> [KubeKubelet\_UAI\_ClientId](#output\_KubeKubelet\_UAI\_ClientId) | Client Id of the Kubelet Identity. This is usually this guid that is used for RBAC assignment to kubelet |
+| <a name="output_KubeKubelet_UAI_Id"></a> [KubeKubelet\_UAI\_Id](#output\_KubeKubelet\_UAI\_Id) | n/a |
+| <a name="output_KubeKubelet_UAI_ObjectId"></a> [KubeKubelet\_UAI\_ObjectId](#output\_KubeKubelet\_UAI\_ObjectId) | Object Id of the Kubelet Identity |
+| <a name="output_KubeLocation"></a> [KubeLocation](#output\_KubeLocation) | The location of the cluster |
+| <a name="output_KubeName"></a> [KubeName](#output\_KubeName) | The name of the cluster |
+| <a name="output_KubeRG"></a> [KubeRG](#output\_KubeRG) | The resource group containing the control plane of the cluster |
+| <a name="output_KubeVersion"></a> [KubeVersion](#output\_KubeVersion) | The version of kubernetes |
+| <a name="output_NodeRG"></a> [NodeRG](#output\_NodeRG) | Resource group containing the managed Azure resources of the AKS cluster |

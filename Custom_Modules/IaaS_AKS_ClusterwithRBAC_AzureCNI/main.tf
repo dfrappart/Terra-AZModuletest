@@ -105,7 +105,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
     only_critical_addons_enabled          = var.TaintCriticalAddonsEnabled 
 
-    tags = merge(local.DefaultTags, var.extra_tags)
+    tags = local.DefaultTags
 
   }
 
@@ -155,7 +155,17 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   kubernetes_version                      = var.KubeVersion
 
+  dynamic "kubelet_identity" {
 
+    for_each = var.IsKubeletUsingUAI ? ["fake"] : []
+
+    content {
+      client_id                             = var.KubeletClientId
+      object_id                             = var.KubeletObjectId
+      user_assigned_identity_id             = var.KubeletUAIId
+    }
+
+  }
 
   linux_profile {
     admin_username                        = var.AKSAdminName
@@ -221,9 +231,13 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   }
 
-  oms_agent {
+  dynamic "oms_agent" {
+    for_each = local.IsOMSAgentEnabled ? ["fake"] : []
 
-    log_analytics_workspace_id          = var.IsOMSAgentEnabled ? var.LawSubLogId : null
+    content {
+      log_analytics_workspace_id          = var.LawLogId
+    }
+    
   }
 
 
@@ -246,13 +260,13 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   
 
-  tags = merge(local.DefaultTags, var.extra_tags) 
+  tags = local.DefaultTags
 }
 
 
 ################################################################
 # Diagnostic settings resource
-
+/*
 resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
   name                                  = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}diag"
   target_resource_id                    = azurerm_kubernetes_cluster.AKSRBACCNI.id
@@ -341,15 +355,96 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiag" {
 
   }
 }
+*/
 
+resource "azurerm_monitor_diagnostic_setting" "AKSDiagToSTA" {
+
+  count                          = var.STALogId == "unspecified" ? 0 : 1
+  name                           = "diag-tosta-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  target_resource_id             = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  storage_account_id             = var.STALogId
+  log_analytics_destination_type = null
+
+  dynamic "log" {
+    for_each = var.LogCategory
+
+    content {
+      category = log.key
+      enabled  = log.value.IsLogCatEnabledForSTA
+      retention_policy {
+        enabled = log.value.IsRetentionEnabled
+        days    = log.value.RetentionDaysValue
+      }
+    }
+
+  }
+
+
+  dynamic "metric" {
+    for_each = var.MetricCategory
+
+    content {
+      category = metric.key
+      enabled  = metric.value.IsMetricCatEnabledForSTA
+      retention_policy {
+        enabled = metric.value.IsRetentionEnabled
+        days    = metric.value.RetentionDaysValue
+      }
+    }
+
+  }
+
+}
+
+resource "azurerm_monitor_diagnostic_setting" "AKSDiagToLAW" {
+  count                          = var.LawLogId == "unspecified" ? 0 : 1
+  name                           = "diag-tolaw-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  target_resource_id             = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  log_analytics_workspace_id     = var.LawLogId
+  log_analytics_destination_type = "AzureDiagnostics"
+
+  dynamic "log" {
+    for_each = var.LogCategory
+
+    content {
+      category = log.key
+      enabled  = log.value.IsLogCatEnabledForLAW
+      retention_policy {
+        enabled = log.value.IsRetentionEnabled
+        days    = log.value.RetentionDaysValue
+      }
+    }
+
+  }
+
+
+  dynamic "metric" {
+    for_each = var.MetricCategory
+
+    content {
+      category = metric.key
+      enabled  = metric.value.IsMetricCatEnabledForLAW
+
+      retention_policy {
+        enabled = false
+        days    = 0
+      }
+    }
+
+  }
+
+}
 
 ######################################################################
 # Requirement for monitoring
 ######################################################################
+
 ######################################################################
 # Mapping OMS UAI to Azure monitor publisher role
 
 resource "azurerm_role_assignment" "MSToMonitorPublisher" {
+  count                               = local.IsOMSAgentEnabled ? 1 : 0
+
   scope                               = azurerm_kubernetes_cluster.AKSRBACCNI.id
   role_definition_name                = "Monitoring Metrics Publisher"
   principal_id                        = azurerm_kubernetes_cluster.AKSRBACCNI.oms_agent[0].oms_agent_identity[0].object_id
@@ -385,8 +480,14 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
   }
 
 
-  action {
-    action_group_id                           = var.ACG1Id
+  dynamic "action" {
+    for_each = toset(var.ACGIds)
+    iterator = each
+
+    content {
+      action_group_id = each.key
+    }
+
   }
 
 
@@ -396,7 +497,7 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
 
 
 
-  tags = merge(local.DefaultTags, var.extra_tags)
+  tags = local.DefaultTags
 
 }
 
@@ -423,8 +524,14 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
   }
 
 
-  action {
-    action_group_id                           = var.ACG1Id
+  dynamic "action" {
+    for_each = toset(var.ACGIds)
+    iterator = each
+
+    content {
+      action_group_id = each.key
+    }
+
   }
 
 
@@ -434,7 +541,7 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
 
 
 
-  tags = merge(local.DefaultTags, var.extra_tags)
+  tags = local.DefaultTags
 
 }
 
@@ -462,8 +569,14 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
   }
 
 
-  action {
-    action_group_id                           = var.ACG1Id
+  dynamic "action" {
+    for_each = toset(var.ACGIds)
+    iterator = each
+
+    content {
+      action_group_id = each.key
+    }
+
   }
 
 
@@ -473,7 +586,7 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
 
 
 
-  tags = merge(local.DefaultTags, var.extra_tags)
+  tags = local.DefaultTags
 
 }
 
@@ -500,8 +613,14 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
   }
 
 
-  action {
-    action_group_id                           = var.ACG1Id
+  dynamic "action" {
+    for_each = toset(var.ACGIds)
+    iterator = each
+
+    content {
+      action_group_id = each.key
+    }
+
   }
 
 
@@ -511,7 +630,7 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
 
 
 
-  tags = merge(local.DefaultTags, var.extra_tags)
+  tags = local.DefaultTags
 
 }
 
@@ -536,14 +655,20 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
   }
 
 
-  action {
-    action_group_id                           = var.ACG1Id
+  dynamic "action" {
+    for_each = toset(var.ACGIds)
+    iterator = each
+
+    content {
+      action_group_id = each.key
+    }
+
   }
 
 
 
 
-  tags = merge(local.DefaultTags, var.extra_tags)
+  tags = local.DefaultTags
 
 }
 

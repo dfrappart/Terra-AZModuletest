@@ -8,6 +8,7 @@ locals {
   DNSPrefix                             = "aks${lower(var.Project)}${lower(var.Environment)}"
   CustomNodeRGName                      = var.AKSNodesRG != "unspecified" ? var.AKSNodesRG : "rsg-${lower(var.Company)}${lower(var.CountryTag)}-${lower(var.Environment)}-${lower(var.Project)}-aksobjects${lower(var.AKSClusSuffix)}" 
   DefaultNodeRGName                     = null
+  IsOMSAgentEnabled                     = var.IsOMSAgentEnabled && var.LawLogId != "unspecified" ? true : false
 
   AGIC = {
     Enabled                             = var.IsAGICEnabled
@@ -17,13 +18,6 @@ locals {
     SubnetId                            = var.AGWSubnetId
   }
 
-  DefaultTags = tomap({
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  })
+  DefaultTags = merge(var.DefaultTags, var.extra_tags, {ManagedBy = "Terraform"})
 
 }

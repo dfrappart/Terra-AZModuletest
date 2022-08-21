@@ -5,14 +5,16 @@
 
 
 
-variable "LawSubLogId" {
-  type          = string
-  description   = "ID of the log analytics workspace containing the logs"
+variable "LawLogId" {
+  type                          = string
+  description                   = "ID of the log analytics workspace containing the logs"
+  default                       = "unspecified"
 }
 
-variable "STASubLogId" {
-  type          = string
-  description   = "Id of the storage account containing the logs"
+variable "STALogId" {
+  type                          = string
+  description                   = "Id of the storage account containing the logs"
+  default                       = "unspecified"
 }
 
 
@@ -672,7 +674,7 @@ variable "UseAKSNodeRGDefaultName" {
 # Spec for private cluster configuration
 
 variable "IsAKSPrivate" {
-  type                          = string
+  type                          = bool
   default                       = false
   description                   = "Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created."
 }
@@ -684,7 +686,7 @@ variable "PrivateDNSZoneId" {
 }
 
 variable "PrivateClusterPublicFqdn" {
-  type                          = string
+  type                          = bool
   default                       = null
   description                   = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false."
 }
@@ -737,6 +739,29 @@ variable "UAIIds" {
   description                   = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
 }
 
+variable "IsKubeletUsingUAI" {
+  type                          = bool
+  description                   = "A boolean used to activate the block for kubelent identity"
+  default                       = true
+}
+variable "KubeletClientId" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
+}
+
+variable "KubeletObjectId" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
+}
+
+variable "KubeletUAIId" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
+}
+
 ##############################################################
 # RBAC config
 
@@ -763,7 +788,7 @@ variable "AKSControlPlaneSku" {
 # Azure Policy addon
 
 variable "IsAzPolicyEnabled" {
-  type                          = string
+  type                          = bool
   default                       = true
   description                   = "Is the Azure Policy for Kubernetes Add On enabled? "
 
@@ -772,7 +797,7 @@ variable "IsAzPolicyEnabled" {
 # http application routing addon
 
 variable "IshttproutingEnabled" {
-  type                          = string
+  type                          = bool
   default                       = false
   description                   = "Is HTTP Application Routing Enabled? Changing this forces a new resource to be created."
 
@@ -806,6 +831,7 @@ variable "CSIKVSecretRotationInterval" {
 variable "IsOMSAgentEnabled" {
   type                          = bool
   default                       = true
+  description                   = "Is Container Insight enabled?"
 }
 
 # oms agent addon
@@ -820,12 +846,108 @@ variable "IsOpenServiceMeshEnabled" {
 ############### Monitoring Variable ##################
 ######################################################
 
-variable "ACG1Id" {
-  type        = string
-  description = "Resource Id of the action group used for alerting with Azure Alert rules"
+variable "ACGIds" {
+  type                                        = list
+  description                                 = "A list of Action GroupResource Id"
+  default                                     = []
 }
 
+variable "LogCategory" {
+  type = map(object({
+    #LogCatName            = string
+    IsLogCatEnabledForLAW = bool
+    IsLogCatEnabledForSTA = bool
+    IsRetentionEnabled    = bool
+    RetentionDaysValue    = number
+  }))
 
+  description = "A map to feed the log categories of the diagnostic settings"
+
+  default = {
+
+    "kube-apiserver" = {
+      #LogCatName            = "kube-apiserver"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "kube-controller-manager" = {
+      #LogCatName            = "kube-controller-manager"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "kube-scheduler" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "kube-audit" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "cluster-autoscaler" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "kube-audit-admin" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "guard" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "cloud-controller-manager" = {
+      #LogCatName            = "kube-scheduler"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+  }
+}
+
+variable "MetricCategory" {
+  type = map(object({
+    MetricCatName            = string
+    IsMetricCatEnabledForLAW = bool
+    IsMetricCatEnabledForSTA = bool
+    IsRetentionEnabled       = bool
+    RetentionDaysValue       = number
+  }))
+
+  description = "A map to feed the log categories of the diagnostic settings"
+
+  default = {
+
+    "Category1" = {
+      MetricCatName            = "AllMetrics"
+      IsMetricCatEnabledForLAW = false
+      IsMetricCatEnabledForSTA = true
+      IsRetentionEnabled       = true
+      RetentionDaysValue       = 365
+    }
+
+
+  }
+}
 
 ######################################################
 #Tag related variables and naming convention section
@@ -864,6 +986,19 @@ variable "Environment" {
   type          = string
   description   = "The environment, dev, prod..."
   default       = "dev"
+}
+
+variable "DefaultTags" {
+  type        = map
+  description = "Default Tags"
+  default     = {
+    Environment   = "dev"
+    Project       = "tfmodule"
+    Company       = "dfitc"
+    CostCenter    = "lab"
+    Country       = "fr"
+    ResourceOwne  = "That could be me"
+  }
 }
 
 variable "extra_tags" {

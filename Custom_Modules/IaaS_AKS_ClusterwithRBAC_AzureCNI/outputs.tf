@@ -7,115 +7,88 @@
 
 output "KubeName" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.name
+  description                               = "The name of the cluster"
 }
 
 output "KubeLocation" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.location
+  description                               = "The location of the cluster"
 }
 
 output "KubeRG" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.resource_group_name
+  description                               = "The resource group containing the control plane of the cluster"
 }
 
 output "KubeVersion" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kubernetes_version
+  description                               = "The version of kubernetes"
 }
 
 
 output "KubeId" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  description                               = "The resource Id of the cluster"
 }
 
 
 output "KubeFQDN" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.fqdn
+  description                               = "Cluster fully qualified domain name"
 }
-
-output "KubeAdminCFGRaw" {
-  sensitive                                 = true
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config_raw
-}
-
-
-output "KubeAdminCFG" {
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config
-}
-
-output "KubeAdminCFG_UserName" {
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.username
-}
-
-output "KubeAdminCFG_HostName" {
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.host
-}
-
-
-output "KubeAdminCFG_Password" {
-  sensitive                                 = true
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.password
-}
-
-
-output "KubeAdminCFG_ClientKey" {
-  sensitive                                 = true
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.client_key
-}
-
-
-output "KubeAdminCFG_ClientCertificate" {
-  sensitive                                 = true
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.client_certificate
-}
-
-output "KubeAdminCFG_ClusCACert" {
-  sensitive                                 = true
-  value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kube_admin_config.0.cluster_ca_certificate
-}
-
 
 output "KubeControlPlane_SAI" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.identity
+  description                               = "The Identity block for the control plane"
 }
 
 output "KubeControlPlane_SAI_PrincipalId" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.identity[0].principal_id
+  description                               = "Client Id of the AKS control plane. This is this guid that is used to assign rbac role to AKS control plane, such as acces to network operation or dns attachment... "
 }
 
 output "KubeControlPlane_SAI_TenantId" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.identity[0].tenant_id
+  description                               = "The tenant id in which the control plane identity lives"
 }
 
 output "KubeKubelet_UAI" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kubelet_identity
+  description                               = "The Kubelet Identity block"
 }
 
 output "KubeKubelet_UAI_ClientId" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kubelet_identity[0].client_id
+  description                               = "Client Id of the Kubelet Identity. This is usually this guid that is used for RBAC assignment to kubelet"
 }
 
 output "KubeKubelet_UAI_ObjectId" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kubelet_identity[0].object_id
+  description                               = "Object Id of the Kubelet Identity"
 }
 
 output "KubeKubelet_UAI_Id" {
   sensitive                                 = true
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.kubelet_identity[0].user_assigned_identity_id
+
 }
 
 
 output "NodeRG" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI.node_resource_group
+  description                               = "Resource group containing the managed Azure resources of the AKS cluster"
 }
 
 output "FullAKS" {
   value                                     = azurerm_kubernetes_cluster.AKSRBACCNI
   sensitive                                 = true
+  description                               = "Full output of the cluster, just in case"
 }
 
 
