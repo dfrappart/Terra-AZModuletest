@@ -7,13 +7,13 @@
 
 variable "LawLogId" {
   type                          = string
-  description                   = "ID of the log analytics workspace containing the logs"
+  description                   = "ID of the log analytics workspace containing the logs, if not specified, no diagnostic settings to log analytics is created"
   default                       = "unspecified"
 }
 
 variable "STALogId" {
   type                          = string
-  description                   = "Id of the storage account containing the logs"
+  description                   = "Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created"
   default                       = "unspecified"
 }
 
@@ -561,6 +561,18 @@ variable "LocalAccountDisabled" {
   description                   = "Is local account disabled for AAD integrated kubernetes cluster?"
 }
 
+variable "IsOIDCIssuerEnabled" {
+  type                          = bool
+  default                       = true
+  description                   = "Enable or Disable the OIDC issuer URL" 
+}
+
+variable "IsRunCommandEnabled" {
+  type                          = bool
+  default                       = true
+  description                   = "Whether to enable run command for the cluster or not. Defaults to true." 
+}
+
 ##############################################################
 # Linux profile config
 
@@ -834,7 +846,26 @@ variable "IsOMSAgentEnabled" {
   description                   = "Is Container Insight enabled?"
 }
 
-# oms agent addon
+variable "LawOMSId" {
+  type                          = string
+  default                       = "unspecified"
+  description                   = "The Id of the log analytics workspace for Container Insight, if not specified, locals will configure the same workspace as for diagnostic settings"
+}
+
+# defender addon
+
+variable "IsDefenderEnabled" {
+  type                          = bool
+  default                       = true
+  description                   = "Is Microsoft Defender enabled?"
+}
+
+variable "LawDefenderId" {
+  type                          = string
+  default                       = "unspecified"
+  description                   = "The Id of the log analytics workspace for Microsoft defender, if not specified, locals will configure the same workspace as for diagnostic settings"
+}
+# OSM addon
 
 variable "IsOpenServiceMeshEnabled" {
   type                          = bool
@@ -854,7 +885,6 @@ variable "ACGIds" {
 
 variable "LogCategory" {
   type = map(object({
-    #LogCatName            = string
     IsLogCatEnabledForLAW = bool
     IsLogCatEnabledForSTA = bool
     IsRetentionEnabled    = bool
@@ -866,61 +896,72 @@ variable "LogCategory" {
   default = {
 
     "kube-apiserver" = {
-      #LogCatName            = "kube-apiserver"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-controller-manager" = {
-      #LogCatName            = "kube-controller-manager"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-scheduler" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-audit" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "cluster-autoscaler" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-audit-admin" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "guard" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "cloud-controller-manager" = {
-      #LogCatName            = "kube-scheduler"
       IsLogCatEnabledForLAW = true
       IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
+    "csi-azuredisk-controller" = {
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "csi-azurefile-controller" = {
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+    "csi-snapshot-controller" = {
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
+    }
+
   }
 }
 
