@@ -556,7 +556,7 @@ variable "AKSDiskEncryptionId" {
 }
 
 variable "LocalAccountDisabled" {
-  type                          = string
+  type                          = bool
   default                       = null
   description                   = "Is local account disabled for AAD integrated kubernetes cluster?"
 }
@@ -593,7 +593,7 @@ variable "PublicSSHKey" {
 variable "AKSNetworkPlugin" {
   type                          = string
   default                       = "azure"
-  description                   = "Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
+  description                   = "Network plugin to use for networking. Currently supported values are azure, kubenet and none. Changing this forces a new resource to be created."
 }
 variable "AKSNetworkDNS" {
   type                          = string
@@ -604,7 +604,7 @@ variable "AKSNetworkDNS" {
 variable "AKSDockerBridgeCIDR" {
   type                          = string
   default                       = null
-  description                   = "(Required) Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
+  description                   = "IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
 }
 
 variable "AKSOutboundType" {
@@ -780,6 +780,12 @@ variable "KubeletUAIId" {
 variable "AKSClusterAdminsIds" {
   type                          = list(string)
   description                   = " A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster."
+}
+
+variable "AzureRBACEnabled" {
+  type                          = bool
+  description                   = "A bool to enable or disable Azure RBAC in Kubernetes. True means that Azure Role can be used to grant access inside kubernetes, false means that only Kubernetes roles and binding can be used to managed granular access inside kubernetes"
+  default                       = false
 }
 
 

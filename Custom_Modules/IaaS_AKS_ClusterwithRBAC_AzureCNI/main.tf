@@ -19,6 +19,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       default_node_pool[0].linux_os_config,
       #Ignore change on kubernetes version. It should not be
       kubernetes_version,
+      linux_profile,
+      network_profile
 
 
     ]
@@ -105,7 +107,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
     only_critical_addons_enabled          = var.TaintCriticalAddonsEnabled 
 
-    tags = local.DefaultTags
+    tags                                  = local.DefaultTags
 
   }
 
@@ -207,7 +209,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   azure_active_directory_role_based_access_control {
       managed                             = true
-      azure_rbac_enabled                  = true
+      azure_rbac_enabled                  = var.AzureRBACEnabled
       admin_group_object_ids              = var.AKSClusterAdminsIds
 
   }
