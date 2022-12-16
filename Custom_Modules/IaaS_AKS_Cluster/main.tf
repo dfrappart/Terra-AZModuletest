@@ -40,7 +40,6 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
     fips_enabled                          = var.NodePoolWithFIPSEnabled        
     max_pods                              = var.AKSMaxPods
     node_labels                           = var.AKSNodeLabels
-    node_taints                           = var.AKSNodeTaints
     os_disk_size_gb                       = var.AKSNodeOSDiskSize 
     os_disk_type                          = var.AKSNodeOSDiskType 
     vnet_subnet_id                        = var.AKSSubnetId

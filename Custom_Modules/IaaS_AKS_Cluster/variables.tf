@@ -92,12 +92,6 @@ variable "AKSNodeLabels" {
   description                   = "A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created."
 }
 
-variable "AKSNodeTaints" {
-  type                          = list
-  default                       = null
-  description                   = "A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created."
-}
-
 variable "AKSNodeOSDiskSize" {
   type                          = string
   default                       = 127
@@ -973,7 +967,6 @@ variable "LogCategory" {
 
 variable "MetricCategory" {
   type = map(object({
-    MetricCatName            = string
     IsMetricCatEnabledForLAW = bool
     IsMetricCatEnabledForSTA = bool
     IsRetentionEnabled       = bool
@@ -984,8 +977,7 @@ variable "MetricCategory" {
 
   default = {
 
-    "Category1" = {
-      MetricCatName            = "AllMetrics"
+    "AllMetrics" = {
       IsMetricCatEnabledForLAW = false
       IsMetricCatEnabledForSTA = true
       IsRetentionEnabled       = true
