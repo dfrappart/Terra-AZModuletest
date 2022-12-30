@@ -17,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       #Ignore change for some default node pool block
       default_node_pool[0].kubelet_config,
       default_node_pool[0].linux_os_config,
-      #Ignore change on kubernetes version. It should not be
+      #Ignore change on kubernetes version.
       kubernetes_version,
       linux_profile,
       network_profile
@@ -205,6 +205,15 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
   }
   
   role_based_access_control_enabled       = true
+
+  storage_profile {
+    blob_driver_enabled                   = var.IsBlobDriverEnabled
+    disk_driver_enabled                   = var.IsDiskDriverEnabled
+    disk_driver_version                   = var.DiskDriverVersion
+    file_driver_enabled                   = var.IsFileDriverEnabled
+    snapshot_controller_enabled           = var.IsSnapshotControllerEnabled
+
+  }
 
   azure_active_directory_role_based_access_control {
       managed                             = true
