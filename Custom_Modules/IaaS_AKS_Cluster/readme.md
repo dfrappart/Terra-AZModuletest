@@ -98,6 +98,7 @@ No modules.
 | <a name="input_CostCenterTag"></a> [CostCenterTag](#input\_CostCenterTag) | Tag describing the Cost Center | `string` | `"lab"` | no |
 | <a name="input_CountryTag"></a> [CountryTag](#input\_CountryTag) | Tag describing the Country | `string` | `"fr"` | no |
 | <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwne": "That could be me"<br>}</pre> | no |
+| <a name="input_DiskDriverVersion"></a> [DiskDriverVersion](#input\_DiskDriverVersion) | Disk CSI Driver version to be used. Possible values are v1 and v2. Defaults to v1. | `string` | `null` | no |
 | <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false. | `string` | `null` | no |
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
@@ -105,13 +106,17 @@ No modules.
 | <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
 | <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
 | <a name="input_IsAzPolicyEnabled"></a> [IsAzPolicyEnabled](#input\_IsAzPolicyEnabled) | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `true` | no |
+| <a name="input_IsBlobDriverEnabled"></a> [IsBlobDriverEnabled](#input\_IsBlobDriverEnabled) | Is the Blob CSI driver enabled? Defaults to false. | `bool` | `true` | no |
 | <a name="input_IsCSIKVAddonEnabled"></a> [IsCSIKVAddonEnabled](#input\_IsCSIKVAddonEnabled) | Is the CSI driver for KV enabled? | `bool` | `false` | no |
 | <a name="input_IsDefenderEnabled"></a> [IsDefenderEnabled](#input\_IsDefenderEnabled) | Is Microsoft Defender enabled? | `bool` | `true` | no |
+| <a name="input_IsDiskDriverEnabled"></a> [IsDiskDriverEnabled](#input\_IsDiskDriverEnabled) | Is the Disk CSI driver enabled? Defaults to true. | `bool` | `null` | no |
+| <a name="input_IsFileDriverEnabled"></a> [IsFileDriverEnabled](#input\_IsFileDriverEnabled) | Is the File CSI driver enabled? Defaults to true. | `bool` | `null` | no |
 | <a name="input_IsKubeletUsingUAI"></a> [IsKubeletUsingUAI](#input\_IsKubeletUsingUAI) | A boolean used to activate the block for kubelent identity | `bool` | `true` | no |
 | <a name="input_IsOIDCIssuerEnabled"></a> [IsOIDCIssuerEnabled](#input\_IsOIDCIssuerEnabled) | Enable or Disable the OIDC issuer URL | `bool` | `true` | no |
 | <a name="input_IsOMSAgentEnabled"></a> [IsOMSAgentEnabled](#input\_IsOMSAgentEnabled) | Is Container Insight enabled? | `bool` | `true` | no |
 | <a name="input_IsOpenServiceMeshEnabled"></a> [IsOpenServiceMeshEnabled](#input\_IsOpenServiceMeshEnabled) | Is Open Service Mesh enabled? | `bool` | `false` | no |
 | <a name="input_IsRunCommandEnabled"></a> [IsRunCommandEnabled](#input\_IsRunCommandEnabled) | Whether to enable run command for the cluster or not. Defaults to true. | `bool` | `true` | no |
+| <a name="input_IsSnapshotControllerEnabled"></a> [IsSnapshotControllerEnabled](#input\_IsSnapshotControllerEnabled) | Is the Snapshot Controller enabled? Defaults to true. | `bool` | `null` | no |
 | <a name="input_IshttproutingEnabled"></a> [IshttproutingEnabled](#input\_IshttproutingEnabled) | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. | `bool` | `false` | no |
 | <a name="input_KubeVersion"></a> [KubeVersion](#input\_KubeVersion) | The version of Kube, used for Node pool version but also for Control plane version | `string` | `null` | no |
 | <a name="input_KubeletAllowedUnsafeSysctls"></a> [KubeletAllowedUnsafeSysctls](#input\_KubeletAllowedUnsafeSysctls) | Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created. | `list(string)` | `null` | no |

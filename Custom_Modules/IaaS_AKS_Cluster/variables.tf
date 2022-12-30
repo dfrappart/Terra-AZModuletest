@@ -662,6 +662,39 @@ variable "AKSLBOutboundIPAddressIds" {
 }
 
 ##############################################################
+# Network profile config
+
+variable "IsBlobDriverEnabled" {
+  type                          = bool
+  description                   = "Is the Blob CSI driver enabled? Defaults to false."
+  default                       = true
+}
+
+variable "IsDiskDriverEnabled" {
+  type                          = bool
+  description                   = "Is the Disk CSI driver enabled? Defaults to true."
+  default                       = null
+}
+
+variable "DiskDriverVersion" {
+  type                          = string
+  description                   = "Disk CSI Driver version to be used. Possible values are v1 and v2. Defaults to v1."
+  default                       = null
+}
+
+variable "IsFileDriverEnabled" {
+  type                          = bool
+  description                   = "Is the File CSI driver enabled? Defaults to true."
+  default                       = null
+}
+
+variable "IsSnapshotControllerEnabled" {
+  type                          = bool
+  description                   = "Is the Snapshot Controller enabled? Defaults to true."
+  default                       = null
+}
+
+##############################################################
 # Spec for Node resource group
 
 variable "AKSNodesRG" {
