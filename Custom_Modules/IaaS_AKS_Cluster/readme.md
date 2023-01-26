@@ -19,7 +19,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_kubernetes_cluster.AKSRBACCNI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
+| [azurerm_kubernetes_cluster.AKS](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
 | [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
 | [azurerm_monitor_diagnostic_setting.AKSDiagToLAW](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.AKSDiagToSTA](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
