@@ -724,12 +724,29 @@ variable "PrivateDNSZoneId" {
   description                   = "Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning."
 }
 
-variable "PrivateClusterPublicFqdn" {
+variable "IsBYOPrivateDNSZone" {
   type                          = bool
-  default                       = null
-  description                   = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false."
+  default                       = false
+  description                   = "Specify if the cluster is configured for BYO DNS private zone. If true, the parameter dns_prefix_private_cluster is set with the fqdn value, if false, it is set to null and the dns_prefix is set instead"
 }
 
+variable "PrivateClusterPublicFqdn" {
+  type                          = bool
+  default                       = false
+  description                   = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private_dns_zone_id to None"
+}
+
+variable "CustomFQDNPrefix" {
+  type                          = string
+  default                       = ""
+  description                   = "A string to specify a custom fqdn prefix instead of the default built with tags" 
+}
+
+variable "CustomPrivateFQDNPrefix" {
+  type                          = string
+  default                       = ""
+  description                   = "Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone" 
+}
 ##############################################################
 # Variable for AGIC
 
@@ -1069,7 +1086,7 @@ variable "DefaultTags" {
     Company       = "dfitc"
     CostCenter    = "lab"
     Country       = "fr"
-    ResourceOwne  = "That could be me"
+    ResourceOwner = "That could be me"
   }
 }
 
