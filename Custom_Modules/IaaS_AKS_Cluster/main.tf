@@ -110,12 +110,12 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   }
 
-  dns_prefix                              = var.IsAKSPrivate == true ? null : local.DNSPrefix
-  dns_prefix_private_cluster              = var.IsAKSPrivate == true ? local.DNSPrefix : null
+  dns_prefix                              = local.IsBYOPrivateDNSZone ? null : local.DNSPrefix
+  dns_prefix_private_cluster              = var.IsAKSPrivate && local.IsBYOPrivateDNSZone ? local.DNSPrefix : null
   node_resource_group                     = var.UseAKSNodeRGDefaultName ? local.DefaultNodeRGName : local.CustomNodeRGName
   private_cluster_enabled                 = var.IsAKSPrivate
-  private_dns_zone_id                     = var.PrivateDNSZoneId
-  private_cluster_public_fqdn_enabled     = var.PrivateClusterPublicFqdn
+  private_dns_zone_id                     = local.PrivateDNSZoneId
+  private_cluster_public_fqdn_enabled     = local.PrivateClusterPublicFqdn
   local_account_disabled                  = var.LocalAccountDisabled
 
   automatic_channel_upgrade               = var.AutoUpgradeChannelConfig

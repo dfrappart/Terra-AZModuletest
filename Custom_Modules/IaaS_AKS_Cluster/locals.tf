@@ -21,6 +21,11 @@ locals {
     SubnetId                            = var.AGWSubnetId
   }
 
-  DefaultTags = merge(var.DefaultTags, var.extra_tags, {ManagedBy = "Terraform"})
+  DefaultTags                           = merge(var.DefaultTags, var.extra_tags, {ManagedBy = "Terraform"})
+
+  PrivateClusterPublicFqdn              = var.IsAKSPrivate ? var.PrivateClusterPublicFqdn : false 
+  PrivateDNSZoneId                      = local.PrivateClusterPublicFqdn ? "None" : var.PrivateDNSZoneId
+  IsBYOPrivateDNSZone                   = local.PrivateClusterPublicFqdn || !var.IsAKSPrivate ? false : var.IsBYOPrivateDNSZone
+  #foo                                   = 
 
 }
