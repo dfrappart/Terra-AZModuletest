@@ -935,8 +935,6 @@ variable "ACGIds" {
 
 variable "LogCategory" {
   type = map(object({
-    IsLogCatEnabledForLAW = bool
-    IsLogCatEnabledForSTA = bool
     IsRetentionEnabled    = bool
     RetentionDaysValue    = number
   }))
@@ -946,68 +944,46 @@ variable "LogCategory" {
   default = {
 
     "kube-apiserver" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-controller-manager" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-scheduler" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-audit" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "cluster-autoscaler" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "kube-audit-admin" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "guard" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "cloud-controller-manager" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "csi-azuredisk-controller" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "csi-azurefile-controller" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
     "csi-snapshot-controller" = {
-      IsLogCatEnabledForLAW = true
-      IsLogCatEnabledForSTA = true
       IsRetentionEnabled    = true
       RetentionDaysValue    = 365
     }
