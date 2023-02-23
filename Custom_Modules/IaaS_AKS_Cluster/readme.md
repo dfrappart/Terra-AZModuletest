@@ -3,13 +3,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.6 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.36.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.40.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.36.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.40.0 |
 
 ## Modules
 
@@ -106,6 +106,7 @@ No modules.
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
 | <a name="input_Environment"></a> [Environment](#input\_Environment) | The environment, dev, prod... | `string` | `"dev"` | no |
 | <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
+| <a name="input_IsAKSKMSEnabled"></a> [IsAKSKMSEnabled](#input\_IsAKSKMSEnabled) | A bool to activate the kms etcd feature block | `bool` | `false` | no |
 | <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
 | <a name="input_IsAzPolicyEnabled"></a> [IsAzPolicyEnabled](#input\_IsAzPolicyEnabled) | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `true` | no |
 | <a name="input_IsBYOPrivateDNSZone"></a> [IsBYOPrivateDNSZone](#input\_IsBYOPrivateDNSZone) | Specify if the cluster is configured for BYO DNS private zone. If true, the parameter dns\_prefix\_private\_cluster is set with the fqdn value, if false, it is set to null and the dns\_prefix is set instead | `bool` | `false` | no |
@@ -121,6 +122,8 @@ No modules.
 | <a name="input_IsRunCommandEnabled"></a> [IsRunCommandEnabled](#input\_IsRunCommandEnabled) | Whether to enable run command for the cluster or not. Defaults to true. | `bool` | `true` | no |
 | <a name="input_IsSnapshotControllerEnabled"></a> [IsSnapshotControllerEnabled](#input\_IsSnapshotControllerEnabled) | Is the Snapshot Controller enabled? Defaults to true. | `bool` | `null` | no |
 | <a name="input_IshttproutingEnabled"></a> [IshttproutingEnabled](#input\_IshttproutingEnabled) | Is HTTP Application Routing Enabled? Changing this forces a new resource to be created. | `bool` | `false` | no |
+| <a name="input_KmsKeyVaultKeyId"></a> [KmsKeyVaultKeyId](#input\_KmsKeyVaultKeyId) | Identifier of Azure Key Vault key. See key identifier format for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When enabled is false, leave the field empty | `string` | `null` | no |
+| <a name="input_KmsKeyvaultNtwAccess"></a> [KmsKeyvaultNtwAccess](#input\_KmsKeyvaultNtwAccess) | Network access of the key vault Network access of key vault. The possible values are Public and Private. Public means the key vault allows public access from all networks. Private means the key vault disables public access and enables private link. The default value is Public. | `string` | `null` | no |
 | <a name="input_KubeVersion"></a> [KubeVersion](#input\_KubeVersion) | The version of Kube, used for Node pool version but also for Control plane version | `string` | `null` | no |
 | <a name="input_KubeletAllowedUnsafeSysctls"></a> [KubeletAllowedUnsafeSysctls](#input\_KubeletAllowedUnsafeSysctls) | Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created. | `list(string)` | `null` | no |
 | <a name="input_KubeletClientId"></a> [KubeletClientId](#input\_KubeletClientId) | Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both). | `string` | `null` | no |
@@ -207,3 +210,4 @@ No modules.
 | <a name="output_KubeRG"></a> [KubeRG](#output\_KubeRG) | The resource group containing the control plane of the cluster |
 | <a name="output_KubeVersion"></a> [KubeVersion](#output\_KubeVersion) | The version of kubernetes |
 | <a name="output_NodeRG"></a> [NodeRG](#output\_NodeRG) | Resource group containing the managed Azure resources of the AKS cluster |
+| <a name="output_opsagentdebug"></a> [opsagentdebug](#output\_opsagentdebug) | n/a |

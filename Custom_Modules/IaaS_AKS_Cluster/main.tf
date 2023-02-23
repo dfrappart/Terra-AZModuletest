@@ -20,7 +20,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
       #Ignore change on kubernetes version.
       kubernetes_version,
       linux_profile,
-      network_profile
+      network_profile,
+      key_management_service[0].key_vault_key_id
 
 
     ]
@@ -165,6 +166,17 @@ resource "azurerm_kubernetes_cluster" "AKS" {
       client_id                           = var.KubeletClientId
       object_id                           = var.KubeletObjectId
       user_assigned_identity_id           = var.KubeletUAIId
+    }
+
+  }
+
+    dynamic "key_management_service" {
+
+    for_each = var.IsAKSKMSEnabled ? ["fake"] : []
+
+    content {
+      key_vault_key_id                    = var.KmsKeyVaultKeyId
+      key_vault_network_access            = var.KmsKeyvaultNtwAccess
     }
 
   }
@@ -330,7 +342,7 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiagToLAW" {
   name                           = "diag-tolaw-${azurerm_kubernetes_cluster.AKS.name}"
   target_resource_id             = azurerm_kubernetes_cluster.AKS.id
   log_analytics_workspace_id     = var.LawLogId
-  log_analytics_destination_type = "AzureDiagnostics"
+  #log_analytics_destination_type = "AzureDiagnostics"
 
   dynamic "enabled_log" {
     for_each = var.LogCategory
@@ -379,6 +391,10 @@ resource "azurerm_role_assignment" "MSToMonitorPublisher" {
   principal_id                        = azurerm_kubernetes_cluster.AKS.oms_agent[0].oms_agent_identity[0].object_id
 }
 
+
+output "opsagentdebug" {
+  value = azurerm_kubernetes_cluster.AKS.oms_agent
+}
 
 ################################################################
 # AKS Alert

@@ -42,6 +42,30 @@ variable "AKSRGName" {
 }
 
 ##############################################################
+# kms etcd variables
+
+variable "IsAKSKMSEnabled" {
+  type                          = bool
+  description                   = "A bool to activate the kms etcd feature block"
+  default                       = false
+  
+}
+
+variable "KmsKeyVaultKeyId" {
+  type                          = string
+  description                   = "Identifier of Azure Key Vault key. See key identifier format for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When enabled is false, leave the field empty"
+  default                       = null
+
+}
+
+variable "KmsKeyvaultNtwAccess" {
+  type                          = string
+  description                   = "Network access of the key vault Network access of key vault. The possible values are Public and Private. Public means the key vault allows public access from all networks. Private means the key vault disables public access and enables private link. The default value is Public."
+  default                       = null
+
+}
+
+##############################################################
 # Default Node pool config
 
 variable "AKSNodeInstanceType" {
