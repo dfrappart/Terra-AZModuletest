@@ -1040,7 +1040,7 @@ variable "MetricCategory" {
 
 ######################################################
 #Tag related variables and naming convention section
-
+/*
 variable "ResourceOwnerTag" {
   type          = string
   description   = "Tag describing the owner"
@@ -1076,7 +1076,7 @@ variable "Environment" {
   description   = "The environment, dev, prod..."
   default       = "dev"
 }
-
+*/
 variable "DefaultTags" {
   type        = map
   description = "Default Tags"
