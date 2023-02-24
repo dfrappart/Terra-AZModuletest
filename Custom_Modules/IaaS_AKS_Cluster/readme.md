@@ -94,9 +94,6 @@ No modules.
 | <a name="input_AzureRBACEnabled"></a> [AzureRBACEnabled](#input\_AzureRBACEnabled) | A bool to enable or disable Azure RBAC in Kubernetes. True means that Azure Role can be used to grant access inside kubernetes, false means that only Kubernetes roles and binding can be used to managed granular access inside kubernetes | `bool` | `false` | no |
 | <a name="input_CSIKVSecretRotationEnabled"></a> [CSIKVSecretRotationEnabled](#input\_CSIKVSecretRotationEnabled) | Is rotation from the KV secret enabled? | `bool` | `false` | no |
 | <a name="input_CSIKVSecretRotationInterval"></a> [CSIKVSecretRotationInterval](#input\_CSIKVSecretRotationInterval) | The interval to poll for secret rotation. This attribute is only set when secret\_rotation is true and defaults to 2m. | `string` | `"2m"` | no |
-| <a name="input_Company"></a> [Company](#input\_Company) | The Company owner of the resources | `string` | `"dfitc"` | no |
-| <a name="input_CostCenterTag"></a> [CostCenterTag](#input\_CostCenterTag) | Tag describing the Cost Center | `string` | `"lab"` | no |
-| <a name="input_CountryTag"></a> [CountryTag](#input\_CountryTag) | Tag describing the Country | `string` | `"fr"` | no |
 | <a name="input_CustomFQDNPrefix"></a> [CustomFQDNPrefix](#input\_CustomFQDNPrefix) | A string to specify a custom fqdn prefix instead of the default built with tags | `string` | `""` | no |
 | <a name="input_CustomPrivateFQDNPrefix"></a> [CustomPrivateFQDNPrefix](#input\_CustomPrivateFQDNPrefix) | Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone | `string` | `""` | no |
 | <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That could be me"<br>}</pre> | no |
@@ -104,7 +101,6 @@ No modules.
 | <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false. | `string` | `null` | no |
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
-| <a name="input_Environment"></a> [Environment](#input\_Environment) | The environment, dev, prod... | `string` | `"dev"` | no |
 | <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
 | <a name="input_IsAKSKMSEnabled"></a> [IsAKSKMSEnabled](#input\_IsAKSKMSEnabled) | A bool to activate the kms etcd feature block | `bool` | `false` | no |
 | <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
@@ -153,9 +149,7 @@ No modules.
 | <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
 | <a name="input_PrivateDNSZoneId"></a> [PrivateDNSZoneId](#input\_PrivateDNSZoneId) | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. | `string` | `null` | no |
-| <a name="input_Project"></a> [Project](#input\_Project) | The name of the project | `string` | `"tfmodule"` | no |
 | <a name="input_PublicSSHKey"></a> [PublicSSHKey](#input\_PublicSSHKey) | An ssh\_key block. Only one is currently allowed. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| <a name="input_ResourceOwnerTag"></a> [ResourceOwnerTag](#input\_ResourceOwnerTag) | Tag describing the owner | `string` | `"That would be me"` | no |
 | <a name="input_STALogId"></a> [STALogId](#input\_STALogId) | Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created | `string` | `"unspecified"` | no |
 | <a name="input_SysCtlFsAioMaxNr"></a> [SysCtlFsAioMaxNr](#input\_SysCtlFsAioMaxNr) | The sysctl setting fs.aio-max-nr. Must be between 65536 and 6553500. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_SysCtlFsFileMax"></a> [SysCtlFsFileMax](#input\_SysCtlFsFileMax) | The sysctl setting fs.file-max. Must be between 8192 and 12000500. Changing this forces a new resource to be created. | `string` | `null` | no |
