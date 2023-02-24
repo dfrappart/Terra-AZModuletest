@@ -7,7 +7,7 @@
 ################################################################
 #Creating the AKS Cluster with RBAC Enabled and AAD integration
 
-resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
+resource "azurerm_kubernetes_cluster" "AKS" {
 
   lifecycle {
     ignore_changes                        = [
@@ -20,7 +20,8 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       #Ignore change on kubernetes version.
       kubernetes_version,
       linux_profile,
-      network_profile
+      network_profile,
+      key_management_service[0].key_vault_key_id
 
 
     ]
@@ -110,12 +111,12 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 
   }
 
-  dns_prefix                              = var.IsAKSPrivate == true ? null : local.DNSPrefix
-  dns_prefix_private_cluster              = var.IsAKSPrivate == true ? local.DNSPrefix : null
+  dns_prefix                              = local.IsBYOPrivateDNSZone ? null : local.DNSPrefix
+  dns_prefix_private_cluster              = var.IsAKSPrivate && local.IsBYOPrivateDNSZone ? local.DNSPrefix : null
   node_resource_group                     = var.UseAKSNodeRGDefaultName ? local.DefaultNodeRGName : local.CustomNodeRGName
   private_cluster_enabled                 = var.IsAKSPrivate
-  private_dns_zone_id                     = var.PrivateDNSZoneId
-  private_cluster_public_fqdn_enabled     = var.PrivateClusterPublicFqdn
+  private_dns_zone_id                     = local.PrivateDNSZoneId
+  private_cluster_public_fqdn_enabled     = local.PrivateClusterPublicFqdn
   local_account_disabled                  = var.LocalAccountDisabled
 
   automatic_channel_upgrade               = var.AutoUpgradeChannelConfig
@@ -165,6 +166,17 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
       client_id                           = var.KubeletClientId
       object_id                           = var.KubeletObjectId
       user_assigned_identity_id           = var.KubeletUAIId
+    }
+
+  }
+
+    dynamic "key_management_service" {
+
+    for_each = var.IsAKSKMSEnabled ? ["fake"] : []
+
+    content {
+      key_vault_key_id                    = var.KmsKeyVaultKeyId
+      key_vault_network_access            = var.KmsKeyvaultNtwAccess
     }
 
   }
@@ -289,20 +301,20 @@ resource "azurerm_kubernetes_cluster" "AKSRBACCNI" {
 resource "azurerm_monitor_diagnostic_setting" "AKSDiagToSTA" {
 
   count                          = var.STALogId == "unspecified" ? 0 : 1
-  name                           = "diag-tosta-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
-  target_resource_id             = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  name                           = "diag-tosta-${azurerm_kubernetes_cluster.AKS.name}"
+  target_resource_id             = azurerm_kubernetes_cluster.AKS.id
   storage_account_id             = var.STALogId
   log_analytics_destination_type = null
 
-  dynamic "log" {
+  dynamic "enabled_log" {
     for_each = var.LogCategory
 
     content {
-      category = log.key
-      enabled  = log.value.IsLogCatEnabledForSTA
+      category = enabled_log.key
+      #enabled  = log.value.IsLogCatEnabledForSTA
       retention_policy {
-        enabled = log.value.IsRetentionEnabled
-        days    = log.value.RetentionDaysValue
+        enabled = enabled_log.value.IsRetentionEnabled
+        days    = enabled_log.value.RetentionDaysValue
       }
     }
 
@@ -327,20 +339,20 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiagToSTA" {
 
 resource "azurerm_monitor_diagnostic_setting" "AKSDiagToLAW" {
   count                          = var.LawLogId == "unspecified" ? 0 : 1
-  name                           = "diag-tolaw-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
-  target_resource_id             = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  name                           = "diag-tolaw-${azurerm_kubernetes_cluster.AKS.name}"
+  target_resource_id             = azurerm_kubernetes_cluster.AKS.id
   log_analytics_workspace_id     = var.LawLogId
-  log_analytics_destination_type = "AzureDiagnostics"
+  #log_analytics_destination_type = "AzureDiagnostics"
 
-  dynamic "log" {
+  dynamic "enabled_log" {
     for_each = var.LogCategory
 
     content {
-      category = log.key
-      enabled  = log.value.IsLogCatEnabledForLAW
+      category = enabled_log.key
+      #enabled  = log.value.IsLogCatEnabledForLAW
       retention_policy {
-        enabled = log.value.IsRetentionEnabled
-        days    = log.value.RetentionDaysValue
+        enabled = enabled_log.value.IsRetentionEnabled
+        days    = enabled_log.value.RetentionDaysValue
       }
     }
 
@@ -374,11 +386,15 @@ resource "azurerm_monitor_diagnostic_setting" "AKSDiagToLAW" {
 resource "azurerm_role_assignment" "MSToMonitorPublisher" {
   count                               = local.IsOMSAgentEnabled ? 1 : 0
 
-  scope                               = azurerm_kubernetes_cluster.AKSRBACCNI.id
+  scope                               = azurerm_kubernetes_cluster.AKS.id
   role_definition_name                = "Monitoring Metrics Publisher"
-  principal_id                        = azurerm_kubernetes_cluster.AKSRBACCNI.oms_agent[0].oms_agent_identity[0].object_id
+  principal_id                        = azurerm_kubernetes_cluster.AKS.oms_agent[0].oms_agent_identity[0].object_id
 }
 
+
+output "opsagentdebug" {
+  value = azurerm_kubernetes_cluster.AKS.oms_agent
+}
 
 ################################################################
 # AKS Alert
@@ -392,10 +408,10 @@ resource "azurerm_monitor_metric_alert" "NodeCPUPercentageThreshold" {
     ]
   }
 
-  name                                        = "malt-NodeCPUPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  name                                        = "malt-NodeCPUPercentageThreshold-${azurerm_kubernetes_cluster.AKS.name}"
   resource_group_name                         = var.AKSRGName
-  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACCNI.id]
-  description                                 = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}-NodeCPUPercentageThreshold"
+  scopes                                      = [azurerm_kubernetes_cluster.AKS.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKS.name}-NodeCPUPercentageThreshold"
 
   criteria {
     metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
@@ -437,10 +453,10 @@ resource "azurerm_monitor_metric_alert" "NodeDiskPercentageThreshold" {
     ]
   }
 
-  name                                        = "malt-NodeDiskPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  name                                        = "malt-NodeDiskPercentageThreshold-${azurerm_kubernetes_cluster.AKS.name}"
   resource_group_name                         = var.AKSRGName
-  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACCNI.id]
-  description                                 = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}-NodeDiskPercentageThreshold"
+  scopes                                      = [azurerm_kubernetes_cluster.AKS.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKS.name}-NodeDiskPercentageThreshold"
 
   criteria {
     metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
@@ -482,10 +498,10 @@ resource "azurerm_monitor_metric_alert" "NodeWorkingSetMemoryPercentageThreshold
     ]
   }
 
-  name                                        = "malt-NodeWorkingSetMemoryPercentageThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  name                                        = "malt-NodeWorkingSetMemoryPercentageThreshold-${azurerm_kubernetes_cluster.AKS.name}"
   resource_group_name                         = var.AKSRGName
-  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACCNI.id]
-  description                                 = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}-NodeWorkingSetMemoryPercentageThreshold"
+  scopes                                      = [azurerm_kubernetes_cluster.AKS.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKS.name}-NodeWorkingSetMemoryPercentageThreshold"
 
   criteria {
     metric_namespace                          = "MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS"
@@ -527,10 +543,10 @@ resource "azurerm_monitor_metric_alert" "UnschedulablePodCountThreshold" {
     ]
   }
 
-  name                                        = "malt-UnschedulablePodCountThreshold-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  name                                        = "malt-UnschedulablePodCountThreshold-${azurerm_kubernetes_cluster.AKS.name}"
   resource_group_name                         = var.AKSRGName
-  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACCNI.id]
-  description                                 = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}-UnschedulablePodCountThreshold"
+  scopes                                      = [azurerm_kubernetes_cluster.AKS.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKS.name}-UnschedulablePodCountThreshold"
 
   criteria {
     metric_namespace                          = "Microsoft.ContainerService/managedClusters"
@@ -571,13 +587,13 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
     ]
   }
 
-  name                                        = "malt-ListAKSAdminCredsEvent-${azurerm_kubernetes_cluster.AKSRBACCNI.name}"
+  name                                        = "malt-ListAKSAdminCredsEvent-${azurerm_kubernetes_cluster.AKS.name}"
   resource_group_name                         = var.AKSRGName
-  scopes                                      = [azurerm_kubernetes_cluster.AKSRBACCNI.id]
-  description                                 = "${azurerm_kubernetes_cluster.AKSRBACCNI.name}-ListAKSAdminCredsEvent"
+  scopes                                      = [azurerm_kubernetes_cluster.AKS.id]
+  description                                 = "${azurerm_kubernetes_cluster.AKS.name}-ListAKSAdminCredsEvent"
 
   criteria {
-    resource_id                               = azurerm_kubernetes_cluster.AKSRBACCNI.id
+    resource_id                               = azurerm_kubernetes_cluster.AKS.id
     operation_name                            = "Microsoft.ContainerService/managedClusters/listClusterAdminCredential/action"
     category                                  = "Administrative"
 
