@@ -149,6 +149,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   oidc_issuer_enabled                     = var.IsOIDCIssuerEnabled
 
+  workload_identity_enabled               = var.IsWorkloadIdentityEnabled
+
   run_command_enabled                     = var.IsRunCommandEnabled
 
   identity {
