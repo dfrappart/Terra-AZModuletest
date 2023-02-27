@@ -947,6 +947,12 @@ variable "IsOpenServiceMeshEnabled" {
   description                   = "Is Open Service Mesh enabled?"
 }
 
+variable "IsWorkloadIdentityEnabled" {
+  type                          = bool
+  default                       = true
+  description                   = "Specifies whether Azure AD Workload Identity should be enabled for the Cluster. Defaults to false if not set."
+}
+
 ######################################################
 ############### Monitoring Variable ##################
 ######################################################
