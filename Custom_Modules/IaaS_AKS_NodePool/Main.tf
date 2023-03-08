@@ -16,29 +16,81 @@ resource "azurerm_kubernetes_cluster_node_pool" "AKSNodePool" {
     ]
   }
 
+##############################################################
+# Basic configuration
+
   name                                  = "np${var.NPSuffix}"
   kubernetes_cluster_id                 = var.AKSClusterId
   vm_size                               = var.AKSNodeInstanceType
   zones                                 = var.AKSAZ
-  enable_host_encryption                = var.EnableHostEncryption
-  eviction_policy                       = var.EvictionPolicy
-  enable_auto_scaling                   = var.EnableAKSAutoScale      
-  enable_node_public_ip                 = var.EnableNodePublicIP  
-  max_pods                              = var.AKSMaxPods
   mode                                  = var.NPMode
-  node_labels                           = var.AKSNodeLabels
-  node_taints                           = var.AKSNodeTaints  
   orchestrator_version                  = var.KubeVersion
-  os_disk_size_gb                       = var.AKSNodeOSDiskSize
-  os_disk_type                          = var.AKSNodeOSDiskType
-  os_type                               = var.AKSNodeOSType
-  priority                              = var.AKSNPPriority
-  proximity_placement_group_id          = var.AKSNPPlacementGroup
+  max_pods                              = var.AKSMaxPods
+  workload_runtime                      = var.WorkloadRuntimeType
+  message_of_the_day                    = var.MessageofTheDay 
+
+##############################################################
+# Security Parameters
+
+  custom_ca_trust_enabled               = var.IsCustomCATrustEnabled
+  enable_host_encryption                = var.EnableHostEncryption
+  fips_enabled                          = var.IsFipsEnabled
+
+##############################################################
+# Network configuration
+
+  enable_node_public_ip                 = var.EnableNodePublicIP 
   vnet_subnet_id                        = var.AKSSubnetId
+  pod_subnet_id                         = var.PodSubnetId
+  node_network_profile {
+    node_public_ip_tags                 = var.NodePublicIpTags
+  }
+
+##############################################################
+# Autoscaling configuration
+
+  enable_auto_scaling                   = var.EnableAKSAutoScale 
   max_count                             = var.MaxAutoScaleCount
   min_count                             = var.MinAutoScaleCount
-  node_count                            = var.AKSNodeCount  
+  node_count                            = var.AKSNodeCount
+  scale_down_mode                       = var.ScaleDownMode
 
+##############################################################
+# OS related Configuration
+
+  os_sku                                = var.AKSNodeOSSku
+  os_type                               = var.AKSNodeOSType
+  os_disk_type                          = var.AKSNodeOSDiskType
+  os_disk_size_gb                       = var.AKSNodeOSDiskSize
+
+##############################################################
+# Nodes taints and Labels management
+
+  node_labels                           = var.AKSNodeLabels
+  node_taints                           = var.AKSNodeTaints  
+
+##############################################################
+# Node pool spot configuration
+
+  priority                              = var.AKSNPPriority
+  eviction_policy                       = var.EvictionPolicy
+  spot_max_price                        = var.SpotMaxPrice 
+
+##############################################################
+# Node pool reservation configuration  
+  
+  capacity_reservation_group_id         = var.CapacityReservationGroupId
+
+##############################################################
+# Host and prximity configuration
+
+  proximity_placement_group_id          = var.PlacementGroupId
+  host_group_id                         = var.HostGroupId 
+
+##############################################################
+# Kubelet configuration  
+
+  kubelet_disk_type                     = var.KubeletDiskType
   kubelet_config {
 
     allowed_unsafe_sysctls              = var.KubeletAllowedUnsafeSysctls
@@ -53,6 +105,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "AKSNodePool" {
     topology_manager_policy             = var.KubeletTopologyManagerPolicy
 
   }
+
+##############################################################
+# Linux OS configuration 
 
   linux_os_config {
 
@@ -96,9 +151,28 @@ resource "azurerm_kubernetes_cluster_node_pool" "AKSNodePool" {
   
   }
 
+##############################################################
+# Upgrade configuration
   upgrade_settings {
     max_surge                           = var.AKSMaxSurge
   }
+
+##############################################################
+# Windows OS configuration 
+
+  dynamic "windows_profile" {
+    for_each                              = var.AKSNodeOSType == "Windows" ? ["fake"] : []
+
+    content {
+      outbound_nat_enabled                = var.NATEnabledforWinProfile
+    }
+    
+  }
+
+
+
+##############################################################
+# Tags 
 
   tags = merge(var.DefaultTags,var.ExtraTags,{"AKSClusterName"=split("/",var.AKSClusterId)[8]})
 
