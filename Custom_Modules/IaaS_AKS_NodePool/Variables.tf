@@ -205,8 +205,8 @@ variable "EvictionPolicy" {
 
 variable "SpotMaxPrice" {
   type                          = string
-  default                       = "Regular"
-  description                   = "The Priority for Virtual Machines within the Virtual Machine Scale Set that powers this Node Pool. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created."
+  default                       = "-1"
+  description                   = "The maximum price you're willing to pay in USD per Virtual Machine. Valid values are -1 (the current on-demand price for a Virtual Machine) or a positive value with up to five decimal places. Changing this forces a new resource to be created."
 }
 
 ##############################################################
@@ -505,7 +505,7 @@ variable "SysCtlVmVfsCachePressure" {
 # Upgrade configuration
 
 variable "AKSMaxSurge" {
-  type                          = "string"
+  type                          = string
   default                       = "33%"
   description                   = "The maximum number or percentage of nodes which will be added to the Node Pool size during an upgrade."
 
