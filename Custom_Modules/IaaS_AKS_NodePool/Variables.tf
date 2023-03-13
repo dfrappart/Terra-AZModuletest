@@ -152,7 +152,7 @@ variable "ScaleDownMode" {
 variable "AKSNodeOSSku" {
   type                          = string
   default                       = null
-  description                   = "The Operating System which should be used for this Node Pool. Changing this forces a new resource to be created. Possible values are Linux and Windows. Defaults to Linux."
+  description                   = "Specifies the OS SKU used by the agent pool. Possible values include: Ubuntu, CBLMariner, Mariner, Windows2019, Windows2022. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. Changing this forces a new resource to be created."
 }
 
 variable "AKSNodeOSType" {
