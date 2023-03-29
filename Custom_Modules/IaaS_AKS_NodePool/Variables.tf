@@ -10,7 +10,7 @@
 
 variable "NPSuffix" {
   type                          = string
-  description                   = "An suffix to identify the node pool"
+  description                   = "A suffix to identify the node pool"
 
 }
 
@@ -19,9 +19,6 @@ variable "AKSClusterId" {
   description                   = "The ID of the Kubernetes Cluster where this Node Pool should exist. Changing this forces a new resource to be created."
 
 }
-
-##############################################################
-# Node pool config
 
 variable "AKSNodeInstanceType" {
   type                          = string
@@ -35,16 +32,16 @@ variable "AKSAZ" {
   description                   = "The list of AZ to use"
 }
 
-variable "EnableAKSAutoScale" {
-  type                          = string
-  default                       = true
-  description                   = "Is autoscaling enabled for this node pool"
-}
-
-variable "EnableNodePublicIP" {
+variable "NPMode" {
   type                          = string
   default                       = null
-  description                   = "Define if Nodes get Public IP. Defualt API value is false"
+  description                   = "Should this Node Pool be used for System or User resources? Possible values are System and User. Defaults to User."
+}
+
+variable "KubeVersion" {
+  type                          = string
+  default                       = null
+  description                   = "Version of Kubernetes used for the Agents. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade). AKS does not require an exact patch version to be specified, minor version aliases such as 1.22 are also supported. - The minor version's latest GA patch is automatically chosen in that case. More details can be found in the documentation."
 }
 
 variable "AKSMaxPods" {
@@ -53,58 +50,74 @@ variable "AKSMaxPods" {
   description                   = "Define the max pod number per nodes, Change force new resoure to be created"
 }
 
-variable "NPMode" {
+variable "WorkloadRuntimeType" {
   type                          = string
   default                       = null
-  description                   = "Should this Node Pool be used for System or User resources? Possible values are System and User. Defaults to User."
+  description                   = "Used to specify the workload runtime. Allowed values are OCIContainer and WasmWasi."
+
 }
 
-
-variable "AKSNodeLabels" {
-  type                          = map
-  default                       = null
-  description                   = "A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created."
-}
-
-variable "AKSNodeTaints" {
-  type                          = list
-  default                       = null
-  description                   = "A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created."
-}
-
-variable "AKSNodeOSDiskSize" {
-  type                          = string
-  default                       = 100
-  description                   = "The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created."
-}
-
-variable "AKSNodeOSDiskType" {
+variable "MessageofTheDay" {
   type                          = string
   default                       = null
-  description                   = "The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created."
+  description                   = "A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It cannot be specified for Windows nodes and must be a static string (i.e. will be printed raw and not executed as a script). Changing this forces a new resource to be created."
+
 }
 
-variable "AKSNodeOSType" {
-  type                          = string
-  default                       = "Linux"
-  description                   = "he Operating System which should be used for this Node Pool. Changing this forces a new resource to be created. Possible values are Linux and Windows. Defaults to Linux."
+##############################################################
+# Security Parameters
+
+variable "IsCustomCATrustEnabled" {
+  type                          = bool
+  default                       = true
+  description                   = "Specifies whether to trust a Custom CA."
 }
 
-variable "AKSNPPriority" {
-  type                          = string
-  default                       = "Regular"
-  description                   = "The Priority for Virtual Machines within the Virtual Machine Scale Set that powers this Node Pool. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created."
-}
-
-variable "AKSNPPlacementGroup" {
+variable "EnableHostEncryption" {
   type                          = string
   default                       = null
-  description                   = "The ID of the Proximity Placement Group where the Virtual Machine Scale Set that powers this Node Pool will be placed. Changing this forces a new resource to be created."
+  description                   = "Should the nodes in this Node Pool have host encryption enabled? Defaults to false."
+}
+
+variable "IsFipsEnabled" {
+  type                          = bool
+  default                       = false
+  description                   = "Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Network configuration
+
+variable "EnableNodePublicIP" {
+  type                          = string
+  default                       = null
+  description                   = "Define if Nodes get Public IP. Defualt API value is false"
 }
 
 variable "AKSSubnetId" {
   type                          = string
   description                   = "The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
+}
+
+variable "PodSubnetId" {
+  type                          = string
+  description                   = "The ID of the Subnet where the pods in the Node Pool should exist. Changing this forces a new resource to be created."
+  default                       = null
+}
+
+variable "NodePublicIpTags" {
+  type                          = map
+  description                   = "Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created."
+  default                       = null
+}
+
+##############################################################
+# Autoscaling configuration
+
+variable "EnableAKSAutoScale" {
+  type                          = string
+  default                       = true
+  description                   = "Is autoscaling enabled for this node pool"
 }
 
 variable "MaxAutoScaleCount" {
@@ -126,16 +139,62 @@ variable "AKSNodeCount" {
 
 }
 
-variable "KubeVersion" {
+variable "ScaleDownMode" {
   type                          = string
   default                       = null
-  description                   = "The version of Kube, used for Node pool version but also for Control plane version"
+  description                   = "Specifies how the node pool should deal with scaled-down nodes. Allowed values are Delete and Deallocate. Defaults to Delete."
+
 }
 
-variable "EnableHostEncryption" {
+##############################################################
+# OS related Configuration
+
+variable "AKSNodeOSSku" {
   type                          = string
   default                       = null
-  description                   = "Should the nodes in this Node Pool have host encryption enabled? Defaults to false."
+  description                   = "Specifies the OS SKU used by the agent pool. Possible values include: Ubuntu, CBLMariner, Mariner, Windows2019, Windows2022. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeOSType" {
+  type                          = string
+  default                       = "Linux"
+  description                   = "the Operating System which should be used for this Node Pool. Changing this forces a new resource to be created. Possible values are Linux and Windows. Defaults to Linux."
+}
+
+variable "AKSNodeOSDiskType" {
+  type                          = string
+  default                       = null
+  description                   = "The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeOSDiskSize" {
+  type                          = string
+  default                       = 100
+  description                   = "The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Nodes taints and Labels management
+
+variable "AKSNodeLabels" {
+  type                          = map
+  default                       = null
+  description                   = "A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created."
+}
+
+variable "AKSNodeTaints" {
+  type                          = list
+  default                       = null
+  description                   = "A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g key=value:NoSchedule). Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Node pool spot configuration
+
+variable "AKSNPPriority" {
+  type                          = string
+  default                       = "Regular"
+  description                   = "The Priority for Virtual Machines within the Virtual Machine Scale Set that powers this Node Pool. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created."
 }
 
 variable "EvictionPolicy" {
@@ -144,13 +203,46 @@ variable "EvictionPolicy" {
   description                   = "The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are Deallocate and Delete. Changing this forces a new resource to be created."
 }
 
-variable "AKSMaxSurge" {
+variable "SpotMaxPrice" {
   type                          = string
-  default                       = "33%"
-  description                   = "The maximum number or percentage of nodes which will be added to the Node Pool size during an upgrade."
+  default                       = "-1"
+  description                   = "The maximum price you're willing to pay in USD per Virtual Machine. Valid values are -1 (the current on-demand price for a Virtual Machine) or a positive value with up to five decimal places. Changing this forces a new resource to be created."
 }
 
 ##############################################################
+# Node pool reservation configuration  
+
+variable "CapacityReservationGroupId" {
+  type                          = string
+  default                       = null
+  description                   = "Specifies the ID of the Capacity Reservation Group where this Node Pool should exist. Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Host and prximity configuration
+
+variable "PlacementGroupId" {
+  type                          = string
+  default                       = null
+  description                   = "The ID of the Proximity Placement Group where the Virtual Machine Scale Set that powers this Node Pool will be placed. Changing this forces a new resource to be created."
+}
+
+variable "HostGroupId" {
+  type                          = string
+  default                       = null
+  description                   = "The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from. Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Kubelet Config
+
+variable "KubeletDiskType" {
+  type                          = string
+  default                       = null
+  description                   = "The type of disk used by kubelet. Possible values are OS and Temporary."
+}
+
+
 # kubelet_config block variables
 
 variable "KubeletAllowedUnsafeSysctls" {
@@ -407,6 +499,16 @@ variable "SysCtlVmVfsCachePressure" {
   type                          = string
   default                       = null
   description                   = "The sysctl setting vm.vfs_cache_pressure. Must be between 0 and 100. Changing this forces a new resource to be created."
+}
+
+##############################################################
+# Upgrade configuration
+
+variable "AKSMaxSurge" {
+  type                          = string
+  default                       = "33%"
+  description                   = "The maximum number or percentage of nodes which will be added to the Node Pool size during an upgrade."
+
 }
 
 ######################################################
