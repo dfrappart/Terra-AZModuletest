@@ -266,3 +266,13 @@ variable "DBCPUPercentHighThreshold" {
   description                                 = "threshold for CPU high threshold on DB"
   default                                     = 80
 }
+
+###################################################################################
+############################# Azure AD Admin ######################################
+###################################################################################
+
+variable "PsqlAdminGroupObjectId" {
+  type                                        = string
+  description                                 = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
+  default                                     = 80
+}

@@ -340,3 +340,16 @@ resource "azurerm_monitor_diagnostic_setting" "AzurePSQLDiagToLAWA" {
   }
 
 }
+
+###################################################################################
+############################# Azure AD Admin ######################################
+###################################################################################
+
+resource "azurerm_postgresql_flexible_server_active_directory_administrator" "PsqlAadAdmin" {
+  server_name         = azurerm_postgresql_server.PostGreSQLFlexServer.name
+  resource_group_name = var.RgName
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  object_id           = var.PsqlAdminGroupObjectId
+  principal_name      = "PsqlAdmin"
+  principal_type      = "Group"
+}
