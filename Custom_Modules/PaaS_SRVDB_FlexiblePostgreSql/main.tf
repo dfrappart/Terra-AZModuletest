@@ -28,9 +28,16 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
   delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet[0].id : var.PSQLSubnetId
   private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone.psqlflexdnszone[0].id : var.PSQLPrivateDNSZoneId
 
-  high_availability {
+  dynamic "high_availability" {
+
+    for_each = var.IsHA ? ["fake"] : []
+
+    content {
+
     mode                                      = var.HAMode
     standby_availability_zone                 = var.HAStandbyAZ
+
+    }
   }
 
   zone                                        = var.PostgreZone
@@ -346,9 +353,9 @@ resource "azurerm_monitor_diagnostic_setting" "AzurePSQLDiagToLAWA" {
 ###################################################################################
 
 resource "azurerm_postgresql_flexible_server_active_directory_administrator" "PsqlAadAdmin" {
-  server_name         = azurerm_postgresql_server.PostGreSQLFlexServer.name
+  server_name         = azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name
   resource_group_name = var.RgName
-  tenant_id           = data.azurerm_client_config.current.tenant_id
+  tenant_id           = var.TenantId
   object_id           = var.PsqlAdminGroupObjectId
   principal_name      = "PsqlAdmin"
   principal_type      = "Group"

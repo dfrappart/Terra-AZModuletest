@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "0.16"             # e.g. "v0.11.2"
+    rev: "v0.16.0"             # e.g. "v0.11.2"
     hooks:
       - id: terraform-docs-go
-        args: ["--config ./Custom_Modules/PaaS_SRVDB_FlexiblePostgreSql/.config/.terraform-doc.yml", "--output-file readme.md", "./Custom_Modules/PaaS_SRVDB_FlexiblePostgreSql/"]  # e.g. ["--output-file", "README.md", "./mymodule/path"]
+        args: ["--config", "./Custom_Modules/PaaS_SRVDB_FlexiblePostgreSql/.config/.terraform-doc.yml", "./Custom_Modules/PaaS_SRVDB_FlexiblePostgreSql/"]

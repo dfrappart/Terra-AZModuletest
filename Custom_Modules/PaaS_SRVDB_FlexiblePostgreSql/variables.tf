@@ -140,9 +140,15 @@ variable "PSQLPrivateDNSZoneId" {
   default                                     = "unspecified"
 }
 
+variable "IsHA" {
+  type                                        = bool
+  description                                 = "A booleen to activate the HA mode for the cluster"
+  default                                     = true
+}
+
 variable "HAMode" {
   type                                        = string
-  description                                 = "The high availability mode for the PostgreSQL Flexible Server. The only possible value is ZoneRedundant."
+  description                                 = "The high availability mode for the PostgreSQL Flexible Server. Possible value are SameZone or ZoneRedundant."
   default                                     = "ZoneRedundant"
 }
 
@@ -274,5 +280,11 @@ variable "DBCPUPercentHighThreshold" {
 variable "PsqlAdminGroupObjectId" {
   type                                        = string
   description                                 = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
-  default                                     = 80
+
+}
+
+variable "TenantId" {
+  type                                        = string
+  description                                 = "The Azure Tenant ID. Changing this forces a new resource to be created."
+
 }
