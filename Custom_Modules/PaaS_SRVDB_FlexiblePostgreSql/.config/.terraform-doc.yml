@@ -1,0 +1,29 @@
+formatter: "markdown table"
+
+header-from: ./.config/header.md
+
+sections:
+  show: 
+    - all
+
+content: |-
+
+  {{ .Header}}
+
+  ## Examples
+
+   ```hcl
+
+  {{ include "./samples/main.tf"}}
+
+   ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Resources }}
+
+  {{ .Outputs }}
