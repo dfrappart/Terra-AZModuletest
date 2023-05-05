@@ -288,3 +288,15 @@ variable "TenantId" {
   description                                 = "The Azure Tenant ID. Changing this forces a new resource to be created."
 
 }
+
+variable "AADAdminPrincipalName" {
+  type                                        = string
+  description                                 = "value"
+  default                                     = "psqlaadadmin"
+}
+
+variable "AADPrincipalType" {
+  type                                        = string
+  description                                 = "value"
+  default                                     = "Group"
+}
