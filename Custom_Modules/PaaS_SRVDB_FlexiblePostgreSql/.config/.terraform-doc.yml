@@ -10,13 +10,29 @@ content: |-
 
   {{ .Header}}
 
-  ## Examples
+  ## Examples with default Network configuration 
 
    ```hcl
 
-  {{ include "./samples/main.tf"}}
+  {{ include "./.config/hclsamples/psql.tf"}}
 
    ```
+
+    ## Examples with Azure AD admin configuration 
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/psqlwithaadadmin.tf"}}
+
+   ```
+    ## Examples with custom DNS and network configuration 
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/psqlcustom.tf"}}
+
+   ```
+
 
   {{ .Requirements }}
 
@@ -27,3 +43,17 @@ content: |-
   {{ .Resources }}
 
   {{ .Outputs }}
+
+  ## How to update this documentation
+
+  In the module folder, use the following command.
+
+  ```bash
+
+  terraform-docs --config ./.config/.terraform-doc.yml
+
+  ```
+
+output: 
+  file: ./readme.md
+  mode: replace
