@@ -50,7 +50,7 @@ content: |-
 
   ```bash
 
-  terraform-docs --config ./.config/.terraform-doc.yml
+  terraform-docs --config ./.config/.terraform-doc.yml .
 
   ```
 
