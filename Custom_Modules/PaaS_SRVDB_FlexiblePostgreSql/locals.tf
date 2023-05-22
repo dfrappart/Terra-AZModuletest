@@ -1,0 +1,3 @@
+locals {
+  PostgreSkuName = var.PostgreSkuName
+}

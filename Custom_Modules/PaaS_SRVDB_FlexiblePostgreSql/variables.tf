@@ -277,6 +277,18 @@ variable "DBCPUPercentHighThreshold" {
 ############################# Azure AD Admin ######################################
 ###################################################################################
 
+variable "IsAadAdminEnabled" {
+  type                                        = bool
+  default                                     = false
+  description                                 = "A boolean to activate / deactivate the aad admin. Used both for the psql authentication block and the aad admin resource"
+}
+
+variable "IsPwdAuthEnabled" {
+  type                                        = bool
+  default                                     = true
+  description                                 = "A boolean to activate / deactivate the password auth. Used in the authentication block. Default to true"
+}
+
 variable "PsqlAdminGroupObjectId" {
   type                                        = string
   description                                 = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
