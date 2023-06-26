@@ -10,6 +10,13 @@ locals {
 # PostgreSQL server
 
 resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
+
+  lifecycle {
+    ignore_changes = [ 
+      high_availability[0].standby_availability_zone,
+      zone
+     ]
+  }
   name                                        = "psql-flex${lower(var.PSQLSuffix)}"
   resource_group_name                         = var.RgName
   location                                    = var.Location
@@ -28,9 +35,16 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
   delegated_subnet_id                         = var.PSQLSubnetId == "unspecified" ? azurerm_subnet.psqlsubnet[0].id : var.PSQLSubnetId
   private_dns_zone_id                         = var.PSQLPrivateDNSZoneId == "unspecified" ? azurerm_private_dns_zone.psqlflexdnszone[0].id : var.PSQLPrivateDNSZoneId
 
-  high_availability {
+  dynamic "high_availability" {
+
+    for_each = var.IsHA ? ["fake"] : []
+
+    content {
+
     mode                                      = var.HAMode
     standby_availability_zone                 = var.HAStandbyAZ
+
+    }
   }
 
   zone                                        = var.PostgreZone
@@ -45,7 +59,11 @@ resource "azurerm_postgresql_flexible_server" "PostGreSQLFlexServer" {
     }
   }
 
-
+  authentication {
+    active_directory_auth_enabled             = var.IsAadAdminEnabled
+    password_auth_enabled                     = var.IsPwdAuthEnabled
+    tenant_id                                 = var.TenantId
+  }
 
   storage_mb                                  = var.PostgreStorage
   version                                     = var.PostgreVersion
@@ -339,4 +357,20 @@ resource "azurerm_monitor_diagnostic_setting" "AzurePSQLDiagToLAWA" {
   
   }
 
+}
+
+###################################################################################
+############################# Azure AD Admin ######################################
+###################################################################################
+
+resource "azurerm_postgresql_flexible_server_active_directory_administrator" "PsqlAadAdmin" {
+
+  count = var.IsAadAdminEnabled ? 1 : 0
+
+  server_name         = azurerm_postgresql_flexible_server.PostGreSQLFlexServer.name
+  resource_group_name = var.RgName
+  tenant_id           = var.TenantId
+  object_id           = var.PsqlAdminGroupObjectId
+  principal_name      = var.AADAdminPrincipalName
+  principal_type      = var.AADPrincipalType
 }

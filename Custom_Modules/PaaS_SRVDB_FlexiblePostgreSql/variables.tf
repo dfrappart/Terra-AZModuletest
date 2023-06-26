@@ -140,9 +140,15 @@ variable "PSQLPrivateDNSZoneId" {
   default                                     = "unspecified"
 }
 
+variable "IsHA" {
+  type                                        = bool
+  description                                 = "A booleen to activate the HA mode for the cluster"
+  default                                     = true
+}
+
 variable "HAMode" {
   type                                        = string
-  description                                 = "The high availability mode for the PostgreSQL Flexible Server. The only possible value is ZoneRedundant."
+  description                                 = "The high availability mode for the PostgreSQL Flexible Server. Possible value are SameZone or ZoneRedundant."
   default                                     = "ZoneRedundant"
 }
 
@@ -265,4 +271,44 @@ variable "DBCPUPercentHighThreshold" {
   type                                        = number
   description                                 = "threshold for CPU high threshold on DB"
   default                                     = 80
+}
+
+###################################################################################
+############################# Azure AD Admin ######################################
+###################################################################################
+
+variable "IsAadAdminEnabled" {
+  type                                        = bool
+  default                                     = false
+  description                                 = "A boolean to activate / deactivate the aad admin. Used both for the psql authentication block and the aad admin resource"
+}
+
+variable "IsPwdAuthEnabled" {
+  type                                        = bool
+  default                                     = true
+  description                                 = "A boolean to activate / deactivate the password auth. Used in the authentication block. Default to true"
+}
+
+variable "PsqlAdminGroupObjectId" {
+  type                                        = string
+  description                                 = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
+
+}
+
+variable "TenantId" {
+  type                                        = string
+  description                                 = "The Azure Tenant ID. Changing this forces a new resource to be created."
+
+}
+
+variable "AADAdminPrincipalName" {
+  type                                        = string
+  description                                 = "value"
+  default                                     = "psqlaadadmin"
+}
+
+variable "AADPrincipalType" {
+  type                                        = string
+  description                                 = "value"
+  default                                     = "Group"
 }
