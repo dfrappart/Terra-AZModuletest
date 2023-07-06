@@ -1,0 +1,46 @@
+formatter: "markdown table"
+
+header-from: ./.config/agw_header.md
+
+sections:
+  show: 
+    - all
+
+content: |-
+
+  {{ .Header }}
+
+  ## Sample
+
+  The module in its current forms requires at least one site to be defined, with a certificate referenced from a Key Vault.
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/agw.tf"}}
+
+   ```
+
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Resources }}
+
+  {{ .Outputs }}
+
+  ## How to update this documentation
+
+  In the module folder, use the following command.
+
+  ```bash
+
+  terraform-docs --config ./.config/.terraform-doc.yml .
+
+  ```
+
+output: 
+  file: ./readme.md
+  mode: replace
