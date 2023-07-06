@@ -10,14 +10,7 @@ resource "azurerm_user_assigned_identity" "AppGatewayManagedId" {
   location                              = var.TargetLocation
   name                                  = "uai-agw${var.AGWSuffix}"
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = local.Tags
 }
 
 ###################################################################################
@@ -46,18 +39,12 @@ resource "azurerm_public_ip" "AppGWPIP" {
   location                              = var.TargetLocation
   resource_group_name                   = var.TargetRG
   allocation_method                     = "Static"
-  sku                                   = "standard"
+  sku                                   = "Standard"
   domain_name_label                     = "pubip-agw${lower(var.AGWSuffix)}"
+  zones                                 = var.AZList
 
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = local.Tags
 }
 
 #Diagnostic settings on the AppGW pip
@@ -154,22 +141,10 @@ resource "azurerm_application_gateway" "AGW" {
 
   frontend_ip_configuration {
     name                                  = "agw-fip-prv-${var.AGWSuffix}"
-    private_ip_address_allocation         = "static"
+    private_ip_address_allocation         = "Static"
     private_ip_address                    = cidrhost(var.TargetSubnetAddressPrefix, var.AppGwPrivateFrontendIpAddressHostnum)
     subnet_id                             = var.TargetSubnetId
   }
-
-# settings for front end
-/*
-  dynamic "frontend_port" {
-    for_each = var.FrontEndPorts
-    iterator = each
-    content {
-      name                              = "agw-fpt-pub-${each.value.FrontEndPort}${var.AGWSuffix}"
-      port                              = each.value.FrontEndPort
-    }
-  }
-*/
 
   frontend_port {
     name                                = "agw-fpt-pub-${var.FrontEndPort}${var.AGWSuffix}"
@@ -257,7 +232,8 @@ resource "azurerm_application_gateway" "AGW" {
       rule_type                           = "Basic"
       http_listener_name                  = "agw-lsn-pub-${var.FrontEndPort}${var.AGWSuffix}${each.value.SiteIdentifier}"
       backend_address_pool_name           = "agw-bck-${var.AGWSuffix}${each.value.SiteIdentifier}"
-      backend_http_settings_name          = "agw-bhs-pub-${var.BHSPort}${each.value.SiteIdentifier}"      
+      backend_http_settings_name          = "agw-bhs-pub-${var.BHSPort}${each.value.SiteIdentifier}"
+      priority                            = each.value.RoutingRulePriority
     }    
   }
 
@@ -265,6 +241,7 @@ resource "azurerm_application_gateway" "AGW" {
 
   identity {
     identity_ids                        = [azurerm_user_assigned_identity.AppGatewayManagedId.id]
+    type                                = "UserAssigned"
   }
 
 # Waf Config
@@ -277,14 +254,7 @@ resource "azurerm_application_gateway" "AGW" {
 
   }
 
-  tags = {
-    ResourceOwner                       = var.ResourceOwnerTag
-    Country                             = var.CountryTag
-    CostCenter                          = var.CostCenterTag
-    Project                             = var.Project
-    Environment                         = var.Environment
-    ManagedBy                           = "Terraform"
-  }
+  tags = local.Tags
 
   depends_on = [
     azurerm_key_vault_access_policy.KeyVaultAccessPolicy01,

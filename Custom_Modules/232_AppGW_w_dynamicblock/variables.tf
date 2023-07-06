@@ -101,7 +101,7 @@ variable "ProbeInterval" {
 variable "ProbeProtocol" {
   type                              = string
   description                       = "The Protocol used for this Probe. Possible values are Http and Https."
-  default                           = "http"
+  default                           = "Http"
 }
 
 variable "ProbePath" {
@@ -185,7 +185,13 @@ variable "FrontEndPorts" {
 # map for mabnaging multi sites with dynamic block
 
 variable "SitesConf" {
-  type                              = map
+  type                              = map(object({
+    SiteIdentifier = string
+    AppGWSSLCertNameSite = string
+    AppGwPublicCertificateSecretIdentifierSite = string
+    HostnameSite = string
+    RoutingRulePriority = number
+  }))
   description                       = "A map used to feed the dynamic blocks of the gw configuration"
   default                           = {
       "Site 1"                            = {
@@ -193,6 +199,7 @@ variable "SitesConf" {
         AppGWSSLCertNameSite                          = "default"
         AppGwPublicCertificateSecretIdentifierSite    = "default"
         HostnameSite                                  = "default"
+        RoutingRulePriority                           = 1
     }
   }
 }
@@ -200,32 +207,21 @@ variable "SitesConf" {
 ######################################################
 # Tag related variables and naming convention section
 
-variable "ResourceOwnerTag" {
-  type                              = string
-  description                       = "Tag describing the owner"
-  default                           = "That would be me"
+variable "DefaultTags" {
+  type        = map
+  description = "Default Tags"
+  default     = {
+    Environment   = "dev"
+    Project       = "tfmodule"
+    Company       = "dfitc"
+    CostCenter    = "lab"
+    Country       = "fr"
+    ResourceOwner = "That would be me"
+  }
 }
 
-variable "CountryTag" {
-  type                              = string
-  description                       = "Tag describing the Country"
-  default                           = "fr"
-}
-
-variable "CostCenterTag" {
-  type                              = string
-  description                       = "Tag describing the Rexel Cost Center which is the same as the one on the EA"
-  default                           = "tflab"
-}
-
-variable "Project" {
-  type                              = string
-  description                       = "The name of the project"
-  default                           = "azure"
-}
-
-variable "Environment" {
-  type                              = string
-  description                       = "The environment, dev, prod..."
-  default                           = "lab"
+variable "extra_tags" {
+  type        = map
+  description = "Additional optional tags."
+  default     = {}
 }
