@@ -2,29 +2,24 @@
 
 locals {
 
-defaultsubnetoutput = {
-        "address_prefix" = ""
-        "address_prefixes" = [
-          "",
-        ]
-        "delegation" = []
-        "enforce_private_link_endpoint_network_policies" = false
-        "enforce_private_link_service_network_policies" = false
-        "id" = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/<vnet_name>/subnets/<subnet_name>"
-        "name" = "<subnet_name>"
-        "resource_group_name" = "<rg_name>"
-        "service_endpoint_policy_ids" = []
-        "service_endpoints" = []
-        "timeouts" = null
-        "virtual_network_name" = "<vnet_name>"
-    }
+  StartingDate                    = timeadd(timestamp(), "1m")
+  ExpirationDate                  = timeadd(timestamp(), "8760h")
+  StartDateTag                    = formatdate("YYYY-MM-DD", local.StartingDate)
 
-defaultIpConfigOutput = {
-        "name" = "bst-pubip-config"
-        "public_ip_address_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/publicIPAddresses/<bst-pubip>"
-        "subnet_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/vnetpocdoc/subnets/AzureBastionSubnet"
+  AppName                         = var.AppName == "" ? random_string.RandomAppName.result : var.AppName 
+  RgName                          = var.Rg.Name == "" ? lower(format("%s-%s-%s%s","rg",var.Env,local.AppName,var.ObjectIndex)) : var.RgName
+  VnetName                        = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s","vnet",var.Env,local.AppName,var.ObjectIndex)) : var.Vnet.Name
 
-    }
+  VnetPrefix                      = split("/", var.Vnet.AddressSpace)[1]
+  SubnetPrefixes                  = sort(local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressPrefix, 1, 1) : [var.Vnet.AddressPrefix]))
+  Subnets = { for subnet in var.Subnets : subnet.Name => {
+    Name = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s","subnet",index(var.Subnets,subnet)+1,local.VnetName))
+    #Nsg = {
+    #  Name  = Subnet.Nsg.Name
+    #  Rules = merge(try(subnet.nsg.rules, {}), var.default_nsg_rules)
+    #}
+    } 
+  }
 
 }
 

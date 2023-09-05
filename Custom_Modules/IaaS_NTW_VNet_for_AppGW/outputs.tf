@@ -1,10 +1,19 @@
 ##############################################################
-#module outputs
+# module outputs
 ##############################################################
+
+##############################################################
+# Output RG
+
+output "RGName" {
+  value = local.RgName
+  sensitive = false
+  description = "The name of the RG in which the resources are located"
+}
 
 ##############################################################
 #Output Log analytics workspace
-
+/*
 output "LAWFullOutput" {
   value                       = data.azurerm_log_analytics_workspace.LawSubLog
   sensitive                   = true
@@ -103,3 +112,5 @@ output "SpokeBastionIpConfig" {
   value                       =  var.IsBastionEnabled ? azurerm_bastion_host.SpokeBastion[0].ip_configuration[0] : local.defaultIpConfigOutput
   sensitive                   = true
 }
+
+*/

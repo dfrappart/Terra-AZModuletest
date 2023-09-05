@@ -12,7 +12,7 @@ data "azurerm_subscription" "current" {}
 #############################################################################
 #data source for the subscription setup logs features
 
-
+/*
 data "azurerm_resource_group" "RGLogs" {
   name                        = var.RGLogName
 }
@@ -22,4 +22,4 @@ data "azurerm_log_analytics_workspace" "LawSubLog" {
   resource_group_name         = data.azurerm_resource_group.RGLogs.name
 }
 
-
+*/

@@ -3,31 +3,179 @@
 ##############################################################
 
 ######################################################
-# Data sources variables
+# Environment variables
 
-variable "RGLogName" {
-  type          = string
-  description   = "name of the RG containing the logs collector objects (sta and log analytics)"
+variable "ResourcePrefix" {
+  type        = string
+  description = "Define the resource prexix, as define in the Cloud adoptio  framework."
+
+  default = "rg"
+
 }
 
-variable "LawSubLogName" {
-  type          = string
-  description   = "name of the log analytics workspace containing the logs"
+variable "Env" {
+  type        = string
+  description = "Define the environment kind. Possible value are sbx, dev or prd"
+
+  validation {
+    condition     = contains(["sbx", "dev", "prd"], var.Env)
+    error_message = "The environment value can be only one of sbx, dev or prd"
+  }
+
+  default = "sbx"
+
 }
 
-variable "TargetRG" {
-  type          = string
-  description   = "name of the RG targeted for the deployment"
+variable "AppName" {
+  type        = string
+  description = "Define the app name"
+
+  default = ""
+
 }
 
-variable "TargetLocation" {
-  type          = string
-  description   = "Location of the resources to be deployed"
+variable "ObjectIndex" {
+  type        = number
+  description = "Define the index of the resources"
+
+  #validation {
+  #  condition = can(regex("^[0-9]{3}$"), var.ObjectIndex)
+  #  error_message = "The object index should be defined with 3 digit, from 000 to 999"
+  #}
+
+  default = 1
+
+}
+
+variable "Location" {
+  type        = string
+  description = "The azure region"
+  default     = "eastus"
 }
 
 ######################################################
-#VNet variables
+# Resource group variables
 
+variable "Rg" {
+  description = "An object containing the resource group to be created with it's location"
+  type = object({
+    Name     = string
+    Location = string
+    CreateRG = bool
+  })
+
+  default = {
+    Name = ""
+    Location = "eastus"
+    CreateRG = true
+  }
+}
+variable "RgName" {
+  type        = string
+  description = "The resource core name. Should follow the pattern dbaas-<env>-<tenant>-<instance>-<specificidentifyingstring>"
+  default     = "unspecified"
+}
+
+variable "CreateRG" {
+  type        = bool
+  description = "Is the rg created within the module. Default to false"
+  default     = false
+}
+
+###################################################################
+# Tag related variables section
+
+variable "DefaultTags" {
+  type        = map(any)
+  description = "Define a set of default tags"
+  default = {
+    Environment   = "dev"
+    Project       = "tfmodule"
+    Company       = "dfitc"
+    CostCenter    = "lab"
+    Country       = "fr"
+    ResourceOwner = "That would be me"
+
+  }
+}
+
+variable "ExtraTags" {
+  type        = map(any)
+  description = "Define a set of additional optional tags."
+  default     = {}
+}
+
+######################################################
+# VNet variables
+
+variable "Vnet" {
+  description = "An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask"
+  type = object({
+    Name          = string
+    AddressSpace = string
+    DnsServers   = list(string)
+  })
+
+  default = {
+    Name = ""
+    AddressSpace = "172.21.0.0/24"
+    DnsServers = []
+  }
+}
+
+variable "Subnets" {
+  description = "An object containing the informations needed to create subnets, the rules object is optional and is used to add nsg rules on top of the default_nsg_rules"
+  type = list(object({
+    Name = string
+    AllowCustomName = bool
+    Nsg = object({
+      Name = string
+      Rules = map(object({
+        Name                       = string
+        Priority                   = number
+        Direction                  = string
+        Access                     = string
+        Protocol                   = string
+        SourcePortRange            = string
+        DestinationPortRange       = string
+        SourceAddressPrefix        = string
+        DestinationAddressPrefix   = string
+      }))
+    })
+  }))
+
+  default = [ 
+    {
+      Name = "Subnet1"
+      AllowCustomName = false
+      Nsg = {
+        Name = "Nsg-Subnet1"
+        Rules = {}
+      }
+    } 
+  ]
+
+
+}
+
+variable "default_nsg_rules" {
+  description = "A map of object used to create dafault NSG rules for all NSGs inside the spoke"
+  type = map(object({
+    name                       = string
+    priority                   = number
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
+  }))
+
+  default = {}
+}
+
+/*
 variable "VNetAddressSpace" {
   type          = list
   default       = ["172.20.0.0/24"]
@@ -89,7 +237,7 @@ variable "IsBastionEnabled" {
 
 variable "BastionSku" {
   type          = string
-  default       = "standard"
+  default       = "Standard"
   description   = "The SKU of the Bastion Host. Accepted values are Basic and Standard"
 }
 
@@ -235,3 +383,5 @@ variable "VNetMetricCategories" {
 
   }
 }
+
+*/
