@@ -11,7 +11,7 @@ locals {
   VnetName                        = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s","vnet",var.Env,local.AppName,var.ObjectIndex)) : var.Vnet.Name
 
   VnetPrefix                      = split("/", var.Vnet.AddressSpace)[1]
-  SubnetPrefixes                  = sort(local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressPrefix, 1, 1) : [var.Vnet.AddressPrefix]))
+  SubnetPrefixes                  = local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressSpace, 1, 1) : [var.Vnet.AddressSpace])
   Subnets = { for subnet in var.Subnets : subnet.Name => {
     Name = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s","subnet",index(var.Subnets,subnet)+1,local.VnetName))
     #Nsg = {
@@ -24,6 +24,12 @@ locals {
 }
 
 
+output "subprefix" {
+  value = local.SubnetPrefixes
+}
 
+output "subnetprefixnotsorted" {
+  value = cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2)
+}
 
 
