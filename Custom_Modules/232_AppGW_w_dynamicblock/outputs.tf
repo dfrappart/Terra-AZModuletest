@@ -48,7 +48,7 @@ output "AppGWPubIP" {
 }
 
 # Full output agw pub ip diag
-
+/*
 output "AppGWPubIPDiag" {
   value                   = azurerm_monitor_diagnostic_setting.AppGWPIPDiag
 }
@@ -57,4 +57,8 @@ output "AppGWPubIPDiag" {
 
 output "AppGWDiag" {
   value                   = azurerm_monitor_diagnostic_setting.AppGWDiag
+}*/
+
+output "pubipdiag" {
+  value = data.azurerm_monitor_diagnostic_categories.AGWPubIP
 }

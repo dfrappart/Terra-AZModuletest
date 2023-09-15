@@ -30,6 +30,22 @@ variable "KVId" {
 ######################################################
 # Application GW variables
 
+variable "PubIpLogCategories" {
+
+  description = "A list of log categories to activate on the public ip"
+  type = list
+  default = null
+  
+}
+
+variable "PubIpMetricCategories" {
+
+  description = "A list of metric categories to activate on the public ip"
+  type = list
+  default = null
+  
+}
+
 variable "AZList" {
   type                              = list
   default                           = [1,2,3]
