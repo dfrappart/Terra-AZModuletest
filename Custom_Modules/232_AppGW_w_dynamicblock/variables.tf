@@ -2,14 +2,23 @@
 # Data sources variables
 ######################################################
 
+
+variable "CreateRg" {
+  type = bool
+  default = false
+  description = "A bool to decide if the RG is to be created. Set to true, it forces the creation of a new RG"
+
+}
 variable "TargetRG" {
   type        = string
   description = "The Name of the RG targeted for the deployment"
+  default = "unspecified"
 }
 
 variable "TargetLocation" {
   type        = string
   description = "The location of the resources to be deployed"
+  default = "eastus"
 }
 
 variable "LawSubLogId" {

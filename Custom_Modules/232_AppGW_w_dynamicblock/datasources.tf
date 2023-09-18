@@ -5,7 +5,7 @@
 data "azurerm_subscription" "current" {}
 
 #############################################################################
-#data source for the subscription setup logs features
+#data source for diagnostic settings
 
 
 data "azurerm_monitor_diagnostic_categories" "AgwPubIP" {

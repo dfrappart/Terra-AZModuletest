@@ -3,7 +3,7 @@
 #Creating AG User Assigned Managed identity
 
 resource "azurerm_user_assigned_identity" "AppGatewayManagedId" {
-  resource_group_name = var.TargetRG
+  resource_group_name = local.RgName
   location            = var.TargetLocation
   name                = "uai-agw${var.AGWSuffix}"
 

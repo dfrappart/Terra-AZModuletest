@@ -24,7 +24,7 @@ resource "azurerm_application_gateway" "AGW" {
   }
 
   name                = "agw${var.AGWSuffix}"
-  resource_group_name = var.TargetRG
+  resource_group_name = local.RgName
   location            = var.TargetLocation
   zones               = var.AZList
 
@@ -188,9 +188,9 @@ resource "azurerm_monitor_diagnostic_setting" "AgwDiagSettings" {
     content {
       category = enabled_log.value
 
-      retention_policy {
-        enabled = true
-      }
+      #retention_policy {
+      #  enabled = true
+      #}
     }
   }
 
@@ -199,9 +199,9 @@ resource "azurerm_monitor_diagnostic_setting" "AgwDiagSettings" {
     content {
       category = metric.value
 
-      retention_policy {
-        enabled = true
-      }
+      #retention_policy {
+      #  enabled = true
+      #}
     }
   }
 
