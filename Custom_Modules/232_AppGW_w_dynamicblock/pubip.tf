@@ -19,6 +19,7 @@ resource "azurerm_public_ip" "AppGWPIP" {
 #Diagnostic settings on the AppGW pip
 
 resource "azurerm_monitor_diagnostic_setting" "PubIpAgwDiagSettings" {
+  count = var.EnabledDiagSettings ? 1 : 0
   name                       = format("%s-%s", "diag", azurerm_public_ip.AppGWPIP.name)
   storage_account_id         = local.StaLogId
   log_analytics_workspace_id = local.LawLogId

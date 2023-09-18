@@ -177,6 +177,7 @@ resource "azurerm_application_gateway" "AGW" {
 # Diagnostic settings for app gw
 
 resource "azurerm_monitor_diagnostic_setting" "AgwDiagSettings" {
+  count = var.EnabledDiagSettings ? 1 : 0
   name                       = format("diag-%s", azurerm_application_gateway.AGW.name)
   storage_account_id         = local.StaLogId
   log_analytics_workspace_id = local.LawLogId
