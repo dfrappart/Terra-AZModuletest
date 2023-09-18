@@ -4,35 +4,40 @@
 
 
 variable "CreateRg" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "A bool to decide if the RG is to be created. Set to true, it forces the creation of a new RG"
 
 }
 variable "TargetRG" {
   type        = string
   description = "The Name of the RG targeted for the deployment"
-  default = "unspecified"
+  default     = "unspecified"
 }
 
 variable "TargetLocation" {
   type        = string
   description = "The location of the resources to be deployed"
-  default = "eastus"
+  default     = "eastus"
 }
 
 variable "LawLogId" {
   type        = string
   description = "The id of the log analytics workspace containing the logs"
-  default = "unspecified"
+  default     = "unspecified"
 }
 
 variable "StaLogId" {
   type        = string
   description = "The id of the storage account containing the logs on the subscription level"
-  default = "unspecified"
+  default     = "unspecified"
 }
 
+variable "EnabledDiagSettings" {
+  type        = bool
+  description = "A bool to enable or disable the diagnostic settings"
+  default     = true
+}
 variable "KVId" {
   type        = string
   description = "The target Key Vault ID."

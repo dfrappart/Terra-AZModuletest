@@ -3,13 +3,13 @@ locals {
   Tags = merge(var.DefaultTags, var.extra_tags, { ManagedBy = "Terraform" })
 
   # Locals for RG creation
- 
+
 
   RgName = var.TargetRG == "unspecified" ? format("%s-%s", "rg", var.AGWSuffix) : var.TargetRG
 
   # Locals for Storage account log creation
 
-  StaLogId = var.StaLogId == "unspecified" ? azurerm_storage_account.StaMonitor[0].id : var.StaLogId 
+  StaLogId = var.StaLogId == "unspecified" ? azurerm_storage_account.StaMonitor[0].id : var.StaLogId
   LawLogId = var.LawLogId == "unspecified" ? azurerm_log_analytics_workspace.LawMonitor[0].id : var.LawLogId
 
   PubIpLogCategories    = var.PubIpLogCategories != null ? toset(sort(var.PubIpLogCategories)) : sort(data.azurerm_monitor_diagnostic_categories.AgwPubIP.log_category_types)
