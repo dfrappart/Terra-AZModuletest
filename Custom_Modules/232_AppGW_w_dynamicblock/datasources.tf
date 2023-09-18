@@ -8,6 +8,10 @@ data "azurerm_subscription" "current" {}
 #data source for the subscription setup logs features
 
 
-data "azurerm_monitor_diagnostic_categories" "AGWPubIP" {
+data "azurerm_monitor_diagnostic_categories" "AgwPubIP" {
   resource_id = azurerm_public_ip.AppGWPIP.id
+}
+
+data "azurerm_monitor_diagnostic_categories" "Agw" {
+  resource_id = azurerm_application_gateway.AGW.id
 }

@@ -18,8 +18,8 @@ resource "azurerm_public_ip" "AppGWPIP" {
 
 #Diagnostic settings on the AppGW pip
 
-resource "azurerm_monitor_diagnostic_setting" "diagsettings" {
-  name                       = format("diag-%s", azurerm_public_ip.AppGWPIP.name)
+resource "azurerm_monitor_diagnostic_setting" "PubIpAgwDiagSettings" {
+  name                                  = format("%s-%s", "diag",azurerm_public_ip.AppGWPIP.name)
   storage_account_id                    = var.STASubLogId
   log_analytics_workspace_id            = var.LawSubLogId
   target_resource_id                    = azurerm_public_ip.AppGWPIP.id

@@ -204,7 +204,7 @@ resource "azurerm_application_gateway" "AGW" {
 # Diagnostic settings for app gw
 
 /*
-resource "azurerm_monitor_diagnostic_setting" "AppGWDiag" {
+resource "azurerm_monitor_diagnostic_setting" "AgwDiagSetting" {
   name                                  = "${azurerm_application_gateway.AGW.name}diag"
   target_resource_id                    = azurerm_application_gateway.AGW.id
   storage_account_id                    = var.STASubLogId
@@ -249,3 +249,36 @@ resource "azurerm_monitor_diagnostic_setting" "AppGWDiag" {
 
 }
 */
+
+resource "azurerm_monitor_diagnostic_setting" "AgwDiagSettings" {
+  name                                  = format("diag-%s", azurerm_application_gateway.AGW.name)
+  storage_account_id                    = var.STASubLogId
+  log_analytics_workspace_id            = var.LawSubLogId
+  target_resource_id                    = azurerm_application_gateway.AGW.id
+
+
+  dynamic "enabled_log" {
+    for_each = local.AgwLogCategories
+    content {
+      category = enabled_log.value
+      #enabled  = true #length(var.logs) == 0 ? true : (contains(var.logs, log.value) ? true : false)
+
+      retention_policy {
+        enabled = true
+      }
+    }
+  }
+
+  dynamic "metric" {
+    for_each = local.AgwMetricCategories
+    content {
+      category = metric.value
+      #enabled  = true #length(var.metrics) == 0 ? true : (contains(var.metrics, metric.value) ? true : false)
+
+      retention_policy {
+        enabled = true
+      }
+    }
+  }
+
+}

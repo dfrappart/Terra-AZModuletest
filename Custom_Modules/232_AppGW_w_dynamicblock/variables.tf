@@ -46,6 +46,22 @@ variable "PubIpMetricCategories" {
   
 }
 
+variable "AgwLogCategories" {
+
+  description = "A list of log categories to activate on the Application Gateway"
+  type = list
+  default = null
+  
+}
+
+variable "AgwMetricCategories" {
+
+  description = "A list of metric categories to activate on the Application Gateway"
+  type = list
+  default = null
+  
+}
+
 variable "AZList" {
   type                              = list
   default                           = [1,2,3]

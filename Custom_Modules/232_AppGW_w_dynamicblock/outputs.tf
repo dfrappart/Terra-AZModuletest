@@ -60,5 +60,5 @@ output "AppGWDiag" {
 }*/
 
 output "pubipdiag" {
-  value = data.azurerm_monitor_diagnostic_categories.AGWPubIP
+  value = data.azurerm_monitor_diagnostic_categories.AgwPubIP
 }
