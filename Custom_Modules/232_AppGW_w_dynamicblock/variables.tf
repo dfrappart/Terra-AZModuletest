@@ -21,14 +21,16 @@ variable "TargetLocation" {
   default = "eastus"
 }
 
-variable "LawSubLogId" {
+variable "LawLogId" {
   type        = string
   description = "The id of the log analytics workspace containing the logs"
+  default = "unspecified"
 }
 
-variable "STASubLogId" {
+variable "StaLogId" {
   type        = string
   description = "The id of the storage account containing the logs on the subscription level"
+  default = "unspecified"
 }
 
 variable "KVId" {

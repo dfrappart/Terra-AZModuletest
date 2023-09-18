@@ -20,8 +20,8 @@ resource "azurerm_public_ip" "AppGWPIP" {
 
 resource "azurerm_monitor_diagnostic_setting" "PubIpAgwDiagSettings" {
   name                       = format("%s-%s", "diag", azurerm_public_ip.AppGWPIP.name)
-  storage_account_id         = var.STASubLogId
-  log_analytics_workspace_id = var.LawSubLogId
+  storage_account_id         = local.StaLogId
+  log_analytics_workspace_id = local.LawLogId
   target_resource_id         = azurerm_public_ip.AppGWPIP.id
 
 

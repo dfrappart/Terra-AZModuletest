@@ -178,8 +178,8 @@ resource "azurerm_application_gateway" "AGW" {
 
 resource "azurerm_monitor_diagnostic_setting" "AgwDiagSettings" {
   name                       = format("diag-%s", azurerm_application_gateway.AGW.name)
-  storage_account_id         = var.STASubLogId
-  log_analytics_workspace_id = var.LawSubLogId
+  storage_account_id         = local.StaLogId
+  log_analytics_workspace_id = local.LawLogId
   target_resource_id         = azurerm_application_gateway.AGW.id
 
 
