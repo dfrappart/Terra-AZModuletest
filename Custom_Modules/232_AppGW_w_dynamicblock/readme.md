@@ -10,16 +10,17 @@ This module deploys an Azure Application Gateway
 It includes configuration for:
 
 - Application Gateway and related object. Refer to terraform documentation for details
-- Application GatewayPublic IP
-- Azure Diagnostic settings for Applicatyion Gateway
+- Application Gateway Public IP
+- Azure Diagnostic settings for Applicayion Gateway
 - Azure diagnostic settings for Application Gateway Public IP
 - User Assign managed identity to allow Application Gateway to get its certificate directly from a key vault
-- A Keyvault Access Policy applyed on the targeted key vault to allow Application Gateway to fetch its certificate
+- A Keyvault Access Policy applied on the targeted key vault to allow Application Gateway to fetch its certificate
 
-## Dependencies
+## Deployment options
 
-Diagnostic settings send logs to a storage account and a log analytic workspace which **must exist prior to the deployment**.
-Those repositories of logs are referenced through data sources. Names for those resources follow the names as described in naming convention.
+Diagnostic settings send logs to a storage account and a log analytic workspace. The resources are referenced through their resource ids. If not specified, the module will create a storage acocunt and a log analytics workspace. The variables `StaLogId` and `LawLogId` are set to `unspecified` by default so that the log repositories are created by the module. If set at module call, the values must be valid resource Ids
+
+The target resource group can also either be specified, by its name, or be created by the module. The default value of the variable `TargetRg` is set to `unspecified` so that the RG is created by the module.
 
 ## Sample
 
@@ -100,7 +101,7 @@ module "AGW" {
 | <a name="input_FrontEndPort"></a> [FrontEndPort](#input\_FrontEndPort) | The port used for the Frontend Port. | `string` | `443` | no |
 | <a name="input_FrontEndPorts"></a> [FrontEndPorts](#input\_FrontEndPorts) | A map used to feed the dynamic blocks of the gw configuration for the front end port | `map(any)` | <pre>{<br>  "FrontEndPortDefault": {<br>    "FrontEndPort": 443<br>  }<br>}</pre> | no |
 | <a name="input_KVId"></a> [KVId](#input\_KVId) | The target Key Vault ID. | `string` | n/a | yes |
-| <a name="input_LawSubLogId"></a> [LawSubLogId](#input\_LawSubLogId) | The id of the log analytics workspace containing the logs | `string` | n/a | yes |
+| <a name="input_LawLogId"></a> [LawLogId](#input\_LawLogId) | The id of the log analytics workspace containing the logs | `string` | `"unspecified"` | no |
 | <a name="input_ProbeHost"></a> [ProbeHost](#input\_ProbeHost) | The Hostname used for this Probe. If the Application Gateway is configured for a single site, by default the Host name should be specified as ‘127.0.0.1’, unless otherwise configured in custom probe. Cannot be set if pick\_host\_name\_from\_backend\_http\_settings is set to true. | `string` | `"127.0.0.1"` | no |
 | <a name="input_ProbeInterval"></a> [ProbeInterval](#input\_ProbeInterval) | Time interval (in seconds) between 2 consecutive probes for health probe #1. Possible values range from 1 second to a maximum of 86400 seconds. | `string` | `10` | no |
 | <a name="input_ProbePath"></a> [ProbePath](#input\_ProbePath) | The probe path. URI test path for health probe #1. Must begin with a /. | `string` | `"/"` | no |
@@ -110,8 +111,8 @@ module "AGW" {
 | <a name="input_ProbeUnhealthyThreshold"></a> [ProbeUnhealthyThreshold](#input\_ProbeUnhealthyThreshold) | Unhealthy threshold (number) for health probe #1, which indicates the amount of retries which should be attempted before a node is deemed unhealthy. Possible values are from 1 - 20 retries. | `string` | `3` | no |
 | <a name="input_PubIpLogCategories"></a> [PubIpLogCategories](#input\_PubIpLogCategories) | A list of log categories to activate on the public ip | `list(any)` | `null` | no |
 | <a name="input_PubIpMetricCategories"></a> [PubIpMetricCategories](#input\_PubIpMetricCategories) | A list of metric categories to activate on the public ip | `list(any)` | `null` | no |
-| <a name="input_STASubLogId"></a> [STASubLogId](#input\_STASubLogId) | The id of the storage account containing the logs on the subscription level | `string` | n/a | yes |
 | <a name="input_SitesConf"></a> [SitesConf](#input\_SitesConf) | A map used to feed the dynamic blocks of the gw configuration | <pre>map(object({<br>    SiteIdentifier                             = string<br>    AppGWSSLCertNameSite                       = string<br>    AppGwPublicCertificateSecretIdentifierSite = string<br>    HostnameSite                               = string<br>    RoutingRulePriority                        = number<br>  }))</pre> | <pre>{<br>  "Site 1": {<br>    "AppGWSSLCertNameSite": "default",<br>    "AppGwPublicCertificateSecretIdentifierSite": "default",<br>    "HostnameSite": "default",<br>    "RoutingRulePriority": 1,<br>    "SiteIdentifier": "default"<br>  }<br>}</pre> | no |
+| <a name="input_StaLogId"></a> [StaLogId](#input\_StaLogId) | The id of the storage account containing the logs on the subscription level | `string` | `"unspecified"` | no |
 | <a name="input_TargetLocation"></a> [TargetLocation](#input\_TargetLocation) | The location of the resources to be deployed | `string` | `"eastus"` | no |
 | <a name="input_TargetRG"></a> [TargetRG](#input\_TargetRG) | The Name of the RG targeted for the deployment | `string` | `"unspecified"` | no |
 | <a name="input_TargetSubnetAddressPrefix"></a> [TargetSubnetAddressPrefix](#input\_TargetSubnetAddressPrefix) | The subnet prefix for the app gw | `string` | n/a | yes |
@@ -126,10 +127,12 @@ module "AGW" {
 |------|------|
 | [azurerm_application_gateway.AGW](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_gateway) | resource |
 | [azurerm_key_vault_access_policy.KeyVaultAccessPolicy01](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_log_analytics_workspace.LawMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_diagnostic_setting.AgwDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.PubIpAgwDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_public_ip.AppGWPIP](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_resource_group.RgAgw](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_storage_account.StaMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_user_assigned_identity.AppGatewayManagedId](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_monitor_diagnostic_categories.Agw](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories) | data source |
 | [azurerm_monitor_diagnostic_categories.AgwPubIP](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories) | data source |
