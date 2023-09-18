@@ -95,6 +95,7 @@ module "AGW" {
 | <a name="input_BHSCookieConfig"></a> [BHSCookieConfig](#input\_BHSCookieConfig) | Is Cookie-Based Affinity enabled? Possible values are Enabled and Disabled. | `string` | `"Disabled"` | no |
 | <a name="input_BHSPort"></a> [BHSPort](#input\_BHSPort) | The port which should be used for this Backend HTTP Settings Collection. | `string` | `80` | no |
 | <a name="input_BHSProtocol"></a> [BHSProtocol](#input\_BHSProtocol) | The Protocol which should be used. Possible values are Http and Https. | `string` | `"Http"` | no |
+| <a name="input_CreateRg"></a> [CreateRg](#input\_CreateRg) | A bool to decide if the RG is to be created. Set to true, it forces the creation of a new RG | `bool` | `false` | no |
 | <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map(any)` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That would be me"<br>}</pre> | no |
 | <a name="input_FrontEndPort"></a> [FrontEndPort](#input\_FrontEndPort) | The port used for the Frontend Port. | `string` | `443` | no |
 | <a name="input_FrontEndPorts"></a> [FrontEndPorts](#input\_FrontEndPorts) | A map used to feed the dynamic blocks of the gw configuration for the front end port | `map(any)` | <pre>{<br>  "FrontEndPortDefault": {<br>    "FrontEndPort": 443<br>  }<br>}</pre> | no |
@@ -111,8 +112,8 @@ module "AGW" {
 | <a name="input_PubIpMetricCategories"></a> [PubIpMetricCategories](#input\_PubIpMetricCategories) | A list of metric categories to activate on the public ip | `list(any)` | `null` | no |
 | <a name="input_STASubLogId"></a> [STASubLogId](#input\_STASubLogId) | The id of the storage account containing the logs on the subscription level | `string` | n/a | yes |
 | <a name="input_SitesConf"></a> [SitesConf](#input\_SitesConf) | A map used to feed the dynamic blocks of the gw configuration | <pre>map(object({<br>    SiteIdentifier                             = string<br>    AppGWSSLCertNameSite                       = string<br>    AppGwPublicCertificateSecretIdentifierSite = string<br>    HostnameSite                               = string<br>    RoutingRulePriority                        = number<br>  }))</pre> | <pre>{<br>  "Site 1": {<br>    "AppGWSSLCertNameSite": "default",<br>    "AppGwPublicCertificateSecretIdentifierSite": "default",<br>    "HostnameSite": "default",<br>    "RoutingRulePriority": 1,<br>    "SiteIdentifier": "default"<br>  }<br>}</pre> | no |
-| <a name="input_TargetLocation"></a> [TargetLocation](#input\_TargetLocation) | The location of the resources to be deployed | `string` | n/a | yes |
-| <a name="input_TargetRG"></a> [TargetRG](#input\_TargetRG) | The Name of the RG targeted for the deployment | `string` | n/a | yes |
+| <a name="input_TargetLocation"></a> [TargetLocation](#input\_TargetLocation) | The location of the resources to be deployed | `string` | `"eastus"` | no |
+| <a name="input_TargetRG"></a> [TargetRG](#input\_TargetRG) | The Name of the RG targeted for the deployment | `string` | `"unspecified"` | no |
 | <a name="input_TargetSubnetAddressPrefix"></a> [TargetSubnetAddressPrefix](#input\_TargetSubnetAddressPrefix) | The subnet prefix for the app gw | `string` | n/a | yes |
 | <a name="input_TargetSubnetId"></a> [TargetSubnetId](#input\_TargetSubnetId) | The subnet Id for the app gw | `string` | n/a | yes |
 | <a name="input_WafMode"></a> [WafMode](#input\_WafMode) | The waf mode, can be prevention or Detection | `string` | `"Prevention"` | no |
@@ -128,6 +129,7 @@ module "AGW" {
 | [azurerm_monitor_diagnostic_setting.AgwDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.PubIpAgwDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_public_ip.AppGWPIP](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
+| [azurerm_resource_group.RgAgw](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_user_assigned_identity.AppGatewayManagedId](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_monitor_diagnostic_categories.Agw](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories) | data source |
 | [azurerm_monitor_diagnostic_categories.AgwPubIP](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories) | data source |
