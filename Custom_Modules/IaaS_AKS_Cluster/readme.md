@@ -30,20 +30,6 @@ AKS cluster creation, with diagnostic settings, oms agent and defender specified
 ######################################################################
 # Creating an Azure Kubernetes Cluster
 
-locals {
-
-  SitesConf = {
-    "Site 1" = {
-      SiteIdentifier                                = data.azurerm_key_vault_certificate.akscert.name 
-      AppGWSSLCertNameSite                          = data.azurerm_key_vault_certificate.akscert.name 
-      AppGwPublicCertificateSecretIdentifierSite    = data.azurerm_key_vault_secret.akscertsecret.id
-      HostnameSite                                  = "aks.teknews.cloud"
-      RoutingRulePriority                           = 1
-    }
-  }
-}
-
-
 module "AKS" {
 
   #Module Location
@@ -83,14 +69,14 @@ module "AKS" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.6 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.40.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.72.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.40.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.72.0 |
 
 ## Inputs
 

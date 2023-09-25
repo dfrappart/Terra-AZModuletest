@@ -1,20 +1,6 @@
 ######################################################################
 # Creating an Azure Kubernetes Cluster
 
-locals {
-
-  SitesConf = {
-    "Site 1" = {
-      SiteIdentifier                                = data.azurerm_key_vault_certificate.akscert.name 
-      AppGWSSLCertNameSite                          = data.azurerm_key_vault_certificate.akscert.name 
-      AppGwPublicCertificateSecretIdentifierSite    = data.azurerm_key_vault_secret.akscertsecret.id
-      HostnameSite                                  = "aks.teknews.cloud"
-      RoutingRulePriority                           = 1
-    }
-  }
-}
-
-
 module "AKS" {
 
   #Module Location
