@@ -255,7 +255,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
     for_each = local.IsOMSAgentEnabled ? ["fake"] : []
 
     content {
-      log_analytics_workspace_id = var.LawLogId
+      log_analytics_workspace_id = local.LawOMSId
     }
 
   }
