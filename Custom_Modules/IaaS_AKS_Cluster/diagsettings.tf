@@ -3,7 +3,7 @@
 # Diagnostic settings resource
 
 resource "azurerm_monitor_diagnostic_setting" "AksDiagSettings" {
-  count                      = var.EnabledDiagSettings ? 1 : 0
+  count                      = var.EnableDiagSettings ? 1 : 0
   name                       = format("%s-%s", "diag", azurerm_kubernetes_cluster.AKS.name)
   storage_account_id         = local.StaLogId
   log_analytics_workspace_id = local.LawLogId

@@ -9,9 +9,9 @@ locals {
   CustomNodeRGName       = var.AKSNodesRG != "unspecified" ? var.AKSNodesRG : "rsg-aksobjects${lower(var.AKSClusSuffix)}"
   DefaultNodeRGName      = null
 
-  CreateLocalLaw = var.LawLogId == "unspecified" && var.EnabledDiagSettings ? true : false
+  CreateLocalLaw = var.LawLogId == "unspecified" && var.EnableDiagSettings ? true : false
 
-  CreateLocalSta = var.StaLogId == "unspecified" && var.EnabledDiagSettings ? true : false
+  CreateLocalSta = var.StaLogId == "unspecified" && var.EnableDiagSettings ? true : false
 
   StaLogId = var.StaLogId == "unspecified" && local.CreateLocalSta ? azurerm_storage_account.StaMonitor[0].id : var.StaLogId
 

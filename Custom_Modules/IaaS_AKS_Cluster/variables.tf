@@ -17,16 +17,16 @@ variable "StaLogId" {
   default     = "unspecified"
 }
 
-variable "EnabledDiagSettings" {
+variable "EnableDiagSettings" {
   type        = bool
   description = "A bool to enable or disable the diagnostic settings"
-  default     = true
+  default     = false
 }
 
 
 variable "AksLogCategories" {
 
-  description = "A list of log categories to activate on the Aks Cluster"
+  description = "A list of log categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories"
   type        = list(any)
   default     = null
 
@@ -34,7 +34,7 @@ variable "AksLogCategories" {
 
 variable "AksMetricCategories" {
 
-  description = "A list of metric categories to activate on the Aks Cluster"
+  description = "A list of metric categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories"
   type        = list(any)
   default     = null
 
@@ -111,8 +111,8 @@ variable "EnableAKSAutoScale" {
 
 variable "EnableHostEncryption" {
   type        = string
-  default     = null
-  description = "Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false."
+  default     = true
+  description = "Should the nodes in the Default Node Pool have host encryption enabled? Defaults to true."
 }
 
 variable "EnableNodePublicIP" {
@@ -598,7 +598,7 @@ variable "AKSDiskEncryptionId" {
 
 variable "LocalAccountDisabled" {
   type        = bool
-  default     = null
+  default     = true
   description = "Is local account disabled for AAD integrated kubernetes cluster?"
 }
 
@@ -916,14 +916,14 @@ variable "IshttproutingEnabled" {
 
 variable "IsCSIKVAddonEnabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Is the CSI driver for KV enabled?"
 
 }
 
 variable "CSIKVSecretRotationEnabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Is rotation from the KV secret enabled?"
 
 }
