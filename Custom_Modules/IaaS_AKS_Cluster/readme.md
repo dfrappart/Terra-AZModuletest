@@ -1,40 +1,88 @@
+<!-- BEGIN_TF_DOCS -->
+
+# Module Azure Kubernetes Cluster
+
+This module is used to provision an Azure Kubernetes Cluster and related resources
+
+## Module description
+
+This module deploys an Azure Kubernetes Cluster
+It includes configuration for:
+
+- The cluster,
+- Azure diagnostic settings for the cluster,
+- User Assign managed identity for the control plane,
+- Azure monitor alerts for the cluster,
+- Azure role assignment for the OMS managed identity if the addon is enabled.
+
+## Deployment options
+
+Diagnostic settings send logs to a storage account and a log analytic workspace. The resources are referenced through their resource ids. If not specified, the module can create a storage acocunt and a log analytics workspace. The variables `StaLogId` and `LawLogId` are set to `unspecified`. If set at module call, the values must be valid resource Ids. However, there is no variable validation at this time
+
+The target resource group can also either be specified, by its name, or be created by the module. The default value of the variable `AKSRGName` is set to `unspecified` so that the RG is created by the module.
+
+## How to call the module
+
+AKS cluster creation, with diagnostic settings, oms agent and defender specified:
+
+```hcl
+
+######################################################################
+# Creating an Azure Kubernetes Cluster
+
+module "AKS" {
+
+  #Module Location
+  source = "github.com/dfrappart/Terra-AZModuletest//Custom_Modules/IaaS_AKS_Cluster?ref=aksv1.2" 
+
+  #Module variable
+
+  AKSLocation                           = azurerm_resource_group.RG.location
+  AKSRGName                             = azurerm_resource_group.RG.name
+  AKSSubnetId                           = azurerm_subnet.subnet.id
+  AKSNetworkPlugin                      = "kubenet"
+  AKSNetPolProvider                     = "calico"
+  AKSClusSuffix                         = substr(replace(replace(each.key, ".", ""), "-", ""), 0, 12)
+  AKSIdentityType                       = "UserAssigned"
+  UAIIds                                = ["<UAI_ID>"]
+  PublicSSHKey                          = "<SSH_Key>"
+  AKSClusterAdminsIds                   = ["<AAD_Group_Object_Id>"]
+
+  LawLogId                              = "<>"
+  StaLogId                              = "<>"
+
+  LawOMSId                              = "<>"
+  IsOMSAgentEnabled                     = true
+
+  LawDefenderId                         = ""
+  IsDefenderEnabled                     = true
+
+  EnableDiagSettings                    = true
+
+
+}
+
+```
+
+
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.6 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.40.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.72.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.40.0 |
-
-## Modules
-
-No modules.
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [azurerm_kubernetes_cluster.AKS](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
-| [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
-| [azurerm_monitor_diagnostic_setting.AKSDiagToLAW](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.AKSDiagToSTA](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_metric_alert.NodeCPUPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.NodeDiskPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.NodeWorkingSetMemoryPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.UnschedulablePodCountThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_role_assignment.MSToMonitorPublisher](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.72.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ACGIds"></a> [ACGIds](#input\_ACGIds) | A list of Action GroupResource Id | `list` | `[]` | no |
+| <a name="input_ACGIds"></a> [ACGIds](#input\_ACGIds) | A list of Action GroupResource Id | `list(any)` | `[]` | no |
 | <a name="input_AGWId"></a> [AGWId](#input\_AGWId) | The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
 | <a name="input_AGWName"></a> [AGWName](#input\_AGWName) | The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
 | <a name="input_AGWSubnetCidr"></a> [AGWSubnetCidr](#input\_AGWSubnetCidr) | The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
@@ -48,19 +96,19 @@ No modules.
 | <a name="input_AKSDockerBridgeCIDR"></a> [AKSDockerBridgeCIDR](#input\_AKSDockerBridgeCIDR) | IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSIdentityType"></a> [AKSIdentityType](#input\_AKSIdentityType) | Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both). | `string` | `"SystemAssigned"` | no |
 | <a name="input_AKSLBIdleTimeout"></a> [AKSLBIdleTimeout](#input\_AKSLBIdleTimeout) | Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive. Defaults to 30. | `string` | `null` | no |
-| <a name="input_AKSLBOutboundIPAddressIds"></a> [AKSLBOutboundIPAddressIds](#input\_AKSLBOutboundIPAddressIds) | The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer. | `list` | `null` | no |
+| <a name="input_AKSLBOutboundIPAddressIds"></a> [AKSLBOutboundIPAddressIds](#input\_AKSLBOutboundIPAddressIds) | The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer. | `list(any)` | `null` | no |
 | <a name="input_AKSLBOutboundIPCount"></a> [AKSLBOutboundIPCount](#input\_AKSLBOutboundIPCount) | Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive. | `string` | `2` | no |
-| <a name="input_AKSLBOutboundIPPrefixIds"></a> [AKSLBOutboundIPPrefixIds](#input\_AKSLBOutboundIPPrefixIds) | The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer. | `list` | `null` | no |
+| <a name="input_AKSLBOutboundIPPrefixIds"></a> [AKSLBOutboundIPPrefixIds](#input\_AKSLBOutboundIPPrefixIds) | The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer. | `list(any)` | `null` | no |
 | <a name="input_AKSLBOutboundPortsAllocated"></a> [AKSLBOutboundPortsAllocated](#input\_AKSLBOutboundPortsAllocated) | Number of desired SNAT port for each VM in the clusters load balancer. Must be between 0 and 64000 inclusive. Defaults to 0. | `string` | `null` | no |
 | <a name="input_AKSLBSku"></a> [AKSLBSku](#input\_AKSLBSku) | Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are Basic and Standard. Defaults to Standard. | `string` | `"standard"` | no |
-| <a name="input_AKSLocation"></a> [AKSLocation](#input\_AKSLocation) | The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created. | `string` | `"westeurope"` | no |
+| <a name="input_AKSLocation"></a> [AKSLocation](#input\_AKSLocation) | The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created. | `string` | `"eastus"` | no |
 | <a name="input_AKSMaxPods"></a> [AKSMaxPods](#input\_AKSMaxPods) | Define the max pod number per nodes, Change force new resoure to be created | `string` | `100` | no |
 | <a name="input_AKSNetPolProvider"></a> [AKSNetPolProvider](#input\_AKSNetPolProvider) | Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. | `string` | `"calico"` | no |
 | <a name="input_AKSNetworkDNS"></a> [AKSNetworkDNS](#input\_AKSNetworkDNS) | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSNetworkPlugin"></a> [AKSNetworkPlugin](#input\_AKSNetworkPlugin) | Network plugin to use for networking. Currently supported values are azure, kubenet and none. Changing this forces a new resource to be created. | `string` | `"azure"` | no |
 | <a name="input_AKSNodeCount"></a> [AKSNodeCount](#input\_AKSNodeCount) | The number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `3` | no |
 | <a name="input_AKSNodeInstanceType"></a> [AKSNodeInstanceType](#input\_AKSNodeInstanceType) | The size of the Virtual Machine, such as Standard\_DS2\_v2. | `string` | `"standard_d2s_v4"` | no |
-| <a name="input_AKSNodeLabels"></a> [AKSNodeLabels](#input\_AKSNodeLabels) | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. | `map` | `null` | no |
+| <a name="input_AKSNodeLabels"></a> [AKSNodeLabels](#input\_AKSNodeLabels) | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. | `map(any)` | `null` | no |
 | <a name="input_AKSNodeOSDiskSize"></a> [AKSNodeOSDiskSize](#input\_AKSNodeOSDiskSize) | The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created. | `string` | `127` | no |
 | <a name="input_AKSNodeOSDiskType"></a> [AKSNodeOSDiskType](#input\_AKSNodeOSDiskType) | The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSNodeOSSku"></a> [AKSNodeOSSku](#input\_AKSNodeOSSku) | OsSKU to be used to specify Linux OSType. Not applicable to Windows OSType. Possible values include: Ubuntu, CBLMariner. Defaults to Ubuntu. Changing this forces a new resource to be created. | `string` | `null` | no |
@@ -69,10 +117,12 @@ No modules.
 | <a name="input_AKSNodesRG"></a> [AKSNodesRG](#input\_AKSNodesRG) | The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created. If set to unspecified, the name is build from a local | `string` | `"unspecified"` | no |
 | <a name="input_AKSOutboundType"></a> [AKSOutboundType](#input\_AKSOutboundType) | The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer. | `string` | `null` | no |
 | <a name="input_AKSPodCIDR"></a> [AKSPodCIDR](#input\_AKSPodCIDR) | The CIDR to use for pod IP addresses. This field can only be set when network\_plugin is set to kubenet. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_AKSRGName"></a> [AKSRGName](#input\_AKSRGName) | Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
+| <a name="input_AKSRGName"></a> [AKSRGName](#input\_AKSRGName) | Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. | `string` | `"unspecified"` | no |
 | <a name="input_AKSSVCCIDR"></a> [AKSSVCCIDR](#input\_AKSSVCCIDR) | The Network Range used by the Kubernetes service. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSSubnetId"></a> [AKSSubnetId](#input\_AKSSubnetId) | The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | <a name="input_APIAccessList"></a> [APIAccessList](#input\_APIAccessList) | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
+| <a name="input_AksLogCategories"></a> [AksLogCategories](#input\_AksLogCategories) | A list of log categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
+| <a name="input_AksMetricCategories"></a> [AksMetricCategories](#input\_AksMetricCategories) | A list of metric categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
 | <a name="input_AutoScaleProfilBalanceSimilarNdGP"></a> [AutoScaleProfilBalanceSimilarNdGP](#input\_AutoScaleProfilBalanceSimilarNdGP) | Detect similar node groups and balance the number of nodes between them. Defaults to false. | `string` | `null` | no |
 | <a name="input_AutoScaleProfilExpander"></a> [AutoScaleProfilExpander](#input\_AutoScaleProfilExpander) | Expander to use. Possible values are least-waste, priority, most-pods and random. Defaults to random. | `string` | `null` | no |
 | <a name="input_AutoScaleProfilMaxGracefullTerm"></a> [AutoScaleProfilMaxGracefullTerm](#input\_AutoScaleProfilMaxGracefullTerm) | Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to 600. | `string` | `null` | no |
@@ -92,14 +142,15 @@ No modules.
 | <a name="input_AutoscaleProfilSkipNodeWithSystemPods"></a> [AutoscaleProfilSkipNodeWithSystemPods](#input\_AutoscaleProfilSkipNodeWithSystemPods) | If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to true. | `string` | `null` | no |
 | <a name="input_AutoscaleProfilSkipNodesWLocalStorage"></a> [AutoscaleProfilSkipNodesWLocalStorage](#input\_AutoscaleProfilSkipNodesWLocalStorage) | If true cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to true. | `string` | `null` | no |
 | <a name="input_AzureRBACEnabled"></a> [AzureRBACEnabled](#input\_AzureRBACEnabled) | A bool to enable or disable Azure RBAC in Kubernetes. True means that Azure Role can be used to grant access inside kubernetes, false means that only Kubernetes roles and binding can be used to managed granular access inside kubernetes | `bool` | `false` | no |
-| <a name="input_CSIKVSecretRotationEnabled"></a> [CSIKVSecretRotationEnabled](#input\_CSIKVSecretRotationEnabled) | Is rotation from the KV secret enabled? | `bool` | `false` | no |
+| <a name="input_CSIKVSecretRotationEnabled"></a> [CSIKVSecretRotationEnabled](#input\_CSIKVSecretRotationEnabled) | Is rotation from the KV secret enabled? | `bool` | `true` | no |
 | <a name="input_CSIKVSecretRotationInterval"></a> [CSIKVSecretRotationInterval](#input\_CSIKVSecretRotationInterval) | The interval to poll for secret rotation. This attribute is only set when secret\_rotation is true and defaults to 2m. | `string` | `"2m"` | no |
 | <a name="input_CustomFQDNPrefix"></a> [CustomFQDNPrefix](#input\_CustomFQDNPrefix) | A string to specify a custom fqdn prefix instead of the default built with tags | `string` | `""` | no |
 | <a name="input_CustomPrivateFQDNPrefix"></a> [CustomPrivateFQDNPrefix](#input\_CustomPrivateFQDNPrefix) | Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone | `string` | `""` | no |
-| <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That could be me"<br>}</pre> | no |
+| <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map(any)` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That could be me"<br>}</pre> | no |
 | <a name="input_DiskDriverVersion"></a> [DiskDriverVersion](#input\_DiskDriverVersion) | Disk CSI Driver version to be used. Possible values are v1 and v2. Defaults to v1. | `string` | `null` | no |
 | <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
-| <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to false. | `string` | `null` | no |
+| <a name="input_EnableDiagSettings"></a> [EnableDiagSettings](#input\_EnableDiagSettings) | A bool to enable or disable the diagnostic settings | `bool` | `false` | no |
+| <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
 | <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
 | <a name="input_IsAKSKMSEnabled"></a> [IsAKSKMSEnabled](#input\_IsAKSKMSEnabled) | A bool to activate the kms etcd feature block | `bool` | `false` | no |
@@ -107,7 +158,7 @@ No modules.
 | <a name="input_IsAzPolicyEnabled"></a> [IsAzPolicyEnabled](#input\_IsAzPolicyEnabled) | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `true` | no |
 | <a name="input_IsBYOPrivateDNSZone"></a> [IsBYOPrivateDNSZone](#input\_IsBYOPrivateDNSZone) | Specify if the cluster is configured for BYO DNS private zone. If true, the parameter dns\_prefix\_private\_cluster is set with the fqdn value, if false, it is set to null and the dns\_prefix is set instead | `bool` | `false` | no |
 | <a name="input_IsBlobDriverEnabled"></a> [IsBlobDriverEnabled](#input\_IsBlobDriverEnabled) | Is the Blob CSI driver enabled? Defaults to false. | `bool` | `true` | no |
-| <a name="input_IsCSIKVAddonEnabled"></a> [IsCSIKVAddonEnabled](#input\_IsCSIKVAddonEnabled) | Is the CSI driver for KV enabled? | `bool` | `false` | no |
+| <a name="input_IsCSIKVAddonEnabled"></a> [IsCSIKVAddonEnabled](#input\_IsCSIKVAddonEnabled) | Is the CSI driver for KV enabled? | `bool` | `true` | no |
 | <a name="input_IsDefenderEnabled"></a> [IsDefenderEnabled](#input\_IsDefenderEnabled) | Is Microsoft Defender enabled? | `bool` | `true` | no |
 | <a name="input_IsDiskDriverEnabled"></a> [IsDiskDriverEnabled](#input\_IsDiskDriverEnabled) | Is the Disk CSI driver enabled? Defaults to true. | `bool` | `null` | no |
 | <a name="input_IsFileDriverEnabled"></a> [IsFileDriverEnabled](#input\_IsFileDriverEnabled) | Is the File CSI driver enabled? Defaults to true. | `bool` | `null` | no |
@@ -142,8 +193,8 @@ No modules.
 | <a name="input_LinuxOSConfigSwapFileSize"></a> [LinuxOSConfigSwapFileSize](#input\_LinuxOSConfigSwapFileSize) | Specifies the size of swap file on each node in MB. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_LinuxOSConfigTransparentHugePageDefrag"></a> [LinuxOSConfigTransparentHugePageDefrag](#input\_LinuxOSConfigTransparentHugePageDefrag) | Specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_LinuxOSConfigTransparentHugePageEnabled"></a> [LinuxOSConfigTransparentHugePageEnabled](#input\_LinuxOSConfigTransparentHugePageEnabled) | Specifies the Transparent Huge Page enabled configuration. Possible values are always, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `bool` | `null` | no |
-| <a name="input_LogCategory"></a> [LogCategory](#input\_LogCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    IsRetentionEnabled    = bool<br>    RetentionDaysValue    = number<br>  }))</pre> | <pre>{<br>  "cloud-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "cluster-autoscaler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azuredisk-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azurefile-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-snapshot-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "guard": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-apiserver": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit-admin": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-scheduler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
+| <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `bool` | `true` | no |
+| <a name="input_LogCategory"></a> [LogCategory](#input\_LogCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    IsRetentionEnabled = bool<br>    RetentionDaysValue = number<br>  }))</pre> | <pre>{<br>  "cloud-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "cluster-autoscaler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azuredisk-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azurefile-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-snapshot-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "guard": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-apiserver": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit-admin": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-scheduler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
 | <a name="input_MaxAutoScaleCount"></a> [MaxAutoScaleCount](#input\_MaxAutoScaleCount) | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 | `string` | `10` | no |
 | <a name="input_MetricCategory"></a> [MetricCategory](#input\_MetricCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    IsMetricCatEnabledForLAW = bool<br>    IsMetricCatEnabledForSTA = bool<br>    IsRetentionEnabled       = bool<br>    RetentionDaysValue       = number<br>  }))</pre> | <pre>{<br>  "AllMetrics": {<br>    "IsMetricCatEnabledForLAW": false,<br>    "IsMetricCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
 | <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
@@ -151,7 +202,7 @@ No modules.
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
 | <a name="input_PrivateDNSZoneId"></a> [PrivateDNSZoneId](#input\_PrivateDNSZoneId) | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. | `string` | `null` | no |
 | <a name="input_PublicSSHKey"></a> [PublicSSHKey](#input\_PublicSSHKey) | An ssh\_key block. Only one is currently allowed. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| <a name="input_STALogId"></a> [STALogId](#input\_STALogId) | Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created | `string` | `"unspecified"` | no |
+| <a name="input_StaLogId"></a> [StaLogId](#input\_StaLogId) | Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created | `string` | `"unspecified"` | no |
 | <a name="input_SysCtlFsAioMaxNr"></a> [SysCtlFsAioMaxNr](#input\_SysCtlFsAioMaxNr) | The sysctl setting fs.aio-max-nr. Must be between 65536 and 6553500. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_SysCtlFsFileMax"></a> [SysCtlFsFileMax](#input\_SysCtlFsFileMax) | The sysctl setting fs.file-max. Must be between 8192 and 12000500. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_SysCtlFsInotifyMaxUserWatches"></a> [SysCtlFsInotifyMaxUserWatches](#input\_SysCtlFsInotifyMaxUserWatches) | The sysctl setting fs.inotify.max\_user\_watches. Must be between 781250 and 2097152. Changing this forces a new resource to be created. | `string` | `null` | no |
@@ -182,15 +233,36 @@ No modules.
 | <a name="input_SysCtlVmSwapiness"></a> [SysCtlVmSwapiness](#input\_SysCtlVmSwapiness) | The sysctl setting vm.swappiness. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_SysCtlVmVfsCachePressure"></a> [SysCtlVmVfsCachePressure](#input\_SysCtlVmVfsCachePressure) | The sysctl setting vm.vfs\_cache\_pressure. Must be between 0 and 100. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_TaintCriticalAddonsEnabled"></a> [TaintCriticalAddonsEnabled](#input\_TaintCriticalAddonsEnabled) | Enabling this option will taint default node pool with CriticalAddonsOnly=true:NoSchedule taint. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_UAIIds"></a> [UAIIds](#input\_UAIIds) | Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster. | `list` | `null` | no |
+| <a name="input_UAIIds"></a> [UAIIds](#input\_UAIIds) | Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster. | `list(any)` | `null` | no |
 | <a name="input_UseAKSNodeRGDefaultName"></a> [UseAKSNodeRGDefaultName](#input\_UseAKSNodeRGDefaultName) | This variable is used to define if the default name for the node rg is used, default to false, which allows to either use the name provided bu AKSNodeRG or the local in locals.tf | `string` | `false` | no |
-| <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional optional tags. | `map` | `{}` | no |
+| <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional optional tags. | `map(any)` | `{}` | no |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_kubernetes_cluster.AKS](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
+| [azurerm_log_analytics_workspace.LawMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
+| [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
+| [azurerm_monitor_diagnostic_setting.AksDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_metric_alert.NodeCPUPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.NodeDiskPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.NodeWorkingSetMemoryPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.UnschedulablePodCountThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_resource_group.RgAks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.MSToMonitorPublisher](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_storage_account.StaMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_monitor_diagnostic_categories.Aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_CreateLocalLaw"></a> [CreateLocalLaw](#output\_CreateLocalLaw) | n/a |
 | <a name="output_FullAKS"></a> [FullAKS](#output\_FullAKS) | Full output of the cluster, just in case |
+| <a name="output_IsDefenderEnabled"></a> [IsDefenderEnabled](#output\_IsDefenderEnabled) | n/a |
+| <a name="output_IsOMSAgentEnabled"></a> [IsOMSAgentEnabled](#output\_IsOMSAgentEnabled) | n/a |
 | <a name="output_KubeControlPlane_SAI"></a> [KubeControlPlane\_SAI](#output\_KubeControlPlane\_SAI) | The Identity block for the control plane |
 | <a name="output_KubeControlPlane_SAI_PrincipalId"></a> [KubeControlPlane\_SAI\_PrincipalId](#output\_KubeControlPlane\_SAI\_PrincipalId) | Client Id of the AKS control plane. This is this guid that is used to assign rbac role to AKS control plane, such as acces to network operation or dns attachment... |
 | <a name="output_KubeControlPlane_SAI_TenantId"></a> [KubeControlPlane\_SAI\_TenantId](#output\_KubeControlPlane\_SAI\_TenantId) | The tenant id in which the control plane identity lives |
@@ -204,5 +276,19 @@ No modules.
 | <a name="output_KubeName"></a> [KubeName](#output\_KubeName) | The name of the cluster |
 | <a name="output_KubeRG"></a> [KubeRG](#output\_KubeRG) | The resource group containing the control plane of the cluster |
 | <a name="output_KubeVersion"></a> [KubeVersion](#output\_KubeVersion) | The version of kubernetes |
+| <a name="output_LawDefenderId"></a> [LawDefenderId](#output\_LawDefenderId) | n/a |
+| <a name="output_LawLogId"></a> [LawLogId](#output\_LawLogId) | n/a |
+| <a name="output_LawOMSId"></a> [LawOMSId](#output\_LawOMSId) | n/a |
 | <a name="output_NodeRG"></a> [NodeRG](#output\_NodeRG) | Resource group containing the managed Azure resources of the AKS cluster |
-| <a name="output_opsagentdebug"></a> [opsagentdebug](#output\_opsagentdebug) | n/a |
+| <a name="output_stalog"></a> [stalog](#output\_stalog) | n/a |
+
+## How to update this documentation
+
+In the module folder, use the following command.
+
+```bash
+
+terraform-docs --config ./.config/.terraform-doc.yml .
+
+```
+<!-- END_TF_DOCS -->
