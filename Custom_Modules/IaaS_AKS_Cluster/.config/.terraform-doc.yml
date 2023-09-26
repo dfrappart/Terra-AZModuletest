@@ -10,7 +10,7 @@ content: |-
 
   {{ .Header }}
 
-  ## Sample
+  ## How to call the module
 
   AKS cluster creation, with diagnostic settings, oms agent and defender specified:
 

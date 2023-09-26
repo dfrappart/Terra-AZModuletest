@@ -21,7 +21,7 @@ Diagnostic settings send logs to a storage account and a log analytic workspace.
 
 The target resource group can also either be specified, by its name, or be created by the module. The default value of the variable `AKSRGName` is set to `unspecified` so that the RG is created by the module.
 
-## Sample
+## How to call the module
 
 AKS cluster creation, with diagnostic settings, oms agent and defender specified:
 

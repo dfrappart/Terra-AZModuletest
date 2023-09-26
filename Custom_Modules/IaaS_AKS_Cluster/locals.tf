@@ -46,26 +46,3 @@ locals {
 
 }
 
-output "LawOMSId" {
-  value = local.LawOMSId
-}
-
-output "LawLogId" {
-  value = local.LawLogId
-}
-
-output "LawDefenderId" {
-  value = local.LawDefenderId
-}
-
-output "IsOMSAgentEnabled" {
-  value = local.IsOMSAgentEnabled
-}
-
-output "IsDefenderEnabled" {
-  value = local.IsDefenderEnabled
-}
-
-output "CreateLocalLaw" {
-  value = local.CreateLocalLaw
-}
