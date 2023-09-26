@@ -194,9 +194,7 @@ module "AKS" {
 | <a name="input_LinuxOSConfigTransparentHugePageDefrag"></a> [LinuxOSConfigTransparentHugePageDefrag](#input\_LinuxOSConfigTransparentHugePageDefrag) | Specifies the defrag configuration for Transparent Huge Page. Possible values are always, defer, defer+madvise, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_LinuxOSConfigTransparentHugePageEnabled"></a> [LinuxOSConfigTransparentHugePageEnabled](#input\_LinuxOSConfigTransparentHugePageEnabled) | Specifies the Transparent Huge Page enabled configuration. Possible values are always, madvise and never. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `bool` | `true` | no |
-| <a name="input_LogCategory"></a> [LogCategory](#input\_LogCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    IsRetentionEnabled = bool<br>    RetentionDaysValue = number<br>  }))</pre> | <pre>{<br>  "cloud-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "cluster-autoscaler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azuredisk-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-azurefile-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "csi-snapshot-controller": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "guard": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-apiserver": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-audit-admin": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-controller-manager": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  },<br>  "kube-scheduler": {<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
 | <a name="input_MaxAutoScaleCount"></a> [MaxAutoScaleCount](#input\_MaxAutoScaleCount) | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 | `string` | `10` | no |
-| <a name="input_MetricCategory"></a> [MetricCategory](#input\_MetricCategory) | A map to feed the log categories of the diagnostic settings | <pre>map(object({<br>    IsMetricCatEnabledForLAW = bool<br>    IsMetricCatEnabledForSTA = bool<br>    IsRetentionEnabled       = bool<br>    RetentionDaysValue       = number<br>  }))</pre> | <pre>{<br>  "AllMetrics": {<br>    "IsMetricCatEnabledForLAW": false,<br>    "IsMetricCatEnabledForSTA": true,<br>    "IsRetentionEnabled": true,<br>    "RetentionDaysValue": 365<br>  }<br>}</pre> | no |
 | <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
 | <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
@@ -259,10 +257,7 @@ module "AKS" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_CreateLocalLaw"></a> [CreateLocalLaw](#output\_CreateLocalLaw) | n/a |
 | <a name="output_FullAKS"></a> [FullAKS](#output\_FullAKS) | Full output of the cluster, just in case |
-| <a name="output_IsDefenderEnabled"></a> [IsDefenderEnabled](#output\_IsDefenderEnabled) | n/a |
-| <a name="output_IsOMSAgentEnabled"></a> [IsOMSAgentEnabled](#output\_IsOMSAgentEnabled) | n/a |
 | <a name="output_KubeControlPlane_SAI"></a> [KubeControlPlane\_SAI](#output\_KubeControlPlane\_SAI) | The Identity block for the control plane |
 | <a name="output_KubeControlPlane_SAI_PrincipalId"></a> [KubeControlPlane\_SAI\_PrincipalId](#output\_KubeControlPlane\_SAI\_PrincipalId) | Client Id of the AKS control plane. This is this guid that is used to assign rbac role to AKS control plane, such as acces to network operation or dns attachment... |
 | <a name="output_KubeControlPlane_SAI_TenantId"></a> [KubeControlPlane\_SAI\_TenantId](#output\_KubeControlPlane\_SAI\_TenantId) | The tenant id in which the control plane identity lives |
@@ -276,9 +271,6 @@ module "AKS" {
 | <a name="output_KubeName"></a> [KubeName](#output\_KubeName) | The name of the cluster |
 | <a name="output_KubeRG"></a> [KubeRG](#output\_KubeRG) | The resource group containing the control plane of the cluster |
 | <a name="output_KubeVersion"></a> [KubeVersion](#output\_KubeVersion) | The version of kubernetes |
-| <a name="output_LawDefenderId"></a> [LawDefenderId](#output\_LawDefenderId) | n/a |
-| <a name="output_LawLogId"></a> [LawLogId](#output\_LawLogId) | n/a |
-| <a name="output_LawOMSId"></a> [LawOMSId](#output\_LawOMSId) | n/a |
 | <a name="output_NodeRG"></a> [NodeRG](#output\_NodeRG) | Resource group containing the managed Azure resources of the AKS cluster |
 | <a name="output_stalog"></a> [stalog](#output\_stalog) | n/a |
 
