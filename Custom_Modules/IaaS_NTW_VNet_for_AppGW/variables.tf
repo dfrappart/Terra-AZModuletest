@@ -82,6 +82,8 @@ variable "CreateRG" {
   default     = false
 }
 
+
+
 ###################################################################
 # Tag related variables section
 
@@ -128,6 +130,7 @@ variable "Subnets" {
   type = list(object({
     Name = string
     AllowCustomName = bool
+    EnableNsg = bool
     Nsg = object({
       Name = string
       Rules = map(object({
@@ -148,6 +151,7 @@ variable "Subnets" {
     {
       Name = "Subnet1"
       AllowCustomName = false
+      EnableNsg = true
       Nsg = {
         Name = "Nsg-Subnet1"
         Rules = {}
@@ -173,6 +177,67 @@ variable "default_nsg_rules" {
   }))
 
   default = {}
+}
+
+
+variable "CustomVnet" {
+  type = bool
+  description = "Define the Vnet type. If false, the subnets are following a regular pattern in size. If true, subnets follow specific patterns"
+  default = false
+}
+
+######################################################
+# VNet variables
+
+variable "LawLogId" {
+  type        = string
+  description = "ID of the log analytics workspace containing the logs, if not specified, no diagnostic settings to log analytics is created"
+  default     = "unspecified"
+}
+variable "StaLogId" {
+  type        = string
+  description = "Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created"
+  default     = "unspecified"
+}
+
+variable "EnableVnetDiagSettings" {
+  type        = bool
+  description = "A bool to enable or disable the diagnostic settings"
+  default     = false
+}
+
+
+variable "VnetLogCategories" {
+
+  description = "A list of log categories to activate on the Virtual Network. If set to null, it will use a data source to enable all categories"
+  type        = list(any)
+  default     = null
+
+}
+
+variable "VnetMetricCategories" {
+
+  description = "A list of metric categories to activate on the Virtual Network. If set to null, it will use a data source to enable all categories"
+  type        = list(any)
+  default     = null
+
+}
+
+
+variable "NsgLogCategories" {
+
+  description = "A list of log categories to activate on the Nsgs. If set to null, it will use a data source to enable all categories"
+  type        = list(any)
+  default     = null
+
+}
+
+variable "NsgMetricCategories" {
+
+  description = "A list of metric categories to activate on the Nsgs. If set to null, it will use a data source to enable all categories"
+  type        = list(any)
+  default     = null
+
 }
 
 /*

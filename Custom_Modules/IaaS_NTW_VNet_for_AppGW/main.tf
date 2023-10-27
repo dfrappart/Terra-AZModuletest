@@ -1,8 +1,52 @@
-########################################################################
-# VNet
-########################################################################
+###################################################################################
+# Resource group
+
+resource "random_string" "RandomAppName" {
+  count = var.AppName == "" ? 1 : 0
+  length           = 4
+  special          = false
+  numeric = true
+  
+}
 
 
+resource "azurerm_resource_group" "VnetResourceGroup" {
+
+  lifecycle {
+    ignore_changes = [
+      tags["StartDate"]
+    ]
+  }
+
+  count    = var.CreateRG ? 1 : 0
+  name     = local.RgName
+  location = var.Location
+  tags     = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
+}
+
+
+resource "azurerm_storage_account" "StaMonitor" {
+  count                    = local.CreateLocalSta ? 1 : 0
+  name                     = substr(format("%s%s%s", "sta", "log", replace(azurerm_virtual_network.Vnet.name, "-", "")), 0, 24)
+  location                 = var.Location
+  resource_group_name      = var.RgName
+  account_tier             = "Standard"
+  account_kind             = "StorageV2"
+  account_replication_type = "LRS"
+  min_tls_version          = "TLS1_2"
+
+  tags = local.Tags
+}
+
+
+
+resource "azurerm_log_analytics_workspace" "LawMonitor" {
+  count               = local.CreateLocalLaw ? 1 : 0
+  name                = format("%s%s%s", "law", "log", azurerm_virtual_network.Vnet.name)
+  location            = var.Location
+  resource_group_name = var.RgName
+  tags = local.Tags
+}
 
 
 
@@ -38,38 +82,7 @@ resource "azurerm_virtual_network" "SpokeVNet" {
   tags = merge(var.DefaultTags,var.ExtraTags)
 }
 
-#Diagnostic settings on VNet
 
-resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiagtoSTA" {
-  name                                  = "diag-tosta-${azurerm_virtual_network.SpokeVNet.name}"
-  target_resource_id                    = azurerm_virtual_network.SpokeVNet.id
-  storage_account_id                    = var.STALogId
-
-  dynamic "log" {
-    for_each = var.VNetLogCategories
-    content {
-      category                            = log.value.LogCatName
-      enabled                             = log.value.IsLogCatEnabledForSTA
-      retention_policy {
-        enabled                           = log.value.IsRetentionEnabled
-        days                              = log.value.RetentionDaysValue
-      }
-    } 
-  }
-
-  dynamic "metric" {
-    for_each = var.VNetMetricCategories
-
-    content {
-      category                            = metric.value.MetricCatName
-      enabled                             = metric.value.IsMetricCatEnabledForSTA
-      retention_policy {
-        enabled                           = metric.value.IsRetentionEnabled
-        days                              = metric.value.RetentionDaysValue
-      }    
-    }
-  }
-}
 
 
 resource "azurerm_monitor_diagnostic_setting" "SpokeVNetDiagToLaw" {
