@@ -5,13 +5,23 @@
 ######################################################
 # Environment variables
 
-variable "ResourcePrefix" {
+variable "ResourceGroupPrefix" {
   type        = string
   description = "Define the resource prexix, as define in the Cloud adoptio  framework."
 
   default = "rg"
 
 }
+
+
+variable "VnetResourcePrefix" {
+  type        = string
+  description = "Define the resource prexix, as define in the Cloud adoption  framework."
+
+  default = "vnet"
+
+}
+
 
 variable "Env" {
   type        = string
@@ -55,7 +65,7 @@ variable "Location" {
 
 ######################################################
 # Resource group variables
-
+/*
 variable "Rg" {
   description = "An object containing the resource group to be created with it's location"
   type = object({
@@ -70,10 +80,11 @@ variable "Rg" {
     CreateRG = true
   }
 }
+*/
 variable "RgName" {
   type        = string
-  description = "The resource core name. Should follow the pattern dbaas-<env>-<tenant>-<instance>-<specificidentifyingstring>"
-  default     = "unspecified"
+  description = "A string to define the resource group name. If not define, the empty value is replace by a local construct"
+  default     = ""
 }
 
 variable "CreateRG" {
@@ -113,50 +124,50 @@ variable "ExtraTags" {
 variable "Vnet" {
   description = "An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask"
   type = object({
-    Name          = string
+    Name         = string
     AddressSpace = string
     DnsServers   = list(string)
   })
 
   default = {
-    Name = ""
+    Name         = ""
     AddressSpace = "172.21.0.0/24"
-    DnsServers = []
+    DnsServers   = []
   }
 }
 
 variable "Subnets" {
   description = "An object containing the informations needed to create subnets, the rules object is optional and is used to add nsg rules on top of the default_nsg_rules"
   type = list(object({
-    Name = string
+    Name            = string
     AllowCustomName = bool
-    EnableNsg = bool
+    EnableNsg       = bool
     Nsg = object({
       Name = string
       Rules = map(object({
-        Name                       = string
-        Priority                   = number
-        Direction                  = string
-        Access                     = string
-        Protocol                   = string
-        SourcePortRange            = string
-        DestinationPortRange       = string
-        SourceAddressPrefix        = string
-        DestinationAddressPrefix   = string
+        Name                     = string
+        Priority                 = number
+        Direction                = string
+        Access                   = string
+        Protocol                 = string
+        SourcePortRange          = string
+        DestinationPortRange     = string
+        SourceAddressPrefix      = string
+        DestinationAddressPrefix = string
       }))
     })
   }))
 
-  default = [ 
+  default = [
     {
-      Name = "Subnet1"
+      Name            = "Subnet1"
       AllowCustomName = false
-      EnableNsg = true
+      EnableNsg       = true
       Nsg = {
-        Name = "Nsg-Subnet1"
+        Name  = "Nsg-Subnet1"
         Rules = {}
       }
-    } 
+    }
   ]
 
 
@@ -181,13 +192,13 @@ variable "default_nsg_rules" {
 
 
 variable "CustomVnet" {
-  type = bool
+  type        = bool
   description = "Define the Vnet type. If false, the subnets are following a regular pattern in size. If true, subnets follow specific patterns"
-  default = false
+  default     = false
 }
 
 ######################################################
-# VNet variables
+# Log variables
 
 variable "LawLogId" {
   type        = string
@@ -199,6 +210,9 @@ variable "StaLogId" {
   description = "Id of the storage account containing the logs, if not specified, no diagnostic settings to storage account is created"
   default     = "unspecified"
 }
+
+######################################################
+# Vnet Log variables
 
 variable "EnableVnetDiagSettings" {
   type        = bool
@@ -223,7 +237,8 @@ variable "VnetMetricCategories" {
 
 }
 
-
+######################################################
+# Nsg Log variables
 variable "NsgLogCategories" {
 
   description = "A list of log categories to activate on the Nsgs. If set to null, it will use a data source to enable all categories"
@@ -240,213 +255,23 @@ variable "NsgMetricCategories" {
 
 }
 
-/*
-variable "VNetAddressSpace" {
-  type          = list
-  default       = ["172.20.0.0/24"]
-  description   = "The IP address range for the VNet. It is a list and can thus contain more than 1 ip ranges"
-}
-
-variable "VNetSuffix" {
-  type          = string
-  default       = "Spoke"
-  description   = "The suffix for the module spoke, something like spoke01"
-}
-
-variable "CidrDividerInfraSubnet" {
-  type          = string
-  default       = 2
-  description   = "The divider used for the function cidrsubnet. Default to 2 with a default CIDR to /24"
-}
-
-variable "CidrDividerAppSubnet" {
-  type          = string
-  default       = 2
-  description   = "The divider used for the function cidrsubnet. Default to 2 with a default CIDR to /24"
-}
-
-variable "BastionSubnetPosition" {
-  type          = string
-  default       = 0
-  description   = "A integer used in the function cidrsubnet to position the subnet range"
-}
-
-variable "AGWSubnetPosition" {
-  type          = string
-  default       = 1
-  description   = "A integer used in the function cidrsubnet to position the subnet range"
-}
-
-variable "FESubnetPosition" {
-  type          = string
-  default       = 2
-  description   = "A integer used in the function cidrsubnet to position the subnet range"
-}
-
-variable "BESubnetPosition" {
-  type          = string
-  default       = 3
-  description   = "A integer used in the function cidrsubnet to position the subnet range"
-}
 ######################################################
-# Bastion activation
-
-variable "IsBastionEnabled" {
-  type          = bool
-  default       = false
-  description   = "Define if Bastion is enabled or not"
-}
-
-######################################################
-# Bastion features
-
-variable "BastionSku" {
-  type          = string
-  default       = "Standard"
-  description   = "The SKU of the Bastion Host. Accepted values are Basic and Standard"
-}
-
-variable "BastionTunnelingEnabled" {
-  type          = bool
-  default       = true
-  description   = "Is Tunneling feature enabled for the Bastion Host. Defaults to false."
-}
-
-variable "BastionFileCopyEnabled" {
-  type          = bool
-  default       = true
-  description   = "Is File Copy feature enabled for the Bastion Host. Defaults to false."
-}
-
-######################################################
-# Bastion activation
+# Flow logs variables
 
 variable "IsTrafficAnalyticsEnabled" {
-  type          = bool
-  default       = true
-  description   = "Define if Traffic Analytics is enabled or not"
-}
-
-#variable "BastionDisabledIPConfig" {
-#  type = map(object({
-#    "name" = string
-#    "public_ip_address" = string
-#    "subnet_id" = string
-#  }))
-#  default = {
-#    "name" = "bst-pubip-config"
-#    "public_ip_address_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/publicIPAddresses/<bst-pubip>"
-#    "subnet_id" = "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/vnetpocdoc/subnets/AzureBastionSubnet"
-#
-#    }
-#  
-#}
-#
-######################################################
-#Network watcher variables
-
-variable "NetworkWatcherName" {
-  type          = string
-  default       = "NetworkWatcher_westeurope"
-  description   = "The name of the network watcher, in the appropriate region"
+  type        = bool
+  description = "Define if flow log is enabled wih traffic analytics"
+  default     = false
 }
 
 variable "NetworkWatcherRGName" {
-  type          = string
-  default       = "NetworkWatcherRG"
-  description   = "The name of the network watcher resource group"
+  type        = string
+  default     = "unspecified"
+  description = "Define the Resource group for Network Watcher. If not specified, locals block create the default resource group name for network watcher"
 }
 
-######################################################
-#Subnets variables
-
-variable "SubnetEndpointLists" {
-  type          = list
-  default       = ["Microsoft.Sql","Microsoft.ContainerRegistry"]
-  description   = "The list of Service endpoints to associate with the subnet."
+variable "NetworkWatcherName" {
+  type        = string
+  default     = "unspecified"
+  description = "Define the Network Watcher Name. If not specified, locals block create the default name for network watcher"
 }
-
-###################################################################
-#Tag related variables section
-
-variable "DefaultTags" {
-  type                                  = map
-  description                           = "Define a set of default tags"
-  default                               = {
-    ResourceOwner                       = "That would be me"
-    Country                             = "fr"
-    CostCenter                          = "labtf"
-    Project                             = "tfmodule"
-    Environment                         = "lab"
-    ManagedBy                           = "Terraform"
-
-  }
-}
-
-variable "ExtraTags" {
-  type                                  = map
-  description                           = "Define a set of additional optional tags."
-  default                               = {}
-}
-
-###################################################################
-# Diag settings related variables section
-
-variable "LawLogId" {
-  type                                  = string
-  description                           = "The Id of the Log Analytics workspace used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
-  default                               = "unspecified"
-}
-
-variable "STALogId" {
-  type                                  = string
-  description                           = "The Id of the storage account used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
-  default                               = "unspecified"
-}
-
-variable "VNetLogCategories" {
-  type                                  = map(object({
-                                            LogCatName                = string
-                                            IsLogCatEnabledForLAW     = bool
-                                            IsLogCatEnabledForSTA     = bool
-                                            IsRetentionEnabled        = bool
-                                            RetentionDaysValue        = number
-  }))
-  description                           = "Define The logs categories"
-  default                               = {
-
-                                          "Category1" = {
-                                            LogCatName                = "VMProtectionAlerts"
-                                            IsLogCatEnabledForLAW     = true
-                                            IsLogCatEnabledForSTA     = true
-                                            IsRetentionEnabled        = true
-                                            RetentionDaysValue        = 365
-    }
-
-
-  }
-}
-
-variable "VNetMetricCategories" {
-  type                                  = map(object({
-                                            MetricCatName             = string
-                                            IsMetricCatEnabledForLAW  = bool
-                                            IsMetricCatEnabledForSTA  = bool
-                                            IsRetentionEnabled        = bool
-                                            RetentionDaysValue        = number
-  }))
-  description                           = "Define The metric categories"
-  default                               = {
-
-                                          "Metric1" = {
-                                            MetricCatName             = "AllMetrics"
-                                            IsMetricCatEnabledForLAW  = false
-                                            IsMetricCatEnabledForSTA  = true
-                                            IsRetentionEnabled        = true
-                                            RetentionDaysValue        = 365
-    }
-
-  }
-}
-
-*/

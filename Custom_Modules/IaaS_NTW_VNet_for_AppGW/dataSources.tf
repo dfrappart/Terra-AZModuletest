@@ -9,6 +9,15 @@
 
 data "azurerm_subscription" "current" {}
 
+
+#############################################################################
+#data source for Vnet RG
+
+
+data "azurerm_resource_group" "RgVnet" {
+  name = azurerm_virtual_network.Vnet.resource_group_name
+}
+
 #############################################################################
 #data source for diagnostic settings
 
@@ -19,30 +28,15 @@ data "azurerm_monitor_diagnostic_categories" "Vnet" {
 
 data "azurerm_monitor_diagnostic_categories" "Nsg" {
 
-  for_each = local.Subnets
+  for_each    = local.Subnets
   resource_id = azurerm_network_security_group.Nsgs[each.key].id
 }
+
 #############################################################################
-#data source for the subscription setup logs features
+#data source for log analytics - used for flow logs
 
-/*
-data "azurerm_resource_group" "RGLogs" {
-  name                        = var.RGLogName
+data "azurerm_log_analytics_workspace" "LawLog" {
+  resource_group_name = split("/", local.LawLogId)[4]
+  name                = split("/", local.LawLogId)[8]
 }
 
-data "azurerm_log_analytics_workspace" "LawSubLog" {
-  name                        = var.LawSubLogName
-  resource_group_name         = data.azurerm_resource_group.RGLogs.name
-}
-
-*/
-
-output "diagvnet" {
-
-  value = data.azurerm_monitor_diagnostic_categories.Vnet
-}
-
-output "diagNsg" {
-
-  value = data.azurerm_monitor_diagnostic_categories.Nsg
-}
