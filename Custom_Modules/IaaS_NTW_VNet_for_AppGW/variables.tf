@@ -261,7 +261,7 @@ variable "NsgMetricCategories" {
 variable "IsTrafficAnalyticsEnabled" {
   type        = bool
   description = "Define if flow log is enabled wih traffic analytics"
-  default     = false
+  default     = true
 }
 
 variable "NetworkWatcherRGName" {

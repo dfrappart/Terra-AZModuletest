@@ -6,3 +6,7 @@ resource "azurerm_subnet" "Subnets" {
   virtual_network_name = azurerm_virtual_network.Vnet.name
   address_prefixes     = [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]]
 }
+
+output "keylocalsubnet" {
+  value = keys(local.Subnets)
+}

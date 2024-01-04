@@ -17,10 +17,11 @@ locals {
   SubnetPrefixesRegular = local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressSpace, 1, 1) : [var.Vnet.AddressSpace])
   Subnets = { for subnet in var.Subnets : subnet.Name => {
     Name = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
-    #Nsg = {
+    EnableNsg = subnet.EnableNsg
+    Nsg = {
     #  Name  = Subnet.Nsg.Name
     #  Rules = merge(try(subnet.nsg.rules, {}), var.default_nsg_rules)
-    #}
+    }
     }
   }
 

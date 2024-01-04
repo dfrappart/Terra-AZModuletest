@@ -111,7 +111,7 @@ module "testvnet" {
 | <a name="input_EnableVnetDiagSettings"></a> [EnableVnetDiagSettings](#input\_EnableVnetDiagSettings) | A bool to enable or disable the diagnostic settings | `bool` | `false` | no |
 | <a name="input_Env"></a> [Env](#input\_Env) | Define the environment kind. Possible value are sbx, dev or prd | `string` | `"sbx"` | no |
 | <a name="input_ExtraTags"></a> [ExtraTags](#input\_ExtraTags) | Define a set of additional optional tags. | `map(any)` | `{}` | no |
-| <a name="input_IsTrafficAnalyticsEnabled"></a> [IsTrafficAnalyticsEnabled](#input\_IsTrafficAnalyticsEnabled) | Define if flow log is enabled wih traffic analytics | `bool` | `false` | no |
+| <a name="input_IsTrafficAnalyticsEnabled"></a> [IsTrafficAnalyticsEnabled](#input\_IsTrafficAnalyticsEnabled) | Define if flow log is enabled wih traffic analytics | `bool` | `true` | no |
 | <a name="input_LawLogId"></a> [LawLogId](#input\_LawLogId) | ID of the log analytics workspace containing the logs, if not specified, no diagnostic settings to log analytics is created | `string` | `"unspecified"` | no |
 | <a name="input_Location"></a> [Location](#input\_Location) | The azure region | `string` | `"eastus"` | no |
 | <a name="input_NetworkWatcherName"></a> [NetworkWatcherName](#input\_NetworkWatcherName) | Define the Network Watcher Name. If not specified, locals block create the default name for network watcher | `string` | `"unspecified"` | no |
@@ -126,7 +126,7 @@ module "testvnet" {
 | <a name="input_Vnet"></a> [Vnet](#input\_Vnet) | An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask | <pre>object({<br>    Name         = string<br>    AddressSpace = string<br>    DnsServers   = list(string)<br>  })</pre> | <pre>{<br>  "AddressSpace": "172.21.0.0/24",<br>  "DnsServers": [],<br>  "Name": ""<br>}</pre> | no |
 | <a name="input_VnetLogCategories"></a> [VnetLogCategories](#input\_VnetLogCategories) | A list of log categories to activate on the Virtual Network. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
 | <a name="input_VnetMetricCategories"></a> [VnetMetricCategories](#input\_VnetMetricCategories) | A list of metric categories to activate on the Virtual Network. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
-| <a name="input_VnetPrefix"></a> [VnetPrefix](#input\_VnetPrefix) | Define the resource prexix, as define in the Cloud adoptio  framework. | `string` | `"vnet"` | no |
+| <a name="input_VnetResourcePrefix"></a> [VnetResourcePrefix](#input\_VnetResourcePrefix) | Define the resource prexix, as define in the Cloud adoption  framework. | `string` | `"vnet"` | no |
 | <a name="input_default_nsg_rules"></a> [default\_nsg\_rules](#input\_default\_nsg\_rules) | A map of object used to create dafault NSG rules for all NSGs inside the spoke | <pre>map(object({<br>    name                       = string<br>    priority                   = number<br>    direction                  = string<br>    access                     = string<br>    protocol                   = string<br>    source_port_range          = string<br>    destination_port_range     = string<br>    source_address_prefix      = string<br>    destination_address_prefix = string<br>  }))</pre> | `{}` | no |
 
 ## Resources
@@ -157,8 +157,8 @@ module "testvnet" {
 | <a name="output_RG"></a> [RG](#output\_RG) | Information on the Vnet RG |
 | <a name="output_Subnets"></a> [Subnets](#output\_Subnets) | n/a |
 | <a name="output_VNetFullOutput"></a> [VNetFullOutput](#output\_VNetFullOutput) | n/a |
-| <a name="output_nw"></a> [nw](#output\_nw) | n/a |
-| <a name="output_nwrg"></a> [nwrg](#output\_nwrg) | n/a |
+| <a name="output_keylocalsubnet"></a> [keylocalsubnet](#output\_keylocalsubnet) | n/a |
+| <a name="output_subprefix"></a> [subprefix](#output\_subprefix) | n/a |
 
 ## How to update this documentation
 
