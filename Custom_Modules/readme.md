@@ -1,19 +1,10 @@
-# Custom Modules folder
+# Terraform modules repository
 
-This folder contains my own custom modules for Terraform usage on Azure
+This repository contains my own module for Azure deployment through Terraform
 
+## Repository organization
 
-## How is this folder organize
+The repository is currently organized as follow:
 
-I try to regroup resources by type as follow:
-
-- IaaS_ prefix for resources of IaaS type
-- PaaS_ prefix for resources of PaaS type
-
-Other type may come around an di'll update as i can ^^
-
-## List of existing modules
-
-the following tabs gives an overview of the modules existing in this folder:
-
-**coming soon**
+- **Modules_building_blocks** folder contains mostly single resource in each module, as much as possible with as much as paramaters declared. This is mostly deprecated and will disappear at one point. There's no need to do a module of 1 resource only right. ^^
+- **Custom_Modules** folder contains more complex modules abstracting more resources. This shoud contain more module as time pass, depending on my willingness to ork on it :p
