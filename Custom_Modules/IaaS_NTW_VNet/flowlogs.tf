@@ -5,7 +5,7 @@ resource "azurerm_network_watcher_flow_log" "Flowlogs" {
   for_each = local.Subnets
 
   network_watcher_name      = local.NetworkWatcherName
-  name                      = format("%s-%s", "flowlogs", azurerm_subnet.Subnets[each.key].name)
+  name                      = local.Subnets[each.key].Nsg.FlowLogName
   location                  = var.Location
   resource_group_name       = local.NetworkWatcherRGName
   network_security_group_id = azurerm_network_security_group.Nsgs[each.key].id

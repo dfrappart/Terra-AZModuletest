@@ -145,15 +145,19 @@ variable "Subnets" {
     Nsg = object({
       Name = string
       Rules = map(object({
-        Name                     = string
-        Priority                 = number
-        Direction                = string
-        Access                   = string
-        Protocol                 = string
-        SourcePortRange          = string
-        DestinationPortRange     = string
-        SourceAddressPrefix      = string
-        DestinationAddressPrefix = string
+        Name                        = string
+        Priority                    = number
+        Direction                   = string
+        Access                      = string
+        Protocol                    = string
+        SourcePortRange             = string
+        SourcePortRanges            = list(string)
+        DestinationPortRange        = string
+        DestinationPortRanges       = list(string)
+        SourceAddressPrefix         = string
+        SourceAddressPrefixes       = list(string)
+        DestinationAddressPrefix    = string
+        DestinationAddressPrefixes  = list(string)
       }))
     })
   }))
@@ -176,20 +180,39 @@ variable "Subnets" {
 variable "default_nsg_rules" {
   description = "A map of object used to create dafault NSG rules for all NSGs inside the spoke"
   type = map(object({
-    name                       = string
-    priority                   = number
-    direction                  = string
-    access                     = string
-    protocol                   = string
-    source_port_range          = string
-    destination_port_range     = string
-    source_address_prefix      = string
-    destination_address_prefix = string
+    name                         = string
+    priority                     = number
+    direction                    = string
+    access                       = string
+    protocol                     = string
+    source_port_range            = string
+    source_port_ranges           = list(string)
+    destination_port_range       = string
+    destination_port_ranges      = list(string)
+    source_address_prefix        = string
+    source_address_prefixes      = list(string)
+    destination_address_prefix   = string
+    destination_address_prefixes = list(string)
   }))
 
-  default = {}
+  default = {
+    denyallin = {
+    name                         = "Default_DenyAll_Inbound"
+    priority                     = 4000
+    direction                    = "Inbound"
+    access                       = "Deny"
+    protocol                     = "*"
+    source_port_range            = "*"
+    source_port_ranges           = null
+    destination_port_range       = "*"
+    destination_port_ranges      = null
+    source_address_prefix        = "*"
+    source_address_prefixes      = null
+    destination_address_prefix   = "*"
+    destination_address_prefixes = null     
+    }
+  }
 }
-
 
 variable "CustomVnet" {
   type        = bool
