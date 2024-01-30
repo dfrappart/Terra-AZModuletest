@@ -61,6 +61,7 @@ locals {
   NetworkWatcherName   = var.NetworkWatcherName == "unspecified" ? format("%s%s", "NetworkWatcher_", azurerm_virtual_network.Vnet.location) : var.NetworkWatcherName
 
 
+
 }
 
 

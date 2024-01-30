@@ -40,3 +40,9 @@ data "azurerm_log_analytics_workspace" "LawLog" {
   name                = split("/", local.LawLogId)[8]
 }
 
+data "azurerm_storage_account" "StaLog" {
+  resource_group_name = split("/", var.StaLogId)[4]
+  name                = split("/", var.StaLogId)[8]
+
+
+}

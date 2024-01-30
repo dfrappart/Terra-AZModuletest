@@ -22,6 +22,9 @@ resource "azurerm_resource_group" "VnetResourceGroup" {
   name     = local.RgName
   location = var.Location
   tags     = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
+
+
+
 }
 
 ###################################################################################
