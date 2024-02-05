@@ -31,3 +31,11 @@ output "subprefix" {
 output "Subnets" {
   value = local.Subnets
 }
+
+output "subnetIpGroups" {
+  value = azurerm_ip_group.SubnetsCidr
+}
+
+output "VnetIpGroup" {
+  value = azurerm_ip_group.VnetCidr
+}

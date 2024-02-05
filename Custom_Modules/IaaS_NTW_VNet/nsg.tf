@@ -9,7 +9,7 @@ resource "azurerm_network_security_group" "Nsgs" {
   }
 
   for_each            = local.Subnets
-  name                = format("%s-%s", "nsg", azurerm_subnet.Subnets[each.key].name)
+  name                = local.Subnets[each.key].Nsg.Name #format("%s-%s", "nsg", azurerm_subnet.Subnets[each.key].name)
   location            = azurerm_virtual_network.Vnet.location
   resource_group_name = azurerm_virtual_network.Vnet.resource_group_name
 
