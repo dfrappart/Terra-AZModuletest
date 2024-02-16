@@ -844,7 +844,7 @@ variable "UAIIds" {
 
 variable "IsKubeletUsingUAI" {
   type        = bool
-  description = "A boolean used to activate the block for kubelent identity"
+  description = "A boolean used to activate the block for kubelet identity"
   default     = true
 }
 variable "KubeletClientId" {

@@ -63,6 +63,14 @@ variable "MessageofTheDay" {
   description = "A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It cannot be specified for Windows nodes and must be a static string (i.e. will be printed raw and not executed as a script). Changing this forces a new resource to be created."
 
 }
+##############################################################
+# Windows profile Parameters
+
+variable "NATEnabledforWinProfile" {
+  type = bool
+  default = null
+  description = "Should the Windows nodes in this Node Pool have outbound NAT enabled? Defaults to true. Changing this forces a new resource to be created."
+}
 
 ##############################################################
 # Security Parameters
