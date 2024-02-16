@@ -12,14 +12,21 @@ content: |-
 
   ## How to call the module
 
-  AKS cluster creation, with diagnostic settings, oms agent and defender specified:
+  AKS cluster node pool basics:
 
    ```hcl
 
-  {{ include "./.config/hclsamples/aks.tf"}}
+  {{ include "./.config/hclsamples/simpleaksnodepool.tf"}}
 
    ```
 
+  AKS cluster node pool kata container:
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/aksnodepoolAzurelinuxKataContainer.tf"}}
+
+   ```
 
   {{ .Requirements }}
 
