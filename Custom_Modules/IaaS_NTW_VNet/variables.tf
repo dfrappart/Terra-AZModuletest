@@ -124,9 +124,9 @@ variable "ExtraTags" {
 variable "Vnet" {
   description = "An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask"
   type = object({
-    Name         = string
+    Name         = optional(string,"")
     AddressSpace = string
-    DnsServers   = list(string)
+    DnsServers   = optional(list(string), [])
   })
 
   default = {
@@ -142,6 +142,12 @@ variable "Subnets" {
     Name            = string
     AllowCustomName = bool
     EnableNsg       = bool
+    AddressPrefix   = optional(string, null)
+    Delegation = optional(object({
+      DelegationName            = string
+      ServiceDelegationName    = string
+      ServiceDelegationActions = list(string)
+    }), null)  
     Nsg = object({
       Name = string
       Rules = map(object({
@@ -150,15 +156,15 @@ variable "Subnets" {
         Direction                   = string
         Access                      = string
         Protocol                    = string
-        SourcePortRange             = string
-        SourcePortRanges            = list(string)
-        DestinationPortRange        = string
-        DestinationPortRanges       = list(string)
-        SourceAddressPrefix         = string
-        SourceAddressPrefixes       = list(string)
-        DestinationAddressPrefix    = string
-        DestinationAddressPrefixes  = list(string)
-      }))
+        SourcePortRange            = optional(string, null)
+        SourcePortRanges           = optional(list(string), null)
+        DestinationPortRange       = optional(string, null)
+        DestinationPortRanges      = optional(list(string), null)
+        SourceAddressPrefix        = optional(string, null)
+        SourceAddressPrefixes      = optional(list(string), null)
+        DestinationAddressPrefix   = optional(string, null)
+        DestinationAddressPrefixes = optional(list(string), null)
+      }))  
     })
   }))
 

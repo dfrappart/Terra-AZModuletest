@@ -27,6 +27,8 @@ locals {
       Rules = merge(try(subnet.nsg.rules, {}), var.default_nsg_rules)
 
     }
+    Delegation       = try(subnet.Delegation, null)
+    AddressPrefix = try(subnet.AddressPrefix, null)
     }
   }
 
