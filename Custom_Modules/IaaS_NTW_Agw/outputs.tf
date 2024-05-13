@@ -41,13 +41,13 @@ output "AppGWUAI" {
 }
 
 # Full output agw uai access policy onkv
-
+/*
 output "AppGWUAIKV_AccessPolicy" {
   value       = azurerm_key_vault_access_policy.KeyVaultAccessPolicy01
   sensitive   = true
   description = "The Agw Key Vault full output"
 }
-
+*/
 # Full output agw pub ip
 
 output "AppGWPubIP" {

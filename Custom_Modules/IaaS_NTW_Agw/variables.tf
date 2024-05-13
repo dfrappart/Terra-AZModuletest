@@ -36,7 +36,7 @@ variable "StaLogId" {
 variable "EnabledDiagSettings" {
   type        = bool
   description = "A bool to enable or disable the diagnostic settings"
-  default     = true
+  default     = false
 }
 variable "KVId" {
   type        = string
@@ -137,6 +137,11 @@ variable "AppGatewaySkuCapacity" {
   default     = 3
 }
 
+variable "FirewallPolicyId" {
+  type        = string
+  description = "The Id of the Waf Policy applied on the Agw"
+  default     = null
+}
 
 # settings for probe
 
@@ -234,24 +239,71 @@ variable "FrontEndPorts" {
 
 variable "SitesConf" {
   type = map(object({
-    SiteIdentifier                             = string
-    AppGWSSLCertNameSite                       = string
-    AppGwPublicCertificateSecretIdentifierSite = string
-    HostnameSite                               = string
-    RoutingRulePriority                        = number
+
+    HostName = string
+
+    BePoolIps           = optional(list(string), [])
+    BePoolInternalFqdns = optional(list(string), [])
+    BePoolName          = optional(string, "")
+
+    BhsName                      = optional(string, "")
+    BhsPort                      = optional(number, 80)
+    BhsProtocol                  = optional(string, "Http")
+    BhsAffinityCookieName        = optional(string, null)
+    BhsCookieBasedAffinityConfig = optional(string, "Disabled")
+    BhsProbeName                 = optional(string, null)
+    BhsRequestTimeOut            = optional(number, null)
+    BhsPath                      = optional(string, null)
+    BhsTrustedRootCert           = optional(list(string), [])
+    BhsHostName                  = optional(string, "")
+
+    LstName             = optional(string, "")
+    LstProtocol         = optional(string, "Https")
+    LstFirewallPolicyId = optional(string, null)
+
+    SslCertName   = optional(string, null)
+    SslKvSecretId = optional(string, null)
+
+    ReqRuleName     = optional(string, "")
+    ReqRulePriority = number
+
+    EnableProbe             = optional(bool, false)
+    ProbeName               = optional(string, "")
+    ProbeHost               = optional(string, null)
+    ProbeInterval           = optional(string, null)
+    ProbeProtocol           = optional(string, null)
+    ProbePath               = optional(string, null)
+    ProbeTimeOut            = optional(string, null)
+    ProbeUnhealthyThreshold = optional(string, null)
+
+
+
+
+
+
+
+
+
+
   }))
   description = "A map used to feed the dynamic blocks of the gw configuration"
   default = {
     "Site 1" = {
-      SiteIdentifier                             = "default"
-      AppGWSSLCertNameSite                       = "default"
-      AppGwPublicCertificateSecretIdentifierSite = "default"
-      HostnameSite                               = "default"
-      RoutingRulePriority                        = 1
+      HostName        = "default"
+      ReqRulePriority = 1
     }
   }
 }
 
+
+variable "TrustedRootCertificates" {
+  type = map(object({
+    CertName       = string
+    CertKvSecretId = optional(string, null)
+    CertData       = optional(string, null)
+
+  }))
+}
 ######################################################
 # Tag related variables and naming convention section
 

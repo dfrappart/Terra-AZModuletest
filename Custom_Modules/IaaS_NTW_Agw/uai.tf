@@ -26,3 +26,11 @@ resource "azurerm_key_vault_access_policy" "KeyVaultAccessPolicy01" {
     "List",
   ]
 }
+
+resource "azurerm_role_assignment" "kvRoleAssignment" {
+  for_each             = toset(local.KvRoles)
+  scope                = var.KVId
+  role_definition_name = each.key
+  principal_id         = azurerm_user_assigned_identity.AppGatewayManagedId.principal_id
+}
+
