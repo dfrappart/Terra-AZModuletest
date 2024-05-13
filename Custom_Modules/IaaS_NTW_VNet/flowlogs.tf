@@ -2,7 +2,7 @@
 
 resource "azurerm_network_watcher_flow_log" "Flowlogs" {
 
-  for_each = local.Subnets
+  for_each = { for k, v in local.Subnets : k => v if v.EnableFlowlogs == true }
 
   network_watcher_name      = local.NetworkWatcherName
   name                      = local.Subnets[each.key].Nsg.FlowLogName
@@ -20,9 +20,9 @@ resource "azurerm_network_watcher_flow_log" "Flowlogs" {
 
   traffic_analytics {
     enabled               = var.IsTrafficAnalyticsEnabled #true
-    workspace_id          = data.azurerm_log_analytics_workspace.LawLog.workspace_id
-    workspace_region      = data.azurerm_log_analytics_workspace.LawLog.location
-    workspace_resource_id = data.azurerm_log_analytics_workspace.LawLog.id
+    workspace_id          = data.azurerm_log_analytics_workspace.LawLog[0].workspace_id
+    workspace_region      = data.azurerm_log_analytics_workspace.LawLog[0].location
+    workspace_resource_id = data.azurerm_log_analytics_workspace.LawLog[0].id
     interval_in_minutes   = 10
   }
 }

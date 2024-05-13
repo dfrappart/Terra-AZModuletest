@@ -54,28 +54,6 @@ resource "azurerm_log_analytics_workspace" "LawMonitor" {
 
 
 
-/*
-resource "azurerm_virtual_hub_connection" "peering_spoke" {
-  count                     = var.hub != null ? 1 : 0
-  name                      = format("peer-%s-%s-%s", var.tags.scope, var.vnet.name, var.tags.environment)
-  virtual_hub_id            = var.hub.virtual_hub_id
-  remote_virtual_network_id = azurerm_virtual_network.vnet_spoke.id
 
-  internet_security_enabled = true
-
-  routing {
-    associated_route_table_id = var.hub.rt_id
-    propagated_route_table {
-      route_table_ids = [var.hub.none_rt_id]
-      labels          = ["none"]
-    }
-  }
-
-  depends_on = [
-    #azurerm_virtual_network.vnet_spoke
-  ]
-}
-
-*/
 
 

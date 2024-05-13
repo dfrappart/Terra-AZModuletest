@@ -19,8 +19,8 @@ output "RG" {
 #Output for the VNet
 
 output "VNetFullOutput" {
-  value                       = azurerm_virtual_network.Vnet
-  sensitive                   = true
+  value     = azurerm_virtual_network.Vnet
+  sensitive = true
 }
 
 output "subprefix" {

@@ -33,7 +33,7 @@ resource "azurerm_monitor_diagnostic_setting" "VnetDiagSettings" {
 # Diag settings on Nsgs
 
 resource "azurerm_monitor_diagnostic_setting" "NsgDiagSettings" {
-  for_each                   = local.Subnets
+  for_each                   = { for k, v in local.Subnets : k => v if v.EnableNsgDiagSet == true }
   name                       = local.Subnets[each.key].Nsg.DiagSettingsName #format("%s-%s", "diag", azurerm_network_security_group.Nsgs[each.key].name)
   storage_account_id         = local.StaLogId
   log_analytics_workspace_id = local.LawLogId
