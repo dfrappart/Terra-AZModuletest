@@ -1,1 +1,0 @@
-#This module deploys an Azure Monitor Metric alert rule
