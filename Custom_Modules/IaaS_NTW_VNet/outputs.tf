@@ -19,8 +19,8 @@ output "RG" {
 #Output for the VNet
 
 output "VNetFullOutput" {
-  value                       = azurerm_virtual_network.Vnet
-  sensitive                   = true
+  value     = azurerm_virtual_network.Vnet
+  sensitive = true
 }
 
 output "subprefix" {
@@ -31,15 +31,11 @@ output "subprefix" {
 output "Subnets" {
   value = local.Subnets
 }
-/*
+
 output "subnetIpGroups" {
   value = azurerm_ip_group.SubnetsCidr
 }
 
 output "VnetIpGroup" {
   value = azurerm_ip_group.VnetCidr
-}
-*/
-output "keylocalsubnet" {
-  value = keys(local.Subnets)
 }

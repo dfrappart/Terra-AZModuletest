@@ -20,7 +20,7 @@ resource "azurerm_network_security_group" "Nsgs" {
 
 resource "azurerm_subnet_network_security_group_association" "NsgtoSubnets" {
 
-  for_each                  = {for k,v in local.Subnets : k=>v if v.EnableNsg == true}
+  for_each                  = { for k, v in local.Subnets : k => v if v.EnableNsg == true }
   subnet_id                 = azurerm_subnet.Subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.Nsgs[each.key].id
 }

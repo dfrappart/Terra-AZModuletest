@@ -1,26 +1,24 @@
 ###################################################################################
 # NSG Default rules
-/*
+
 resource "azurerm_network_security_rule" "nsg_spoke_rules" {
-  count                        = length(local.nsg_rules)
-  name                         = local.nsg_rules[count.index].name
-  priority                     = local.nsg_rules[count.index].priority
-  direction                    = local.nsg_rules[count.index].direction
-  access                       = local.nsg_rules[count.index].access
-  protocol                     = local.nsg_rules[count.index].protocol
-  source_port_range            = local.nsg_rules[count.index].source_port_range
-  destination_port_range       = local.nsg_rules[count.index].destination_port_range
-  source_address_prefix        = local.nsg_rules[count.index].source_address_prefix
-  destination_address_prefix   = local.nsg_rules[count.index].destination_address_prefix
-  destination_address_prefixes = local.nsg_rules[count.index].destination_address_prefixes
+  count                        = length(local.NsgRules)
+  name                         = local.NsgRules[count.index].Name
+  priority                     = local.NsgRules[count.index].Priority
+  direction                    = local.NsgRules[count.index].Direction
+  access                       = local.NsgRules[count.index].Access
+  protocol                     = local.NsgRules[count.index].Protocol
+  source_port_range            = local.NsgRules[count.index].SourcePortRange
+  destination_port_range       = local.NsgRules[count.index].DestinationPortRange
+  destination_port_ranges      = local.NsgRules[count.index].DestinationPortRanges
+  source_address_prefix        = local.NsgRules[count.index].SourceAddressPrefix
+  source_address_prefixes      = local.NsgRules[count.index].SourceAddressPrefixes
+  destination_address_prefix   = local.NsgRules[count.index].DestinationAddressPrefix
+  destination_address_prefixes = local.NsgRules[count.index].DestinationAddressPrefixes
   resource_group_name          = azurerm_virtual_network.Vnet.resource_group_name
-  network_security_group_name  = azurerm_network_security_group.Nsgs[local.nsg_rules[count.index].subnet].name
-}
-*/
+  network_security_group_name  = azurerm_network_security_group.Nsgs[local.NsgRules[count.index].subnet].name
 
 
-output "nsgrules" {
-  value = local.nsg_rules
 }
 
 

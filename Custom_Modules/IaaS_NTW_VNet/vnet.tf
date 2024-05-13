@@ -8,10 +8,7 @@ resource "azurerm_virtual_network" "Vnet" {
     ignore_changes = [
       tags["StartDate"]
     ]
-    precondition {
-      condition = data.azurerm_storage_account.StaLog.location == var.Location
-      error_message = "Storage account used for logs should be in same location as region chosen for deployment"
-    }
+
   }
 
   name                = local.VnetName
