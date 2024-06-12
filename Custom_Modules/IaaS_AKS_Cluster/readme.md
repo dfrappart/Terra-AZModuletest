@@ -94,6 +94,7 @@ module "AKS" {
 | <a name="input_AKSControlPlaneSku"></a> [AKSControlPlaneSku](#input\_AKSControlPlaneSku) | The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid (which includes the Uptime SLA). Defaults to Free. Note: It is currently possible to upgrade in place from Free to Paid. However, changing this value from Paid to Free will force a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSDiskEncryptionId"></a> [AKSDiskEncryptionId](#input\_AKSDiskEncryptionId) | The encryption id to encrypted nodes disk. Default to null to use Azure managed encryption. | `string` | `null` | no |
 | <a name="input_AKSDockerBridgeCIDR"></a> [AKSDockerBridgeCIDR](#input\_AKSDockerBridgeCIDR) | IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_AKSEbpfDataplane"></a> [AKSEbpfDataplane](#input\_AKSEbpfDataplane) | Define the eBPF Dataplane. can be only cilium if set. Default to null | `string` | `null` | no |
 | <a name="input_AKSIdentityType"></a> [AKSIdentityType](#input\_AKSIdentityType) | Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both). | `string` | `"SystemAssigned"` | no |
 | <a name="input_AKSLBIdleTimeout"></a> [AKSLBIdleTimeout](#input\_AKSLBIdleTimeout) | Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive. Defaults to 30. | `string` | `null` | no |
 | <a name="input_AKSLBOutboundIPAddressIds"></a> [AKSLBOutboundIPAddressIds](#input\_AKSLBOutboundIPAddressIds) | The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer. | `list(any)` | `null` | no |
@@ -106,6 +107,7 @@ module "AKS" {
 | <a name="input_AKSNetPolProvider"></a> [AKSNetPolProvider](#input\_AKSNetPolProvider) | Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. | `string` | `"calico"` | no |
 | <a name="input_AKSNetworkDNS"></a> [AKSNetworkDNS](#input\_AKSNetworkDNS) | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSNetworkPlugin"></a> [AKSNetworkPlugin](#input\_AKSNetworkPlugin) | Network plugin to use for networking. Currently supported values are azure, kubenet and none. Changing this forces a new resource to be created. | `string` | `"azure"` | no |
+| <a name="input_AKSNetworkPluginMode"></a> [AKSNetworkPluginMode](#input\_AKSNetworkPluginMode) | Specifies the network plugin mode used for building the Kubernetes network. Possible value is overlay. | `string` | `null` | no |
 | <a name="input_AKSNodeCount"></a> [AKSNodeCount](#input\_AKSNodeCount) | The number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `3` | no |
 | <a name="input_AKSNodeInstanceType"></a> [AKSNodeInstanceType](#input\_AKSNodeInstanceType) | The size of the Virtual Machine, such as Standard\_DS2\_v2. | `string` | `"standard_d2s_v4"` | no |
 | <a name="input_AKSNodeLabels"></a> [AKSNodeLabels](#input\_AKSNodeLabels) | A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created. | `map(any)` | `null` | no |
@@ -120,9 +122,10 @@ module "AKS" {
 | <a name="input_AKSRGName"></a> [AKSRGName](#input\_AKSRGName) | Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. | `string` | `"unspecified"` | no |
 | <a name="input_AKSSVCCIDR"></a> [AKSSVCCIDR](#input\_AKSSVCCIDR) | The Network Range used by the Kubernetes service. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSSubnetId"></a> [AKSSubnetId](#input\_AKSSubnetId) | The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| <a name="input_APIAccessList"></a> [APIAccessList](#input\_APIAccessList) | The IP ranges to whitelist for incoming traffic to the masters. | `list(string)` | `null` | no |
 | <a name="input_AksLogCategories"></a> [AksLogCategories](#input\_AksLogCategories) | A list of log categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
 | <a name="input_AksMetricCategories"></a> [AksMetricCategories](#input\_AksMetricCategories) | A list of metric categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
+| <a name="input_ApiAllowedIps"></a> [ApiAllowedIps](#input\_ApiAllowedIps) | A list of allowed IP on the API Server | `list(string)` | `[]` | no |
+| <a name="input_ApiSubnetId"></a> [ApiSubnetId](#input\_ApiSubnetId) | The subnet id for the Api Server Vnet integration | `string` | `null` | no |
 | <a name="input_AutoScaleProfilBalanceSimilarNdGP"></a> [AutoScaleProfilBalanceSimilarNdGP](#input\_AutoScaleProfilBalanceSimilarNdGP) | Detect similar node groups and balance the number of nodes between them. Defaults to false. | `string` | `null` | no |
 | <a name="input_AutoScaleProfilExpander"></a> [AutoScaleProfilExpander](#input\_AutoScaleProfilExpander) | Expander to use. Possible values are least-waste, priority, most-pods and random. Defaults to random. | `string` | `null` | no |
 | <a name="input_AutoScaleProfilMaxGracefullTerm"></a> [AutoScaleProfilMaxGracefullTerm](#input\_AutoScaleProfilMaxGracefullTerm) | Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to 600. | `string` | `null` | no |
@@ -144,11 +147,13 @@ module "AKS" {
 | <a name="input_AzureRBACEnabled"></a> [AzureRBACEnabled](#input\_AzureRBACEnabled) | A bool to enable or disable Azure RBAC in Kubernetes. True means that Azure Role can be used to grant access inside kubernetes, false means that only Kubernetes roles and binding can be used to managed granular access inside kubernetes | `bool` | `false` | no |
 | <a name="input_CSIKVSecretRotationEnabled"></a> [CSIKVSecretRotationEnabled](#input\_CSIKVSecretRotationEnabled) | Is rotation from the KV secret enabled? | `bool` | `true` | no |
 | <a name="input_CSIKVSecretRotationInterval"></a> [CSIKVSecretRotationInterval](#input\_CSIKVSecretRotationInterval) | The interval to poll for secret rotation. This attribute is only set when secret\_rotation is true and defaults to 2m. | `string` | `"2m"` | no |
+| <a name="input_CustomAsgList"></a> [CustomAsgList](#input\_CustomAsgList) | A list of Asg Ids to attach to the default node pool | `list(string)` | `[]` | no |
 | <a name="input_CustomFQDNPrefix"></a> [CustomFQDNPrefix](#input\_CustomFQDNPrefix) | A string to specify a custom fqdn prefix instead of the default built with tags | `string` | `""` | no |
 | <a name="input_CustomPrivateFQDNPrefix"></a> [CustomPrivateFQDNPrefix](#input\_CustomPrivateFQDNPrefix) | Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone | `string` | `""` | no |
 | <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map(any)` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That could be me"<br>}</pre> | no |
 | <a name="input_DiskDriverVersion"></a> [DiskDriverVersion](#input\_DiskDriverVersion) | Disk CSI Driver version to be used. Possible values are v1 and v2. Defaults to v1. | `string` | `null` | no |
 | <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
+| <a name="input_EnableApiVnetIntegration"></a> [EnableApiVnetIntegration](#input\_EnableApiVnetIntegration) | A bool to enable or disable | `bool` | `false` | no |
 | <a name="input_EnableDiagSettings"></a> [EnableDiagSettings](#input\_EnableDiagSettings) | A bool to enable or disable the diagnostic settings | `bool` | `false` | no |
 | <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
@@ -162,7 +167,7 @@ module "AKS" {
 | <a name="input_IsDefenderEnabled"></a> [IsDefenderEnabled](#input\_IsDefenderEnabled) | Is Microsoft Defender enabled? | `bool` | `true` | no |
 | <a name="input_IsDiskDriverEnabled"></a> [IsDiskDriverEnabled](#input\_IsDiskDriverEnabled) | Is the Disk CSI driver enabled? Defaults to true. | `bool` | `null` | no |
 | <a name="input_IsFileDriverEnabled"></a> [IsFileDriverEnabled](#input\_IsFileDriverEnabled) | Is the File CSI driver enabled? Defaults to true. | `bool` | `null` | no |
-| <a name="input_IsKubeletUsingUAI"></a> [IsKubeletUsingUAI](#input\_IsKubeletUsingUAI) | A boolean used to activate the block for kubelent identity | `bool` | `true` | no |
+| <a name="input_IsKubeletUsingUAI"></a> [IsKubeletUsingUAI](#input\_IsKubeletUsingUAI) | A boolean used to activate the block for kubelet identity | `bool` | `true` | no |
 | <a name="input_IsOIDCIssuerEnabled"></a> [IsOIDCIssuerEnabled](#input\_IsOIDCIssuerEnabled) | Enable or Disable the OIDC issuer URL | `bool` | `true` | no |
 | <a name="input_IsOMSAgentEnabled"></a> [IsOMSAgentEnabled](#input\_IsOMSAgentEnabled) | Is Container Insight enabled? | `bool` | `true` | no |
 | <a name="input_IsOpenServiceMeshEnabled"></a> [IsOpenServiceMeshEnabled](#input\_IsOpenServiceMeshEnabled) | Is Open Service Mesh enabled? | `bool` | `false` | no |
@@ -196,6 +201,7 @@ module "AKS" {
 | <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `bool` | `true` | no |
 | <a name="input_MaxAutoScaleCount"></a> [MaxAutoScaleCount](#input\_MaxAutoScaleCount) | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 | `string` | `10` | no |
 | <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
+| <a name="input_NodePoolAllowedPorts"></a> [NodePoolAllowedPorts](#input\_NodePoolAllowedPorts) | A map to define allowed ports on the default node pool | <pre>map(object({<br>    PortStart = optional(number, null)<br>    PortEnd   = optional(number, null)<br>    protocol  = optional(string, null)<br>  }))</pre> | `{}` | no |
 | <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
 | <a name="input_PrivateDNSZoneId"></a> [PrivateDNSZoneId](#input\_PrivateDNSZoneId) | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. | `string` | `null` | no |
@@ -239,6 +245,7 @@ module "AKS" {
 
 | Name | Type |
 |------|------|
+| [azurerm_application_security_group.NodePoolAsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_security_group) | resource |
 | [azurerm_kubernetes_cluster.AKS](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
 | [azurerm_log_analytics_workspace.LawMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
