@@ -116,6 +116,16 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
     }
 
+  upgrade_settings {
+
+    max_surge = var.AKSUpgradeMaxSurge
+    drain_timeout_in_minutes = var.AKSUpgradeDrainTimeOut
+    node_soak_duration_in_minutes = var.AKSUpgradeNodeSoakDuration
+
+
+  }
+
+
     tags = local.Tags
 
   }
@@ -129,6 +139,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   local_account_disabled              = var.LocalAccountDisabled
 
   automatic_channel_upgrade = var.AutoUpgradeChannelConfig
+
 
   #api_server_authorized_ip_ranges = var.APIAccessList
 
