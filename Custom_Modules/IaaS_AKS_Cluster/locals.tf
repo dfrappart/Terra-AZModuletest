@@ -44,5 +44,8 @@ locals {
 
   RgName = var.AKSRGName == "unspecified" ? format("%s-%s", "rg", var.AKSClusSuffix) : var.AKSRGName
 
+  NodePoolAsg     = "asg-${local.AKSDefaultNodePoolName}".id
+  NodePoolAsgList = merge(var.CustomAsgList, azurerm_application_security_group.NodePoolAsg)
+
 }
 

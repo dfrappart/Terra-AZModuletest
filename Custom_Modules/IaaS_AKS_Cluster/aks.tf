@@ -102,6 +102,20 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
     only_critical_addons_enabled = var.TaintCriticalAddonsEnabled
 
+    node_network_profile {
+
+      application_security_group_ids = local.NodePoolAsgList
+      dynamic "allowed_host_ports" {
+        for_each = var.NodePoolAllowedPorts
+
+        content {
+          port_start = allowed_host_ports.PortStart
+          port_end   = allowed_host_ports.PortEnd
+        }
+      }
+
+    }
+
     tags = local.Tags
 
   }
@@ -116,7 +130,14 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   automatic_channel_upgrade = var.AutoUpgradeChannelConfig
 
-  api_server_authorized_ip_ranges = var.APIAccessList
+  #api_server_authorized_ip_ranges = var.APIAccessList
+
+  api_server_access_profile {
+    authorized_ip_ranges     = var.ApiAllowedIps
+    subnet_id                = var.ApiSubnetId
+    vnet_integration_enabled = var.EnableApiVnetIntegration
+  }
+
 
   auto_scaler_profile {
 
@@ -139,6 +160,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
     skip_nodes_with_system_pods      = var.AutoscaleProfilSkipNodeWithSystemPods
 
   }
+
+
 
   disk_encryption_set_id = var.AKSDiskEncryptionId
 
@@ -178,6 +201,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   }
 
+
   linux_profile {
     admin_username = var.AKSAdminName
 
@@ -187,14 +211,17 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   }
 
   network_profile {
-    network_plugin     = var.AKSNetworkPlugin
-    network_policy     = var.AKSNetPolProvider
-    dns_service_ip     = var.AKSNetworkDNS
-    docker_bridge_cidr = var.AKSDockerBridgeCIDR
-    outbound_type      = var.AKSOutboundType
-    service_cidr       = var.AKSSVCCIDR
-    pod_cidr           = var.AKSPodCIDR
-    load_balancer_sku  = var.AKSLBSku
+    network_plugin = var.AKSNetworkPlugin
+    network_policy = var.AKSNetPolProvider
+    dns_service_ip = var.AKSNetworkDNS
+    #docker_bridge_cidr = var.AKSDockerBridgeCIDR
+    ebpf_data_plane     = var.AKSEbpfDataplane
+    network_plugin_mode = var.AKSNetworkPluginMode
+    outbound_type       = var.AKSOutboundType
+    service_cidr        = var.AKSSVCCIDR
+    pod_cidr            = var.AKSPodCIDR
+    load_balancer_sku   = var.AKSLBSku
+
 
     dynamic "load_balancer_profile" {
       for_each = var.AKSLBSku == "Standard" ? ["fake"] : []
@@ -284,9 +311,6 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   }
 
-
-
-
-
   tags = local.Tags
+
 }
