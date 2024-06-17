@@ -226,7 +226,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
     network_policy = var.AKSNetPolProvider
     dns_service_ip = var.AKSNetworkDNS
     #docker_bridge_cidr = var.AKSDockerBridgeCIDR
-    ebpf_data_plane     = var.AKSEbpfDataplane
+    network_data_plane     = var.AKSEbpfDataplane
     network_plugin_mode = var.AKSNetworkPluginMode
     outbound_type       = var.AKSOutboundType
     service_cidr        = var.AKSSVCCIDR
