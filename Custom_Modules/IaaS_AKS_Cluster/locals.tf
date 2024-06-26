@@ -44,5 +44,8 @@ locals {
 
   RgName = var.AKSRGName == "unspecified" ? format("%s-%s", "rg", var.AKSClusSuffix) : var.AKSRGName
 
+  NodePoolAsg     = "asg-${local.AKSDefaultNodePoolName}"
+  NodePoolAsgList = concat(var.CustomAsgList, [azurerm_application_security_group.NodePoolAsg.id])
+
 }
 

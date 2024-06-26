@@ -13,19 +13,19 @@ module "AKS" {
   AKSSubnetId                           = azurerm_subnet.subnet.id
   AKSNetworkPlugin                      = "kubenet"
   AKSNetPolProvider                     = "calico"
-  AKSClusSuffix                         = substr(replace(replace(each.key, ".", ""), "-", ""), 0, 12)
+  AKSClusSuffix                         = "lab1"
   AKSIdentityType                       = "UserAssigned"
   UAIIds                                = ["<UAI_ID>"]
   PublicSSHKey                          = "<SSH_Key>"
   AKSClusterAdminsIds                   = ["<AAD_Group_Object_Id>"]
 
-  LawLogId                              = "<>"
-  StaLogId                              = "<>"
+  LawLogId                              = "<Log_analytics_workspace_id_for_Diagnostic_settings>"
+  StaLogId                              = "<Storage_for_monitoring_id>"
 
-  LawOMSId                              = "<>"
+  LawOMSId                              = "<Log_analytics_workspace_id_for_OMS>"
   IsOMSAgentEnabled                     = true
 
-  LawDefenderId                         = ""
+  LawDefenderId                         = "<Log_analytics_workspace_id_for_Defender>"
   IsDefenderEnabled                     = true
 
   EnableDiagSettings                    = true

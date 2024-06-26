@@ -2,9 +2,6 @@
 #This module creates an AKS Clulster with RBAC and Kubenet
 ##############################################################
 
-
-
-
 variable "LawLogId" {
   type        = string
   description = "ID of the log analytics workspace containing the logs, if not specified, no diagnostic settings to log analytics is created"
@@ -471,17 +468,29 @@ variable "SysCtlVmVfsCachePressure" {
 }
 
 ##############################################################
-
-variable "APIAccessList" {
-  type        = list(string)
-  default     = null
-  description = "The IP ranges to whitelist for incoming traffic to the masters."
-}
-
+# Upgrade settings variables
 variable "AutoUpgradeChannelConfig" {
   type        = string
   default     = null
   description = "The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none."
+}
+
+variable "AKSUpgradeMaxSurge" {
+  type = string
+  description = "Define the number of nodes created during an upgrade process. Can be a number or a percentage"
+  default = "33%"
+}
+
+variable "AKSUpgradeDrainTimeOut" {
+  type = number
+  description = "The amount of time in minutes to wait on eviction of pods and graceful termination per node. This eviction wait time honors pod disruption budgets for upgrades. If this time is exceeded, the upgrade fails. Unsetting this after configuring it will force a new resource to be created."
+  default = null
+}
+
+variable "AKSUpgradeNodeSoakDuration" {
+  type = number
+  description = "The amount of time in minutes to wait after draining a node and before reimaging and moving on to next node. Defaults to 0."
+  default = null
 }
 
 ##############################################################
@@ -708,8 +717,21 @@ variable "AKSLBOutboundIPAddressIds" {
   default     = null
 }
 
+variable "AKSEbpfDataplane" {
+  type = string
+  description = "Define the eBPF Dataplane. can be only cilium if set. Default to null"
+  default = null
+}
+
+
+variable "AKSNetworkPluginMode" {
+  type = string
+  description = "Specifies the network plugin mode used for building the Kubernetes network. Possible value is overlay."
+  default = null
+}
+
 ##############################################################
-# Network profile config
+# CSI configuration
 
 variable "IsBlobDriverEnabled" {
   type        = bool
@@ -1006,4 +1028,46 @@ variable "extra_tags" {
   type        = map(any)
   description = "Additional optional tags."
   default     = {}
+}
+
+
+######################################################
+# node network profile variable
+
+variable "CustomAsgList" {
+  type        = list(string)
+  description = "A list of Asg Ids to attach to the default node pool"
+  default     = []
+}
+
+variable "NodePoolAllowedPorts" {
+  type = map(object({
+    PortStart = optional(number, null)
+    PortEnd   = optional(number, null)
+    protocol  = optional(string, null)
+  }))
+  description = "A map to define allowed ports on the default node pool"
+  default     = {}
+
+}
+
+######################################################
+# Api Server profile variable
+variable "ApiSubnetId" {
+  type        = string
+  description = "The subnet id for the Api Server Vnet integration"
+  default     = null
+}
+
+variable "EnableApiVnetIntegration" {
+  type        = bool
+  description = "A bool to enable or disable"
+  default     = false
+}
+
+variable "ApiAllowedIps" {
+  type = list(string)
+  description = "A list of allowed IP on the API Server"
+  default = []
+  
 }
