@@ -3,3 +3,6 @@
 #############################################################################
 
 
+data "azurerm_resource_group" "TargetRg" {
+  name = var.TargetRg
+}
