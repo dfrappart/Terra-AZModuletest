@@ -97,12 +97,12 @@ resource "azurerm_application_gateway" "AGW" {
   }
 
   request_routing_rule {
-    name               = local.DefaultAgwConfig.DefaultAgwrule
-    rule_type          = "Basic"
-    http_listener_name = local.DefaultAgwConfig.DefaultAgwLst
-    backend_address_pool_name = local.DefaultAgwConfig.DefaultAgwBePool
+    name                       = local.DefaultAgwConfig.DefaultAgwrule
+    rule_type                  = "Basic"
+    http_listener_name         = local.DefaultAgwConfig.DefaultAgwLst
+    backend_address_pool_name  = local.DefaultAgwConfig.DefaultAgwBePool
     backend_http_settings_name = local.DefaultAgwConfig.DefaultAgwBhs
-    priority = 1000
+    priority                   = 1000
 
   }
 
@@ -142,15 +142,15 @@ resource "azurerm_application_gateway" "AGW" {
     for_each = var.SitesConf
     iterator = each
     content {
-      name                  = each.value.BhsName == "" ? "bhs-${each.value.HostName}" : each.value.BhsName
-      cookie_based_affinity = each.value.BhsCookieBasedAffinityConfig
-      affinity_cookie_name = each.value.BhsAffinityCookieName
-      port                  = each.value.BhsPort
-      protocol              = each.value.BhsProtocol
-      request_timeout       = each.value.BhsRequestTimeOut
-      probe_name            = each.value.EnableProbe ? (each.value.ProbeName == "" ? "probe-${each.value.HostName}" : each.value.ProbeName) : null
+      name                           = each.value.BhsName == "" ? "bhs-${each.value.HostName}" : each.value.BhsName
+      cookie_based_affinity          = each.value.BhsCookieBasedAffinityConfig
+      affinity_cookie_name           = each.value.BhsAffinityCookieName
+      port                           = each.value.BhsPort
+      protocol                       = each.value.BhsProtocol
+      request_timeout                = each.value.BhsRequestTimeOut
+      probe_name                     = each.value.EnableProbe ? (each.value.ProbeName == "" ? "probe-${each.value.HostName}" : each.value.ProbeName) : null
       trusted_root_certificate_names = each.value.BhsTrustedRootCert
-      host_name = each.value.BhsHostName == "" ? each.value.HostName : each.value.BhsHostName
+      host_name                      = each.value.BhsHostName == "" ? each.value.HostName : each.value.BhsHostName
     }
   }
 

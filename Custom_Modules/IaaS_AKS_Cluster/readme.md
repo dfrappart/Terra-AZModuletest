@@ -42,19 +42,19 @@ module "AKS" {
   AKSSubnetId                           = azurerm_subnet.subnet.id
   AKSNetworkPlugin                      = "kubenet"
   AKSNetPolProvider                     = "calico"
-  AKSClusSuffix                         = substr(replace(replace(each.key, ".", ""), "-", ""), 0, 12)
+  AKSClusSuffix                         = "lab1"
   AKSIdentityType                       = "UserAssigned"
   UAIIds                                = ["<UAI_ID>"]
   PublicSSHKey                          = "<SSH_Key>"
   AKSClusterAdminsIds                   = ["<AAD_Group_Object_Id>"]
 
-  LawLogId                              = "<>"
-  StaLogId                              = "<>"
+  LawLogId                              = "<Log_analytics_workspace_id_for_Diagnostic_settings>"
+  StaLogId                              = "<Storage_for_monitoring_id>"
 
-  LawOMSId                              = "<>"
+  LawOMSId                              = "<Log_analytics_workspace_id_for_OMS>"
   IsOMSAgentEnabled                     = true
 
-  LawDefenderId                         = ""
+  LawDefenderId                         = "<Log_analytics_workspace_id_for_Defender>"
   IsDefenderEnabled                     = true
 
   EnableDiagSettings                    = true
@@ -69,7 +69,7 @@ module "AKS" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.8.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.108.0 |
 
 ## Providers
@@ -89,6 +89,7 @@ module "AKS" {
 | <a name="input_AGWSubnetId"></a> [AGWSubnetId](#input\_AGWSubnetId) | The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
 | <a name="input_AKSAZ"></a> [AKSAZ](#input\_AKSAZ) | A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created. | `list(string)` | <pre>[<br>  "1",<br>  "2",<br>  "3"<br>]</pre> | no |
 | <a name="input_AKSAdminName"></a> [AKSAdminName](#input\_AKSAdminName) | The Admin Username for the Cluster. Changing this forces a new resource to be created. | `string` | `"AKSAdmin"` | no |
+| <a name="input_AKSCapacityReservationGroupId"></a> [AKSCapacityReservationGroupId](#input\_AKSCapacityReservationGroupId) | The Capacity Reservation Group ID to use for the Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSClusSuffix"></a> [AKSClusSuffix](#input\_AKSClusSuffix) | A suffix to identify the cluster without breacking the naming convention. Changing this will change the name so forces a new resource to be created. | `string` | `"AksClus"` | no |
 | <a name="input_AKSClusterAdminsIds"></a> [AKSClusterAdminsIds](#input\_AKSClusterAdminsIds) | A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster. | `list(string)` | n/a | yes |
 | <a name="input_AKSControlPlaneSku"></a> [AKSControlPlaneSku](#input\_AKSControlPlaneSku) | The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid (which includes the Uptime SLA). Defaults to Free. Note: It is currently possible to upgrade in place from Free to Paid. However, changing this value from Paid to Free will force a new resource to be created. | `string` | `null` | no |
@@ -160,6 +161,9 @@ module "AKS" {
 | <a name="input_EnableDiagSettings"></a> [EnableDiagSettings](#input\_EnableDiagSettings) | A bool to enable or disable the diagnostic settings | `bool` | `false` | no |
 | <a name="input_EnableHostEncryption"></a> [EnableHostEncryption](#input\_EnableHostEncryption) | Should the nodes in the Default Node Pool have host encryption enabled? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableNodePublicIP"></a> [EnableNodePublicIP](#input\_EnableNodePublicIP) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
+| <a name="input_EntraIdTenantId"></a> [EntraIdTenantId](#input\_EntraIdTenantId) | The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used. | `string` | `null` | no |
+| <a name="input_GPUInstance"></a> [GPUInstance](#input\_GPUInstance) | The type of GPU instance to use for the Default Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_HostGroupId"></a> [HostGroupId](#input\_HostGroupId) | The Host Group ID to use for the Default Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
 | <a name="input_IsAKSKMSEnabled"></a> [IsAKSKMSEnabled](#input\_IsAKSKMSEnabled) | A bool to activate the kms etcd feature block | `bool` | `false` | no |
 | <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
@@ -206,6 +210,7 @@ module "AKS" {
 | <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
 | <a name="input_NodePoolAllowedPorts"></a> [NodePoolAllowedPorts](#input\_NodePoolAllowedPorts) | A map to define allowed ports on the default node pool | <pre>map(object({<br>    PortStart = optional(number, null)<br>    PortEnd   = optional(number, null)<br>    protocol  = optional(string, null)<br>  }))</pre> | `{}` | no |
 | <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
+| <a name="input_NodePublicIpPrefixId"></a> [NodePublicIpPrefixId](#input\_NodePublicIpPrefixId) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
 | <a name="input_PrivateDNSZoneId"></a> [PrivateDNSZoneId](#input\_PrivateDNSZoneId) | Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. | `string` | `null` | no |
 | <a name="input_PublicSSHKey"></a> [PublicSSHKey](#input\_PublicSSHKey) | An ssh\_key block. Only one is currently allowed. Changing this forces a new resource to be created. | `string` | n/a | yes |

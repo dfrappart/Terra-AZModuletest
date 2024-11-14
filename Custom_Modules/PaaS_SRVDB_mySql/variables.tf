@@ -117,7 +117,7 @@ variable "TLSVersion" {
 variable "MySQLStorageSize" {
   type        = string
   description = "Max storage allowed for a server. Possible values are between 5120 MB(5GB) and 1048576 MB(1TB) for the Basic SKU and between 5120 MB(5GB) and 4194304 MB(4TB) for General Purpose/Memory Optimized SKUs. For more information see the product documentation."
-  default     = 5120 
+  default     = 5120
 }
 
 # Threat detection
@@ -129,7 +129,7 @@ variable "IsThreatDetectionEnabled" {
 }
 
 variable "DisabledThreatAlertList" {
-  type        = list
+  type        = list(any)
   description = "Specifies a list of alerts which should be disabled. Possible values include Access_Anomaly, Sql_Injection and Sql_Injection_Vulnerability."
   default     = null
 }
@@ -142,7 +142,7 @@ variable "EmailAccountAdminEnabled" {
 }
 
 variable "ThreatAlertEmail" {
-  type        = list
+  type        = list(any)
   description = "A list of email addresses which alerts should be sent to"
 
 }
@@ -184,7 +184,7 @@ variable "MySQLADAdminLogin" {
 # MySQL databases
 
 variable "MySQLDbList" {
-  type        = list
+  type        = list(any)
   description = "List of MySQL databases names."
   default     = []
 }
@@ -203,26 +203,26 @@ variable "MySQLDbCollation" {
 
 
 variable "SubnetIds" {
-    type                = list
-    description         = "The ID of the subnets that the MySQL server will be connected to. We use a list and the count feature to add more than 1 subnet if necessary. It does impact the way we output the resources."
-    default             = ["empty"]
+  type        = list(any)
+  description = "The ID of the subnets that the MySQL server will be connected to. We use a list and the count feature to add more than 1 subnet if necessary. It does impact the way we output the resources."
+  default     = ["empty"]
 }
 
 variable "AllowedPubIPs" {
-    type                = list
-    description         = "The accept list for the FW rules. We use a list and the count feature to add more than 1 IP if necessary. It does impact the way we output the resources."
-    default             = ["empty"]
+  type        = list(any)
+  description = "The accept list for the FW rules. We use a list and the count feature to add more than 1 IP if necessary. It does impact the way we output the resources."
+  default     = ["empty"]
 }
 variable "LawId" {
-    type                = string
-    description         = "The ID of the storage account used for diag log storage"
-    default             = "empty"
+  type        = string
+  description = "The ID of the storage account used for diag log storage"
+  default     = "empty"
 }
 
 variable "STAId" {
-    type                = string
-    description         = "The ID of log analytics used for diag log storage"
-    default             = "empty"
+  type        = string
+  description = "The ID of log analytics used for diag log storage"
+  default     = "empty"
 }
 
 # Tags variables
@@ -238,7 +238,7 @@ variable "CountryTag" {
 
 variable "CostCenterTag" {
   type        = string
-  description = "Project trigram." 
+  description = "Project trigram."
 }
 
 variable "EnvironmentTag" {

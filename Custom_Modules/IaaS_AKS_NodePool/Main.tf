@@ -27,33 +27,32 @@ resource "azurerm_kubernetes_cluster_node_pool" "AKSNodePool" {
   orchestrator_version  = var.KubeVersion
   max_pods              = var.AKSMaxPods
   workload_runtime      = var.WorkloadRuntimeType
-  message_of_the_day    = var.MessageofTheDay
 
   ##############################################################
   # Security Parameters
 
-  custom_ca_trust_enabled = var.IsCustomCATrustEnabled
-  enable_host_encryption  = var.EnableHostEncryption
+  host_encryption_enabled = var.EnableHostEncryption
   fips_enabled            = var.IsFipsEnabled
 
   ##############################################################
   # Network configuration
 
-  enable_node_public_ip = var.EnableNodePublicIP
-  vnet_subnet_id        = var.AKSSubnetId
-  pod_subnet_id         = var.PodSubnetId
+  node_public_ip_enabled = var.EnableNodePublicIP
+  vnet_subnet_id         = var.AKSSubnetId
+  pod_subnet_id          = var.PodSubnetId
   node_network_profile {
-    node_public_ip_tags = var.NodePublicIpTags
+    node_public_ip_tags            = var.NodePublicIpTags
+    application_security_group_ids = var.CustomAsgList
   }
 
   ##############################################################
   # Autoscaling configuration
 
-  enable_auto_scaling = var.EnableAKSAutoScale
-  max_count           = var.MaxAutoScaleCount
-  min_count           = var.MinAutoScaleCount
-  node_count          = var.AKSNodeCount
-  scale_down_mode     = var.ScaleDownMode
+  auto_scaling_enabled = var.EnableAKSAutoScale
+  max_count            = var.MaxAutoScaleCount
+  min_count            = var.MinAutoScaleCount
+  node_count           = var.AKSNodeCount
+  scale_down_mode      = var.ScaleDownMode
 
   ##############################################################
   # OS related Configuration

@@ -14,7 +14,7 @@ output "Storage" {
 }
 
 output "RetentionDays" {
-  value = azurerm_mysql_server.MySQLServer.backup_retention_days 
+  value = azurerm_mysql_server.MySQLServer.backup_retention_days
 }
 
 

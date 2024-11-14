@@ -30,9 +30,9 @@ locals {
 
   DefaultAgwConfig = {
     DefaultAgwBePool = "agw-bck-default-bepool"
-    DefaultAgwBhs = "agw-bhs-default"
-    DefaultAgwLst = "agw-lst-default"
-    DefaultAgwrule = "agw-rul-default"
+    DefaultAgwBhs    = "agw-bhs-default"
+    DefaultAgwLst    = "agw-lst-default"
+    DefaultAgwrule   = "agw-rul-default"
   }
 
 }

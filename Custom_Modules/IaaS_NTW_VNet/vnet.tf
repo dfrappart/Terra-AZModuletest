@@ -28,10 +28,10 @@ resource "azurerm_ip_group" "VnetCidr" {
 
   cidrs = [var.Vnet.AddressSpace]
 
-  tags                = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
+  tags = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
 
   lifecycle {
-    ignore_changes = [ tags["StartDate"] ]
+    ignore_changes = [tags["StartDate"]]
 
 
   }

@@ -16,7 +16,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
       kubernetes_version,
       linux_profile,
       network_profile,
-      key_management_service[0].key_vault_key_id
+      key_management_service[0].key_vault_key_id,
+      microsoft_defender
 
 
     ]
@@ -27,24 +28,28 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   resource_group_name = var.AKSRGName
 
   default_node_pool {
-    name                   = substr(local.AKSDefaultNodePoolName, 0, 12)
-    vm_size                = var.AKSNodeInstanceType
-    zones                  = var.AKSLBSku == "Standard" ? var.AKSAZ : null
-    enable_auto_scaling    = var.EnableAKSAutoScale
-    enable_host_encryption = var.EnableHostEncryption
-    enable_node_public_ip  = var.EnableNodePublicIP
-    fips_enabled           = var.NodePoolWithFIPSEnabled
-    max_pods               = var.AKSMaxPods
-    node_labels            = var.AKSNodeLabels
-    os_disk_size_gb        = var.AKSNodeOSDiskSize
-    os_disk_type           = var.AKSNodeOSDiskType
-    vnet_subnet_id         = var.AKSSubnetId
-    max_count              = var.MaxAutoScaleCount
-    min_count              = var.MinAutoScaleCount
-    node_count             = var.AKSNodeCount
-    orchestrator_version   = var.KubeVersion
-    pod_subnet_id          = var.AKSNodePodSubnetId
-    ultra_ssd_enabled      = var.AKSNodeUltraSSDEnabled
+    name                          = substr(local.AKSDefaultNodePoolName, 0, 12)
+    vm_size                       = var.AKSNodeInstanceType
+    zones                         = var.AKSLBSku == "Standard" ? var.AKSAZ : null
+    auto_scaling_enabled          = var.EnableAKSAutoScale
+    capacity_reservation_group_id = var.AKSCapacityReservationGroupId
+    host_encryption_enabled       = var.EnableHostEncryption
+    node_public_ip_enabled        = var.EnableNodePublicIP
+    node_public_ip_prefix_id      = var.NodePublicIpPrefixId
+    fips_enabled                  = var.NodePoolWithFIPSEnabled
+    max_pods                      = var.AKSMaxPods
+    node_labels                   = var.AKSNodeLabels
+    os_disk_size_gb               = var.AKSNodeOSDiskSize
+    os_disk_type                  = var.AKSNodeOSDiskType
+    vnet_subnet_id                = var.AKSSubnetId
+    max_count                     = var.MaxAutoScaleCount
+    min_count                     = var.MinAutoScaleCount
+    node_count                    = var.AKSNodeCount
+    orchestrator_version          = var.KubeVersion
+    pod_subnet_id                 = var.AKSNodePodSubnetId
+    ultra_ssd_enabled             = var.AKSNodeUltraSSDEnabled
+    gpu_instance                  = var.GPUInstance
+    host_group_id                 = var.HostGroupId
 
     kubelet_config {
 
@@ -116,14 +121,14 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
     }
 
-  upgrade_settings {
+    upgrade_settings {
 
-    max_surge = var.AKSUpgradeMaxSurge
-    drain_timeout_in_minutes = var.AKSUpgradeDrainTimeOut
-    node_soak_duration_in_minutes = var.AKSUpgradeNodeSoakDuration
+      max_surge                     = var.AKSUpgradeMaxSurge
+      drain_timeout_in_minutes      = var.AKSUpgradeDrainTimeOut
+      node_soak_duration_in_minutes = var.AKSUpgradeNodeSoakDuration
 
 
-  }
+    }
 
 
     tags = local.Tags
@@ -138,15 +143,22 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   private_cluster_public_fqdn_enabled = local.PrivateClusterPublicFqdn
   local_account_disabled              = var.LocalAccountDisabled
 
-  automatic_channel_upgrade = var.AutoUpgradeChannelConfig
+  automatic_upgrade_channel = var.AutoUpgradeChannelConfig
 
 
   #api_server_authorized_ip_ranges = var.APIAccessList
 
-  api_server_access_profile {
-    authorized_ip_ranges     = var.ApiAllowedIps
-    subnet_id                = var.ApiSubnetId
-    vnet_integration_enabled = var.EnableApiVnetIntegration
+  dynamic "api_server_access_profile" {
+
+    for_each = var.ApiAllowedIps != [] ? ["fake"] : []
+
+    content {
+
+      authorized_ip_ranges = var.ApiAllowedIps
+      #subnet_id                = var.ApiSubnetId
+      #vnet_integration_enabled = var.EnableApiVnetIntegration      
+    }
+
   }
 
 
@@ -222,11 +234,10 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   }
 
   network_profile {
-    network_plugin = var.AKSNetworkPlugin
-    network_policy = var.AKSNetPolProvider
-    dns_service_ip = var.AKSNetworkDNS
-    #docker_bridge_cidr = var.AKSDockerBridgeCIDR
-    network_data_plane     = var.AKSEbpfDataplane
+    network_plugin      = var.AKSNetworkPlugin
+    network_policy      = var.AKSNetPolProvider
+    dns_service_ip      = var.AKSNetworkDNS
+    network_data_plane  = var.AKSEbpfDataplane
     network_plugin_mode = var.AKSNetworkPluginMode
     outbound_type       = var.AKSOutboundType
     service_cidr        = var.AKSSVCCIDR
@@ -256,14 +267,13 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   storage_profile {
     blob_driver_enabled         = var.IsBlobDriverEnabled
     disk_driver_enabled         = var.IsDiskDriverEnabled
-    disk_driver_version         = var.DiskDriverVersion
     file_driver_enabled         = var.IsFileDriverEnabled
     snapshot_controller_enabled = var.IsSnapshotControllerEnabled
 
   }
 
   azure_active_directory_role_based_access_control {
-    managed                = true
+    tenant_id              = var.EntraIdTenantId
     azure_rbac_enabled     = var.AzureRBACEnabled
     admin_group_object_ids = var.AKSClusterAdminsIds
 

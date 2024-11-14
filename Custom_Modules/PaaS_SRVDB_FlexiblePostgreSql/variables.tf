@@ -1,80 +1,80 @@
 ######################################################
 # Globals
 variable "RgName" {
-  type                                        = string
-  description                                 = "Resource Group name provided as a string. Changing this input will recreate everything"
+  type        = string
+  description = "Resource Group name provided as a string. Changing this input will recreate everything"
 }
 
 variable "Location" {
-  type                                        = string
-  description                                 = "Azure region."
-  default                                     = "westeurope"
+  type        = string
+  description = "Azure region."
+  default     = "westeurope"
 }
 
 variable "PSQLSuffix" {
-  type                                        = string
-  description                                 = "a suffix to add to the composed name, changing this change the name and thus recreate the resource"
-  default                                     = "1"
+  type        = string
+  description = "a suffix to add to the composed name, changing this change the name and thus recreate the resource"
+  default     = "1"
 }
 
 ######################################################
 # Diagnostic settings variables
 
 variable "LawLogId" {
-  type                                        = string
-  description                                 = "The Id of the Log Analytics workspace used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
-  default                                     = "unspecified"
+  type        = string
+  description = "The Id of the Log Analytics workspace used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default     = "unspecified"
 }
 
 variable "STALogId" {
-  type                                        = string
-  description                                 = "The Id of the storage account used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
-  default                                     = "unspecified"
+  type        = string
+  description = "The Id of the storage account used as log sink. If not specified, a conditional set the count of the diagnostic settings to 0"
+  default     = "unspecified"
 }
 
 variable "LogCategory" {
-  type                                        = map(object({
-                                                  LogCatName                  = string
-                                                  IsLogCatEnabledForLAW       = bool
-                                                  IsLogCatEnabledForSTA       = bool
-                                                  IsRetentionEnabled          = bool
-                                                  RetentionDaysValue          = number
+  type = map(object({
+    LogCatName            = string
+    IsLogCatEnabledForLAW = bool
+    IsLogCatEnabledForSTA = bool
+    IsRetentionEnabled    = bool
+    RetentionDaysValue    = number
   }))
 
-  description                               = "A map to feed the log categories of the diagnostic settings"
-  
-  default                                   = {
+  description = "A map to feed the log categories of the diagnostic settings"
 
-                                          "Category1" = {
-                                            LogCatName                        = "PostgreSQLLogs"
-                                            IsLogCatEnabledForLAW             = true
-                                            IsLogCatEnabledForSTA             = true
-                                            IsRetentionEnabled                = true
-                                            RetentionDaysValue                = 365
+  default = {
+
+    "Category1" = {
+      LogCatName            = "PostgreSQLLogs"
+      IsLogCatEnabledForLAW = true
+      IsLogCatEnabledForSTA = true
+      IsRetentionEnabled    = true
+      RetentionDaysValue    = 365
     }
 
   }
 }
 
 variable "MetricCategory" {
-  type                                        = map(object({
-                                                  MetricCatName               = string
-                                                  IsMetricCatEnabledForLAW    = bool
-                                                  IsMetricCatEnabledForSTA    = bool
-                                                  IsRetentionEnabled          = bool
-                                                  RetentionDaysValue          = number
+  type = map(object({
+    MetricCatName            = string
+    IsMetricCatEnabledForLAW = bool
+    IsMetricCatEnabledForSTA = bool
+    IsRetentionEnabled       = bool
+    RetentionDaysValue       = number
   }))
 
-  description                               = "A map to feed the log categories of the diagnostic settings"
-  
-  default                                   = {
+  description = "A map to feed the log categories of the diagnostic settings"
 
-                                          "Category1" = {
-                                            MetricCatName                     = "AllMetrics"
-                                            IsMetricCatEnabledForLAW          = false
-                                            IsMetricCatEnabledForSTA          = true
-                                            IsRetentionEnabled                = true
-                                            RetentionDaysValue                = 365
+  default = {
+
+    "Category1" = {
+      MetricCatName            = "AllMetrics"
+      IsMetricCatEnabledForLAW = false
+      IsMetricCatEnabledForSTA = true
+      IsRetentionEnabled       = true
+      RetentionDaysValue       = 365
     }
 
 
@@ -88,122 +88,122 @@ variable "MetricCategory" {
 # PostreSQL server
 
 variable "PostgreLogin" {
-  type                                        = string
-  description                                 = "Administrator login for the PostgreSQL server."
-  default                                     = "sqladmin"
+  type        = string
+  description = "Administrator login for the PostgreSQL server."
+  default     = "sqladmin"
 }
 
 variable "PostgrePwd" {
-  type                                        = string
-  description                                 = "Password associated with the administrator_login for the PostgreSQL server."
+  type        = string
+  description = "Password associated with the administrator_login for the PostgreSQL server."
 }
 
 variable "PostgreRetentionDays" {
-  type                                        = string
-  description                                 = "Backup retention days for the server. Supported values are between 7 and 35 days."
-  default                                     = 7
+  type        = string
+  description = "Backup retention days for the server. Supported values are between 7 and 35 days."
+  default     = 7
 }
 
 variable "PostgreGeoRedundantBackup" {
-  type                                        = bool
-  description                                 = "Choice whether enabling Geo-redundant server backups. This is not support for the Basic tier. Possible values are true or false."
-  default                                     = false
+  type        = bool
+  description = "Choice whether enabling Geo-redundant server backups. This is not support for the Basic tier. Possible values are true or false."
+  default     = false
 }
 
 variable "PostgreCreateMode" {
-  type                                        = string
-  description                                 = "The creation mode. Can be used to restore or replicate existing servers. Possible values are Default, Replica, GeoRestore, and PointInTimeRestore. Defaults to Default."
-  default                                     = "Default"
+  type        = string
+  description = "The creation mode. Can be used to restore or replicate existing servers. Possible values are Default, Replica, GeoRestore, and PointInTimeRestore. Defaults to Default."
+  default     = "Default"
 }
 
 variable "PostgreCreationSrcSrvId" {
-  type                                        = string
-  description                                 = "For creation modes other then default the source server ID to use."
-  default                                     = null
+  type        = string
+  description = "For creation modes other then default the source server ID to use."
+  default     = null
 }
 
 variable "PostgreRestorePIT" {
-  type                                        = string
-  description                                 = "When create_mode is PointInTimeRestore the point in time to restore from creation_source_server_id. "
-  default                                     = null
+  type        = string
+  description = "When create_mode is PointInTimeRestore the point in time to restore from creation_source_server_id. "
+  default     = null
 }
 
 variable "PSQLSubnetId" {
-  type                                        = string
-  description                                 = "The ID of the virtual network subnet to create the PostgreSQL Flexible Server. The provided subnet should not have any other resource deployed in it and this subnet will be delegated to the PostgreSQL Flexible Server, if not already delegated. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = "unspecified"
+  type        = string
+  description = "The ID of the virtual network subnet to create the PostgreSQL Flexible Server. The provided subnet should not have any other resource deployed in it and this subnet will be delegated to the PostgreSQL Flexible Server, if not already delegated. Changing this forces a new PostgreSQL Flexible Server to be created."
+  default     = "unspecified"
 }
 
 variable "PSQLPrivateDNSZoneId" {
-  type                                        = string
-  description                                 = " The ID of the private dns zone to create the PostgreSQL Flexible Server. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = "unspecified"
+  type        = string
+  description = " The ID of the private dns zone to create the PostgreSQL Flexible Server. Changing this forces a new PostgreSQL Flexible Server to be created."
+  default     = "unspecified"
 }
 
 variable "IsHA" {
-  type                                        = bool
-  description                                 = "A booleen to activate the HA mode for the cluster"
-  default                                     = true
+  type        = bool
+  description = "A booleen to activate the HA mode for the cluster"
+  default     = true
 }
 
 variable "HAMode" {
-  type                                        = string
-  description                                 = "The high availability mode for the PostgreSQL Flexible Server. Possible value are SameZone or ZoneRedundant."
-  default                                     = "ZoneRedundant"
+  type        = string
+  description = "The high availability mode for the PostgreSQL Flexible Server. Possible value are SameZone or ZoneRedundant."
+  default     = "ZoneRedundant"
 }
 
 variable "HAStandbyAZ" {
-  type                                        = string
-  description                                 = " The ID of the private dns zone to create the PostgreSQL Flexible Server. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = null
+  type        = string
+  description = " The ID of the private dns zone to create the PostgreSQL Flexible Server. Changing this forces a new PostgreSQL Flexible Server to be created."
+  default     = null
 }
 
 variable "PostgreZone" {
-  type                                        = string
-  description                                 = "Specifies the Availability Zone in which the PostgreSQL Flexible Server should be located."
-  default                                     = null
+  type        = string
+  description = "Specifies the Availability Zone in which the PostgreSQL Flexible Server should be located."
+  default     = null
 }
 
 variable "PostgreSkuName" {
-  type                                        = string
-  description                                 = "The SKU Name for the PostgreSQL Flexible Server. The name of the SKU, follows the tier + name pattern (e.g. B_Standard_B1ms, GP_Standard_D2s_v3, MO_Standard_E4s_v3)."
-  default                                     = "B_Standard_B1ms"
+  type        = string
+  description = "The SKU Name for the PostgreSQL Flexible Server. The name of the SKU, follows the tier + name pattern (e.g. B_Standard_B1ms, GP_Standard_D2s_v3, MO_Standard_E4s_v3)."
+  default     = "B_Standard_B1ms"
 }
 
 variable "PostgreStorage" {
-  type                                        = number
-  description                                 = "The max storage allowed for the PostgreSQL Flexible Server. Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, and 33554432."
-  default                                     = 32768
+  type        = number
+  description = "The max storage allowed for the PostgreSQL Flexible Server. Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, and 33554432."
+  default     = 32768
 }
 
 variable "PostgreVersion" {
-  type                                        = number
-  description                                 = "The version of PostgreSQL Flexible Server to use. Possible values are 11,12 and 13. Required when create_mode is Default. Changing this forces a new PostgreSQL Flexible Server to be created."
-  default                                     = 11
+  type        = number
+  description = "The version of PostgreSQL Flexible Server to use. Possible values are 11,12 and 13. Required when create_mode is Default. Changing this forces a new PostgreSQL Flexible Server to be created."
+  default     = 11
 }
 
 variable "CustomMaintenanceWindow" {
-  type                                        = bool
-  description                                 = "A booleen used to activate the dynamic block for maintenance windiws"
-  default                                     = false
+  type        = bool
+  description = "A booleen used to activate the dynamic block for maintenance windiws"
+  default     = false
 }
 
 variable "CustomMaintenanceWindowDay" {
-  type                                        = number
-  description                                 = "The day of week for maintenance window, where the week starts on a Sunday, i.e. Sunday = 0, Monday = 1. Defaults to 0."
-  default                                     = null
+  type        = number
+  description = "The day of week for maintenance window, where the week starts on a Sunday, i.e. Sunday = 0, Monday = 1. Defaults to 0."
+  default     = null
 }
 
 variable "CustomMaintenanceWindowHour" {
-  type                                        = number
-  description                                 = "The start hour for maintenance window. Defaults to 0"
-  default                                     = null
+  type        = number
+  description = "The start hour for maintenance window. Defaults to 0"
+  default     = null
 }
 
 variable "CustomMaintenanceWindowMinute" {
-  type                                        = number
-  description                                 = "The start minute for maintenance window. Defaults to 0."
-  default                                     = null
+  type        = number
+  description = "The start minute for maintenance window. Defaults to 0."
+  default     = null
 }
 
 # PostgreSQL databases
@@ -214,23 +214,23 @@ variable "CustomMaintenanceWindowMinute" {
 #Tag related variables section
 
 variable "DefaultTags" {
-  type                                        = map
-  description                                 = "Define a set of default tags"
-  default                                       = {
-    ResourceOwner                                   = "That would be me"
-    Country                                         = "fr"
-    CostCenter                                      = "labtf"
-    Project                                         = "tfmodule"
-    Environment                                     = "lab"
-    ManagedBy                                       = "Terraform"
+  type        = map(any)
+  description = "Define a set of default tags"
+  default = {
+    ResourceOwner = "That would be me"
+    Country       = "fr"
+    CostCenter    = "labtf"
+    Project       = "tfmodule"
+    Environment   = "lab"
+    ManagedBy     = "Terraform"
 
   }
 }
 
 variable "ExtraTags" {
-  type                                        = map
-  description                                 = "Define a set of additional optional tags."
-  default                                       = {}
+  type        = map(any)
+  description = "Define a set of additional optional tags."
+  default     = {}
 }
 
 ######################################################
@@ -238,39 +238,39 @@ variable "ExtraTags" {
 ######################################################
 
 variable "ACGIds" {
-  type                                        = set(string)
-  description                                 = "A set of Action GroupResource Id"
-  default                                     = []
+  type        = set(string)
+  description = "A set of Action GroupResource Id"
+  default     = []
 }
 
 variable "DBLowConnectionThreshold" {
-  type                                        = number
-  description                                 = "threshold for Memory server load on DB"
-  default                                     = 3
+  type        = number
+  description = "threshold for Memory server load on DB"
+  default     = 3
 }
 
 variable "DBHighConnectionThreshold" {
-  type                                        = number
-  description                                 = "threshold for Memory server load on DB"
-  default                                     = 200
+  type        = number
+  description = "threshold for Memory server load on DB"
+  default     = 200
 }
 
 variable "DBFailedConnectionThreshold" {
-  type                                        = number
-  description                                 = "threshold for failed connection on DB"
-  default                                     = 10
+  type        = number
+  description = "threshold for failed connection on DB"
+  default     = 10
 }
 
 variable "DBStoragePercentHighThreshold" {
-  type                                        = number
-  description                                 = "threshold for Storage high threshold on DB"
-  default                                     = 80
+  type        = number
+  description = "threshold for Storage high threshold on DB"
+  default     = 80
 }
 
 variable "DBCPUPercentHighThreshold" {
-  type                                        = number
-  description                                 = "threshold for CPU high threshold on DB"
-  default                                     = 80
+  type        = number
+  description = "threshold for CPU high threshold on DB"
+  default     = 80
 }
 
 ###################################################################################
@@ -278,37 +278,37 @@ variable "DBCPUPercentHighThreshold" {
 ###################################################################################
 
 variable "IsAadAdminEnabled" {
-  type                                        = bool
-  default                                     = false
-  description                                 = "A boolean to activate / deactivate the aad admin. Used both for the psql authentication block and the aad admin resource"
+  type        = bool
+  default     = false
+  description = "A boolean to activate / deactivate the aad admin. Used both for the psql authentication block and the aad admin resource"
 }
 
 variable "IsPwdAuthEnabled" {
-  type                                        = bool
-  default                                     = true
-  description                                 = "A boolean to activate / deactivate the password auth. Used in the authentication block. Default to true"
+  type        = bool
+  default     = true
+  description = "A boolean to activate / deactivate the password auth. Used in the authentication block. Default to true"
 }
 
 variable "PsqlAdminGroupObjectId" {
-  type                                        = string
-  description                                 = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
+  type        = string
+  description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant set as the Flexible Server Admin. Changing this forces a new resource to be created."
 
 }
 
 variable "TenantId" {
-  type                                        = string
-  description                                 = "The Azure Tenant ID. Changing this forces a new resource to be created."
+  type        = string
+  description = "The Azure Tenant ID. Changing this forces a new resource to be created."
 
 }
 
 variable "AADAdminPrincipalName" {
-  type                                        = string
-  description                                 = "value"
-  default                                     = "psqlaadadmin"
+  type        = string
+  description = "value"
+  default     = "psqlaadadmin"
 }
 
 variable "AADPrincipalType" {
-  type                                        = string
-  description                                 = "value"
-  default                                     = "Group"
+  type        = string
+  description = "value"
+  default     = "Group"
 }

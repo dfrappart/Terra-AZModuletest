@@ -1,10 +1,14 @@
 resource "azurerm_subnet" "Subnets" {
 
+  lifecycle {
+    ignore_changes = [delegation]
+  }
+
   for_each             = local.Subnets
   name                 = each.value.Name #try(each.value.Name, lower(format("%s-%s-%s%s","subnet",var.Env,local.AppName,var.ObjectIndex)))
   resource_group_name  = var.RgName      #azurerm_resource_group.VnetResourceGroup[0].name
   virtual_network_name = azurerm_virtual_network.Vnet.name
-  address_prefixes     = each.value.AddressPrefix == null ? [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]]: [each.value.AddressPrefix]
+  address_prefixes     = each.value.AddressPrefix == null ? [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]] : [each.value.AddressPrefix]
 
   dynamic "delegation" {
     for_each = each.value.Delegation != null ? [each.value.Delegation] : []
@@ -20,17 +24,17 @@ resource "azurerm_subnet" "Subnets" {
 }
 
 resource "azurerm_ip_group" "SubnetsCidr" {
-  for_each = local.Subnets
+  for_each            = local.Subnets
   name                = each.value.Name #local.Subnets[each.key].IPGroupName
   location            = azurerm_virtual_network.Vnet.location
   resource_group_name = azurerm_virtual_network.Vnet.resource_group_name
 
-  cidrs = each.value.AddressPrefix == null ? [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]]: [each.value.AddressPrefix]
+  cidrs = each.value.AddressPrefix == null ? [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]] : [each.value.AddressPrefix]
 
-  tags                = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
+  tags = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
 
   lifecycle {
-    ignore_changes = [ tags["StartDate"] ]
+    ignore_changes = [tags["StartDate"]]
   }
 }
 
