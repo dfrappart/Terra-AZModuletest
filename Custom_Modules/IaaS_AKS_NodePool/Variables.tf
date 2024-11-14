@@ -67,8 +67,8 @@ variable "MessageofTheDay" {
 # Windows profile Parameters
 
 variable "NATEnabledforWinProfile" {
-  type = bool
-  default = null
+  type        = bool
+  default     = null
   description = "Should the Windows nodes in this Node Pool have outbound NAT enabled? Defaults to true. Changing this forces a new resource to be created."
 }
 
@@ -117,6 +117,12 @@ variable "NodePublicIpTags" {
   type        = map(any)
   description = "Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created."
   default     = null
+}
+
+variable "CustomAsgList" {
+  type        = list(string)
+  description = "A list of Asg Ids to attach to the default node pool"
+  default     = []
 }
 
 ##############################################################
