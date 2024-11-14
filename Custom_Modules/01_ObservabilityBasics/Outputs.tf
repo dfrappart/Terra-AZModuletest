@@ -23,7 +23,7 @@ output "NetworkWatcherId" {
 
 output "NetworkWatcherRGName" {
 
-  value = var.IsDeploymentTypeGreenField ? element(azurerm_resource_group.RGNW.*.name,0) : "NotGreenFieldDeployment"
+  value = var.IsDeploymentTypeGreenField ? element(azurerm_resource_group.RGNW.*.name, 0) : "NotGreenFieldDeployment"
 }
 
 ##############################################################

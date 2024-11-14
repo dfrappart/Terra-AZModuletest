@@ -124,7 +124,7 @@ variable "ExtraTags" {
 variable "Vnet" {
   description = "An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask"
   type = object({
-    Name         = optional(string,"")
+    Name         = optional(string, "")
     AddressSpace = string
     DnsServers   = optional(list(string), [])
   })
@@ -203,7 +203,7 @@ variable "DefaultNsgRule" {
     DestinationAddressPrefixes = optional(list(string), null)
   }))
 
-  default = {/*
+  default = { /*
     denyallin = {
       Name                     = "Default_DenyAll_Inbound"
       Priority                 = 4000

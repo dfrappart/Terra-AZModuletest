@@ -12,7 +12,7 @@ output "Storage" {
 }
 
 output "RetentionDays" {
-  value = azurerm_postgresql_server.PostgreServer.backup_retention_days 
+  value = azurerm_postgresql_server.PostgreServer.backup_retention_days
 }
 
 
