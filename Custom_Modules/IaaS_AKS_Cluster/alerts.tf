@@ -209,6 +209,7 @@ resource "azurerm_monitor_activity_log_alert" "ListAKSAdminCredsEvent" {
   resource_group_name = var.AKSRGName
   scopes              = [azurerm_kubernetes_cluster.AKS.id]
   description         = "${azurerm_kubernetes_cluster.AKS.name}-ListAKSAdminCredsEvent"
+  location            = "global"
 
   criteria {
     resource_id    = azurerm_kubernetes_cluster.AKS.id
