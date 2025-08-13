@@ -80,18 +80,18 @@ variable "ExtraTags" {
 
 variable "LbConfig" {
   type = object({
-    Suffix   = string
-    Location = optional(string, "francecentral")
-    Tags     = optional(map(string), {})
-    Index    = optional(number, 1)
-    IsLbPublic = optional(bool, true)
-    InternalLbSubnetId = optional(string, null)
-    Sku = optional(string, "Standard")
-    SkuTier = optional(string, "Regional")
+    Suffix                     = string
+    Location                   = optional(string, "francecentral")
+    Tags                       = optional(map(string), {})
+    Index                      = optional(number, 1)
+    IsLbPublic                 = optional(bool, true)
+    InternalLbSubnetId         = optional(string, null)
+    Sku                        = optional(string, "Standard")
+    SkuTier                    = optional(string, "Regional")
     PrivateIpAddressAllocation = optional(string, "Dynamic")
-    PrivateIpAddress = optional(string, null)
-    Zones = optional(list(string), ["1", "2", "3"])
-    PubIpSkuTier = optional(string, "Regional")
+    PrivateIpAddress           = optional(string, null)
+    Zones                      = optional(list(string), ["1", "2", "3"])
+    PubIpSkuTier               = optional(string, "Regional")
 
 
   })
@@ -258,10 +258,10 @@ variable "PubIpLogCategories" {
 
   description = "A list of log categories to activate on the PubIp Cluster. If set to null, it will use a data source to enable all categories"
   type        = list(string)
-  default     = [
+  default = [
     "DDoSMitigationFlowLogs",
     "DDoSMitigationReports",
-    "DDoSProtectionNotifications",]
+  "DDoSProtectionNotifications", ]
 
 }
 
@@ -310,7 +310,7 @@ variable "LbAlerts" {
       AlertSeverity     = 0
       AlertFrequency    = "PT1M"
 
-    },/*
+    }, /*
     GlobalBackendAvailability = {
       AlertName         = "GlobalBackendAvailability"
       AlertDescription  = "GlobalBackendAvailability"
@@ -373,8 +373,8 @@ variable "LbLogCategories" {
 
   description = "A list of log categories to activate on the Load Balancer. If set to null, it will use a data source to enable all categories"
   type        = list(string)
-  default     = [
-    "LoadBalancerHealthEvent",]
+  default = [
+  "LoadBalancerHealthEvent", ]
 
 }
 

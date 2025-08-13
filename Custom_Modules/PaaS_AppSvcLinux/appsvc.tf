@@ -6,13 +6,13 @@ resource "azurerm_linux_web_app" "App" {
 
   for_each = var.AppSvc
 
-  name                = each.value.Name
-  location            = var.AppSvcPlan.Location
-  resource_group_name = local.RgAppSvc
-  service_plan_id     = azurerm_service_plan.AppSvcPlan.id
+  name                          = each.value.Name
+  location                      = var.AppSvcPlan.Location
+  resource_group_name           = local.RgAppSvc
+  service_plan_id               = azurerm_service_plan.AppSvcPlan.id
   public_network_access_enabled = each.value.PublicNetworkAccessEnabled
-  virtual_network_subnet_id = each.value.EnableVnetIntegration ? each.value.VnetSubnetId : null
-  https_only                      = each.value.HttpsOnly
+  virtual_network_subnet_id     = each.value.EnableVnetIntegration ? each.value.VnetSubnetId : null
+  https_only                    = each.value.HttpsOnly
 
 
 

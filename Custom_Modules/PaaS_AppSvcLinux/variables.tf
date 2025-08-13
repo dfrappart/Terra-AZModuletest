@@ -139,9 +139,9 @@ variable "AppSvc" {
     SiteConfigAppStackDockerRegistryUrl      = optional(string, "https://mcr.microsoft.com")
     SiteConfigAppStackDockerRegistryUsername = optional(string, null)
     SiteConfigAppStackDockerRegistryPassword = optional(string, null)
-    
+
     # Site ConfigApplicationStack .NET
-    SiteConfigAppStackDotNetVersion          = optional(string, null)
+    SiteConfigAppStackDotNetVersion = optional(string, null)
 
     # Site ConfigApplicationStack Go
     SiteConfigAppStackGoVersion = optional(string, null)
@@ -221,7 +221,7 @@ variable "AppSvcPlanAlerts" {
       MetricAggregation = "Total"
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 100000
-    },/*
+    }, /*
     BytesSent = {
       AlertName         = "BytesSent"
       AlertDescription  = "The average outgoing bandwidth used across all instances of the plan."
@@ -281,10 +281,10 @@ variable "AppSvcAlerts" {
     MetricAggregation = string
     MetricOperator    = string
     MetricThreshold   = number
-    DimensionEnabled  = optional(bool,false)
-    DimensionName     = optional(string,null)
-    DimensionOperator = optional(string,null)
-    DimensionValue    = optional(list(string),[])
+    DimensionEnabled  = optional(bool, false)
+    DimensionName     = optional(string, null)
+    DimensionOperator = optional(string, null)
+    DimensionValue    = optional(list(string), [])
     AlertFrequency    = optional(string, "PT5M")
     AlertWindow       = optional(string, "PT5M")
   }))
@@ -319,7 +319,7 @@ variable "AppSvcAlerts" {
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 2048000000
       AlertFrequency    = "PT1M"
-    },/*
+    }, /*
     BytesSent = {}
     */
     CpuTime = {
@@ -330,7 +330,7 @@ variable "AppSvcAlerts" {
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 120
       AlertFrequency    = "PT1M"
-    },/*
+    }, /*
     CurrentAssemblies = {
       AlertName         = "CurrentAssemblies"
       AlertDescription  = "The current number of Assemblies loaded across all AppDomains in this application. For WebApps and FunctionApps."
@@ -351,7 +351,7 @@ variable "AppSvcAlerts" {
       MetricThreshold   = 400000000
       AlertFrequency    = "PT1H"
       AlertWindow       = "PT6H"
-    },/*
+    }, /*
     FunctionExecutionCount = {
       AlertName         = "FunctionExecutionCount"
       AlertDescription  = "Function Execution Count. For FunctionApps only."
@@ -370,7 +370,7 @@ variable "AppSvcAlerts" {
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 13000000000
       AlertFrequency    = "PT1M"
-    },*//*Dynamic threshold
+    },*/ /*Dynamic threshold
     Handles = {
       AlertName         = "Handles"
       AlertDescription  = "The total number of handles currently open by the app process. For WebApps and FunctionApps."
@@ -424,7 +424,7 @@ variable "AppSvcAlerts" {
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 1500000000
       AlertFrequency    = "PT1M"
-    },/*
+    }, /*
     PrivateBytes = {
       AlertName         = "PrivateBytes"
       AlertDescription  = "Private Bytes is the current size, in bytes, of memory that the app process has allocated that can't be shared with other processes. For WebApps and FunctionApps."
@@ -442,7 +442,7 @@ variable "AppSvcAlerts" {
       MetricOperator    = "GreaterThan"
       MetricThreshold   = 1000
       AlertFrequency    = "PT1M"
-    },/*
+    }, /*
     RequestsInApplicationQueue = {
       AlertName         = "RequestsInApplicationQueue"
       AlertDescription  = "The number of requests in the application request queue. For WebApps and FunctionApps."
@@ -455,7 +455,7 @@ variable "AppSvcAlerts" {
       DimensionName     = "instance"
       DimensionOperator = "include"
       DimensionValue    = ["*"]
-    },*//*
+    },*/ /*
     AverageMemoryWorkingSetSlot = {
       AlertName         = "AverageMemoryWorkingSetSlot"
       AlertDescription  = "The average amount of memory used by the app, in megabytes (MiB)."

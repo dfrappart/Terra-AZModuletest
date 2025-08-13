@@ -1,7 +1,7 @@
 
 
 resource "azurerm_monitor_diagnostic_setting" "PubIpDiagSettings" {
-  count = local.EnablePubIpDiagSettings ? 1 : 0
+  count                      = local.EnablePubIpDiagSettings ? 1 : 0
   name                       = format("%s-%s", "diag", azurerm_public_ip.LbPubIp[0].name)
   storage_account_id         = var.StaLogId
   log_analytics_workspace_id = var.LawLogId
@@ -28,7 +28,7 @@ resource "azurerm_monitor_diagnostic_setting" "PubIpDiagSettings" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "LbDiagSettings" {
-  count = local.EnableLbDiagSettings ? 1 : 0
+  count                      = local.EnableLbDiagSettings ? 1 : 0
   name                       = format("%s-%s", "diag", azurerm_lb.Lb.name)
   storage_account_id         = var.StaLogId
   log_analytics_workspace_id = var.LawLogId
@@ -61,7 +61,7 @@ resource "azurerm_monitor_metric_alert" "PubIpAlerts" {
 
   lifecycle {
     ignore_changes = [
-      
+
     ]
   }
 
@@ -111,7 +111,7 @@ resource "azurerm_monitor_metric_alert" "LbAlerts" {
 
   lifecycle {
     ignore_changes = [
-      
+
     ]
   }
 
