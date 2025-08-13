@@ -41,6 +41,11 @@ module "PublicLB" {
     source = "../modules/LoadBalancer"
 
     TargetRG = "<rg_name>"
+
+    LbConfig = {
+    Suffix             = "demo"
+
+  }
  
 
 }
@@ -57,9 +62,9 @@ module "InternalLB" {
 
     TargetRG = "<rg_name>"
     LbConfig = {
-        IsLbPublic = false
-        InternalLbSubnetId = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/<vnet_name>/subnets/<subnet_name>"
-        Suffix = "internal"
+        IsLbPublic              = false
+        InternalLbSubnetId      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/<vnet_name>/subnets/<subnet_name>"
+        Suffix                  = "internal"
     }
 }
 
@@ -74,10 +79,10 @@ module "GatewayLb" {
 
     TargetRG = "<rg_name>"
     LbConfig = {
-        Suffix = "gateway"
-        Sku = "Gateway"
-        IsLbPublic = false
-        InternalLbSubnetId = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/<vnet_name>/subnets/<subnet_name>"
+        Suffix                  = "gateway"
+        Sku                     = "Gateway"
+        IsLbPublic              = false
+        InternalLbSubnetId      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg_name>/providers/Microsoft.Network/virtualNetworks/<vnet_name>/subnets/<subnet_name>"
 
     }
 
@@ -103,6 +108,25 @@ module "PublicLB" {
 
 }
 
+
+ ```
+
+Configuration to create a public load balancer Ddos protection.
+
+ ```hcl
+
+module "PublicLB" {
+  source = "../modules/LoadBalancer"
+
+  TargetRG = "rsg-spoke-frontend"
+  LbConfig = {
+        Suffix                  = "demo"
+        DDosProtectionMode      = "Enabled"
+        DDosProtectionPlanId    = azurerm_network_ddos_protection_plan.DdosPlan.id
+  }
+
+
+}
 
  ```
 
@@ -132,7 +156,7 @@ module "PublicLB" {
 | <a name="input_LawLogId"></a> [LawLogId](#input\_LawLogId) | The id of the log analytics workspace containing the logs | `string` | `"unspecified"` | no |
 | <a name="input_LbAlertingEnabled"></a> [LbAlertingEnabled](#input\_LbAlertingEnabled) | A bool to enable/disable Azure alerts | `bool` | `false` | no |
 | <a name="input_LbAlerts"></a> [LbAlerts](#input\_LbAlerts) | A map of object to define alerts on the Load Balancer | <pre>map(object({<br/>    AlertName         = string<br/>    AlertDescription  = string<br/>    AlertSeverity     = optional(number, 3)<br/>    MetricNameSpace   = optional(string, "Microsoft.Network/loadBalancers")<br/>    MetricName        = string<br/>    MetricAggregation = string<br/>    MetricOperator    = string<br/>    MetricThreshold   = number<br/>    DimensionEnabled  = optional(bool, false)<br/>    DimensionName     = optional(string, null)<br/>    DimensionOperator = optional(string, null)<br/>    DimensionValue    = optional(list(string), [])<br/>    AlertFrequency    = optional(string, "PT5M")<br/>    AlertWindow       = optional(string, "PT5M")<br/>  }))</pre> | <pre>{<br/>  "DipAvailability": {<br/>    "AlertDescription": "DipAvailability",<br/>    "AlertFrequency": "PT1M",<br/>    "AlertName": "DipAvailability",<br/>    "AlertSeverity": 0,<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "DipAvailability",<br/>    "MetricOperator": "LessThan",<br/>    "MetricThreshold": 90<br/>  },<br/>  "UsedSNATPorts": {<br/>    "AlertDescription": "UsedSNATPorts",<br/>    "AlertFrequency": "PT1M",<br/>    "AlertName": "UsedSNATPorts",<br/>    "AlertSeverity": 1,<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "UsedSNATPorts",<br/>    "MetricOperator": "GreaterThan",<br/>    "MetricThreshold": 900<br/>  },<br/>  "VipAvailability": {<br/>    "AlertDescription": "VipAvailability",<br/>    "AlertFrequency": "PT1M",<br/>    "AlertName": "VipAvailability",<br/>    "AlertSeverity": 0,<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "VipAvailability",<br/>    "MetricOperator": "LessThan",<br/>    "MetricThreshold": 90<br/>  }<br/>}</pre> | no |
-| <a name="input_LbConfig"></a> [LbConfig](#input\_LbConfig) | An object to describe the Load Balancer | <pre>object({<br/>    Suffix   = string<br/>    Location = optional(string, "francecentral")<br/>    Tags     = optional(map(string), {})<br/>    Index    = optional(number, 1)<br/>    IsLbPublic = optional(bool, true)<br/>    InternalLbSubnetId = optional(string, null)<br/>    Sku = optional(string, "Standard")<br/>    SkuTier = optional(string, "Regional")<br/>    PrivateIpAddressAllocation = optional(string, "Dynamic")<br/>    PrivateIpAddress = optional(string, null)<br/>    Zones = optional(list(string), ["1", "2", "3"])<br/>    PubIpSkuTier = optional(string, "Regional")<br/><br/><br/>  })</pre> | <pre>{<br/>  "Suffix": "demo"<br/>}</pre> | no |
+| <a name="input_LbConfig"></a> [LbConfig](#input\_LbConfig) | An object to describe the Load Balancer | <pre>object({<br/>    Suffix                     = string<br/>    Location                   = optional(string, "francecentral")<br/>    Tags                       = optional(map(string), {})<br/>    Index                      = optional(number, 1)<br/>    IsLbPublic                 = optional(bool, true)<br/>    InternalLbSubnetId         = optional(string, null)<br/>    Sku                        = optional(string, "Standard")<br/>    SkuTier                    = optional(string, "Regional")<br/>    PrivateIpAddressAllocation = optional(string, "Dynamic")<br/>    PrivateIpAddress           = optional(string, null)<br/>    Zones                      = optional(list(string), ["1", "2", "3"])<br/>    PubIpSkuTier               = optional(string, "Regional")<br/>    DDosProtectionMode         = optional(string, "VirtualNetworkInherited")<br/>    DDosProtectionPlanId       = optional(string, null)<br/><br/><br/>  })</pre> | <pre>{<br/>  "Suffix": "demo"<br/>}</pre> | no |
 | <a name="input_LbDiagnosticSettingsEnabled"></a> [LbDiagnosticSettingsEnabled](#input\_LbDiagnosticSettingsEnabled) | A bool to enable/disable Diagnostic settings | `bool` | `false` | no |
 | <a name="input_LbLogCategories"></a> [LbLogCategories](#input\_LbLogCategories) | A list of log categories to activate on the Load Balancer. If set to null, it will use a data source to enable all categories | `list(string)` | <pre>[<br/>  "LoadBalancerHealthEvent"<br/>]</pre> | no |
 | <a name="input_LbMetricCategories"></a> [LbMetricCategories](#input\_LbMetricCategories) | A list of metric categories to activate on the Load balancer. If set to null, it will use a data source to enable all categories | `list(string)` | <pre>[<br/>  "AllMetrics"<br/>]</pre> | no |

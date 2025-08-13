@@ -44,6 +44,14 @@ content: |-
 
    ```
 
+  Configuration to create a public load balancer Ddos protection.
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/lbwithddosonIp.hcl"}}
+
+   ```
+
 
   {{ .Requirements }}
 
