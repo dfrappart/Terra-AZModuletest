@@ -92,6 +92,8 @@ variable "LbConfig" {
     PrivateIpAddress           = optional(string, null)
     Zones                      = optional(list(string), ["1", "2", "3"])
     PubIpSkuTier               = optional(string, "Regional")
+    DDosProtectionMode         = optional(string, "VirtualNetworkInherited")
+    DDosProtectionPlanId       = optional(string, null)
 
 
   })

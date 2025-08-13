@@ -1,15 +1,17 @@
 
 
 resource "azurerm_public_ip" "LbPubIp" {
-  count               = var.LbConfig.IsLbPublic ? 1 : 0
-  name                = local.LbPubIpName
-  location            = var.TargetLocation
-  resource_group_name = local.RgName
-  allocation_method   = "Static"
-  sku                 = "Standard"
-  sku_tier            = var.LbConfig.PubIpSkuTier
-  zones               = var.LbConfig.Zones
-  domain_name_label   = lower(local.LbPubIpName)
+  count                   = var.LbConfig.IsLbPublic ? 1 : 0
+  name                    = local.LbPubIpName
+  location                = var.TargetLocation
+  resource_group_name     = local.RgName
+  allocation_method       = "Static"
+  sku                     = "Standard"
+  sku_tier                = var.LbConfig.PubIpSkuTier
+  zones                   = var.LbConfig.Zones
+  domain_name_label       = lower(local.LbPubIpName)
+  ddos_protection_mode    = var.LbConfig.DDosProtectionMode
+  ddos_protection_plan_id = var.LbConfig.DDosProtectionPlanId
 }
 
 resource "azurerm_lb" "Lb" {
