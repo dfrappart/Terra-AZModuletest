@@ -127,6 +127,7 @@ variable "Vnet" {
     Name         = optional(string, "")
     AddressSpace = string
     DnsServers   = optional(list(string), [])
+    EnableFlowlogs   = optional(bool, false)
   })
 
   default = {
@@ -143,7 +144,7 @@ variable "Subnets" {
     AllowCustomName  = bool
     EnableNsg        = bool
     EnableNsgDiagSet = optional(bool, false)
-    EnableFlowlogs   = optional(bool, false)
+    #EnableFlowlogs   = optional(bool, false)
     AddressPrefix    = optional(string, null)
     Delegation = optional(object({
       DelegationName           = string

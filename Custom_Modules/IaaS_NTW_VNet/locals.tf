@@ -11,21 +11,22 @@ locals {
   AppName    = var.AppName == "" ? random_string.RandomAppName[0].result : var.AppName
   RgName     = var.RgName == "" ? lower(format("%s-%s-%s%s", var.ResourceGroupPrefix, var.Env, local.AppName, var.ObjectIndex)) : var.RgName
   VnetName   = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.Vnet.Name
+  VnetFlowLogName = "flowlog-${local.VnetName}"
   VnetSuffix = lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex))
 
   VnetPrefix            = split("/", var.Vnet.AddressSpace)[1]
   SubnetPrefixesRegular = local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressSpace, 1, 1) : [var.Vnet.AddressSpace])
   Subnets = { for subnet in var.Subnets : subnet.Name => {
     Name             = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
-    FlowLogName      = subnet.AllowCustomName ? format("%s-%s-%s", "flowlogs", local.VnetName, subnet.Name) : lower(format("%s-%s%s-%s", "flowlogs", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
+    #FlowLogName      = subnet.AllowCustomName ? format("%s-%s-%s", "flowlogs", local.VnetName, subnet.Name) : lower(format("%s-%s%s-%s", "flowlogs", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
     EnableNsg        = subnet.EnableNsg
-    EnableFlowlogs   = subnet.EnableFlowlogs
+    #EnableFlowlogs   = subnet.EnableFlowlogs
     EnableNsgDiagSet = subnet.EnableNsgDiagSet
     IPGroupName      = subnet.AllowCustomName ? format("%s-%s", local.VnetName, subnet.Name) : lower(format("%s%s-%s", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
     Nsg = {
       Name             = subnet.AllowCustomName ? format("%s-%s-%s", "nsg", local.VnetName, subnet.Name) : lower(format("%s-%s%s-%s", "nsg", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
       DiagSettingsName = subnet.AllowCustomName ? format("%s-%s-%s-%s", "diag", "nsg", local.VnetName, subnet.Name) : lower(format("%s-%s-%s%s-%s", "diag", "nsg", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
-      FlowLogName      = subnet.AllowCustomName ? format("%s-%s-%s-%s", "flowlogs", "nsg", local.VnetName, subnet.Name) : lower(format("%s-%s%s-%s", "flowlogs", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
+      #FlowLogName      = subnet.AllowCustomName ? format("%s-%s-%s-%s", "flowlogs", "nsg", local.VnetName, subnet.Name) : lower(format("%s-%s%s-%s", "flowlogs", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
       DefaultRules     = var.DefaultNsgRule #merge(try(subnet.Nsg.Rules, {}), var.default_nsg_rules)
       CustomRules      = try(subnet.Nsg.Rules, {})
       Rules            = merge(try(subnet.Nsg.Rules, {}), var.DefaultNsgRule)
