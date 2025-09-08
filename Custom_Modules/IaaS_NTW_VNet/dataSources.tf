@@ -36,13 +36,13 @@ data "azurerm_monitor_diagnostic_categories" "Nsg" {
 #data source for log analytics - used for flow logs
 
 data "azurerm_log_analytics_workspace" "LawLog" {
-  count               = var.CreateLocalLaw ? 1 : 0
+  count               = var.CreateLocalLaw ? 0 : 1
   resource_group_name = split("/", var.LawLogId)[4]
   name                = split("/", var.LawLogId)[8]
 }
 
 data "azurerm_storage_account" "StaLog" {
-  count               = var.CreateLocalSta ? 1 : 0
+  count               = var.CreateLocalSta ? 0 : 1
   resource_group_name = split("/", var.StaLogId)[4]
   name                = split("/", var.StaLogId)[8]
 
