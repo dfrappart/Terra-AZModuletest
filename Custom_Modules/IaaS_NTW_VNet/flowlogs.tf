@@ -24,9 +24,9 @@ resource "azurerm_network_watcher_flow_log" "Flowlogs" {
 
   traffic_analytics {
     enabled               = var.IsTrafficAnalyticsEnabled #true
-    workspace_id          = local.LawLogId #data.azurerm_log_analytics_workspace.LawLog[0].workspace_id
+    workspace_id          = local.LawWorkspaceId #data.azurerm_log_analytics_workspace.LawLog[0].workspace_id
     workspace_region      = local.LawWorkspaceLocation #data.azurerm_log_analytics_workspace.LawLog[0].location
-    workspace_resource_id = local.LawWorkspaceId #data.azurerm_log_analytics_workspace.LawLog[0].id
+    workspace_resource_id = local.LawLogId #data.azurerm_log_analytics_workspace.LawLog[0].id
     interval_in_minutes   = 10
   }
 }
