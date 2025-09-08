@@ -30,7 +30,7 @@ resource "azurerm_resource_group" "VnetResourceGroup" {
 ###################################################################################
 # Log resources
 resource "azurerm_storage_account" "StaMonitor" {
-  count                    = local.CreateLocalSta ? 1 : 0
+  count                    = var.CreateLocalSta ? 1 : 0
   name                     = substr(format("%s%s%s", "sta", "log", replace(azurerm_virtual_network.Vnet.name, "-", "")), 0, 24)
   location                 = var.Location
   resource_group_name      = var.RgName
@@ -45,7 +45,7 @@ resource "azurerm_storage_account" "StaMonitor" {
 
 
 resource "azurerm_log_analytics_workspace" "LawMonitor" {
-  count               = local.CreateLocalLaw ? 1 : 0
+  count               = var.CreateLocalLaw ? 1 : 0
   name                = format("%s%s%s", "law", "log", azurerm_virtual_network.Vnet.name)
   location            = var.Location
   resource_group_name = var.RgName

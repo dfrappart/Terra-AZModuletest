@@ -239,6 +239,18 @@ variable "StaLogId" {
   default     = "unspecified"
 }
 
+variable "CreateLocalSta" {
+  type        = bool
+  description = "A bool to enable or disable the creation of a local storage account for logs"
+  default     = false
+}
+
+variable "CreateLocalLaw" {
+  type        = bool
+  description = "A bool to enable or disable the creation of a local log analytics workspace for logs"
+  default     = false
+}
+
 ######################################################
 # Vnet Log variables
 

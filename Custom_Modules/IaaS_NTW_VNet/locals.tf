@@ -50,10 +50,11 @@ locals {
   SubnetPrefixesCustom = local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 3, 3, 3) : (local.VnetPrefix == "25" ? cidrsubnets(var.Vnet.AddressSpace, 1, 3, 3, 3) : cidrsubnets(var.Vnet.AddressSpace, 1, 1))
   SubnetPrefixes       = var.CustomVnet ? local.SubnetPrefixesCustom : local.SubnetPrefixesRegular
 
-  CreateLocalLaw = var.LawLogId == "unspecified" && var.EnableVnetDiagSettings ? true : false
-  CreateLocalSta = var.StaLogId == "unspecified" && var.EnableVnetDiagSettings ? true : false
-  StaLogId       = var.StaLogId == "unspecified" && local.CreateLocalSta ? azurerm_storage_account.StaMonitor[0].id : var.StaLogId
-  LawLogId       = var.LawLogId == "unspecified" && local.CreateLocalLaw ? azurerm_log_analytics_workspace.LawMonitor[0].id : var.LawLogId
+ 
+  StaLogId       = var.CreateLocalSta ? azurerm_storage_account.StaMonitor[0].id : var.StaLogId
+  LawLogId       = var.CreateLocalLaw ? azurerm_log_analytics_workspace.LawMonitor[0].id : var.LawLogId
+  LawWorkspaceId = var.CreateLocalLaw ? azurerm_log_analytics_workspace.LawMonitor[0].workspace_id : data.azurerm_log_analytics_workspace.LawLog[0].workspace_id
+  LawWorkspaceLocation= var.CreateLocalLaw ? azurerm_log_analytics_workspace.LawMonitor[0].location : data.azurerm_log_analytics_workspace.LawLog[0].location
 
   VnetLogCategories    = var.VnetLogCategories != null ? toset(sort(var.VnetLogCategories)) : sort(data.azurerm_monitor_diagnostic_categories.Vnet.log_category_types)
   VnetMetricCategories = var.VnetMetricCategories != null ? toset(sort(var.VnetMetricCategories)) : sort(data.azurerm_monitor_diagnostic_categories.Vnet.metrics)
@@ -67,3 +68,4 @@ locals {
 
 
 }
+
