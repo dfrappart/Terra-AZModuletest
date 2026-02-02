@@ -8,25 +8,43 @@ resource "azurerm_network_security_rule" "nsg_spoke_rules" {
   direction                    = local.NsgRules[count.index].Direction
   access                       = local.NsgRules[count.index].Access
   protocol                     = local.NsgRules[count.index].Protocol
-  source_port_range            = local.NsgRules[count.index].SourcePortRange
-  destination_port_range       = local.NsgRules[count.index].DestinationPortRange
-  destination_port_ranges      = local.NsgRules[count.index].DestinationPortRanges
-  source_address_prefix        = local.NsgRules[count.index].SourceAddressPrefix
-  source_address_prefixes      = local.NsgRules[count.index].SourceAddressPrefixes
-  destination_address_prefix   = local.NsgRules[count.index].DestinationAddressPrefix
-  destination_address_prefixes = local.NsgRules[count.index].DestinationAddressPrefixes
+  source_port_range            = try(local.NsgRules[count.index].SourcePortRange, null)
+  destination_port_range       = try(local.NsgRules[count.index].DestinationPortRange, null)
+  destination_port_ranges      = try(local.NsgRules[count.index].DestinationPortRanges, null)
+  source_address_prefix        = try(local.NsgRules[count.index].SourceAddressPrefix, null)
+  source_address_prefixes      = try(local.NsgRules[count.index].SourceAddressPrefixes, null)
+  destination_address_prefix   = try(local.NsgRules[count.index].DestinationAddressPrefix, null)
+  destination_address_prefixes = try(local.NsgRules[count.index].DestinationAddressPrefixes, null)
   resource_group_name          = azurerm_virtual_network.Vnet.resource_group_name
-  network_security_group_name  = azurerm_network_security_group.Nsgs[local.NsgRules[count.index].subnet].name
+  network_security_group_name  = azurerm_network_security_group.Nsgs[local.NsgRules[count.index].SubnetName].name
 
 
 }
 
+/*
+resource "azurerm_network_security_rule" "nsg_spoke_rules" {
+  for_each = local.NsgRules
+  name                         = each.value.Name
+  priority                     = each.value.Priority
+  direction                    = each.value.Direction
+  access                       = each.value.Access
+  protocol                     = each.value.Protocol
+  source_port_range            = each.value.SourcePortRange
+  destination_port_range       = each.value.DestinationPortRange
+  destination_port_ranges      = each.value.DestinationPortRanges
+  source_address_prefix        = each.value.SourceAddressPrefix
+  source_address_prefixes      = each.value.SourceAddressPrefixes
+  destination_address_prefix   = each.value.DestinationAddressPrefix
+  destination_address_prefixes = each.value.DestinationAddressPrefixes
+  resource_group_name          = azurerm_virtual_network.Vnet.resource_group_name
+  network_security_group_name  = azurerm_network_security_group.Nsgs[each.key].name
+}
 
 ###################################################################################
 # NSG required & Default rules for bastion
 
 # NSG Ingress Rules
-
+/*
 resource "azurerm_network_security_rule" "Default_BastionSubnet_AllowHTTPSBastionIn" {
   for_each                    = { for k, v in local.Subnets : k => v if v.Name == "AzureBastionSubnet" }
   name                        = "Default_BastionSubnet_AllowHTTPSBastionIn"
@@ -181,3 +199,4 @@ resource "azurerm_network_security_rule" "Default_BastionSubnet_DenyInternetOut"
   network_security_group_name = azurerm_network_security_group.Nsgs[each.key].name
 }
 
+*/

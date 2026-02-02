@@ -39,3 +39,23 @@ output "subnetIpGroups" {
 output "VnetIpGroup" {
   value = azurerm_ip_group.VnetCidr
 }
+
+output "LocalNsgRules" {
+  value = local.NsgRules
+}
+
+output "NsgResources" {
+  value = azurerm_network_security_group.Nsgs
+}
+/*
+output "NsgRulesResources" {
+  value = azurerm_network_security_rule.nsg_spoke_rules
+}
+*/
+output "LocalSubnets" {
+  value = local.Subnets
+}
+/*
+output "DefaultNsgRules" {
+  value = local.DefaultNsgRules
+}*/

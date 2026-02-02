@@ -159,14 +159,14 @@ variable "Subnets" {
         Direction                  = string
         Access                     = string
         Protocol                   = string
-        SourcePortRange            = string
-        SourcePortRanges           = list(string)
-        DestinationPortRange       = string
-        DestinationPortRanges      = list(string)
-        SourceAddressPrefix        = string
-        SourceAddressPrefixes      = list(string)
-        DestinationAddressPrefix   = string
-        DestinationAddressPrefixes = list(string)
+        SourcePortRange            = optional(string, null)
+        SourcePortRanges           = optional(list(string), null)
+        DestinationPortRange       = optional(string, null)
+        DestinationPortRanges      = optional(list(string), null)
+        SourceAddressPrefix        = optional(string, null)
+        SourceAddressPrefixes      = optional(list(string), null)
+        DestinationAddressPrefix   = optional(string, null)
+        DestinationAddressPrefixes = optional(list(string), null)
       }))
     })
   }))
@@ -186,7 +186,13 @@ variable "Subnets" {
 
 }
 
-variable "DefaultNsgRule" {
+variable "EnableNsgDenyAll" {
+  type        = bool
+  description = "A bool to enable or disable the addition of default deny all inbound and outbound rules to all NSGs"
+  default     = false
+}
+
+variable "DefaultNsgRules" {
   description = "A map of object used to create dafault NSG rules for all NSGs inside the spoke"
   type = map(object({
     Name                       = string
@@ -195,17 +201,39 @@ variable "DefaultNsgRule" {
     Access                     = string
     Protocol                   = string
     SourcePortRange            = optional(string, null)
-    SourcePortRanges           = optional(list(string), null)
+    SourcePortRanges           = optional(list(string), [])
     DestinationPortRange       = optional(string, null)
-    DestinationPortRanges      = optional(list(string), null)
+    DestinationPortRanges      = optional(list(string), [])
     SourceAddressPrefix        = optional(string, null)
-    SourceAddressPrefixes      = optional(list(string), null)
+    SourceAddressPrefixes      = optional(list(string), [])
     DestinationAddressPrefix   = optional(string, null)
-    DestinationAddressPrefixes = optional(list(string), null)
+    DestinationAddressPrefixes = optional(list(string), [])
   }))
 
-  default = { /*
-    denyallin = {
+  default = {}
+}
+
+
+variable "SecureNsgRules" {
+  description = "A map of object used to create dafault NSG rules for all NSGs inside the spoke"
+  type = map(object({
+    Name                       = string
+    Priority                   = number
+    Direction                  = string
+    Access                     = string
+    Protocol                   = string
+    SourcePortRange            = optional(string, null)
+    SourcePortRanges           = optional(list(string), [])
+    DestinationPortRange       = optional(string, null)
+    DestinationPortRanges      = optional(list(string), [])
+    SourceAddressPrefix        = optional(string, null)
+    SourceAddressPrefixes      = optional(list(string), [])
+    DestinationAddressPrefix   = optional(string, null)
+    DestinationAddressPrefixes = optional(list(string), [])
+  }))
+
+  default = {
+    DenyAllIn = {
       Name                     = "Default_DenyAll_Inbound"
       Priority                 = 4000
       Direction                = "Inbound"
@@ -215,7 +243,150 @@ variable "DefaultNsgRule" {
       DestinationPortRange     = "*"
       SourceAddressPrefix      = "*"
       DestinationAddressPrefix = "*"
-    }*/
+
+    }
+    AllowLbIn = {
+      Name                     = "Default_AllowLoadBalancer_Inbound"
+      Priority                 = 3500
+      Direction                = "Inbound"
+      Access                   = "Allow"
+      Protocol                 = "*"
+      SourcePortRange          = "*"
+      DestinationPortRange     = "*"
+      SourceAddressPrefix      = "AzureLoadBalancer"
+      DestinationAddressPrefix = "*"
+
+    }
+  }
+}
+
+variable "BastionNsgRules" {
+  description = "A map of object used to create dafault NSG rules for all NSGs inside the spoke"
+  type = map(object({
+    Name                       = string
+    Priority                   = number
+    Direction                  = string
+    Access                     = string
+    Protocol                   = string
+    SourcePortRange            = optional(string, null)
+    SourcePortRanges           = optional(list(string), [])
+    DestinationPortRange       = optional(string, null)
+    DestinationPortRanges      = optional(list(string), [])
+    SourceAddressPrefix        = optional(string, null)
+    SourceAddressPrefixes      = optional(list(string), [])
+    DestinationAddressPrefix   = optional(string, null)
+    DestinationAddressPrefixes = optional(list(string), [])
+  }))
+
+  default = {
+    Default_BastionSubnet_AllowHTTPSBastionIn = {
+      Name                     = "Default_BastionSubnet_AllowHTTPSBastionIn"
+      Priority                 = 3010
+      Direction                = "Inbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRange     = "443"
+      SourceAddressPrefix      = "Internet"
+      DestinationAddressPrefix = "*"
+
+    }
+    Default_BastionSubnet_AllowGatewayManager = {
+      Name                     = "Default_BastionSubnet_AllowGatewayManager"
+      Priority                 = 3020
+      Direction                = "Inbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["443"]
+      SourceAddressPrefix      = "GatewayManager"
+      DestinationAddressPrefix = "*"
+
+    }
+    Default_BastionSubnet_AllowAzureLB = {
+      Name                     = "Default_BastionSubnet_AllowAzureLB"
+      Priority                 = 3030
+      Direction                = "Inbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["443"]
+      SourceAddressPrefix      = "AzureLoadBalancer"
+      DestinationAddressPrefix = "*"
+
+    }
+    Default_BastionSubnet_AllowBastionCommunicationIn = {
+      Name                     = "Default_BastionSubnet_AllowBastionCommunicationIn"
+      Priority                 = 3040
+      Direction                = "Inbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["8080", "5701"]
+      SourceAddressPrefix      = "VirtualNetwork"
+      DestinationAddressPrefix = "VirtualNetwork"
+
+    }
+    Default_BastionSubnet_AllowRemoteBastionOut = {
+      Name                     = "Default_BastionSubnet_AllowRemoteBastionOut"
+      Priority                 = 3010
+      Direction                = "Outbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["22", "3389"]
+      SourceAddressPrefix      = "*"
+      DestinationAddressPrefix = "VirtualNetwork"
+
+    }
+    Default_AllowAzureCloudHTTPSOut = {
+      Name                     = "Default_AllowAzureCloudHTTPSOut"
+      Priority                 = 3020
+      Direction                = "Outbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["443"]
+      SourceAddressPrefix      = "*"
+      DestinationAddressPrefix = "AzureCloud"
+
+    }
+    Default_AllowAzureBastionGetSessionInformationOut = {
+      Name                     = "Default_AllowAzureBastionGetSessionInformationOut"
+      Priority                 = 3030
+      Direction                = "Outbound"
+      Access                   = "Allow"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRanges    = ["80"]
+      SourceAddressPrefix      = "*"
+      DestinationAddressPrefix = "Internet"
+
+    }
+    Default_BastionSubnet_DenyVNetOut = {
+      Name                     = "Default_BastionSubnet_DenyVNetOut"
+      Priority                 = 3040
+      Direction                = "Outbound"
+      Access                   = "Deny"
+      Protocol                 = "Tcp"
+      SourcePortRange          = "*"
+      DestinationPortRange    = "*"
+      SourceAddressPrefix      = "*"
+      DestinationAddressPrefix = "VirtualNetwork"
+
+    }
+    Default_BastionSubnet_DenyInternetOut = {
+      Name                     = "Default_BastionSubnet_DenyInternetOut"
+      Priority                 = 3050
+      Direction                = "Outbound"
+      Access                   = "Deny"
+      Protocol                 = "*"
+      SourcePortRange          = "*"
+      DestinationPortRange    = "*"
+      SourceAddressPrefix      = "*"
+      DestinationAddressPrefix = "Internet"
+
+    }
   }
 }
 
