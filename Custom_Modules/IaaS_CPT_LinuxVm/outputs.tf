@@ -54,25 +54,25 @@ output "VMDataDiskSize" {
 #Outout for VMs
 
 output "VMFull" {
-  value = azurerm_windows_virtual_machine.VM
+  value = azurerm_linux_virtual_machine.VM
 }
 
 output "VMName" {
-  value = azurerm_windows_virtual_machine.VM.name
+  value = azurerm_linux_virtual_machine.VM.name
 }
 
 output "VMId" {
-  value = azurerm_windows_virtual_machine.VM.id
+  value = azurerm_linux_virtual_machine.VM.id
 }
 
 output "VMIdentity" {
-  value = azurerm_windows_virtual_machine.VM.identity
+  value = azurerm_linux_virtual_machine.VM.identity
 }
 
 output "VMPrivateIP" {
-  value = azurerm_windows_virtual_machine.VM.private_ip_address
+  value = azurerm_linux_virtual_machine.VM.private_ip_address
 }
 
 output "VM_VMID" {
-  value = azurerm_windows_virtual_machine.VM.virtual_machine_id
+  value = azurerm_linux_virtual_machine.VM.virtual_machine_id
 }
