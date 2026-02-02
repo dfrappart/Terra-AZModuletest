@@ -1,0 +1,52 @@
+formatter: "markdown table"
+
+header-from: ./.config/vm_header.md
+
+sections:
+  show: 
+    - all
+
+content: |-
+
+  {{ .Header }}
+
+  ## Samples
+
+  Windows VM joined to AD DS
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/vmadds.hcl"}}
+
+   ```
+  Windows VM with Entra Id authentication enabled
+
+   ```hcl
+
+  {{ include "./.config/hclsamples/vmentraid.hcl"}}
+
+   ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Resources }}
+
+  {{ .Outputs }}
+
+  ## How to update this documentation
+
+  In the module folder, use the following command.
+
+  ```bash
+
+  terraform-docs --config ./.config/.terraform-doc.yml .
+
+  ```
+
+output: 
+  file: ./readme.md
+  mode: replace
