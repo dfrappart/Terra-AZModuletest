@@ -1,4 +1,4 @@
-# Module Azure Application Gateway
+# Module AZure Windows VM
 
 This module is used to provision an Azure Windows Virtual Machine and related resources
 
