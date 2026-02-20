@@ -25,7 +25,7 @@ The target resource group can also either be specified, by its name, or be creat
 
 AKS cluster creation, with diagnostic settings, oms agent and defender specified:
 
-```hcl
+ ```hcl
 
 ######################################################################
 # Creating an Azure Kubernetes Cluster
@@ -62,7 +62,7 @@ module "AKS" {
 
 }
 
-```
+ ```
 
 
 ## Requirements
@@ -70,24 +70,20 @@ module "AKS" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.8.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.108.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.7.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.108.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.7.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ACGIds"></a> [ACGIds](#input\_ACGIds) | A list of Action GroupResource Id | `list(any)` | `[]` | no |
-| <a name="input_AGWId"></a> [AGWId](#input\_AGWId) | The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
-| <a name="input_AGWName"></a> [AGWName](#input\_AGWName) | The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
-| <a name="input_AGWSubnetCidr"></a> [AGWSubnetCidr](#input\_AGWSubnetCidr) | The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
-| <a name="input_AGWSubnetId"></a> [AGWSubnetId](#input\_AGWSubnetId) | The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster. | `string` | `null` | no |
-| <a name="input_AKSAZ"></a> [AKSAZ](#input\_AKSAZ) | A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created. | `list(string)` | <pre>[<br>  "1",<br>  "2",<br>  "3"<br>]</pre> | no |
+| <a name="input_AKSAZ"></a> [AKSAZ](#input\_AKSAZ) | A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created. | `list(string)` | <pre>[<br/>  "1",<br/>  "2",<br/>  "3"<br/>]</pre> | no |
 | <a name="input_AKSAdminName"></a> [AKSAdminName](#input\_AKSAdminName) | The Admin Username for the Cluster. Changing this forces a new resource to be created. | `string` | `"AKSAdmin"` | no |
 | <a name="input_AKSCapacityReservationGroupId"></a> [AKSCapacityReservationGroupId](#input\_AKSCapacityReservationGroupId) | The Capacity Reservation Group ID to use for the Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_AKSClusSuffix"></a> [AKSClusSuffix](#input\_AKSClusSuffix) | A suffix to identify the cluster without breacking the naming convention. Changing this will change the name so forces a new resource to be created. | `string` | `"AksClus"` | no |
@@ -126,8 +122,12 @@ module "AKS" {
 | <a name="input_AKSUpgradeDrainTimeOut"></a> [AKSUpgradeDrainTimeOut](#input\_AKSUpgradeDrainTimeOut) | The amount of time in minutes to wait on eviction of pods and graceful termination per node. This eviction wait time honors pod disruption budgets for upgrades. If this time is exceeded, the upgrade fails. Unsetting this after configuring it will force a new resource to be created. | `number` | `null` | no |
 | <a name="input_AKSUpgradeMaxSurge"></a> [AKSUpgradeMaxSurge](#input\_AKSUpgradeMaxSurge) | Define the number of nodes created during an upgrade process. Can be a number or a percentage | `string` | `"33%"` | no |
 | <a name="input_AKSUpgradeNodeSoakDuration"></a> [AKSUpgradeNodeSoakDuration](#input\_AKSUpgradeNodeSoakDuration) | The amount of time in minutes to wait after draining a node and before reimaging and moving on to next node. Defaults to 0. | `number` | `null` | no |
+| <a name="input_ActivityLogAlertEnabled"></a> [ActivityLogAlertEnabled](#input\_ActivityLogAlertEnabled) | A bool to enable or disable the creation of activity log alerts on the cluster. If false, the AksActivityLogAlert variable is ignored | `bool` | `true` | no |
+| <a name="input_AksActivityLogAlert"></a> [AksActivityLogAlert](#input\_AksActivityLogAlert) | A map of object to define an activity log alert on the AKS cluster. The key of the map is the name of the alert, and the value is an object with the operation name and category to filter on | <pre>map(object({<br/>    OperationName = string<br/>    Category      = optional(string,"Administrative")<br/>  }))</pre> | <pre>{<br/>  "ClusterDelete": {<br/>    "Category": "Administrative",<br/>    "OperationName": "Microsoft.ContainerService/managedClusters/delete"<br/>  },<br/>  "ClusterListAdmin": {<br/>    "Category": "Administrative",<br/>    "OperationName": "Microsoft.ContainerService/managedClusters/listClusterAdminCredential/action"<br/>  },<br/>  "ClusterStart": {<br/>    "Category": "Administrative",<br/>    "OperationName": "Microsoft.ContainerService/managedClusters/start/action"<br/>  },<br/>  "ClusterStop": {<br/>    "Category": "Administrative",<br/>    "OperationName": "Microsoft.ContainerService/managedClusters/stop/action"<br/>  }<br/>}</pre> | no |
+| <a name="input_AksAlerts"></a> [AksAlerts](#input\_AksAlerts) | A map of object to define alerts on the AKS cluster | <pre>map(object({<br/>    AlertName         = string<br/>    AlertDescription  = string<br/>    AlertSeverity     = optional(number, 3)<br/>    MetricNameSpace   = optional(string, "Microsoft.ContainerService/managedClusters")<br/>    MetricName        = string<br/>    MetricAggregation = string<br/>    MetricOperator    = string<br/>    MetricThreshold   = number<br/>    AlertFrequency    = optional(string, "PT5M")<br/>    AlertWindow       = optional(string, "PT5M")<br/>  }))</pre> | <pre>{<br/>  "ClusterAutoscalerClusterSafeToAutoscale": {<br/>    "AlertDescription": "ClusterAutoscalerClusterSafeToAutoscale",<br/>    "AlertName": "ClusterAutoscalerClusterSafeToAutoscale",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "cluster_autoscaler_cluster_safe_to_autoscale",<br/>    "MetricOperator": "LessThan",<br/>    "MetricThreshold": 1<br/>  },<br/>  "ClusterAutoscalerUnschedulablePodsCount": {<br/>    "AlertDescription": "ClusterAutoscalerUnschedulablePodsCount",<br/>    "AlertName": "ClusterAutoscalerUnschedulablePodsCount",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "cluster_autoscaler_unschedulable_pods_count",<br/>    "MetricOperator": "GreaterThan",<br/>    "MetricThreshold": 0<br/>  },<br/>  "KubeNodeStatusAllocatableCpuCores": {<br/>    "AlertDescription": "KubeNodeStatusAllocatableCpuCores",<br/>    "AlertName": "KubeNodeStatusAllocatableCpuCores",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "kube_node_status_allocatable_cpu_cores",<br/>    "MetricOperator": "LessThan",<br/>    "MetricThreshold": 2<br/>  },<br/>  "KubeNodeStatusAllocatableMemoryBytes": {<br/>    "AlertDescription": "KubeNodeStatusAllocatableMemoryBytes",<br/>    "AlertName": "KubeNodeStatusAllocatableMemoryBytes",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "kube_node_status_allocatable_memory_bytes",<br/>    "MetricOperator": "GreaterThan",<br/>    "MetricThreshold": 2147483648<br/>  },<br/>  "KubeNodeStatusCondition": {<br/>    "AlertDescription": "KubeNodeStatusCondition",<br/>    "AlertName": "KubeNodeStatusCondition",<br/>    "MetricAggregation": "Total",<br/>    "MetricName": "kube_node_status_condition",<br/>    "MetricOperator": "GreaterThan",<br/>    "MetricThreshold": 0<br/>  },<br/>  "KubePodStatusReady": {<br/>    "AlertDescription": "KubePodStatusReady",<br/>    "AlertName": "KubePodStatusReady",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "kube_pod_status_ready",<br/>    "MetricOperator": "LessThan",<br/>    "MetricThreshold": 1<br/>  },<br/>  "NodeCpuUsagePercentage": {<br/>    "AlertDescription": "NodeMemoryWorkingSetPercentage",<br/>    "AlertName": "NodeMemoryWorkingSetPercentage",<br/>    "MetricAggregation": "Average",<br/>    "MetricName": "node_memory_working_set_percentage",<br/>    "MetricOperator": "GreaterThan",<br/>    "MetricThreshold": 100<br/>  }<br/>}</pre> | no |
 | <a name="input_AksLogCategories"></a> [AksLogCategories](#input\_AksLogCategories) | A list of log categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
 | <a name="input_AksMetricCategories"></a> [AksMetricCategories](#input\_AksMetricCategories) | A list of metric categories to activate on the Aks Cluster. If set to null, it will use a data source to enable all categories | `list(any)` | `null` | no |
+| <a name="input_AlertingEnabled"></a> [AlertingEnabled](#input\_AlertingEnabled) | A bool to enable or disable the creation of alerts on the cluster. If false, the AksAlerts variable is ignored | `bool` | `true` | no |
 | <a name="input_ApiAllowedIps"></a> [ApiAllowedIps](#input\_ApiAllowedIps) | A list of allowed IP on the API Server | `list(string)` | `[]` | no |
 | <a name="input_ApiSubnetId"></a> [ApiSubnetId](#input\_ApiSubnetId) | The subnet id for the Api Server Vnet integration | `string` | `null` | no |
 | <a name="input_AutoScaleProfilBalanceSimilarNdGP"></a> [AutoScaleProfilBalanceSimilarNdGP](#input\_AutoScaleProfilBalanceSimilarNdGP) | Detect similar node groups and balance the number of nodes between them. Defaults to false. | `string` | `null` | no |
@@ -154,7 +154,7 @@ module "AKS" {
 | <a name="input_CustomAsgList"></a> [CustomAsgList](#input\_CustomAsgList) | A list of Asg Ids to attach to the default node pool | `list(string)` | `[]` | no |
 | <a name="input_CustomFQDNPrefix"></a> [CustomFQDNPrefix](#input\_CustomFQDNPrefix) | A string to specify a custom fqdn prefix instead of the default built with tags | `string` | `""` | no |
 | <a name="input_CustomPrivateFQDNPrefix"></a> [CustomPrivateFQDNPrefix](#input\_CustomPrivateFQDNPrefix) | Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone | `string` | `""` | no |
-| <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map(any)` | <pre>{<br>  "Company": "dfitc",<br>  "CostCenter": "lab",<br>  "Country": "fr",<br>  "Environment": "dev",<br>  "Project": "tfmodule",<br>  "ResourceOwner": "That could be me"<br>}</pre> | no |
+| <a name="input_DefaultTags"></a> [DefaultTags](#input\_DefaultTags) | Default Tags | `map(any)` | <pre>{<br/>  "Company": "dfitc",<br/>  "CostCenter": "lab",<br/>  "Country": "fr",<br/>  "Environment": "dev",<br/>  "Project": "tfmodule",<br/>  "ResourceOwner": "That could be me"<br/>}</pre> | no |
 | <a name="input_DiskDriverVersion"></a> [DiskDriverVersion](#input\_DiskDriverVersion) | Disk CSI Driver version to be used. Possible values are v1 and v2. Defaults to v1. | `string` | `null` | no |
 | <a name="input_EnableAKSAutoScale"></a> [EnableAKSAutoScale](#input\_EnableAKSAutoScale) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? Defaults to true. | `string` | `true` | no |
 | <a name="input_EnableApiVnetIntegration"></a> [EnableApiVnetIntegration](#input\_EnableApiVnetIntegration) | A bool to enable or disable | `bool` | `false` | no |
@@ -164,7 +164,6 @@ module "AKS" {
 | <a name="input_EntraIdTenantId"></a> [EntraIdTenantId](#input\_EntraIdTenantId) | The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used. | `string` | `null` | no |
 | <a name="input_GPUInstance"></a> [GPUInstance](#input\_GPUInstance) | The type of GPU instance to use for the Default Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_HostGroupId"></a> [HostGroupId](#input\_HostGroupId) | The Host Group ID to use for the Default Node Pool. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_IsAGICEnabled"></a> [IsAGICEnabled](#input\_IsAGICEnabled) | Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster? | `bool` | `false` | no |
 | <a name="input_IsAKSKMSEnabled"></a> [IsAKSKMSEnabled](#input\_IsAKSKMSEnabled) | A bool to activate the kms etcd feature block | `bool` | `false` | no |
 | <a name="input_IsAKSPrivate"></a> [IsAKSPrivate](#input\_IsAKSPrivate) | Should this Kubernetes Cluster have it's API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created. | `bool` | `false` | no |
 | <a name="input_IsAzPolicyEnabled"></a> [IsAzPolicyEnabled](#input\_IsAzPolicyEnabled) | Is the Azure Policy for Kubernetes Add On enabled? | `bool` | `true` | no |
@@ -208,7 +207,7 @@ module "AKS" {
 | <a name="input_LocalAccountDisabled"></a> [LocalAccountDisabled](#input\_LocalAccountDisabled) | Is local account disabled for AAD integrated kubernetes cluster? | `bool` | `true` | no |
 | <a name="input_MaxAutoScaleCount"></a> [MaxAutoScaleCount](#input\_MaxAutoScaleCount) | The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 | `string` | `10` | no |
 | <a name="input_MinAutoScaleCount"></a> [MinAutoScaleCount](#input\_MinAutoScaleCount) | The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100. | `string` | `2` | no |
-| <a name="input_NodePoolAllowedPorts"></a> [NodePoolAllowedPorts](#input\_NodePoolAllowedPorts) | A map to define allowed ports on the default node pool | <pre>map(object({<br>    PortStart = optional(number, null)<br>    PortEnd   = optional(number, null)<br>    protocol  = optional(string, null)<br>  }))</pre> | `{}` | no |
+| <a name="input_NodePoolAllowedPorts"></a> [NodePoolAllowedPorts](#input\_NodePoolAllowedPorts) | A map to define allowed ports on the default node pool | <pre>map(object({<br/>    PortStart = optional(number, null)<br/>    PortEnd   = optional(number, null)<br/>    protocol  = optional(string, null)<br/>  }))</pre> | `{}` | no |
 | <a name="input_NodePoolWithFIPSEnabled"></a> [NodePoolWithFIPSEnabled](#input\_NodePoolWithFIPSEnabled) | Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_NodePublicIpPrefixId"></a> [NodePublicIpPrefixId](#input\_NodePublicIpPrefixId) | Define if Nodes get Public IP. Defualt API value is false | `string` | `null` | no |
 | <a name="input_PrivateClusterPublicFqdn"></a> [PrivateClusterPublicFqdn](#input\_PrivateClusterPublicFqdn) | Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false. Note: If set to true, alocal is used to set the private\_dns\_zone\_id to None | `bool` | `false` | no |
@@ -256,12 +255,9 @@ module "AKS" {
 | [azurerm_application_security_group.NodePoolAsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_security_group) | resource |
 | [azurerm_kubernetes_cluster.AKS](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
 | [azurerm_log_analytics_workspace.LawMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
-| [azurerm_monitor_activity_log_alert.ListAKSAdminCredsEvent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
+| [azurerm_monitor_activity_log_alert.AksActivityLogAlert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
 | [azurerm_monitor_diagnostic_setting.AksDiagSettings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_metric_alert.NodeCPUPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.NodeDiskPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.NodeWorkingSetMemoryPercentageThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.UnschedulablePodCountThreshold](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.AksMonitorAlert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_resource_group.RgAks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.MSToMonitorPublisher](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_storage_account.StaMonitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
