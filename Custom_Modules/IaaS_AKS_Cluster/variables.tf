@@ -838,38 +838,6 @@ variable "CustomPrivateFQDNPrefix" {
   default     = ""
   description = "Same as the CustomFQDNPrefix variable, but for private cluster in byo dns zone"
 }
-##############################################################
-# Variable for AGIC
-
-variable "IsAGICEnabled" {
-  type        = bool
-  default     = false
-  description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
-}
-
-variable "AGWId" {
-  type        = string
-  default     = null
-  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "AGWName" {
-  type        = string
-  default     = null
-  description = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "AGWSubnetCidr" {
-  type        = string
-  default     = null
-  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "AGWSubnetId" {
-  type        = string
-  default     = null
-  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
 
 ##############################################################
 # Spec for AKS managed identity
@@ -1033,6 +1001,157 @@ variable "ACGIds" {
   type        = list(any)
   description = "A list of Action GroupResource Id"
   default     = []
+}
+
+variable "AksAlerts" {
+  description = "A map of object to define alerts on the AKS cluster"
+  type = map(object({
+    AlertName         = string
+    AlertDescription  = string
+    AlertSeverity     = optional(number, 3)
+    MetricNameSpace   = optional(string, "Microsoft.ContainerService/managedClusters")
+    MetricName        = string
+    MetricAggregation = string
+    MetricOperator    = string
+    MetricThreshold   = number
+    AlertFrequency    = optional(string, "PT5M")
+    AlertWindow       = optional(string, "PT5M")
+  }))
+
+  default = {
+    ClusterAutoscalerClusterSafeToAutoscale = {
+      AlertName         = "ClusterAutoscalerClusterSafeToAutoscale"
+      AlertDescription  = "ClusterAutoscalerClusterSafeToAutoscale"
+      MetricName        = "cluster_autoscaler_cluster_safe_to_autoscale"
+      MetricAggregation = "Average"
+      MetricOperator    = "LessThan"
+      MetricThreshold   = 1
+    },
+    ClusterAutoscalerUnschedulablePodsCount = {
+      AlertName         = "ClusterAutoscalerUnschedulablePodsCount"
+      AlertDescription  = "ClusterAutoscalerUnschedulablePodsCount"
+      MetricName        = "cluster_autoscaler_unschedulable_pods_count"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 0
+    },
+    KubeNodeStatusAllocatableCpuCores = {
+      AlertName         = "KubeNodeStatusAllocatableCpuCores"
+      AlertDescription  = "KubeNodeStatusAllocatableCpuCores"
+      MetricName        = "kube_node_status_allocatable_cpu_cores"
+      MetricAggregation = "Average"
+      MetricOperator    = "LessThan"
+      MetricThreshold   = 2
+    },
+    KubeNodeStatusAllocatableMemoryBytes = {
+      AlertName         = "KubeNodeStatusAllocatableMemoryBytes"
+      AlertDescription  = "KubeNodeStatusAllocatableMemoryBytes"
+      MetricName        = "kube_node_status_allocatable_memory_bytes"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 2147483648
+    },
+    KubeNodeStatusCondition = {
+      AlertName         = "KubeNodeStatusCondition"
+      AlertDescription  = "KubeNodeStatusCondition"
+      MetricName        = "kube_node_status_condition"
+      MetricAggregation = "Total"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 0
+    },/*
+    KubePodStatusPhase = {
+      AlertName         = "KubePodStatusPhase"
+      AlertDescription  = "KubePodStatusPhase"
+      MetricName        = "kube_pod_status_phase"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 0
+    },*/
+    KubePodStatusReady = {
+      AlertName         = "KubePodStatusReady"
+      AlertDescription  = "KubePodStatusReady"
+      MetricName        = "kube_pod_status_ready"
+      MetricAggregation = "Average"
+      MetricOperator    = "LessThan"
+      MetricThreshold   = 1
+    },
+    
+    NodeCpuUsagePercentage = {
+      AlertName         = "NodeCpuUsagePercentage"
+      AlertDescription  = "NodeCpuUsagePercentage"
+      MetricName        = "node_cpu_usage_percentage"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 95
+    },
+    NodeCpuUsagePercentage = {
+      AlertName         = "NodeCpuUsagePercentage"
+      AlertDescription  = "NodeCpuUsagePercentage"
+      MetricName        = "node_cpu_usage_percentage"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 80
+      MetricSeverity     = 2
+      MetricFrequency    = "PT1M"
+    },
+    NodeCpuUsagePercentage = {
+      AlertName         = "NodeMemoryRssPercentage"
+      AlertDescription  = "NodeMemoryRssPercentage"
+      MetricName        = "node_memory_rss_percentage"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 90
+      MetricFrequency    = "PT1M"
+    },
+    NodeCpuUsagePercentage = {
+      AlertName         = "NodeMemoryWorkingSetPercentage"
+      AlertDescription  = "NodeMemoryWorkingSetPercentage"
+      MetricName        = "node_memory_working_set_percentage"
+      MetricAggregation = "Average"
+      MetricOperator    = "GreaterThan"
+      MetricThreshold   = 100
+    }
+  }
+}
+
+variable "AlertingEnabled" {
+  type        = bool
+  description = "A bool to enable or disable the creation of alerts on the cluster. If false, the AksAlerts variable is ignored"
+  default     = true
+}
+
+variable "AksActivityLogAlert" {
+  type = map(object({
+    OperationName = string
+    Category      = optional(string,"Administrative")
+  }))
+
+  description = "A map of object to define an activity log alert on the AKS cluster. The key of the map is the name of the alert, and the value is an object with the operation name and category to filter on"
+  default = {
+    ClusterStop = {
+      OperationName = "Microsoft.ContainerService/managedClusters/stop/action"
+      Category      = "Administrative"
+    }
+    ClusterStart = {
+      OperationName = "Microsoft.ContainerService/managedClusters/start/action"
+      Category      = "Administrative"
+    }
+    ClusterDelete = {
+      OperationName = "Microsoft.ContainerService/managedClusters/delete"
+      Category      = "Administrative"
+    }
+    ClusterListAdmin = {
+      OperationName = "Microsoft.ContainerService/managedClusters/listClusterAdminCredential/action"
+      Category      = "Administrative"
+    }
+  }
+  
+}
+
+variable "ActivityLogAlertEnabled" {
+  type        = bool
+  description = "A bool to enable or disable the creation of activity log alerts on the cluster. If false, the AksActivityLogAlert variable is ignored"
+  default     = true
 }
 
 ######################################################
