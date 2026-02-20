@@ -319,17 +319,10 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   open_service_mesh_enabled = var.IsOpenServiceMeshEnabled
 
-  dynamic "ingress_application_gateway" {
-    for_each = var.IsAGICEnabled ? ["fake"] : []
 
-    content {
-      gateway_id   = var.AGWId
-      gateway_name = var.AGWName
-      subnet_cidr  = var.AGWSubnetCidr
-      subnet_id    = var.AGWSubnetId
-
-    }
-
+  monitor_metrics {
+    annotations_allowed = null
+    labels_allowed      = null
   }
 
   tags = local.Tags

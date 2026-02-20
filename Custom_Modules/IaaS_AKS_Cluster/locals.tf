@@ -23,15 +23,6 @@ locals {
   LawDefenderId     = var.LawDefenderId != "unspecified" ? var.LawDefenderId : var.LawLogId
   IsDefenderEnabled = var.IsDefenderEnabled && local.LawDefenderId != "unspecified" ? true : false
 
-
-  AGIC = {
-    Enabled    = var.IsAGICEnabled
-    Id         = var.AGWId
-    Name       = var.AGWName
-    SubnetCidr = var.AGWSubnetCidr
-    SubnetId   = var.AGWSubnetId
-  }
-
   Tags = merge(var.DefaultTags, var.extra_tags, { ManagedBy = "Terraform" })
 
   PrivateClusterPublicFqdn = var.IsAKSPrivate ? var.PrivateClusterPublicFqdn : false
