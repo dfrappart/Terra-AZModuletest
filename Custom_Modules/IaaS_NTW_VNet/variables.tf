@@ -124,10 +124,10 @@ variable "ExtraTags" {
 variable "Vnet" {
   description = "An object containing the vnet name, address space and linked dns servers (defaults to Azure DNS), the number of subnets is automatically defined based on the address space's mask"
   type = object({
-    Name         = optional(string, "")
-    AddressSpace = string
-    DnsServers   = optional(list(string), [])
-    EnableFlowlogs   = optional(bool, false)
+    Name           = optional(string, "")
+    AddressSpace   = string
+    DnsServers     = optional(list(string), [])
+    EnableFlowlogs = optional(bool, false)
   })
 
   default = {
@@ -145,10 +145,10 @@ variable "Subnets" {
     EnableNsg        = bool
     EnableNsgDiagSet = optional(bool, false)
     #EnableFlowlogs   = optional(bool, false)
-    AddressPrefix    = optional(string, null)
-    DefaultOutboundAccessEnabled = optional(bool, true)
-    ServiceEndpoints   = optional(list(string), [])
-    PrivateEndpointNetworkPolicies = optional(string, "Disabled")
+    AddressPrefix                     = optional(string, null)
+    DefaultOutboundAccessEnabled      = optional(bool, true)
+    ServiceEndpoints                  = optional(list(string), [])
+    PrivateEndpointNetworkPolicies    = optional(string, "Disabled")
     PrivateLinkServiceNetworkPolicies = optional(bool, null)
     Delegation = optional(object({
       DelegationName           = string
