@@ -23,7 +23,7 @@ output "VNetFullOutput" {
   sensitive = true
 }
 
-output "subprefix" {
+output "SubnetPrefixes" {
   value = local.SubnetPrefixes
 }
 
@@ -32,7 +32,7 @@ output "Subnets" {
   value = local.Subnets
 }
 
-output "subnetIpGroups" {
+output "SubnetIpGroups" {
   value = azurerm_ip_group.SubnetsCidr
 }
 

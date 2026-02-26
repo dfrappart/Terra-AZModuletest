@@ -146,6 +146,10 @@ variable "Subnets" {
     EnableNsgDiagSet = optional(bool, false)
     #EnableFlowlogs   = optional(bool, false)
     AddressPrefix    = optional(string, null)
+    DefaultOutboundAccessEnabled = optional(bool, true)
+    ServiceEndpoints   = optional(list(string), [])
+    PrivateEndpointNetworkPolicies = optional(string, "Disabled")
+    PrivateLinkServiceNetworkPolicies = optional(bool, null)
     Delegation = optional(object({
       DelegationName           = string
       ServiceDelegationName    = string

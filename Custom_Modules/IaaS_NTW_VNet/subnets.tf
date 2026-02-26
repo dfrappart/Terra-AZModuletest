@@ -9,6 +9,10 @@ resource "azurerm_subnet" "Subnets" {
   resource_group_name  = var.RgName      #azurerm_resource_group.VnetResourceGroup[0].name
   virtual_network_name = azurerm_virtual_network.Vnet.name
   address_prefixes     = each.value.AddressPrefix == null ? [local.SubnetPrefixes[index(keys(local.Subnets), each.key)]] : [each.value.AddressPrefix]
+  service_endpoints    = each.value.ServiceEndpoints
+  private_endpoint_network_policies = each.value.PrivateEndpointNetworkPolicies
+  private_link_service_network_policies = each.value.PrivateLinkServiceNetworkPolicies
+  default_outbound_access_enabled = each.value.DefaultOutboundAccessEnabled
 
   dynamic "delegation" {
     for_each = each.value.Delegation != null ? [each.value.Delegation] : []
