@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
     kubelet_config {
 
       allowed_unsafe_sysctls    = var.KubeletAllowedUnsafeSysctls
-      container_log_max_line    = var.KubeletContainerLogMaxLine
+      container_log_max_files   = var.KubeletContainerLogMaxFiles
       container_log_max_size_mb = var.KubeletContainerLogMaxSize
       cpu_cfs_quota_enabled     = var.KubeletCpuCfsQuotaEnabled
       cpu_cfs_quota_period      = var.KubeletCpuCfsQuotaPeriod
@@ -335,9 +335,10 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 ################################################################
 #Updating  the AKS Cluster with through az api provider
 
-resource "azapi_update_resource" "kube_proxy_disabled" {
+resource "azapi_update_resource" "AksCustomize" {
 
   resource_id = azurerm_kubernetes_cluster.AKS.id
+  count       = var.AksCustomizedConfigEnabled ? 1 : 0
   type        = "Microsoft.ContainerService/managedClusters@2025-10-02-preview"
   body = {
     properties = {
