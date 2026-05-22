@@ -239,7 +239,7 @@ variable "KubeletAllowedUnsafeSysctls" {
   description = "Specifies the allow list of unsafe sysctls command or patterns (ending in *). Changing this forces a new resource to be created."
 }
 
-variable "KubeletContainerLogMaxLine" {
+variable "KubeletContainerLogMaxFiles" {
   type        = string
   default     = null
   description = "Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created."
@@ -1221,6 +1221,12 @@ variable "ApiAllowedIps" {
 
 ######################################################
 # AzApi variables
+
+variable "AksCustomizedConfigEnabled" {
+  type        = bool
+  description = "A bool to Enable/Disable Azure Defender for Kubernetes through the azapi provider"
+  default     = false
+}
 
 variable "DisableKubeProxy" {
   type        = bool
