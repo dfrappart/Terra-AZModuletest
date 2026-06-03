@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
     kubelet_config {
 
       allowed_unsafe_sysctls    = var.KubeletAllowedUnsafeSysctls
-      container_log_max_line    = var.KubeletContainerLogMaxLine
+      container_log_max_files   = var.KubeletContainerLogMaxFiles
       container_log_max_size_mb = var.KubeletContainerLogMaxSize
       cpu_cfs_quota_enabled     = var.KubeletCpuCfsQuotaEnabled
       cpu_cfs_quota_period      = var.KubeletCpuCfsQuotaPeriod
