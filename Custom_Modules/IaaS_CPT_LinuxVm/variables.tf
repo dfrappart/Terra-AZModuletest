@@ -182,6 +182,12 @@ variable "DiskEncryptionSetId" {
   default     = null
 }
 
+variable "IsSecureBootEnabled" {
+  type        = bool
+  description = "Specifies if Secure Boot and Trusted Launch is enabled for the Virtual Machine. Changing this forces a new resource to be created."
+  default     = true
+}
+
 ##############################################################
 # boot diagnostic settings
 

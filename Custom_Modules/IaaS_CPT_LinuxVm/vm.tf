@@ -38,6 +38,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
   provision_vm_agent                = var.ProvisionVMAgent
   allow_extension_operations        = var.AllowExtensionOperations
   vtpm_enabled                      = var.IsVTPMEnabled
+  secure_boot_enabled               = var.IsSecureBootEnabled
   virtual_machine_scale_set_id      = var.ScaleSetId
 
 
@@ -71,7 +72,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
 
 
   identity {
-    type         = var.VMIdentityType
+    type         = local.VMIdentityType
     identity_ids = var.UAIIds
   }
 
