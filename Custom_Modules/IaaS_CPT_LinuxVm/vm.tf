@@ -7,7 +7,6 @@ resource "azurerm_linux_virtual_machine" "VM" {
 
   lifecycle {
     ignore_changes = [
-      #Ignore change for node count since it is autoscaling
       admin_password,
       custom_data
 
@@ -16,30 +15,30 @@ resource "azurerm_linux_virtual_machine" "VM" {
 
 
 
-  admin_username                    = var.VmAdminName
-  disable_password_authentication   = var.DisablePasswordAuthentication
-  admin_password                    = var.VmAdminPassword
+  admin_username                  = var.VmAdminName
+  disable_password_authentication = var.DisablePasswordAuthentication
+  admin_password                  = var.VmAdminPassword
 
   dynamic "admin_ssh_key" {
     for_each = var.DisablePasswordAuthentication ? [1] : []
     content {
-    username   = var.VmAdminName
-    public_key = var.SshPublicKey
+      username   = var.VmAdminName
+      public_key = var.SshPublicKey
     }
   }
 
-  location                          = var.TargetLocation
-  name                              = "avm-${lower(var.VMSuffix)}"
-  network_interface_ids             = [azurerm_network_interface.VMNIC.id]
-  computer_name                     = substr("avm-${lower(var.VMSuffix)}", 0, 14)
-  resource_group_name               = var.TargetRg
-  size                              = var.VmSize
-  zone                              = var.IsDeploymentZonal ? var.Zone : null
-  provision_vm_agent                = var.ProvisionVMAgent
-  allow_extension_operations        = var.AllowExtensionOperations
-  vtpm_enabled                      = var.IsVTPMEnabled
-  secure_boot_enabled               = var.IsSecureBootEnabled
-  virtual_machine_scale_set_id      = var.ScaleSetId
+  location                     = var.TargetLocation
+  name                         = "avm-${lower(var.VMSuffix)}"
+  network_interface_ids        = [azurerm_network_interface.VMNIC.id]
+  computer_name                = substr("avm-${lower(var.VMSuffix)}", 0, 14)
+  resource_group_name          = var.TargetRg
+  size                         = var.VmSize
+  zone                         = var.IsDeploymentZonal ? var.Zone : null
+  provision_vm_agent           = var.ProvisionVMAgent
+  allow_extension_operations   = var.AllowExtensionOperations
+  vtpm_enabled                 = var.IsVTPMEnabled
+  secure_boot_enabled          = var.IsSecureBootEnabled
+  virtual_machine_scale_set_id = var.ScaleSetId
 
 
   os_disk {
@@ -47,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
     storage_account_type      = var.OSDiskTier
     disk_size_gb              = var.OSDiskSize
     name                      = "hdd-osdisk-${lower(var.VMSuffix)}"
-    disk_encryption_set_id    = var.DiskEncryptionSetId
+    disk_encryption_set_id    = local.OSDiskEncryptionSetId
     write_accelerator_enabled = var.IsWriteAccelaratorEnabled
   }
 

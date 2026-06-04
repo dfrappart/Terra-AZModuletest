@@ -74,7 +74,7 @@ variable "VmAdminName" {
 variable "VmAdminPassword" {
   type        = string
   description = "The Password which should be used for the local-administrator on this Virtual Machine. Changing this forces a new resource to be created."
-  default = null
+  default     = null
 }
 
 variable "SshPublicKey" {
@@ -176,11 +176,43 @@ variable "IsWriteAccelaratorEnabled" {
   default     = null
 }
 
-variable "DiskEncryptionSetId" {
+variable "OSDiskEncryptionSetId" {
   type        = string
   description = "The ID of the Disk Encryption Set which should be used to Encrypt this OS Disk."
   default     = null
 }
+
+variable "CreateOSDiskDiskEncryptionSet" {
+  type        = bool
+  description = "Define if the Disk Encryption Set for OS Disk is created in the module, or given as an input"
+  default     = false
+
+}
+
+variable "OsDiskEncryptionSetKeyVaultId" {
+  type        = string
+  description = "The ID of the Key Vault which contains the key used for the Disk Encryption Set created for the OS Disk."
+  default     = null
+}
+
+variable "OsDiskEncryptionSetKeyVaultKeyId" {
+  type        = string
+  description = "The ID of the key used for the Disk Encryption Set created for the OS Disk."
+  default     = null
+}
+
+variable "OSDiskEncryptionSetUAIIds" {
+  type        = list(string)
+  description = "The IDs of the User Assigned Identities which should be assigned to the Disk Encryption Set created for the OS Disk."
+  default     = []
+}
+
+variable "IsOsDiskEncryptionSetAutoKeyRotationEnabled" {
+  type        = bool
+  description = "Should auto key rotation be enabled for the Disk Encryption Set created for the OS Disk? Defaults to false."
+  default     = true
+}
+
 
 variable "IsSecureBootEnabled" {
   type        = bool
@@ -294,7 +326,7 @@ variable "DataDiskSize" {
 variable "DataDiskEncryptionSetId" {
   type        = string
   default     = null
-  description = "SThe ID of a Disk Encryption Set which should be used to encrypt this Managed Disk."
+  description = "The ID of a Disk Encryption Set which should be used to encrypt this Managed Disk."
 }
 
 

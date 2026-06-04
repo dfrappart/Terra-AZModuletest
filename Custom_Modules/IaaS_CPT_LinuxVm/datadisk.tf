@@ -5,13 +5,14 @@
 
 
 resource "azurerm_managed_disk" "DataDisk" {
-  for_each             = var.Datadisks
-  name                 = each.value.Name
-  location             = local.TargetLocation
-  resource_group_name  = var.TargetRg
-  storage_account_type = each.value.StorageType
-  create_option        = each.value.CreateOption
-  disk_size_gb         = each.value.DiskSizeGb
+  for_each               = var.Datadisks
+  name                   = each.value.Name
+  location               = local.TargetLocation
+  resource_group_name    = var.TargetRg
+  storage_account_type   = each.value.StorageType
+  create_option          = each.value.CreateOption
+  disk_size_gb           = each.value.DiskSizeGb
+  disk_encryption_set_id = local.DataDiskEncryptionSetId
 
 
 }
