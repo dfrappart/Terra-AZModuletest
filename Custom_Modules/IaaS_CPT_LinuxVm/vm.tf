@@ -30,7 +30,7 @@ resource "azurerm_linux_virtual_machine" "VM" {
   location                     = var.TargetLocation
   name                         = "avm-${lower(var.VMSuffix)}"
   network_interface_ids        = [azurerm_network_interface.VMNIC.id]
-  computer_name                = replace(substr("avm-${lower(var.VMSuffix)}", 0, 14), "-", "")
+  computer_name                = substr(replace("avm-${lower(var.VMSuffix)}", "-", ""), 0, 14)
   resource_group_name          = var.TargetRg
   size                         = var.VmSize
   zone                         = var.IsDeploymentZonal ? var.Zone : null
