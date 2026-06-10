@@ -8,7 +8,7 @@ locals {
   OSDiskEncryptionSetId             = var.OSDiskEncryptionSetId != null ? var.OSDiskEncryptionSetId : (var.CreateOSDiskDiskEncryptionSet ? azurerm_disk_encryption_set.OsDiskEncryptionSet[0].id : null)
   CreateOSDiskDiskEncryptionSet     = null
   CreateDataDiskDiskEncryptionSet   = null
-  OSDiskEncryptionSetIdIdentityType = length(var.OSDiskEncryptionSetUAIIds) > 0 ? "SystemAssigned,UserAssigned" : "SystemAssigned"
+  OSDiskEncryptionSetIdIdentityType = length(var.OSDiskEncryptionSetUAIIds) > 0 ? "SystemAssigned, UserAssigned" : "SystemAssigned"
 
 
 
