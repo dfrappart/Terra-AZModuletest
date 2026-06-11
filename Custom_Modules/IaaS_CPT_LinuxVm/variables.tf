@@ -300,6 +300,9 @@ variable "Datadisks" {
     StorageType  = optional(string, "StandardSSD_LRS")
     LunNumber    = optional(number, 10)
     DiskCaching  = optional(string, "ReadWrite")
+    EncryptionSetId = optional(string, null)
+    KeyVaultKeyId = optional(string, null)
+    DesUaIId = optional(string, null)
   }))
   description = "List of data disks to create"
   default     = {}
