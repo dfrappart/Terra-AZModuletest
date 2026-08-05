@@ -12,7 +12,8 @@ resource "azurerm_managed_disk" "DataDisk" {
   storage_account_type   = each.value.StorageType
   create_option          = each.value.CreateOption
   disk_size_gb           = each.value.DiskSizeGb
-  disk_encryption_set_id = local.DataDiskEncryptionSetId
+  disk_encryption_set_id = each.value.EncryptionSetId
+  
 
 
 }
