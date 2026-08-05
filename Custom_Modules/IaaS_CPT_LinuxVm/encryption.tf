@@ -14,7 +14,7 @@ resource "azurerm_disk_encryption_set" "OsDiskEncryptionSet" {
 }
 
 resource "azurerm_disk_encryption_set" "DataDiskEncryptionSet" {
-  for_each            = var.Datadisks
+  for_each            = { for k, v in var.Datadisks : k => v if v.CreateDiskEncryptionSet }
   name                = "des-mdmanaged-${azurerm_managed_disk.DataDisk[each.key].name}"
   location            = local.TargetLocation
   resource_group_name = var.TargetRg

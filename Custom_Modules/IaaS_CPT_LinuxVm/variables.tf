@@ -301,6 +301,7 @@ variable "Datadisks" {
     LunNumber    = optional(number, 10)
     DiskCaching  = optional(string, "ReadWrite")
     EncryptionSetId = optional(string, null)
+    CreateDiskEncryptionSet = optional(bool, false)
     KeyVaultKeyId = optional(string, null)
     DesUaiId = optional(string, null)
     DataDiskEncryptionSetIdIdentityType = optional(string, null)
