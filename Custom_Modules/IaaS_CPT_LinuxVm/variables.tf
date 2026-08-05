@@ -294,17 +294,17 @@ variable "UlTraSSDEnabled" {
 
 variable "Datadisks" {
   type = map(object({
-    Name         = string
-    CreateOption = optional(string, "Empty")
-    DiskSizeGb   = optional(string, "50")
-    StorageType  = optional(string, "StandardSSD_LRS")
-    LunNumber    = optional(number, 10)
-    DiskCaching  = optional(string, "ReadWrite")
-    EncryptionSetId = optional(string, null)
-    CreateDiskEncryptionSet = optional(bool, false)
-    KeyVaultKeyId = optional(string, null)
-    DesUaiId = optional(string, null)
-    DataDiskEncryptionSetIdentityType = optional(string, "UserAssigned")
+    Name                                      = string
+    CreateOption                              = optional(string, "Empty")
+    DiskSizeGb                                = optional(string, "50")
+    StorageType                               = optional(string, "StandardSSD_LRS")
+    LunNumber                                 = optional(number, 10)
+    DiskCaching                               = optional(string, "ReadWrite")
+    EncryptionSetId                           = optional(string, null)
+    CreateDiskEncryptionSet                   = optional(bool, false)
+    KeyVaultKeyId                             = optional(string, null)
+    DesUaiId                                  = optional(string, null)
+    DataDiskEncryptionSetIdentityType         = optional(string, "UserAssigned")
     IsDiskEncryptionSetAutoKeyRotationEnabled = optional(bool, null)
   }))
   description = "List of data disks to create"

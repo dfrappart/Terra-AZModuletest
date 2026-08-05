@@ -59,9 +59,9 @@ resource "azurerm_monitor_data_collection_rule_association" "DcrAssociation" {
 }
 
 resource "azurerm_user_assigned_identity" "AMAUai" {
-  count    = var.AMAAMAUaiId == "" ? 1 : 0
-  location = var.TargetLocation
-  name     = "uai-ama-${azurerm_windows_virtual_machine.VM.name}"
+  count               = var.AMAAMAUaiId == "" ? 1 : 0
+  location            = var.TargetLocation
+  name                = "uai-ama-${azurerm_windows_virtual_machine.VM.name}"
   resource_group_name = var.TargetRg
-  
+
 }
