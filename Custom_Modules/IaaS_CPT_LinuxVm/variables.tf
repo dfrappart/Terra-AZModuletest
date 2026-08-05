@@ -302,7 +302,9 @@ variable "Datadisks" {
     DiskCaching  = optional(string, "ReadWrite")
     EncryptionSetId = optional(string, null)
     KeyVaultKeyId = optional(string, null)
-    DesUaIId = optional(string, null)
+    DesUaiId = optional(string, null)
+    DataDiskEncryptionSetIdIdentityType = optional(string, null)
+    IsDiskEncryptionSetAutoKeyRotationEnabled = optional(bool, null)
   }))
   description = "List of data disks to create"
   default     = {}
