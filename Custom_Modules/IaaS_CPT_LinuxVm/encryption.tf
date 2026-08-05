@@ -18,7 +18,7 @@ resource "azurerm_disk_encryption_set" "DataDiskEncryptionSet" {
   name                = "des-mdmanaged-${azurerm_managed_disk.DataDisk[each.key].name}"
   location            = local.TargetLocation
   resource_group_name = var.TargetRg
-  key_vault_key_id    = each.value.DiskEncryptionSetKeyVaultKeyId
+  key_vault_key_id    = each.value.KeyVaultKeyId
   identity {
     type         = each.value.DataDiskEncryptionSetIdentityType
     identity_ids = [each.value.DesUaiId]
