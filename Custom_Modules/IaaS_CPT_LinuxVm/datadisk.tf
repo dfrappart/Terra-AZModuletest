@@ -12,7 +12,7 @@ resource "azurerm_managed_disk" "DataDisk" {
   storage_account_type   = each.value.StorageType
   create_option          = each.value.CreateOption
   disk_size_gb           = each.value.DiskSizeGb
-  disk_encryption_set_id = try(each.value.EncryptionSetId, azurerm_disk_encryption_set.DataDiskEncryptionSet[each.key].id, null)
+  disk_encryption_set_id = each.value.DiskEncryptionSetId
   zone                   = azurerm_linux_virtual_machine.VM.zone
 
 
