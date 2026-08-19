@@ -150,7 +150,7 @@ variable "Subnets" {
     Name             = string
     AllowCustomName  = bool
     EnableNsg        = bool
-    EnableNatGw      = optional(bool, false)
+    EnableNatGateway = optional(bool, false)
     EnableNsgDiagSet = optional(bool, false)
     #EnableFlowlogs   = optional(bool, false)
     AddressPrefix                     = optional(string, null)

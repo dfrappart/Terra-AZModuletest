@@ -19,7 +19,6 @@ resource "azurerm_public_ip" "NatGwPubIp" {
   sku                 = "Standard"
 }
 
-
 resource "azurerm_nat_gateway_public_ip_association" "NatPubIpAssociation" {
   count                = var.EnableNatGateway ? 1 : 0
   nat_gateway_id       = azurerm_nat_gateway.NatGw[0].id
@@ -27,7 +26,7 @@ resource "azurerm_nat_gateway_public_ip_association" "NatPubIpAssociation" {
 }
 
 resource "azurerm_subnet_nat_gateway_association" "SubnetNatGwAssociation" {
-  for_each       = { for k, v in local.Subnets : k => v if v.EnableNatGw == true }
+  for_each       = { for k, v in local.Subnets : k => v if v.EnableNatGateway == true }
   subnet_id      = azurerm_subnet.Subnets[each.key].id
   nat_gateway_id = azurerm_nat_gateway.NatGw[0].id
 }

@@ -12,7 +12,7 @@ locals {
   RgName                = var.RgName == "" ? lower(format("%s-%s-%s%s", var.ResourceGroupPrefix, var.Env, local.AppName, var.ObjectIndex)) : var.RgName
   VnetName              = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.Vnet.Name
   NatGatewayName        = var.NatGateway.Name == "" ? lower(format("%s-%s-%s%s", var.NatGwResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.NatGateway.Name
-  NatGatewayPubIpPrefix = local.NatGatewayName
+  NatGatewayPubIpPrefix = "pubip-${local.NatGatewayName}"
   VnetFlowLogName       = "flowlog-${local.VnetName}"
   VnetSuffix            = lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex))
 
@@ -21,7 +21,7 @@ locals {
   Subnets = { for subnet in var.Subnets : subnet.Name => {
     Name                              = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
     EnableNsg                         = subnet.EnableNsg
-    EnableNatGw                       = var.EnableNatGateway ? subnet.var.EnableNatGateway : false
+    EnableNatGateway                  = var.EnableNatGateway ? subnet.EnableNatGateway : false
     EnableNsgDiagSet                  = subnet.EnableNsgDiagSet
     DefaultOutboundAccessEnabled      = subnet.DefaultOutboundAccessEnabled
     PrivateEndpointNetworkPolicies    = subnet.PrivateEndpointNetworkPolicies
