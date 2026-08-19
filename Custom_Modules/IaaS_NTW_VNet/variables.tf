@@ -242,6 +242,10 @@ variable "NatGateway" {
     Name        = optional(string, "")
     IdleTimeout = optional(number, 4)
   })
+
+  default = {
+    IdleTimeout = 4
+  }
 }
 
 variable "EnableNatGateway" {
