@@ -8,17 +8,20 @@ locals {
 
   Tags = merge(var.DefaultTags, var.ExtraTags, { "StartDate" = local.StartDateTag })
 
-  AppName         = var.AppName == "" ? random_string.RandomAppName[0].result : var.AppName
-  RgName          = var.RgName == "" ? lower(format("%s-%s-%s%s", var.ResourceGroupPrefix, var.Env, local.AppName, var.ObjectIndex)) : var.RgName
-  VnetName        = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.Vnet.Name
-  VnetFlowLogName = "flowlog-${local.VnetName}"
-  VnetSuffix      = lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex))
+  AppName               = var.AppName == "" ? random_string.RandomAppName[0].result : var.AppName
+  RgName                = var.RgName == "" ? lower(format("%s-%s-%s%s", var.ResourceGroupPrefix, var.Env, local.AppName, var.ObjectIndex)) : var.RgName
+  VnetName              = var.Vnet.Name == "" ? lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.Vnet.Name
+  NatGatewayName        = var.NatGateway.Name == "" ? lower(format("%s-%s-%s%s", var.NatGwResourcePrefix, var.Env, local.AppName, var.ObjectIndex)) : var.NatGateway.Name
+  NatGatewayPubIpPrefix = local.NatGatewayName
+  VnetFlowLogName       = "flowlog-${local.VnetName}"
+  VnetSuffix            = lower(format("%s-%s-%s%s", var.VnetResourcePrefix, var.Env, local.AppName, var.ObjectIndex))
 
   VnetPrefix            = split("/", var.Vnet.AddressSpace)[1]
   SubnetPrefixesRegular = local.VnetPrefix == "24" ? cidrsubnets(var.Vnet.AddressSpace, 2, 2, 2, 2) : (local.VnetPrefix == "25" || local.VnetPrefix == "26" ? cidrsubnets(var.Vnet.AddressSpace, 1, 1) : [var.Vnet.AddressSpace])
   Subnets = { for subnet in var.Subnets : subnet.Name => {
     Name                              = subnet.AllowCustomName ? subnet.Name : lower(format("%s%s-%s", "sub", index(var.Subnets, subnet) + 1, local.VnetSuffix))
     EnableNsg                         = subnet.EnableNsg
+    EnableNatGw                       = var.EnableNatGateway ? subnet.var.EnableNatGateway : false
     EnableNsgDiagSet                  = subnet.EnableNsgDiagSet
     DefaultOutboundAccessEnabled      = subnet.DefaultOutboundAccessEnabled
     PrivateEndpointNetworkPolicies    = subnet.PrivateEndpointNetworkPolicies

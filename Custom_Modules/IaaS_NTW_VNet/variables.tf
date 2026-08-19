@@ -22,6 +22,13 @@ variable "VnetResourcePrefix" {
 
 }
 
+variable "NatGwResourcePrefix" {
+  type        = string
+  description = "Define the resource prexix, as define in the Cloud adoption  framework."
+
+  default = "natgw"
+
+}
 
 variable "Env" {
   type        = string
@@ -143,6 +150,7 @@ variable "Subnets" {
     Name             = string
     AllowCustomName  = bool
     EnableNsg        = bool
+    EnableNatGw      = optional(bool, false)
     EnableNsgDiagSet = optional(bool, false)
     #EnableFlowlogs   = optional(bool, false)
     AddressPrefix                     = optional(string, null)
@@ -229,6 +237,18 @@ variable "CustomVnet" {
   default     = false
 }
 
+variable "NatGateway" {
+  type = object({
+    Name        = optional(string, "")
+    IdleTimeout = optional(number, 4)
+  })
+}
+
+variable "EnableNatGateway" {
+  type    = bool
+  default = true
+
+}
 ######################################################
 # Log variables
 
