@@ -242,6 +242,7 @@ variable "NatGateway" {
     Name        = optional(string, "")
     IdleTimeout = optional(number, 4)
   })
+  description = "An object to define the Nat Gateway."
 
   default = {
     IdleTimeout = 4
@@ -249,10 +250,18 @@ variable "NatGateway" {
 }
 
 variable "EnableNatGateway" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "A bool to enable/disable the Nat Gateway. Note that if set to false, it takes priority on the parameter at the subnet level."
 
 }
+
+variable "NatGatewayPuIpCount" {
+  description = "The number of Public Ip associated to the Nat Gateway. Default to 1"
+  type        = number
+  default     = 1
+}
+
 ######################################################
 # Log variables
 

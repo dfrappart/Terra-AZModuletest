@@ -11,7 +11,7 @@ resource "azurerm_nat_gateway" "NatGw" {
 }
 
 resource "azurerm_public_ip" "NatGwPubIp" {
-  count               = var.EnableNatGateway ? 1 : 0
+  count               = var.EnableNatGateway ? var.NatGatewayPuIpCount : 0
   name                = "${local.NatGatewayName}${count.index + 1}"
   location            = azurerm_virtual_network.Vnet.location
   resource_group_name = azurerm_virtual_network.Vnet.resource_group_name

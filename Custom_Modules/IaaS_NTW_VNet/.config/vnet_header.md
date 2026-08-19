@@ -11,6 +11,7 @@ It includes configuration for:
 - Azure diagnostic settings for the Vnet,
 - Subnets,
 - NSGs,
-- Azure diagnostic settings for the NSGs
-- Flow Logs for the NSGs.
+- Azure diagnostic settings for the NSGs,
+- Flow Logs,
+- Nat Gateway, Nat Gateway public IP(s) and subnets associations.
 
