@@ -22,7 +22,7 @@ resource "azurerm_public_ip" "NatGwPubIp" {
 resource "azurerm_nat_gateway_public_ip_association" "NatPubIpAssociation" {
   count                = var.EnableNatGateway ? var.NatGatewayPubIpCount : 0
   nat_gateway_id       = azurerm_nat_gateway.NatGw[0].id
-  public_ip_address_id = azurerm_public_ip.NatGwPubIp[0].id
+  public_ip_address_id = azurerm_public_ip.NatGwPubIp[count.index].id
 }
 
 resource "azurerm_subnet_nat_gateway_association" "SubnetNatGwAssociation" {
