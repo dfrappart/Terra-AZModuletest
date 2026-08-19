@@ -16,7 +16,7 @@ resource "azurerm_public_ip" "NatGwPubIp" {
   location            = azurerm_virtual_network.Vnet.location
   resource_group_name = azurerm_virtual_network.Vnet.resource_group_name
   allocation_method   = "Static"
-  sku                 = "Standard"
+  sku                 = "StandardV2"
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "NatPubIpAssociation" {
