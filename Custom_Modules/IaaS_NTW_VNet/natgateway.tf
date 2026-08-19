@@ -11,7 +11,7 @@ resource "azurerm_nat_gateway" "NatGw" {
 }
 
 resource "azurerm_public_ip" "NatGwPubIp" {
-  count               = var.EnableNatGateway ? var.NatGatewayPuIpCount : 0
+  count               = var.EnableNatGateway ? var.NatGatewayPubIpCount : 0
   name                = "${local.NatGatewayName}${count.index + 1}"
   location            = azurerm_virtual_network.Vnet.location
   resource_group_name = azurerm_virtual_network.Vnet.resource_group_name
@@ -20,7 +20,7 @@ resource "azurerm_public_ip" "NatGwPubIp" {
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "NatPubIpAssociation" {
-  count                = var.EnableNatGateway ? 1 : 0
+  count                = var.EnableNatGateway ? var.NatGatewayPubIpCount : 0
   nat_gateway_id       = azurerm_nat_gateway.NatGw[0].id
   public_ip_address_id = azurerm_public_ip.NatGwPubIp[0].id
 }

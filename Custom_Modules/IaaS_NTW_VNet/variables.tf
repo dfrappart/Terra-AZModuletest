@@ -256,7 +256,7 @@ variable "EnableNatGateway" {
 
 }
 
-variable "NatGatewayPuIpCount" {
+variable "NatGatewayPubIpCount" {
   description = "The number of Public Ip associated to the Nat Gateway. Default to 1"
   type        = number
   default     = 1

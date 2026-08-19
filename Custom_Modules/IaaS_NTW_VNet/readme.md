@@ -120,7 +120,7 @@ module "testvnet" {
 | <a name="input_LawLogId"></a> [LawLogId](#input\_LawLogId) | ID of the log analytics workspace containing the logs, if not specified, no diagnostic settings to log analytics is created | `string` | `"unspecified"` | no |
 | <a name="input_Location"></a> [Location](#input\_Location) | The azure region | `string` | `"eastus"` | no |
 | <a name="input_NatGateway"></a> [NatGateway](#input\_NatGateway) | An object to define the Nat Gateway. | <pre>object({<br/>    Name        = optional(string, "")<br/>    IdleTimeout = optional(number, 4)<br/>  })</pre> | <pre>{<br/>  "IdleTimeout": 4<br/>}</pre> | no |
-| <a name="input_NatGatewayPuIpCount"></a> [NatGatewayPuIpCount](#input\_NatGatewayPuIpCount) | The number of Public Ip associated to the Nat Gateway. Default to 1 | `number` | `1` | no |
+| <a name="input_NatGatewayPubIpCount"></a> [NatGatewayPubIpCount](#input\_NatGatewayPubIpCount) | The number of Public Ip associated to the Nat Gateway. Default to 1 | `number` | `1` | no |
 | <a name="input_NatGwResourcePrefix"></a> [NatGwResourcePrefix](#input\_NatGwResourcePrefix) | Define the resource prexix, as define in the Cloud adoption  framework. | `string` | `"natgw"` | no |
 | <a name="input_NetworkWatcherName"></a> [NetworkWatcherName](#input\_NetworkWatcherName) | Define the Network Watcher Name. If not specified, locals block create the default name for network watcher | `string` | `"unspecified"` | no |
 | <a name="input_NetworkWatcherRGName"></a> [NetworkWatcherRGName](#input\_NetworkWatcherRGName) | Define the Resource group for Network Watcher. If not specified, locals block create the default resource group name for network watcher | `string` | `"unspecified"` | no |
